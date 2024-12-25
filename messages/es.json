@@ -1,123 +1,123 @@
 {
   "Application": {
-    "slogan": "TRANSPORTANDO SUA PRODUÇÃO",
-    "index_init_button": "Vamos lá!"
+    "slogan": "TRANSPORTANDO TU PRODUCCIÓN",
+    "index_init_button": "¡Vamos!"
   },
   "Advertizement": {
-    "self_title1": "Transportes agrícola",
-    "self_subtitle1": "Agilidade no transporte de maquinário agrícola",
-    "self_description1": "Revolucionando a forma que voce transporta suas máquinas agrícolas"
+    "self_title1": "Transporte agrícola",
+    "self_subtitle1": "Agilidad en el transporte de maquinaria agrícola",
+    "self_description1": "Revolucionando la forma en que transportas tus máquinas agrícolas"
   },
   "Base": {
-    "language": "Português",
-    "flag": "🇧🇷",
+    "language": "Español",
+    "flag": "🇪🇸",
 
-    "about": "Sobre",
-    "application": "Aplicação",
+    "about": "Acerca de",
+    "application": "Aplicación",
 
-    "see_more": "Veja mais",
+    "see_more": "Ver más",
 
-    "next": "Próximo",
+    "next": "Siguiente",
     "enter": "Entrar",
     "continue": "Continuar",
 
-    "error": "Erro",
-    "warning": "Aviso",
-    "wait": "Aguarde",
+    "error": "Error",
+    "warning": "Advertencia",
+    "wait": "Espere",
     "cancel": "Cancelar",
-    "search": "Pesquisar",
+    "search": "Buscar",
 
-    "name": "Nome",
-    "surname": "Sobrenome",
-    "number": "Numero",
-    "password": "Senha",
-    "password_confirm": "Confirmar senha",
+    "name": "Nombre",
+    "surname": "Apellido",
+    "number": "Número",
+    "password": "Contraseña",
+    "password_confirm": "Confirmar contraseña",
 
-    "write_code": "Digite o código",
+    "write_code": "Escribe el código",
 
-    "write_name": "Digite seu Nome",
-    "write_surname": "Digite seu Sobrenome",
-    "write_number": "Digite seu Numero",
-    "write_password": "Digite sua Senha",
-    "write_password_confirm": "Confirme sua senha",
+    "write_name": "Escribe tu Nombre",
+    "write_surname": "Escribe tu Apellido",
+    "write_number": "Escribe tu Número",
+    "write_password": "Escribe tu Contraseña",
+    "write_password_confirm": "Confirma tu contraseña",
 
-    "write_your_number_info": "Escreva seu número de telefone com DDD.", 
-    "write_your_number_info2": "Seu numero de telefone deve ser formatado da seguinte maneira:",
+    "write_your_number_info": "Escribe tu número de teléfono con código de área.",
+    "write_your_number_info2": "Tu número de teléfono debe estar formateado de la siguiente manera:",
 
     "profile": "Perfil",
-    "messages": "Mensagens",
+    "messages": "Mensajes",
     "home": "Inicio",
-    "account": "Conta",
-    "configs": "Configurações",
+    "account": "Cuenta",
+    "configs": "Configuraciones",
 
-    "common_user": "Usuário Comum",
+    "common_user": "Usuario Común",
 
-    "machinery": "Maquinário",
-    "carrier": "Transportador",
-    "payment": "Formas de Pagamento",
+    "machinery": "Maquinaria",
+    "carrier": "Transportista",
+    "payment": "Métodos de Pago",
 
-    "none_registered": "Nenhum registrado",
+    "none_registered": "Ninguno registrado",
 
-    "carrier_profile": "Perfil de transportador",
+    "carrier_profile": "Perfil del transportista",
 
-    "no_country_found": "Nenhum país encontrado",
+    "no_country_found": "No se encontró ningún país",
 
-    "inform_telephone_number": "Digite seu número de celular",
+    "inform_telephone_number": "Ingresa tu número de celular",
 
-    "terms_of_use_agreement": "Concordo com os Termos de Uso e reconheço que li a Política de Privacidade.",
-    "sign_in_terms_agreement": "Ao continuar, enviaremos um código de validação no número informado. Podem ser aplicadas taxas de dados e mensagens.",
+    "terms_of_use_agreement": "Acepto los Términos de Uso y reconozco que he leído la Política de Privacidad.",
+    "sign_in_terms_agreement": "Al continuar, enviaremos un código de validación al número ingresado. Pueden aplicarse tarifas de datos y mensajes.",
 
-    "remember_me": "Lembre-se de mim",
-    "forgot_password": "Esqueci minha senha",
-    "create_account": "Criar uma conta",
+    "remember_me": "Recuérdame",
+    "forgot_password": "Olvidé mi contraseña",
+    "create_account": "Crear una cuenta",
 
-    "welcome_again": "Bem vindo de volta, :first_name:",
-    "enter_account": "Entrar uma conta",
-    "enter_existing_account": "Entrar com uma conta existente",
-    "leave": "Sair",
-    "logout": "Fazer Logout",
-    "logout_confirm": "Deseja realmente sair?",
+    "welcome_again": "Bienvenido de nuevo, :first_name:",
+    "enter_account": "Ingresar a una cuenta",
+    "enter_existing_account": "Ingresar con una cuenta existente",
+    "leave": "Salir",
+    "logout": "Cerrar Sesión",
+    "logout_confirm": "¿Realmente desea salir?",
 
-    "default_error_message": "Ocorreu um erro inesperado",
+    "default_error_message": "Ocurrió un error inesperado",
 
     "verify_code_resent": "Código reenviado",
 
-    "verification_code_sent_message": "Um código de 4 dígitos foi enviado para o numero :number:. Não recebeu o código?",
+    "verification_code_sent_message": "Se envió un código de 4 dígitos al número :number:. ¿No recibiste el código?",
     "resend_code": "Reenviar código"
   },
   "Descriptions": {
-    "verify_code_sent_description": "Um novo código foi enviado para o seu número.",
-    "verify_code_sent_again_description": "Código enviado novamente.",
-    "session_expired_description": "Sua sessão inspirou.",
-    "unable_to_resend_verify_code_description": "Não foi possível reenviar o código. Tente novamente mais tarde.",
-    "wait_until_verify_code_timeout_description": "Aguarde até o fim do tempo para reenviar o código.",
-    "invalid_verification_code_description": "Código inválido, tente novamente."
+    "verify_code_sent_description": "Se envió un nuevo código a tu número.",
+    "verify_code_sent_again_description": "Código reenviado.",
+    "session_expired_description": "Tu sesión ha expirado.",
+    "unable_to_resend_verify_code_description": "No se pudo reenviar el código. Inténtalo más tarde.",
+    "wait_until_verify_code_timeout_description": "Espera hasta que termine el tiempo para reenviar el código.",
+    "invalid_verification_code_description": "Código inválido, inténtalo de nuevo."
   },
   "Messages": {
-    "user_name_required": "O nome do usuário é obrigatório",
-    "user_surname_required": "O sobrenome do usuário é obrigatório",
-    "password_not_coincide": "As senhas não coincidem",
-    "password_confirm_required": "A senha não deve estar vazia",
-    "user_number_required": "Numero de telefone do usuário é obrigatório",
-    "user_invalid_number": "Numero de telefone inválido",
-    "user_email_required": "Email do usuário é obrigatório",
-    "user_invalid_email": "Email de usuário inválido",
-    "user_password_length": "Senha deve ter no mínimo 8 caracteres",
-    "user_password_character": "A senha deve conter pelo menos uma letra",
-    "invalid_password": "A senha informada está incorreta",
-    "incorrect_user_password": "A senha informada está incorreta",
+    "user_name_required": "El nombre del usuario es obligatorio",
+    "user_surname_required": "El apellido del usuario es obligatorio",
+    "password_not_coincide": "Las contraseñas no coinciden",
+    "password_confirm_required": "La contraseña no debe estar vacía",
+    "user_number_required": "El número de teléfono del usuario es obligatorio",
+    "user_invalid_number": "Número de teléfono inválido",
+    "user_email_required": "El correo electrónico del usuario es obligatorio",
+    "user_invalid_email": "Correo electrónico del usuario inválido",
+    "user_password_length": "La contraseña debe tener al menos 8 caracteres",
+    "user_password_character": "La contraseña debe contener al menos una letra",
+    "invalid_password": "La contraseña ingresada es incorrecta",
+    "incorrect_user_password": "La contraseña ingresada es incorrecta",
 
-    "carrier_name_required": "O nome do veiculo transportador é obrigatório",
-    "carrier_model_required": "O modelo do veiculo transportador é obrigatório",
-    "carrier_plate_required": "A placa do veiculo transportador é obrigatória",
+    "carrier_name_required": "El nombre del vehículo transportista es obligatorio",
+    "carrier_model_required": "El modelo del vehículo transportista es obligatorio",
+    "carrier_plate_required": "La placa del vehículo transportista es obligatoria",
 
-    "machinery_name_required": "O nome do maquinário é obrigatório",
-    "machinery_model_required": "O modelo do maquinário é obrigatório",
-    "machinery_plate_required": "A placa do maquinário é obrigatória",
+    "machinery_name_required": "El nombre de la maquinaria es obligatorio",
+    "machinery_model_required": "El modelo de la maquinaria es obligatorio",
+    "machinery_plate_required": "La placa de la maquinaria es obligatoria",
 
-    "offer_price_required": "É necessário informar o preço da oferta",
+    "offer_price_required": "Es necesario informar el precio de la oferta",
 
-    "request_origin_required": "É necessário informar a origem da solicitação",
-    "request_destination_required": "É necessário informar o destino da solicitação"
+    "request_origin_required": "Es necesario informar el origen de la solicitud",
+    "request_destination_required": "Es necesario informar el destino de la solicitud"
   }
 }
