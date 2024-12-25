@@ -13,12 +13,14 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
-import { numberInputMask } from "@/lib/utils";
+import { getPortfolioUrl, numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { useRouter } from "next/router";
 
 export default function SignIn() {
+  const router = useRouter();
   const t = useTranslations();
   const [number, setNumber] = useState("");
 
@@ -29,7 +31,7 @@ export default function SignIn() {
 
   return (
     <Layout className="flex flex-row" hideHeader>
-      <div className="hidden lg:flex flex-1 flex-col items-center justify-center">
+      <div className="hidden lg:flex flex-[4] flex-col items-center justify-center">
         <section className="flex flex-col items-start p-4 gap-4">
           <h1 className="text-2xl font-light font-mono text-gray-700 dark:text-gray-200">
             {t("Advertizement.self_title1")}
@@ -40,14 +42,20 @@ export default function SignIn() {
           <p className="text-sm text-gray-700 dark:text-gray-200">
             {t("Advertizement.self_description1")}
           </p>
-          <Button className="gap-1 text-white" color="success" href="/about">
+          <Button
+            color="success"
+            className="gap-1 text-white"
+            onPress={() => {
+              router.push(`${getPortfolioUrl()}/${router.locale}/about`);
+            }}
+          >
             {t("Base.see_more")}
             <ArrowUpRight01Icon />
           </Button>
         </section>
       </div>
-      <div className="flex flex-1 md:items-center justify-center max-h-svh overflow-hidden overflow-y-auto">
-        <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-2 py-6">
+      <div className="flex flex-[5] md:items-center justify-center max-h-svh overflow-hidden overflow-y-auto">
+        <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-8 py-6">
           <div className="flex flex-col items-center gap-2">
             <Agrofast.Logo className="w-40 h-10" />
           </div>
@@ -143,7 +151,7 @@ export default function SignIn() {
               className="text-gray-700 dark:text-gray-200"
               label={t("Base.password_confirm")}
               labelPlacement="outside"
-              name="password"
+              name="password_confirm"
               placeholder={t("Base.write_password_confirm")}
               type="password"
               variant="bordered"
@@ -154,7 +162,7 @@ export default function SignIn() {
               </Checkbox>
             </div>
             <Spacer y={4} />
-            <p className="text-center text-small">
+            <p className="text-start text-small text-gray-700 dark:text-gray-200">
               {t("Base.sign_in_terms_agreement")}
             </p>
             <Button className="w-full" color="primary" type="submit">

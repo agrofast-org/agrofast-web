@@ -26,7 +26,14 @@ const LanguageSelector = dynamic(
 );
 
 const RouteSelector = () => {
-  const routes = ["/", "/login", "/sign-in", "/auth-code"];
+  const routes = [
+    "/",
+    "/login",
+    "/sign-in",
+    "/auth-code",
+    "/forgot-pass",
+    "/recover-token",
+  ];
   const router = useRouter();
 
   const handleRouteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,7 +62,7 @@ const RouteSelector = () => {
 };
 
 const DebugOptions = () => {
-  if (process.env.NODE_ENV !== "development" || process.env.APP_ENV !== "local" ) {
+  if (process.env.NODE_ENV !== "development") {
     return null;
   }
 

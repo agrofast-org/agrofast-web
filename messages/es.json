@@ -1,10 +1,10 @@
 {
   "Application": {
-    "slogan": "TRANSPORTANDO TU PRODUCCIÓN",
-    "index_init_button": "¡Vamos!"
+    "slogan": "TRANSPORTANDO SU PRODUCCIÓN",
+    "index_init_button": "¡Vamos allá!"
   },
   "Advertizement": {
-    "self_title1": "Transporte agrícola",
+    "self_title1": "Transportes agrícolas",
     "self_subtitle1": "Agilidad en el transporte de maquinaria agrícola",
     "self_description1": "Revolucionando la forma en que transportas tus máquinas agrícolas"
   },
@@ -22,7 +22,7 @@
     "continue": "Continuar",
 
     "error": "Error",
-    "warning": "Advertencia",
+    "warning": "Aviso",
     "wait": "Espere",
     "cancel": "Cancelar",
     "search": "Buscar",
@@ -32,17 +32,23 @@
     "number": "Número",
     "password": "Contraseña",
     "password_confirm": "Confirmar contraseña",
+    "new_password": "Nueva contraseña",
+    "new_password_confirm": "Confirmar nueva contraseña",
 
-    "write_code": "Escribe el código",
+    "write_code": "Escriba el código",
 
-    "write_name": "Escribe tu Nombre",
-    "write_surname": "Escribe tu Apellido",
-    "write_number": "Escribe tu Número",
-    "write_password": "Escribe tu Contraseña",
-    "write_password_confirm": "Confirma tu contraseña",
+    "write_name": "Escriba su nombre",
+    "write_surname": "Escriba su apellido",
+    "write_number": "Escriba su número",
+    "write_password": "Escriba su contraseña",
+    "write_password_confirm": "Confirme su contraseña",
+    "write_new_password": "Escriba su nueva contraseña",
+    "write_new_password_confirm": "Confirme su nueva contraseña",
 
-    "write_your_number_info": "Escribe tu número de teléfono con código de área.",
-    "write_your_number_info2": "Tu número de teléfono debe estar formateado de la siguiente manera:",
+    "write_your_number_info": "Escriba su número de teléfono con DDD.",
+    "write_your_number_info2": "Su número de teléfono debe estar formateado de la siguiente manera:",
+
+    "inform_your_number": "Informe su número de teléfono",
 
     "profile": "Perfil",
     "messages": "Mensajes",
@@ -53,45 +59,48 @@
     "common_user": "Usuario Común",
 
     "machinery": "Maquinaria",
-    "carrier": "Transportista",
-    "payment": "Métodos de Pago",
+    "carrier": "Transportador",
+    "payment": "Formas de Pago",
 
     "none_registered": "Ninguno registrado",
 
-    "carrier_profile": "Perfil del transportista",
+    "carrier_profile": "Perfil del transportador",
 
     "no_country_found": "No se encontró ningún país",
 
-    "inform_telephone_number": "Ingresa tu número de celular",
+    "inform_telephone_number": "Escriba su número de celular",
 
-    "terms_of_use_agreement": "Acepto los Términos de Uso y reconozco que he leído la Política de Privacidad.",
-    "sign_in_terms_agreement": "Al continuar, enviaremos un código de validación al número ingresado. Pueden aplicarse tarifas de datos y mensajes.",
+    "terms_of_use_agreement": "Estoy de acuerdo con los Términos de Uso y reconozco que he leído la Política de Privacidad.",
+    "sign_in_terms_agreement": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
 
     "remember_me": "Recuérdame",
     "forgot_password": "Olvidé mi contraseña",
     "create_account": "Crear una cuenta",
 
-    "welcome_again": "Bienvenido de nuevo, :first_name:",
-    "enter_account": "Ingresar a una cuenta",
-    "enter_existing_account": "Ingresar con una cuenta existente",
+    "welcome_again": "Bienvenido de nuevo, {name}!",
+    "enter_account": "Entrar a una cuenta",
+    "enter_existing_account": "Entrar con una cuenta existente",
+    "create_new_password": "Cree una nueva contraseña segura",
     "leave": "Salir",
-    "logout": "Cerrar Sesión",
+    "logout": "Cerrar sesión",
     "logout_confirm": "¿Realmente desea salir?",
 
     "default_error_message": "Ocurrió un error inesperado",
 
     "verify_code_resent": "Código reenviado",
 
-    "verification_code_sent_message": "Se envió un código de 4 dígitos al número :number:. ¿No recibiste el código?",
+    "verification_code_sent_message": "Se ha enviado un código de 4 dígitos al número:",
+    "recover_code_sent_message": "Se ha enviado un código de 6 dígitos al número:",
+    "did_not_received_code": "¿No recibió el código?",
     "resend_code": "Reenviar código"
   },
   "Descriptions": {
-    "verify_code_sent_description": "Se envió un nuevo código a tu número.",
-    "verify_code_sent_again_description": "Código reenviado.",
-    "session_expired_description": "Tu sesión ha expirado.",
-    "unable_to_resend_verify_code_description": "No se pudo reenviar el código. Inténtalo más tarde.",
-    "wait_until_verify_code_timeout_description": "Espera hasta que termine el tiempo para reenviar el código.",
-    "invalid_verification_code_description": "Código inválido, inténtalo de nuevo."
+    "verify_code_sent_description": "Se ha enviado un nuevo código a su número.",
+    "verify_code_sent_again_description": "Código enviado nuevamente.",
+    "session_expired_description": "Su sesión ha expirado.",
+    "unable_to_resend_verify_code_description": "No se pudo reenviar el código. Inténtelo de nuevo más tarde.",
+    "wait_until_verify_code_timeout_description": "Espere hasta el final del tiempo para reenviar el código.",
+    "invalid_verification_code_description": "Código inválido, inténtelo de nuevo."
   },
   "Messages": {
     "user_name_required": "El nombre del usuario es obligatorio",
@@ -104,12 +113,12 @@
     "user_invalid_email": "Correo electrónico del usuario inválido",
     "user_password_length": "La contraseña debe tener al menos 8 caracteres",
     "user_password_character": "La contraseña debe contener al menos una letra",
-    "invalid_password": "La contraseña ingresada es incorrecta",
-    "incorrect_user_password": "La contraseña ingresada es incorrecta",
+    "invalid_password": "La contraseña proporcionada es incorrecta",
+    "incorrect_user_password": "La contraseña proporcionada es incorrecta",
 
-    "carrier_name_required": "El nombre del vehículo transportista es obligatorio",
-    "carrier_model_required": "El modelo del vehículo transportista es obligatorio",
-    "carrier_plate_required": "La placa del vehículo transportista es obligatoria",
+    "carrier_name_required": "El nombre del vehículo transportador es obligatorio",
+    "carrier_model_required": "El modelo del vehículo transportador es obligatorio",
+    "carrier_plate_required": "La placa del vehículo transportador es obligatoria",
 
     "machinery_name_required": "El nombre de la maquinaria es obligatorio",
     "machinery_model_required": "El modelo de la maquinaria es obligatorio",

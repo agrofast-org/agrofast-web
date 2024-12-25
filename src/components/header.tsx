@@ -7,6 +7,7 @@ import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
+import { getPortfolioUrl } from "@/lib/utils";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -37,13 +38,13 @@ const Header: React.FC = () => {
           </div>
           <div className="space-x-4 hidden md:block">
             <Link
-              href="/about"
+              href={`${getPortfolioUrl()}/about`}
               className="font-bold text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-gray-300"
             >
               {t("Base.about") as string}
             </Link>
             <Link
-              href="/download"
+              href={`${getPortfolioUrl()}/download`}
               className="font-bold text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-gray-300"
             >
               {t("Base.application") as string}

@@ -5,12 +5,12 @@
   },
   "Advertizement": {
     "self_title1": "Agricultural Transport",
-    "self_subtitle1": "Speed in agricultural machinery transport",
-    "self_description1": "Revolutionizing the way you transport your agricultural machinery"
+    "self_subtitle1": "Agility in agricultural machinery transport",
+    "self_description1": "Revolutionizing the way you transport your agricultural machines"
   },
   "Base": {
-    "language": "Portuguese",
-    "flag": "🇧🇷",
+    "language": "English",
+    "flag": "🇺🇸",
 
     "about": "About",
     "application": "Application",
@@ -32,17 +32,23 @@
     "number": "Number",
     "password": "Password",
     "password_confirm": "Confirm password",
+    "new_password": "New password",
+    "new_password_confirm": "Confirm new password",
 
     "write_code": "Enter the code",
 
-    "write_name": "Enter your Name",
-    "write_surname": "Enter your Surname",
-    "write_number": "Enter your Number",
-    "write_password": "Enter your Password",
-    "write_password_confirm": "Confirm your Password",
+    "write_name": "Enter your name",
+    "write_surname": "Enter your surname",
+    "write_number": "Enter your number",
+    "write_password": "Enter your password",
+    "write_password_confirm": "Confirm your password",
+    "write_new_password": "Enter your new password",
+    "write_new_password_confirm": "Confirm your new password",
 
     "write_your_number_info": "Write your phone number with area code.",
-    "write_your_number_info2": "Your phone number must be formatted as follows:",
+    "write_your_number_info2": "Your phone number should be formatted as follows:",
+
+    "inform_your_number": "Enter your phone number",
 
     "profile": "Profile",
     "messages": "Messages",
@@ -58,47 +64,50 @@
 
     "none_registered": "None registered",
 
-    "carrier_profile": "Carrier Profile",
+    "carrier_profile": "Carrier profile",
 
     "no_country_found": "No country found",
 
-    "inform_telephone_number": "Enter your phone number",
+    "inform_telephone_number": "Enter your mobile number",
 
-    "terms_of_use_agreement": "I agree to the Terms of Use and acknowledge that I have read the Privacy Policy.",
-    "sign_in_terms_agreement": "By continuing, we will send a validation code to the number provided. Data and messaging rates may apply.",
+    "terms_of_use_agreement": "I agree with the Terms of Use and acknowledge that I have read the Privacy Policy.",
+    "sign_in_terms_agreement": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
 
     "remember_me": "Remember me",
     "forgot_password": "Forgot my password",
     "create_account": "Create an account",
 
-    "welcome_again": "Welcome back, :first_name:",
+    "welcome_again": "Welcome back, {name}!",
     "enter_account": "Enter an account",
-    "enter_existing_account": "Enter an existing account",
+    "enter_existing_account": "Enter with an existing account",
+    "create_new_password": "Create a new secure password",
     "leave": "Leave",
     "logout": "Logout",
-    "logout_confirm": "Do you really want to log out?",
+    "logout_confirm": "Do you really want to leave?",
 
     "default_error_message": "An unexpected error occurred",
 
     "verify_code_resent": "Code resent",
 
-    "verification_code_sent_message": "A 4-digit code was sent to the number :number:. Didn't receive the code?",
+    "verification_code_sent_message": "A 4-digit code was sent to the number:",
+    "recover_code_sent_message": "A 6-digit code was sent to the number:",
+    "did_not_received_code": "Didn't receive the code?",
     "resend_code": "Resend code"
   },
   "Descriptions": {
-    "verify_code_sent_description": "A new code was sent to your number.",
+    "verify_code_sent_description": "A new code has been sent to your number.",
     "verify_code_sent_again_description": "Code sent again.",
     "session_expired_description": "Your session has expired.",
-    "unable_to_resend_verify_code_description": "Unable to resend the code. Please try again later.",
-    "wait_until_verify_code_timeout_description": "Wait until the timeout to resend the code.",
-    "invalid_verification_code_description": "Invalid code, please try again."
+    "unable_to_resend_verify_code_description": "Unable to resend the code. Try again later.",
+    "wait_until_verify_code_timeout_description": "Wait until the time ends to resend the code.",
+    "invalid_verification_code_description": "Invalid code, try again."
   },
   "Messages": {
     "user_name_required": "User name is required",
     "user_surname_required": "User surname is required",
     "password_not_coincide": "Passwords do not match",
     "password_confirm_required": "Password must not be empty",
-    "user_number_required": "User's phone number is required",
+    "user_number_required": "User phone number is required",
     "user_invalid_number": "Invalid phone number",
     "user_email_required": "User email is required",
     "user_invalid_email": "Invalid user email",
@@ -109,15 +118,15 @@
 
     "carrier_name_required": "Carrier vehicle name is required",
     "carrier_model_required": "Carrier vehicle model is required",
-    "carrier_plate_required": "Carrier vehicle license plate is required",
+    "carrier_plate_required": "Carrier vehicle plate is required",
 
     "machinery_name_required": "Machinery name is required",
     "machinery_model_required": "Machinery model is required",
-    "machinery_plate_required": "Machinery license plate is required",
+    "machinery_plate_required": "Machinery plate is required",
 
-    "offer_price_required": "The offer price must be provided",
+    "offer_price_required": "Offer price is required",
 
-    "request_origin_required": "The request origin must be provided",
-    "request_destination_required": "The request destination must be provided"
+    "request_origin_required": "Request origin is required",
+    "request_destination_required": "Request destination is required"
   }
 }
