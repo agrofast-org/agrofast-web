@@ -1,0 +1,123 @@
+{
+  "Application": {
+    "slogan": "TRANSPORTING YOUR PRODUCTION",
+    "index_init_button": "Let's go!"
+  },
+  "Advertizement": {
+    "self_title1": "Agricultural Transport",
+    "self_subtitle1": "Speed in agricultural machinery transport",
+    "self_description1": "Revolutionizing the way you transport your agricultural machinery"
+  },
+  "Base": {
+    "language": "Portuguese",
+    "flag": "🇧🇷",
+
+    "about": "About",
+    "application": "Application",
+
+    "see_more": "See more",
+
+    "next": "Next",
+    "enter": "Enter",
+    "continue": "Continue",
+
+    "error": "Error",
+    "warning": "Warning",
+    "wait": "Wait",
+    "cancel": "Cancel",
+    "search": "Search",
+
+    "name": "Name",
+    "surname": "Surname",
+    "number": "Number",
+    "password": "Password",
+    "password_confirm": "Confirm password",
+
+    "write_code": "Enter the code",
+
+    "write_name": "Enter your Name",
+    "write_surname": "Enter your Surname",
+    "write_number": "Enter your Number",
+    "write_password": "Enter your Password",
+    "write_password_confirm": "Confirm your Password",
+
+    "write_your_number_info": "Write your phone number with area code.",
+    "write_your_number_info2": "Your phone number must be formatted as follows:",
+
+    "profile": "Profile",
+    "messages": "Messages",
+    "home": "Home",
+    "account": "Account",
+    "configs": "Settings",
+
+    "common_user": "Common User",
+
+    "machinery": "Machinery",
+    "carrier": "Carrier",
+    "payment": "Payment Methods",
+
+    "none_registered": "None registered",
+
+    "carrier_profile": "Carrier Profile",
+
+    "no_country_found": "No country found",
+
+    "inform_telephone_number": "Enter your phone number",
+
+    "terms_of_use_agreement": "I agree to the Terms of Use and acknowledge that I have read the Privacy Policy.",
+    "sign_in_terms_agreement": "By continuing, we will send a validation code to the number provided. Data and messaging rates may apply.",
+
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot my password",
+    "create_account": "Create an account",
+
+    "welcome_again": "Welcome back, :first_name:",
+    "enter_account": "Enter an account",
+    "enter_existing_account": "Enter an existing account",
+    "leave": "Leave",
+    "logout": "Logout",
+    "logout_confirm": "Do you really want to log out?",
+
+    "default_error_message": "An unexpected error occurred",
+
+    "verify_code_resent": "Code resent",
+
+    "verification_code_sent_message": "A 4-digit code was sent to the number :number:. Didn't receive the code?",
+    "resend_code": "Resend code"
+  },
+  "Descriptions": {
+    "verify_code_sent_description": "A new code was sent to your number.",
+    "verify_code_sent_again_description": "Code sent again.",
+    "session_expired_description": "Your session has expired.",
+    "unable_to_resend_verify_code_description": "Unable to resend the code. Please try again later.",
+    "wait_until_verify_code_timeout_description": "Wait until the timeout to resend the code.",
+    "invalid_verification_code_description": "Invalid code, please try again."
+  },
+  "Messages": {
+    "user_name_required": "User name is required",
+    "user_surname_required": "User surname is required",
+    "password_not_coincide": "Passwords do not match",
+    "password_confirm_required": "Password must not be empty",
+    "user_number_required": "User's phone number is required",
+    "user_invalid_number": "Invalid phone number",
+    "user_email_required": "User email is required",
+    "user_invalid_email": "Invalid user email",
+    "user_password_length": "Password must be at least 8 characters long",
+    "user_password_character": "Password must contain at least one letter",
+    "invalid_password": "The provided password is incorrect",
+    "incorrect_user_password": "The provided password is incorrect",
+
+    "carrier_name_required": "Carrier vehicle name is required",
+    "carrier_model_required": "Carrier vehicle model is required",
+    "carrier_plate_required": "Carrier vehicle license plate is required",
+
+    "machinery_name_required": "Machinery name is required",
+    "machinery_model_required": "Machinery model is required",
+    "machinery_plate_required": "Machinery license plate is required",
+
+    "offer_price_required": "The offer price must be provided",
+
+    "request_origin_required": "The request origin must be provided",
+    "request_destination_required": "The request destination must be provided"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "Application": {
+    "slogan": "TRANSPORTANDO SUA PRODUÇÃO",
+    "index_init_button": "Vamos lá!"
+  },
+  "Advertizement": {
+    "self_title1": "Transportes agrícola",
+    "self_subtitle1": "Agilidade no transporte de maquinário agrícola",
+    "self_description1": "Revolucionando a forma que voce transporta suas máquinas agrícolas"
+  },
+  "Base": {
+    "language": "Português",
+    "flag": "🇧🇷",
+
+    "about": "Sobre",
+    "application": "Aplicação",
+
+    "see_more": "Veja mais",
+
+    "next": "Próximo",
+    "enter": "Entrar",
+    "continue": "Continuar",
+
+    "error": "Erro",
+    "warning": "Aviso",
+    "wait": "Aguarde",
+    "cancel": "Cancelar",
+    "search": "Pesquisar",
+
+    "name": "Nome",
+    "surname": "Sobrenome",
+    "number": "Numero",
+    "password": "Senha",
+    "password_confirm": "Confirmar senha",
+
+    "write_code": "Digite o código",
+
+    "write_name": "Digite seu Nome",
+    "write_surname": "Digite seu Sobrenome",
+    "write_number": "Digite seu Numero",
+    "write_password": "Digite sua Senha",
+    "write_password_confirm": "Confirme sua senha",
+
+    "write_your_number_info": "Escreva seu número de telefone com DDD.", 
+    "write_your_number_info2": "Seu numero de telefone deve ser formatado da seguinte maneira:",
+
+    "profile": "Perfil",
+    "messages": "Mensagens",
+    "home": "Inicio",
+    "account": "Conta",
+    "configs": "Configurações",
+
+    "common_user": "Usuário Comum",
+
+    "machinery": "Maquinário",
+    "carrier": "Transportador",
+    "payment": "Formas de Pagamento",
+
+    "none_registered": "Nenhum registrado",
+
+    "carrier_profile": "Perfil de transportador",
+
+    "no_country_found": "Nenhum país encontrado",
+
+    "inform_telephone_number": "Digite seu número de celular",
+
+    "terms_of_use_agreement": "Concordo com os Termos de Uso e reconheço que li a Política de Privacidade.",
+    "sign_in_terms_agreement": "Ao continuar, enviaremos um código de validação no número informado. Podem ser aplicadas taxas de dados e mensagens.",
+
+    "remember_me": "Lembre-se de mim",
+    "forgot_password": "Esqueci minha senha",
+    "create_account": "Criar uma conta",
+
+    "welcome_again": "Bem vindo de volta, :first_name:",
+    "enter_account": "Entrar uma conta",
+    "enter_existing_account": "Entrar com uma conta existente",
+    "leave": "Sair",
+    "logout": "Fazer Logout",
+    "logout_confirm": "Deseja realmente sair?",
+
+    "default_error_message": "Ocorreu um erro inesperado",
+
+    "verify_code_resent": "Código reenviado",
+
+    "verification_code_sent_message": "Um código de 4 dígitos foi enviado para o numero :number:. Não recebeu o código?",
+    "resend_code": "Reenviar código"
+  },
+  "Descriptions": {
+    "verify_code_sent_description": "Um novo código foi enviado para o seu número.",
+    "verify_code_sent_again_description": "Código enviado novamente.",
+    "session_expired_description": "Sua sessão inspirou.",
+    "unable_to_resend_verify_code_description": "Não foi possível reenviar o código. Tente novamente mais tarde.",
+    "wait_until_verify_code_timeout_description": "Aguarde até o fim do tempo para reenviar o código.",
+    "invalid_verification_code_description": "Código inválido, tente novamente."
+  },
+  "Messages": {
+    "user_name_required": "O nome do usuário é obrigatório",
+    "user_surname_required": "O sobrenome do usuário é obrigatório",
+    "password_not_coincide": "As senhas não coincidem",
+    "password_confirm_required": "A senha não deve estar vazia",
+    "user_number_required": "Numero de telefone do usuário é obrigatório",
+    "user_invalid_number": "Numero de telefone inválido",
+    "user_email_required": "Email do usuário é obrigatório",
+    "user_invalid_email": "Email de usuário inválido",
+    "user_password_length": "Senha deve ter no mínimo 8 caracteres",
+    "user_password_character": "A senha deve conter pelo menos uma letra",
+    "invalid_password": "A senha informada está incorreta",
+    "incorrect_user_password": "A senha informada está incorreta",
+
+    "carrier_name_required": "O nome do veiculo transportador é obrigatório",
+    "carrier_model_required": "O modelo do veiculo transportador é obrigatório",
+    "carrier_plate_required": "A placa do veiculo transportador é obrigatória",
+
+    "machinery_name_required": "O nome do maquinário é obrigatório",
+    "machinery_model_required": "O modelo do maquinário é obrigatório",
+    "machinery_plate_required": "A placa do maquinário é obrigatória",
+
+    "offer_price_required": "É necessário informar o preço da oferta",
+
+    "request_origin_required": "É necessário informar a origem da solicitação",
+    "request_destination_required": "É necessário informar o destino da solicitação"
+  }
+}
