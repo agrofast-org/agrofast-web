@@ -32,17 +32,23 @@
     "number": "Numero",
     "password": "Senha",
     "password_confirm": "Confirmar senha",
+    "new_password": "Nova senha",
+    "new_password_confirm": "Confirmar nova senha",
 
     "write_code": "Digite o código",
 
-    "write_name": "Digite seu Nome",
-    "write_surname": "Digite seu Sobrenome",
-    "write_number": "Digite seu Numero",
-    "write_password": "Digite sua Senha",
+    "write_name": "Digite seu nome",
+    "write_surname": "Digite seu sobrenome",
+    "write_number": "Digite seu numero",
+    "write_password": "Digite sua senha",
     "write_password_confirm": "Confirme sua senha",
+    "write_new_password": "Digite sua nova senha",
+    "write_new_password_confirm": "Confirme sua nova senha",
 
     "write_your_number_info": "Escreva seu número de telefone com DDD.", 
     "write_your_number_info2": "Seu numero de telefone deve ser formatado da seguinte maneira:",
+
+    "inform_your_number": "Informe seu número de telefone",
 
     "profile": "Perfil",
     "messages": "Mensagens",
@@ -71,9 +77,10 @@
     "forgot_password": "Esqueci minha senha",
     "create_account": "Criar uma conta",
 
-    "welcome_again": "Bem vindo de volta, :first_name:",
+    "welcome_again": "Bem vindo de volta, {name}!",
     "enter_account": "Entrar uma conta",
     "enter_existing_account": "Entrar com uma conta existente",
+    "create_new_password": "Crie uma nova senha segura",
     "leave": "Sair",
     "logout": "Fazer Logout",
     "logout_confirm": "Deseja realmente sair?",
@@ -82,7 +89,9 @@
 
     "verify_code_resent": "Código reenviado",
 
-    "verification_code_sent_message": "Um código de 4 dígitos foi enviado para o numero :number:. Não recebeu o código?",
+    "verification_code_sent_message": "Um código de 4 dígitos foi enviado para o numero:",
+    "recover_code_sent_message": "Um código de 6 dígitos foi enviado para o numero:",
+    "did_not_received_code": "Não recebeu o código?",
     "resend_code": "Reenviar código"
   },
   "Descriptions": {

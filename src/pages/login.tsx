@@ -12,12 +12,14 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
-import { numberInputMask } from "@/lib/utils";
+import { getPortfolioUrl, numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { useRouter } from "next/router";
 
 export default function Login() {
+  const router = useRouter();
   const t = useTranslations();
 
   const [number, setNumber] = useState("");
@@ -29,7 +31,7 @@ export default function Login() {
 
   return (
     <Layout className="flex flex-row" hideHeader>
-      <div className="hidden lg:flex flex-[3] flex-col items-center justify-center">
+      <div className="hidden lg:flex flex-[4] flex-col items-center justify-center">
         <section className="flex flex-col items-start p-4 gap-4">
           <h1 className="text-2xl font-light font-mono text-gray-700 dark:text-gray-200">
             {t("Advertizement.self_title1")}
@@ -40,22 +42,25 @@ export default function Login() {
           <p className="text-sm text-gray-700 dark:text-gray-200">
             {t("Advertizement.self_description1")}
           </p>
-          <Button className="gap-1 text-white" color="success" href="/about">
+          <Button
+            color="success"
+            className="gap-1 text-white"
+            onPress={() => {
+              router.push(`${getPortfolioUrl()}/${router.locale}/about`);
+            }}
+          >
             {t("Base.see_more")}
             <ArrowUpRight01Icon />
           </Button>
         </section>
       </div>
       <div className="flex flex-[5] md:items-center justify-center max-h-svh overflow-hidden overflow-y-auto">
-        <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-2 py-6">
+        <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-8 py-6">
           <div className="flex flex-col items-center gap-2">
             <Agrofast.Logo className="w-40 h-10" />
           </div>
           <p className="pb-2 text-left text-2xl text-gray-700 dark:text-gray-200 font-semibold">
             {t("Base.enter_existing_account")}
-            <span aria-label="emoji" className="ml-2" role="img">
-              👋
-            </span>
           </p>
           <Form
             className="flex flex-col gap-4"
@@ -144,6 +149,6 @@ export default function Login() {
       </div>
     </Layout>
   );
-};
+}
 
 export const getStaticProps = getStaticPropsWithMessages;
