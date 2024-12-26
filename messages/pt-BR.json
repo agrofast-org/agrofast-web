@@ -1,4 +1,29 @@
 {
+  "Index": {
+    "meta_title": "Agrofast - Transporte de Maquinário Agrícola",
+    "meta_description_1": "Transporte de maquinário agrícola de forma rápida e segura"
+  },
+  "Login": {
+    "meta_title": "Agrofast - Login",
+    "meta_description_1": "Faça login para acessar sua conta Agrofast"
+  },
+  "SignUp": {
+    "meta_title": "Agrofast - Cadastro",
+    "meta_description_1": "Crie uma nova conta no Agrofast"
+  },
+  "AuthCode": {
+    "meta_title": "Agrofast - Código de Autenticação",
+    "meta_description_1": "Digite o código de autenticação enviado para seu telefone"
+  },
+  "ForgotPass": {
+    "meta_title": "Agrofast - Esqueci Minha Senha",
+    "meta_description_1": "Recupere sua senha do Agrofast"
+  },
+  "RecoverToken": {
+    "meta_title": "Agrofast - Recuperar senha",
+    "meta_description_1": "Digite o token de recuperação enviado para seu telefone"
+  },
+
   "Application": {
     "slogan": "TRANSPORTANDO SUA PRODUÇÃO",
     "index_init_button": "Vamos lá!"

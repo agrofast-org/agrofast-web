@@ -29,7 +29,7 @@ const RouteSelector = () => {
   const routes = [
     "/",
     "/login",
-    "/sign-in",
+    "/sign-up",
     "/auth-code",
     "/forgot-pass",
     "/recover-token",

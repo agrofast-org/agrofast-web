@@ -9,6 +9,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Spacer,
 } from "@nextui-org/react";
 import { useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
@@ -19,10 +20,9 @@ import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-export default function Login() {
+export default function SignIn() {
   const router = useRouter();
   const t = useTranslations();
-
   const [number, setNumber] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,8 +33,8 @@ export default function Login() {
   return (
     <>
       <Head>
-        <title>{t("Login.meta_title")}</title>
-        <meta name="description" content={t("Login.meta_description_1")} />
+        <title>{t("SignUp.meta_title")}</title>
+        <meta name="description" content={t("SignUp.meta_description_1")} />
       </Head>
       <Layout className="flex flex-row" hideHeader>
         <div className="hidden lg:flex flex-[4] flex-col items-center justify-center">
@@ -66,13 +66,33 @@ export default function Login() {
               <Agrofast.Logo className="w-40 h-10" />
             </div>
             <p className="pb-2 text-left text-2xl text-gray-700 dark:text-gray-200 font-semibold">
-              {t("Base.enter_existing_account")}
+              {t("Base.create_account")}
             </p>
             <Form
               className="flex flex-col gap-4"
               validationBehavior="native"
               onSubmit={handleSubmit}
             >
+              <Input
+                isRequired
+                className="text-gray-700 dark:text-gray-200"
+                label={t("Base.name")}
+                labelPlacement="outside"
+                name="name"
+                placeholder={t("Base.write_name")}
+                type="text"
+                variant="bordered"
+              />
+              <Input
+                isRequired
+                className="text-gray-700 dark:text-gray-200"
+                label={t("Base.surname")}
+                labelPlacement="outside"
+                name="surname"
+                placeholder={t("Base.write_surname")}
+                type="text"
+                variant="bordered"
+              />
               <Input
                 isRequired
                 className="text-gray-700 dark:text-gray-200"
@@ -104,7 +124,7 @@ export default function Login() {
                         <div className="text-tiny">
                           {t("Base.write_your_number_info2")}
                           <Code className="p-0.5 px-1 text-tiny">
-                            +55 99 99999-9999
+                            +55 01 23456-7890
                           </Code>
                         </div>
                       </div>
@@ -113,8 +133,8 @@ export default function Login() {
                 }
                 label={t("Base.number")}
                 labelPlacement="outside"
-                name="text"
-                placeholder={t("Base.write_number")}
+                name="number"
+                placeholder="+55 99 99999-9999"
                 value={number}
                 onChange={(e) => setNumber(numberInputMask(e.target.value))}
                 type="text"
@@ -122,6 +142,7 @@ export default function Login() {
               />
               <Input
                 isRequired
+                taggableVisibility
                 className="text-gray-700 dark:text-gray-200"
                 label={t("Base.password")}
                 labelPlacement="outside"
@@ -130,25 +151,37 @@ export default function Login() {
                 type="password"
                 variant="bordered"
               />
+              <Input
+                isRequired
+                taggableVisibility
+                className="text-gray-700 dark:text-gray-200"
+                label={t("Base.password_confirm")}
+                labelPlacement="outside"
+                name="password_confirm"
+                placeholder={t("Base.write_password_confirm")}
+                type="password"
+                variant="bordered"
+              />
               <div className="flex w-full items-start flex-col md:flex-row justify-between md:items-center gap-2 px-1 py-2">
-                <Checkbox defaultSelected name="remember" size="sm">
-                  {t("Base.remember_me")}
-                </Checkbox>
-                <Link
-                  className="text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-gray-300"
-                  href="/forgot-password"
+                <Checkbox
+                  defaultSelected
+                  name="terms_of_use_agreement"
                   size="sm"
                 >
-                  {t("Base.forgot_password")}
-                </Link>
+                  {t("Base.terms_of_use_agreement")}
+                </Checkbox>
               </div>
+              <Spacer y={4} />
+              <p className="text-start text-small text-gray-700 dark:text-gray-200">
+                {t("Base.sign_in_terms_agreement")}
+              </p>
               <Button className="w-full" color="primary" type="submit">
-                {t("Base.enter")}
+                {t("Base.continue")}
               </Button>
             </Form>
             <p className="text-center text-small">
-              <Link href="/sign-in" size="sm">
-                {t("Base.create_account")}
+              <Link href="/login" size="sm">
+                {t("Base.enter_existing_account")}
               </Link>
             </p>
           </div>
