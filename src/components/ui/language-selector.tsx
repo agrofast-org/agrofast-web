@@ -50,7 +50,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           <motion.div
             initial="hidden"
             animate={isSelectOpen ? "hidden" : "visible"}
-            className="absolute right-1"
+            className="right-1 absolute"
             variants={{
               hidden: { opacity: 0, scale: 0.8 },
               visible: { opacity: 1, scale: 1 },
@@ -60,13 +60,13 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               size={16}
               type="rounded"
               variant="stroke"
-              className="pointer-events-none text-xl text-default-700"
+              className="text-default-700 text-xl pointer-events-none"
             />
           </motion.div>
           <motion.div
             initial="hidden"
             animate={isSelectOpen ? "visible" : "hidden"}
-            className="absolute right-1"
+            className="right-1 absolute"
             variants={{
               hidden: { opacity: 0, scale: 0.8 },
               visible: { opacity: 1, scale: 1 },
@@ -76,7 +76,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               size={16}
               type="rounded"
               variant="stroke"
-              className="pointer-events-none text-xl text-default-700"
+              className="text-default-700 text-xl pointer-events-none"
             />
           </motion.div>
         </div>

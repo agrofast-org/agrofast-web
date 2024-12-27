@@ -43,7 +43,7 @@ const RouteSelector = () => {
   return (
     <Select
       onChange={handleRouteChange}
-      className="text-medium max-w-[65%]"
+      className="max-w-[65%] text-medium"
       classNames={{
         popoverContent: "rounded-md",
       }}
@@ -67,31 +67,31 @@ const DebugOptions = () => {
   }
 
   return (
-    <div className="fixed z-50 right-4 bottom-4">
+    <div className="right-4 bottom-4 z-50 fixed">
       <Popover radius="sm" placement="top-end" offset={8}>
         <PopoverTrigger>
           <Button size="md" color="success" isIconOnly>
             <Bug01Icon
               type="rounded"
               variant="twotone"
-              className="pointer-events-none p-0.5 text-white"
+              className="p-0.5 text-white pointer-events-none"
             />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <div className="flex flex-col gap-2 min-w-80 px-1 py-2 text-gray-700 dark:text-gray-200">
-            <div className="text-small font-bold">Development debug panel</div>
-            <div className="flex flex-row items-center justify-between text-tiny">
+          <div className="flex flex-col gap-2 px-1 py-2 min-w-80 text-gray-700 dark:text-gray-200">
+            <div className="font-bold text-small">Development debug panel</div>
+            <div className="flex flex-row justify-between items-center text-tiny">
               <ThemeSwitcher size="sm" className="text-medium" />
               <hr className="flex-1 mx-2 border-dashed" />
               <p>Change theme</p>
             </div>
-            <div className="flex flex-row items-center justify-between text-tiny">
+            <div className="flex flex-row justify-between items-center text-tiny">
               <LanguageSelector size="sm" />
               <hr className="flex-1 mx-2 border-dashed" />
               <p>Change language</p>
             </div>
-            <div className="flex flex-row items-center justify-between text-tiny">
+            <div className="flex flex-row justify-between items-center text-tiny">
               <RouteSelector />
               <hr className="flex-1 mx-2 border-dashed" />
               <p>Change route</p>

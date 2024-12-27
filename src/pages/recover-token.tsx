@@ -1,18 +1,27 @@
-import Layout from "@/components/layout";
+import Body from "@/components/body";
 import { Button, Form, Spacer } from "@nextui-org/react";
 import Agrofast from "@/components/ui/agrofast";
 import Input from "@/components/input";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function RecoverToken() {
   const t = useTranslations();
+  const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("handleSubmit");
   };
+
+  if (typeof window !== "undefined") {
+    if (router.query.token === undefined || router.query.token === "" || typeof router.query.token !== "string") {
+      // router.push("/forgot-pass");
+      // return null;
+    }
+  }
 
   return (
     <>
@@ -20,13 +29,13 @@ export default function RecoverToken() {
         <title>{t("RecoverToken.meta_title")}</title>
         <meta name="description" content={t("RecoverToken.meta_description_1")} />
       </Head>
-      <Layout className="flex flex-row" hideHeader>
-        <div className="flex flex-[5] md:items-center justify-center max-h-svh overflow-hidden overflow-y-auto">
-          <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-8 py-6">
+      <Body className="flex flex-row" hideHeader>
+        <div className="flex flex-[5] justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
+          <div className="flex flex-col gap-4 px-8 py-6 w-full max-w-md min-h-max">
             <div className="flex flex-col items-center gap-2">
               <Agrofast.Logo className="w-40 h-10" />
             </div>
-            <p className="pb-2 text-left text-2xl text-gray-700 dark:text-gray-200 font-semibold">
+            <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
               {t("Base.create_new_password")}
             </p>
             <Form
@@ -63,7 +72,7 @@ export default function RecoverToken() {
             </Form>
           </div>
         </div>
-      </Layout>
+      </Body>
     </>
   );
 }

@@ -45,7 +45,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         <Sun01Icon
           type="rounded"
           variant="duotone"
-          className="text-gray-700 dark:text-gray-200 text-inherit w-[1em] h-[1em]"
+          className="w-[1em] h-[1em] text-gray-700 text-inherit dark:text-gray-200"
         />
       </motion.div>
       <motion.div
@@ -60,7 +60,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         <Moon02Icon
           type="rounded"
           variant="duotone"
-          className="text-gray-700 dark:text-gray-200 text-inherit w-[1em] h-[1em]"
+          className="w-[1em] h-[1em] text-gray-700 text-inherit dark:text-gray-200"
         />
       </motion.div>
     </Button>

@@ -28,29 +28,29 @@ const Header: React.FC = () => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
-        className="transition-colors fixed top-0 left-0 w-full backdrop-blur-sm bg-slate-50/60 dark:bg-stone-900/60 border-b dark:border-b-stone-950/50 shadow-sm z-50"
+        className="top-0 left-0 z-50 fixed bg-slate-50/60 dark:bg-stone-900/60 shadow-sm backdrop-blur-sm border-b dark:border-b-stone-950/50 w-full transition-colors"
       >
-        <div className="container mx-auto flex justify-between items-center p-4">
-          <div className="flex flex-1 flex-row items-center justify-start gap-4">
+        <div className="flex justify-between items-center mx-auto p-4 container">
+          <div className="flex flex-row flex-1 justify-start items-center gap-4">
             <Link href="/">
               <Agrofast.Logo className="w-36 h-9 translate-y-1" />
             </Link>
           </div>
-          <div className="space-x-4 hidden md:block">
+          <div className="md:block space-x-4 hidden">
             <Link
               href={`${getPortfolioUrl()}/about`}
-              className="font-bold text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-gray-300"
+              className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
             >
               {t("Base.about") as string}
             </Link>
             <Link
               href={`${getPortfolioUrl()}/download`}
-              className="font-bold text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-gray-300"
+              className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
             >
               {t("Base.application") as string}
             </Link>
           </div>
-          <div className="flex flex-1 flex-row items-center justify-end gap-4">
+          <div className="flex flex-row flex-1 justify-end items-center gap-4">
             <LanguageSelector className="text-2xl" />
             <ThemeSwitcher className="text-2xl" />
           </div>

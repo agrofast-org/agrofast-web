@@ -1,4 +1,4 @@
-import MainProvider from "@/contexts/main-provider";
+import MainProvider from "@/contexts/main-context";
 import "@/styles/globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import type { AppProps } from "next/app";

@@ -1,4 +1,4 @@
-import Layout from "@/components/layout";
+import Body from "@/components/body";
 import { InformationCircleIcon } from "@hugeicons/react";
 import {
   Button,
@@ -34,21 +34,21 @@ export default function ForgotPass() {
         <title>{t("ForgotPass.meta_title")}</title>
         <meta name="description" content={t("ForgotPass.meta_description_1")} />
       </Head>
-      <Layout className="flex flex-row" hideHeader>
-        <div className="flex flex-1 md:items-center justify-center max-h-svh overflow-hidden overflow-y-auto">
-          <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-8 py-6">
-            <div>
-              <div className="flex flex-col items-center gap-2">
-                <Agrofast.Logo className="w-40 h-10" />
-              </div>
-              <p className="pb-2 text-left text-2xl text-gray-700 dark:text-gray-200 font-semibold">
-                {t("Base.inform_your_number")}
-              </p>
-              <Form
-                className="flex flex-col gap-4"
-                validationBehavior="native"
-                onSubmit={handleSubmit}
-              >
+      <Body className="flex flex-row" hideHeader>
+        <div className="flex flex-1 justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
+          <div className="flex flex-col gap-4 px-8 py-6 w-full max-w-md min-h-max">
+            <div className="flex flex-col items-center gap-2">
+              <Agrofast.Logo className="w-40 h-10" />
+            </div>
+            <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
+              {t("Base.inform_your_number")}
+            </p>
+            <Form
+              className="flex flex-col flex-1 gap-4"
+              validationBehavior="native"
+              onSubmit={handleSubmit}
+            >
+              <div className="flex flex-col flex-1 md:flex-auto w-full">
                 <Input
                   isRequired
                   className="text-gray-700 dark:text-gray-200"
@@ -65,13 +65,13 @@ export default function ForgotPass() {
                           <InformationCircleIcon
                             type="rounded"
                             variant="stroke"
-                            className="pointer-events-none text-xl text-default-700"
+                            className="text-default-700 text-xl pointer-events-none"
                           />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent>
-                        <div className="flex flex-col gap-1 max-w-xs px-1 py-2 text-gray-700 dark:text-gray-200">
-                          <div className="text-small font-bold">
+                        <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
+                          <div className="font-bold text-small">
                             {t("Base.write_number")}
                           </div>
                           <div className="text-tiny">
@@ -79,7 +79,7 @@ export default function ForgotPass() {
                           </div>
                           <div className="text-tiny">
                             {t("Base.write_your_number_info2")}
-                            <Code className="p-0.5 px-1 text-tiny">
+                            <Code className="px-1 p-0.5 text-tiny">
                               +55 99 99999-9999
                             </Code>
                           </div>
@@ -96,26 +96,28 @@ export default function ForgotPass() {
                   type="text"
                   variant="bordered"
                 />
-                <Spacer y={4} />
-                <p className="text-start text-small text-gray-700 dark:text-gray-200">
+              </div>
+              <Spacer y={8} />
+              <div className="flex flex-col gap-4 w-full">
+                <p className="text-gray-700 text-small text-start dark:text-gray-200">
                   {t("Base.sign_in_terms_agreement")}
                 </p>
                 <Button className="w-full" color="primary" type="submit">
                   {t("Base.enter")}
                 </Button>
-              </Form>
-            </div>
-            <div className="flex justify-between text-center text-small">
-              <Link href="/sign-in" size="sm">
-                {t("Base.create_account")}
-              </Link>
-              <Link href="/sign-in" size="sm">
-                {t("Base.enter_existing_account")}
-              </Link>
-            </div>
+                <div className="flex justify-between text-center text-small">
+                  <Link href="/sign-in" size="sm">
+                    {t("Base.create_account")}
+                  </Link>
+                  <Link href="/sign-in" size="sm">
+                    {t("Base.enter_existing_account")}
+                  </Link>
+                </div>
+              </div>
+            </Form>
           </div>
         </div>
-      </Layout>
+      </Body>
     </>
   );
 }

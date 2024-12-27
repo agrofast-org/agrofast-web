@@ -23,6 +23,20 @@
     "meta_title": "Agrofast - Recuperar senha",
     "meta_description_1": "Digite o token de recuperação enviado para seu telefone"
   },
+  "NotFound": {
+    "meta_title": "Agrofast - Página não encontrada",
+    "meta_description_1": "Página não encontrada",
+
+    "page_not_found": "Página não encontrada",
+    "as_expected": "Assim como esperado?",
+    "back_to_safety": "Voltar para a segurança"
+  },
+  "InternalError": {
+    "meta_title": "Agrofast - Erro interno",
+    "meta_description_1": "Ocorreu um erro",
+
+    "an_error_has_occurred": "Ocorreu um erro interno"
+  },
 
   "Application": {
     "slogan": "TRANSPORTANDO SUA PRODUÇÃO",
@@ -104,6 +118,7 @@
 
     "welcome_again": "Bem vindo de volta, {name}!",
     "enter_account": "Entrar uma conta",
+    "enter_another_account": "Entrar uma outra conta",
     "enter_existing_account": "Entrar com uma conta existente",
     "create_new_password": "Crie uma nova senha segura",
     "leave": "Sair",

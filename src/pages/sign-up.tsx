@@ -1,4 +1,4 @@
-import Layout from "@/components/layout";
+import Body from "@/components/body";
 import { ArrowUpRight01Icon, InformationCircleIcon } from "@hugeicons/react";
 import {
   Button,
@@ -23,6 +23,7 @@ import Head from "next/head";
 export default function SignIn() {
   const router = useRouter();
   const t = useTranslations();
+
   const [number, setNumber] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -36,16 +37,16 @@ export default function SignIn() {
         <title>{t("SignUp.meta_title")}</title>
         <meta name="description" content={t("SignUp.meta_description_1")} />
       </Head>
-      <Layout className="flex flex-row" hideHeader>
-        <div className="hidden lg:flex flex-[4] flex-col items-center justify-center">
-          <section className="flex flex-col items-start p-4 gap-4">
-            <h1 className="text-2xl font-light font-mono text-gray-700 dark:text-gray-200">
+      <Body className="flex flex-row" hideHeader>
+        <div className="lg:flex flex-col flex-[4] justify-center items-center hidden">
+          <section className="flex flex-col items-start gap-4 p-4">
+            <h1 className="font-light font-mono text-2xl text-gray-700 dark:text-gray-200">
               {t("Advertizement.self_title1")}
             </h1>
-            <h1 className="text-4xl max-w-md font-inter font-bold text-gray-700 dark:text-gray-200">
+            <h1 className="max-w-md font-bold font-inter text-4xl text-gray-700 dark:text-gray-200">
               {t("Advertizement.self_subtitle1")}
             </h1>
-            <p className="text-sm text-gray-700 dark:text-gray-200">
+            <p className="text-gray-700 text-sm dark:text-gray-200">
               {t("Advertizement.self_description1")}
             </p>
             <Button
@@ -60,12 +61,12 @@ export default function SignIn() {
             </Button>
           </section>
         </div>
-        <div className="flex flex-[5] md:items-center justify-center max-h-svh overflow-hidden overflow-y-auto">
-          <div className="flex w-full max-w-md min-h-max flex-col gap-4 px-8 py-6">
+        <div className="flex flex-[5] justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
+          <div className="flex flex-col gap-4 px-8 py-6 w-full max-w-md min-h-max">
             <div className="flex flex-col items-center gap-2">
               <Agrofast.Logo className="w-40 h-10" />
             </div>
-            <p className="pb-2 text-left text-2xl text-gray-700 dark:text-gray-200 font-semibold">
+            <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
               {t("Base.create_account")}
             </p>
             <Form
@@ -80,7 +81,8 @@ export default function SignIn() {
                 labelPlacement="outside"
                 name="name"
                 placeholder={t("Base.write_name")}
-                type="text"
+                type="name"
+                autoCapitalize="words"
                 variant="bordered"
               />
               <Input
@@ -90,7 +92,8 @@ export default function SignIn() {
                 labelPlacement="outside"
                 name="surname"
                 placeholder={t("Base.write_surname")}
-                type="text"
+                type="name"
+                autoCapitalize="words"
                 variant="bordered"
               />
               <Input
@@ -109,13 +112,13 @@ export default function SignIn() {
                         <InformationCircleIcon
                           type="rounded"
                           variant="stroke"
-                          className="pointer-events-none text-xl text-default-700"
+                          className="text-default-700 text-xl pointer-events-none"
                         />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent>
-                      <div className="flex flex-col gap-1 max-w-xs px-1 py-2 text-gray-700 dark:text-gray-200">
-                        <div className="text-small font-bold">
+                      <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
+                        <div className="font-bold text-small">
                           {t("Base.write_number")}
                         </div>
                         <div className="text-tiny">
@@ -123,7 +126,7 @@ export default function SignIn() {
                         </div>
                         <div className="text-tiny">
                           {t("Base.write_your_number_info2")}
-                          <Code className="p-0.5 px-1 text-tiny">
+                          <Code className="px-1 p-0.5 text-tiny">
                             +55 01 23456-7890
                           </Code>
                         </div>
@@ -162,7 +165,7 @@ export default function SignIn() {
                 type="password"
                 variant="bordered"
               />
-              <div className="flex w-full items-start flex-col md:flex-row justify-between md:items-center gap-2 px-1 py-2">
+              <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-2 px-1 py-2 w-full">
                 <Checkbox
                   defaultSelected
                   name="terms_of_use_agreement"
@@ -172,7 +175,7 @@ export default function SignIn() {
                 </Checkbox>
               </div>
               <Spacer y={4} />
-              <p className="text-start text-small text-gray-700 dark:text-gray-200">
+              <p className="text-gray-700 text-small text-start dark:text-gray-200">
                 {t("Base.sign_in_terms_agreement")}
               </p>
               <Button className="w-full" color="primary" type="submit">
@@ -186,7 +189,7 @@ export default function SignIn() {
             </p>
           </div>
         </div>
-      </Layout>
+      </Body>
     </>
   );
 }

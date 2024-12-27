@@ -2,13 +2,13 @@ import Head from "next/head";
 import Header from "./header";
 import { cn } from "@/lib/utils";
 
-interface LayoutProps {
+interface BodyProps {
   className?: string;
   children?: React.ReactNode;
   hideHeader?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ className, children, hideHeader }) => {
+const Body: React.FC<BodyProps> = ({ className, children, hideHeader }) => {
   return (
     <>
       <Head>
@@ -27,4 +27,4 @@ const Layout: React.FC<LayoutProps> = ({ className, children, hideHeader }) => {
   );
 };
 
-export default Layout;
+export default Body;

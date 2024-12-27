@@ -46,7 +46,7 @@ const Input = ({ taggableVisibility, ...props }: InputProps) => {
               <ViewOffIcon
                 type="rounded"
                 variant="bulk"
-                className="pointer-events-none text-xl text-default-700"
+                className="group-data-[pressed=true]:scale-y-90 text-default-700 text-xl transition-transform pointer-events-none"
               />
             </motion.div>
             <motion.div
@@ -61,7 +61,7 @@ const Input = ({ taggableVisibility, ...props }: InputProps) => {
               <ViewIcon
                 type="rounded"
                 variant="stroke"
-                className="pointer-events-none text-xl text-default-700"
+                className="group-data-[pressed=true]:scale-y-85 text-default-700 text-xl transition-transform pointer-events-none"
               />
             </motion.div>
           </Button>
