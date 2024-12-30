@@ -4,7 +4,6 @@ import {
   Button,
   Code,
   Form,
-  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -17,6 +16,7 @@ import Input from "@/components/input";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function ForgotPass() {
   const t = useTranslations();
@@ -106,10 +106,16 @@ export default function ForgotPass() {
                   {t("Base.enter")}
                 </Button>
                 <div className="flex justify-between text-center text-small">
-                  <Link href="/sign-in" size="sm">
+                  <Link
+                    href="/sign-in"
+                    className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
+                  >
                     {t("Base.create_account")}
                   </Link>
-                  <Link href="/sign-in" size="sm">
+                  <Link
+                    href="/login"
+                    className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
+                  >
                     {t("Base.enter_existing_account")}
                   </Link>
                 </div>

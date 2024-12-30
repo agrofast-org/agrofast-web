@@ -47,6 +47,37 @@
     "self_subtitle1": "Agilidade no transporte de maquinário agrícola",
     "self_description1": "Revolucionando a forma que voce transporta suas máquinas agrícolas"
   },
+  "Responses": {
+    "user_already_exists": "Já existe um usuário com este número de telefone",
+    "user_not_found": "Usuário não encontrado",
+    "not_implemented": "Não implementado",
+    "no_images_found": "Nenhuma imagem encontrada",
+    "user_not_authenticated": "Usuário não autenticado",
+    "failed_to_upload_image": "Falha ao enviar imagem",
+    "failed_to_save_image_record": "Falha ao salvar registro da imagem",
+    "image_uploaded_successfully": "Imagem enviada com sucesso",
+    "user_found": "Usuário encontrado",
+    "error_creating_user": "Erro ao criar usuário",
+    "user_created_successfully": "Usuário criado com sucesso",
+    "user_updated_successfully": "Usuário atualizado com sucesso",
+    "invalid_authentication_code": "Código de autenticação inválido",
+    "user_authenticated_successfully": "Usuário autenticado com sucesso",
+    "authentication_code_resent": "Código de autenticação reenviado",
+    "failed_to_resend_code": "Falha ao reenviar código",
+    "invalid_login_credentials": "Credenciais de login inválidas",
+    "wrong_password": "Senha incorreta",
+    "login_successful_authentication_code_sent": "Login bem-sucedido, código de autenticação enviado",
+    "failed_to_send_authentication_code": "Falha ao enviar código de autenticação",
+    "password_not_coincide_message": "As senhas não coincidem",
+    "user_number_required_message": "Número de telefone é obrigatório",
+    "user_invalid_number_message": "Número de telefone inválido",
+    "user_email_required_message": "E-mail é obrigatório",
+    "user_invalid_email_message": "E-mail inválido",
+    "user_password_required_message": "Senha é obrigatória",
+    "user_password_length_message": "A senha deve ter pelo menos 8 caracteres",
+    "user_password_character_message": "Precisa conter letras maiúscula, minúscula e números",
+    "authentication_code_attempts_exceeded": "Tentativas de código de autenticação excedidas"
+  },
   "Base": {
     "language": "Português",
     "flag": "🇧🇷",
@@ -65,6 +96,9 @@
     "wait": "Aguarde",
     "cancel": "Cancelar",
     "search": "Pesquisar",
+
+    "required_field": "Campo obrigatório",
+    "fill_this_field": "Preencha este campo",
 
     "name": "Nome",
     "surname": "Sobrenome",
@@ -116,7 +150,7 @@
     "forgot_password": "Esqueci minha senha",
     "create_account": "Criar uma conta",
 
-    "welcome_again": "Bem vindo de volta, {name}!",
+    "welcome_again": "Seja bem-vindo, {name}!",
     "enter_account": "Entrar uma conta",
     "enter_another_account": "Entrar uma outra conta",
     "enter_existing_account": "Entrar com uma conta existente",
@@ -141,32 +175,5 @@
     "unable_to_resend_verify_code_description": "Não foi possível reenviar o código. Tente novamente mais tarde.",
     "wait_until_verify_code_timeout_description": "Aguarde até o fim do tempo para reenviar o código.",
     "invalid_verification_code_description": "Código inválido, tente novamente."
-  },
-  "Messages": {
-    "user_name_required": "O nome do usuário é obrigatório",
-    "user_surname_required": "O sobrenome do usuário é obrigatório",
-    "password_not_coincide": "As senhas não coincidem",
-    "password_confirm_required": "A senha não deve estar vazia",
-    "user_number_required": "Numero de telefone do usuário é obrigatório",
-    "user_invalid_number": "Numero de telefone inválido",
-    "user_email_required": "Email do usuário é obrigatório",
-    "user_invalid_email": "Email de usuário inválido",
-    "user_password_length": "Senha deve ter no mínimo 8 caracteres",
-    "user_password_character": "A senha deve conter pelo menos uma letra",
-    "invalid_password": "A senha informada está incorreta",
-    "incorrect_user_password": "A senha informada está incorreta",
-
-    "carrier_name_required": "O nome do veiculo transportador é obrigatório",
-    "carrier_model_required": "O modelo do veiculo transportador é obrigatório",
-    "carrier_plate_required": "A placa do veiculo transportador é obrigatória",
-
-    "machinery_name_required": "O nome do maquinário é obrigatório",
-    "machinery_model_required": "O modelo do maquinário é obrigatório",
-    "machinery_plate_required": "A placa do maquinário é obrigatória",
-
-    "offer_price_required": "É necessário informar o preço da oferta",
-
-    "request_origin_required": "É necessário informar a origem da solicitação",
-    "request_destination_required": "É necessário informar o destino da solicitação"
   }
 }

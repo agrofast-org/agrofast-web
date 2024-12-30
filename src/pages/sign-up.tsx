@@ -5,7 +5,6 @@ import {
   Checkbox,
   Code,
   Form,
-  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -19,16 +18,45 @@ import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import api from "@/service/api";
+import { useLanguage } from "@/contexts/language-provider";
+import { useOverlay } from "@/contexts/overlay-provider";
+import { useUser } from "@/contexts/auth-provider";
+import Link from "next/link";
 
 export default function SignIn() {
   const router = useRouter();
   const t = useTranslations();
+  const { translateResponse } = useLanguage();
+  const { setUser, setTempToken } = useUser();
+  const { setIsLoading } = useOverlay();
 
   const [number, setNumber] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("handleSubmit");
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+
+    setIsLoading(true);
+    api
+      .post("/user", data)
+      .then(({ data }) => {
+        api.interceptors.request.use((config) => {
+          config.headers.Authorization = `Bearer ${data.token}`;
+          return config;
+        });
+        setTempToken(data.token);
+        setUser(data.user);
+        router.push(`/auth-code`);
+      })
+      .catch(({ response: { data: error } }) => {
+        const fields = translateResponse(error.fields);
+        setErrors(fields);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -72,6 +100,7 @@ export default function SignIn() {
             <Form
               className="flex flex-col gap-4"
               validationBehavior="native"
+              validationErrors={errors}
               onSubmit={handleSubmit}
             >
               <Input
@@ -169,6 +198,7 @@ export default function SignIn() {
                 <Checkbox
                   defaultSelected
                   name="terms_of_use_agreement"
+                  value="true"
                   size="sm"
                 >
                   {t("Base.terms_of_use_agreement")}
@@ -183,7 +213,10 @@ export default function SignIn() {
               </Button>
             </Form>
             <p className="text-center text-small">
-              <Link href="/login" size="sm">
+              <Link
+                href="/login"
+                className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
+              >
                 {t("Base.enter_existing_account")}
               </Link>
             </p>

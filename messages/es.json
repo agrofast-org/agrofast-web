@@ -1,4 +1,43 @@
 {
+  "Index": {
+    "meta_title": "Agrofast - Transporte de Maquinaria Agrícola",
+    "meta_description_1": "Transporte de maquinaria agrícola de forma rápida y segura"
+  },
+  "Login": {
+    "meta_title": "Agrofast - Iniciar sesión",
+    "meta_description_1": "Inicie sesión para acceder a su cuenta Agrofast"
+  },
+  "SignUp": {
+    "meta_title": "Agrofast - Registro",
+    "meta_description_1": "Cree una nueva cuenta en Agrofast"
+  },
+  "AuthCode": {
+    "meta_title": "Agrofast - Código de Autenticación",
+    "meta_description_1": "Ingrese el código de autenticación enviado a su teléfono"
+  },
+  "ForgotPass": {
+    "meta_title": "Agrofast - Olvidé mi Contraseña",
+    "meta_description_1": "Recupere su contraseña de Agrofast"
+  },
+  "RecoverToken": {
+    "meta_title": "Agrofast - Recuperar contraseña",
+    "meta_description_1": "Ingrese el token de recuperación enviado a su teléfono"
+  },
+  "NotFound": {
+    "meta_title": "Agrofast - Página no encontrada",
+    "meta_description_1": "Página no encontrada",
+
+    "page_not_found": "Página no encontrada",
+    "as_expected": "¿Como se esperaba?",
+    "back_to_safety": "Volver a la seguridad"
+  },
+  "InternalError": {
+    "meta_title": "Agrofast - Error interno",
+    "meta_description_1": "Ocurrió un error",
+
+    "an_error_has_occurred": "Ocurrió un error interno"
+  },
+
   "Application": {
     "slogan": "TRANSPORTANDO SU PRODUCCIÓN",
     "index_init_button": "¡Vamos allá!"
@@ -6,7 +45,38 @@
   "Advertizement": {
     "self_title1": "Transportes agrícolas",
     "self_subtitle1": "Agilidad en el transporte de maquinaria agrícola",
-    "self_description1": "Revolucionando la forma en que transportas tus máquinas agrícolas"
+    "self_description1": "Revolucionando la forma en que transporta sus máquinas agrícolas"
+  },
+  "Responses": {
+    "user_already_exists": "Ya existe un usuario con este número de teléfono",
+    "user_not_found": "Usuario no encontrado",
+    "not_implemented": "No implementado",
+    "no_images_found": "No se encontraron imágenes",
+    "user_not_authenticated": "Usuario no autenticado",
+    "failed_to_upload_image": "Error al subir la imagen",
+    "failed_to_save_image_record": "Error al guardar el registro de la imagen",
+    "image_uploaded_successfully": "Imagen subida con éxito",
+    "user_found": "Usuario encontrado",
+    "error_creating_user": "Error al crear usuario",
+    "user_created_successfully": "Usuario creado con éxito",
+    "user_updated_successfully": "Usuario actualizado con éxito",
+    "invalid_authentication_code": "Código de autenticación inválido",
+    "user_authenticated_successfully": "Usuario autenticado con éxito",
+    "authentication_code_resent": "Código de autenticación reenviado",
+    "failed_to_resend_code": "Error al reenviar el código",
+    "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
+    "wrong_password": "Contraseña incorrecta",
+    "login_successful_authentication_code_sent": "Inicio de sesión exitoso, código de autenticación enviado",
+    "failed_to_send_authentication_code": "Error al enviar el código de autenticación",
+    "password_not_coincide_message": "Las contraseñas no coinciden",
+    "user_number_required_message": "El número de teléfono es obligatorio",
+    "user_invalid_number_message": "Número de teléfono inválido",
+    "user_email_required_message": "El correo electrónico es obligatorio",
+    "user_invalid_email_message": "Correo electrónico inválido",
+    "user_password_required_message": "La contraseña es obligatoria",
+    "user_password_length_message": "La contraseña debe tener al menos 8 caracteres",
+    "user_password_character_message": "Debe contener letras mayúsculas, minúsculas y números",
+    "authentication_code_attempts_exceeded": "Intentos de código de autenticación excedidos"
   },
   "Base": {
     "language": "Español",
@@ -22,10 +92,13 @@
     "continue": "Continuar",
 
     "error": "Error",
-    "warning": "Aviso",
+    "warning": "Advertencia",
     "wait": "Espere",
     "cancel": "Cancelar",
     "search": "Buscar",
+
+    "required_field": "Campo obligatorio",
+    "fill_this_field": "Rellene este campo",
 
     "name": "Nombre",
     "surname": "Apellido",
@@ -35,17 +108,17 @@
     "new_password": "Nueva contraseña",
     "new_password_confirm": "Confirmar nueva contraseña",
 
-    "write_code": "Escriba el código",
+    "write_code": "Ingrese el código",
 
-    "write_name": "Escriba su nombre",
-    "write_surname": "Escriba su apellido",
-    "write_number": "Escriba su número",
-    "write_password": "Escriba su contraseña",
+    "write_name": "Ingrese su nombre",
+    "write_surname": "Ingrese su apellido",
+    "write_number": "Ingrese su número",
+    "write_password": "Ingrese su contraseña",
     "write_password_confirm": "Confirme su contraseña",
-    "write_new_password": "Escriba su nueva contraseña",
+    "write_new_password": "Ingrese su nueva contraseña",
     "write_new_password_confirm": "Confirme su nueva contraseña",
 
-    "write_your_number_info": "Escriba su número de teléfono con DDD.",
+    "write_your_number_info": "Escriba su número de teléfono con DDD.", 
     "write_your_number_info2": "Su número de teléfono debe estar formateado de la siguiente manera:",
 
     "inform_your_number": "Informe su número de teléfono",
@@ -59,16 +132,16 @@
     "common_user": "Usuario Común",
 
     "machinery": "Maquinaria",
-    "carrier": "Transportador",
+    "carrier": "Transportista",
     "payment": "Formas de Pago",
 
     "none_registered": "Ninguno registrado",
 
-    "carrier_profile": "Perfil del transportador",
+    "carrier_profile": "Perfil del transportista",
 
     "no_country_found": "No se encontró ningún país",
 
-    "inform_telephone_number": "Escriba su número de celular",
+    "inform_telephone_number": "Ingrese su número de celular",
 
     "terms_of_use_agreement": "Estoy de acuerdo con los Términos de Uso y reconozco que he leído la Política de Privacidad.",
     "sign_in_terms_agreement": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
@@ -77,9 +150,10 @@
     "forgot_password": "Olvidé mi contraseña",
     "create_account": "Crear una cuenta",
 
-    "welcome_again": "Bienvenido de nuevo, {name}!",
-    "enter_account": "Entrar a una cuenta",
-    "enter_existing_account": "Entrar con una cuenta existente",
+    "welcome_again": "¡Bienvenido de nuevo, {name}!",
+    "enter_account": "Ingresar a una cuenta",
+    "enter_another_account": "Ingresar a otra cuenta",
+    "enter_existing_account": "Ingresar con una cuenta existente",
     "create_new_password": "Cree una nueva contraseña segura",
     "leave": "Salir",
     "logout": "Cerrar sesión",
@@ -101,32 +175,5 @@
     "unable_to_resend_verify_code_description": "No se pudo reenviar el código. Inténtelo de nuevo más tarde.",
     "wait_until_verify_code_timeout_description": "Espere hasta el final del tiempo para reenviar el código.",
     "invalid_verification_code_description": "Código inválido, inténtelo de nuevo."
-  },
-  "Messages": {
-    "user_name_required": "El nombre del usuario es obligatorio",
-    "user_surname_required": "El apellido del usuario es obligatorio",
-    "password_not_coincide": "Las contraseñas no coinciden",
-    "password_confirm_required": "La contraseña no debe estar vacía",
-    "user_number_required": "El número de teléfono del usuario es obligatorio",
-    "user_invalid_number": "Número de teléfono inválido",
-    "user_email_required": "El correo electrónico del usuario es obligatorio",
-    "user_invalid_email": "Correo electrónico del usuario inválido",
-    "user_password_length": "La contraseña debe tener al menos 8 caracteres",
-    "user_password_character": "La contraseña debe contener al menos una letra",
-    "invalid_password": "La contraseña proporcionada es incorrecta",
-    "incorrect_user_password": "La contraseña proporcionada es incorrecta",
-
-    "carrier_name_required": "El nombre del vehículo transportador es obligatorio",
-    "carrier_model_required": "El modelo del vehículo transportador es obligatorio",
-    "carrier_plate_required": "La placa del vehículo transportador es obligatoria",
-
-    "machinery_name_required": "El nombre de la maquinaria es obligatorio",
-    "machinery_model_required": "El modelo de la maquinaria es obligatorio",
-    "machinery_plate_required": "La placa de la maquinaria es obligatoria",
-
-    "offer_price_required": "Es necesario informar el precio de la oferta",
-
-    "request_origin_required": "Es necesario informar el origen de la solicitud",
-    "request_destination_required": "Es necesario informar el destino de la solicitud"
   }
 }

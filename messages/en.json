@@ -1,4 +1,43 @@
 {
+  "Index": {
+    "meta_title": "Agrofast - Agricultural Machinery Transport",
+    "meta_description_1": "Fast and safe agricultural machinery transport"
+  },
+  "Login": {
+    "meta_title": "Agrofast - Login",
+    "meta_description_1": "Log in to access your Agrofast account"
+  },
+  "SignUp": {
+    "meta_title": "Agrofast - Sign Up",
+    "meta_description_1": "Create a new Agrofast account"
+  },
+  "AuthCode": {
+    "meta_title": "Agrofast - Authentication Code",
+    "meta_description_1": "Enter the authentication code sent to your phone"
+  },
+  "ForgotPass": {
+    "meta_title": "Agrofast - Forgot My Password",
+    "meta_description_1": "Recover your Agrofast password"
+  },
+  "RecoverToken": {
+    "meta_title": "Agrofast - Recover Password",
+    "meta_description_1": "Enter the recovery token sent to your phone"
+  },
+  "NotFound": {
+    "meta_title": "Agrofast - Page Not Found",
+    "meta_description_1": "Page not found",
+
+    "page_not_found": "Page not found",
+    "as_expected": "As expected?",
+    "back_to_safety": "Back to safety"
+  },
+  "InternalError": {
+    "meta_title": "Agrofast - Internal Error",
+    "meta_description_1": "An error occurred",
+
+    "an_error_has_occurred": "An internal error occurred"
+  },
+
   "Application": {
     "slogan": "TRANSPORTING YOUR PRODUCTION",
     "index_init_button": "Let's go!"
@@ -7,6 +46,37 @@
     "self_title1": "Agricultural Transport",
     "self_subtitle1": "Agility in agricultural machinery transport",
     "self_description1": "Revolutionizing the way you transport your agricultural machines"
+  },
+  "Responses": {
+    "user_already_exists": "A user with this phone number already exists",
+    "user_not_found": "User not found",
+    "not_implemented": "Not implemented",
+    "no_images_found": "No images found",
+    "user_not_authenticated": "User not authenticated",
+    "failed_to_upload_image": "Failed to upload image",
+    "failed_to_save_image_record": "Failed to save image record",
+    "image_uploaded_successfully": "Image uploaded successfully",
+    "user_found": "User found",
+    "error_creating_user": "Error creating user",
+    "user_created_successfully": "User created successfully",
+    "user_updated_successfully": "User updated successfully",
+    "invalid_authentication_code": "Invalid authentication code",
+    "user_authenticated_successfully": "User authenticated successfully",
+    "authentication_code_resent": "Authentication code resent",
+    "failed_to_resend_code": "Failed to resend code",
+    "invalid_login_credentials": "Invalid login credentials",
+    "wrong_password": "Wrong password",
+    "login_successful_authentication_code_sent": "Login successful, authentication code sent",
+    "failed_to_send_authentication_code": "Failed to send authentication code",
+    "password_not_coincide_message": "Passwords do not match",
+    "user_number_required_message": "Phone number is required",
+    "user_invalid_number_message": "Invalid phone number",
+    "user_email_required_message": "Email is required",
+    "user_invalid_email_message": "Invalid email",
+    "user_password_required_message": "Password is required",
+    "user_password_length_message": "Password must be at least 8 characters long",
+    "user_password_character_message": "Must contain uppercase, lowercase letters, and numbers",
+    "authentication_code_attempts_exceeded": "Authentication code attempts exceeded"
   },
   "Base": {
     "language": "English",
@@ -27,6 +97,9 @@
     "cancel": "Cancel",
     "search": "Search",
 
+    "required_field": "Required field",
+    "fill_this_field": "Fill this field",
+
     "name": "Name",
     "surname": "Surname",
     "number": "Number",
@@ -45,7 +118,7 @@
     "write_new_password": "Enter your new password",
     "write_new_password_confirm": "Confirm your new password",
 
-    "write_your_number_info": "Write your phone number with area code.",
+    "write_your_number_info": "Write your phone number with area code.", 
     "write_your_number_info2": "Your phone number should be formatted as follows:",
 
     "inform_your_number": "Enter your phone number",
@@ -70,7 +143,7 @@
 
     "inform_telephone_number": "Enter your mobile number",
 
-    "terms_of_use_agreement": "I agree with the Terms of Use and acknowledge that I have read the Privacy Policy.",
+    "terms_of_use_agreement": "I agree to the Terms of Use and acknowledge that I have read the Privacy Policy.",
     "sign_in_terms_agreement": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
 
     "remember_me": "Remember me",
@@ -79,11 +152,12 @@
 
     "welcome_again": "Welcome back, {name}!",
     "enter_account": "Enter an account",
+    "enter_another_account": "Enter another account",
     "enter_existing_account": "Enter with an existing account",
     "create_new_password": "Create a new secure password",
     "leave": "Leave",
     "logout": "Logout",
-    "logout_confirm": "Do you really want to leave?",
+    "logout_confirm": "Do you really want to logout?",
 
     "default_error_message": "An unexpected error occurred",
 
@@ -95,38 +169,11 @@
     "resend_code": "Resend code"
   },
   "Descriptions": {
-    "verify_code_sent_description": "A new code has been sent to your number.",
+    "verify_code_sent_description": "A new code was sent to your number.",
     "verify_code_sent_again_description": "Code sent again.",
     "session_expired_description": "Your session has expired.",
     "unable_to_resend_verify_code_description": "Unable to resend the code. Try again later.",
-    "wait_until_verify_code_timeout_description": "Wait until the time ends to resend the code.",
+    "wait_until_verify_code_timeout_description": "Wait until the time runs out to resend the code.",
     "invalid_verification_code_description": "Invalid code, try again."
-  },
-  "Messages": {
-    "user_name_required": "User name is required",
-    "user_surname_required": "User surname is required",
-    "password_not_coincide": "Passwords do not match",
-    "password_confirm_required": "Password must not be empty",
-    "user_number_required": "User phone number is required",
-    "user_invalid_number": "Invalid phone number",
-    "user_email_required": "User email is required",
-    "user_invalid_email": "Invalid user email",
-    "user_password_length": "Password must be at least 8 characters long",
-    "user_password_character": "Password must contain at least one letter",
-    "invalid_password": "The provided password is incorrect",
-    "incorrect_user_password": "The provided password is incorrect",
-
-    "carrier_name_required": "Carrier vehicle name is required",
-    "carrier_model_required": "Carrier vehicle model is required",
-    "carrier_plate_required": "Carrier vehicle plate is required",
-
-    "machinery_name_required": "Machinery name is required",
-    "machinery_model_required": "Machinery model is required",
-    "machinery_plate_required": "Machinery plate is required",
-
-    "offer_price_required": "Offer price is required",
-
-    "request_origin_required": "Request origin is required",
-    "request_destination_required": "Request destination is required"
   }
 }

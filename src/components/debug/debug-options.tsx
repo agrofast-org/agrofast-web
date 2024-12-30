@@ -5,12 +5,14 @@ import {
   PopoverTrigger,
   Select,
   SelectItem,
+  Switch,
 } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { LazyThemeSwitcher } from "../ui/theme-switcher";
 import dynamic from "next/dynamic";
 import { Bug01Icon } from "@hugeicons/react";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
+import { useOverlay } from "@/contexts/overlay-provider";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -62,12 +64,14 @@ const RouteSelector = () => {
 };
 
 const DebugOptions = () => {
+  const { isLoading, setIsLoading } = useOverlay();
+
   if (process.env.NODE_ENV !== "development") {
     return null;
   }
 
   return (
-    <div className="right-4 bottom-4 z-50 fixed">
+    <div className="right-4 bottom-4 z-[150] fixed">
       <Popover radius="sm" placement="top-end" offset={8}>
         <PopoverTrigger>
           <Button size="md" color="success" isIconOnly>
@@ -85,6 +89,18 @@ const DebugOptions = () => {
               <ThemeSwitcher size="sm" className="text-medium" />
               <hr className="flex-1 mx-2 border-dashed" />
               <p>Change theme</p>
+            </div>
+            <div className="flex flex-row justify-between items-center text-tiny">
+              <Switch
+                size="sm"
+                defaultChecked={isLoading}
+                onChange={(value) => {
+                  setIsLoading(value.target.checked);
+                }}
+                className="text-medium"
+              />
+              <hr className="flex-1 mx-2 border-dashed" />
+              <p>Loading</p>
             </div>
             <div className="flex flex-row justify-between items-center text-tiny">
               <LanguageSelector size="sm" />

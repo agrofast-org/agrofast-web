@@ -5,7 +5,6 @@ import {
   Checkbox,
   Code,
   Form,
-  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -18,16 +17,46 @@ import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import api from "@/service/api";
+import { useOverlay } from "@/contexts/overlay-provider";
+import { useUser } from "@/contexts/auth-provider";
+import Link from "next/link";
+import { useLanguage } from "@/contexts/language-provider";
 
 export default function Login() {
   const router = useRouter();
   const t = useTranslations();
+  const { setIsLoading } = useOverlay();
+  const { translateResponse } = useLanguage();
+  const { setUser, setTempToken } = useUser();
 
   const [number, setNumber] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("handleSubmit");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+
+    setIsLoading(true);
+    api
+      .post("/user/login", data)
+      .then(({ data }) => {
+        api.interceptors.request.use((config) => {
+          config.headers.Authorization = `Bearer ${data.token}`;
+          return config;
+        });
+        setTempToken(data.token);
+        setUser(data.user);
+        router.push(`/auth-code`);
+      })
+      .catch(({ response: { data: error } }) => {
+        const fields = translateResponse(error.fields);
+        setErrors(fields);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -71,6 +100,7 @@ export default function Login() {
             <Form
               className="flex flex-col flex-1 gap-4"
               validationBehavior="native"
+              validationErrors={errors}
               onSubmit={handleSubmit}
             >
               <div className="flex flex-col flex-1 md:flex-auto gap-4 w-full">
@@ -114,7 +144,7 @@ export default function Login() {
                   }
                   label={t("Base.number")}
                   labelPlacement="outside"
-                  name="text"
+                  name="number"
                   placeholder={t("Base.write_number")}
                   value={number}
                   onChange={(e) => setNumber(numberInputMask(e.target.value))}
@@ -132,13 +162,17 @@ export default function Login() {
                   variant="bordered"
                 />
                 <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-2 px-1 py-2 w-full">
-                  <Checkbox defaultSelected name="remember" size="sm">
+                  <Checkbox
+                    defaultSelected
+                    name="remember"
+                    value="true"
+                    size="sm"
+                  >
                     {t("Base.remember_me")}
                   </Checkbox>
                   <Link
-                    className="text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
-                    href="/forgot-password"
-                    size="sm"
+                    href="/forgot-pass"
+                    className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
                   >
                     {t("Base.forgot_password")}
                   </Link>
@@ -149,7 +183,10 @@ export default function Login() {
                   {t("Base.enter")}
                 </Button>
                 <p className="text-center text-small">
-                  <Link href="/sign-in" size="sm">
+                  <Link
+                    href="/sign-up"
+                    className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
+                  >
                     {t("Base.create_account")}
                   </Link>
                 </p>

@@ -5,6 +5,7 @@ import Head from "next/head";
 
 export default function Index() {
   const t = useTranslations();
+
   return (
     <>
       <Head>

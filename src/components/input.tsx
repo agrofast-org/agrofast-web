@@ -6,12 +6,15 @@ import {
 } from "@nextui-org/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export interface InputProps extends NextUIInputProps {
   taggableVisibility?: boolean;
+  error?: string | Record<string, string>;
 }
 
 const Input = ({ taggableVisibility, ...props }: InputProps) => {
+  const t = useTranslations();
   const [isPassVisible, setIsPassVisible] = useState(false);
 
   const togglePassVisibility = () => setIsPassVisible(!isPassVisible);
@@ -68,6 +71,15 @@ const Input = ({ taggableVisibility, ...props }: InputProps) => {
         )
       }
       {...props}
+      validate={(value) => {
+        if (props.isRequired && !value) {
+          return t("Base.fill_this_field");
+        }
+        if (props.validate) {
+          return props.validate(value);
+        }
+        return null;
+      }}
       type={isPassVisible ? "text" : props.type}
     />
   );

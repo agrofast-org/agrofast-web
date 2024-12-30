@@ -1,5 +1,5 @@
 import useLocalStorage from "@/lib/useLocalstorage";
-import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 import React, { createContext, useContext, ReactNode, useEffect } from "react";
 
 type Language = "pt-BR" | "en" | "es";
@@ -7,6 +7,7 @@ type Language = "pt-BR" | "en" | "es";
 interface LanguageContextProps {
   language: Language;
   setLanguage: (language: Language) => void;
+  translateResponse: (fields: Record<string, string>) => Record<string, string>;
 }
 
 const LanguageContext = createContext<LanguageContextProps | undefined>(
@@ -24,19 +25,40 @@ export const useLanguage = (): LanguageContextProps => {
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const router = useRouter();
+  const t = useTranslations();
   const [language, setLanguage] = useLocalStorage<Language>(
     "language",
     "pt-BR"
   );
 
+  const translateResponse = (
+    fields: Record<string, string | string[]> | undefined
+  ): Record<string, string> => {
+    if (!fields) return {};
+    return (
+      Object.keys(fields).reduce<Record<string, string>>(
+        (acc, key) => {
+          const value = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          acc[key] = t(`Responses.${value}` as any);
+          return acc;
+        },
+        {}
+      ) ?? {}
+    );
+  };
+
   useEffect(() => {
-    router.push(router.pathname, undefined, { locale: language });
-  }, [router, language]);
+    document.documentElement.setAttribute("lang", language);
+  }, [language]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage }}>
-      {children}
-    </LanguageContext.Provider>
+    <>
+      <LanguageContext.Provider
+        value={{ language, setLanguage, translateResponse }}
+      >
+        {children}
+      </LanguageContext.Provider>
+    </>
   );
 };

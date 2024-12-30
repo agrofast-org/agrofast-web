@@ -1,16 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://api.example.com",
-  timeout: 10000,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -27,16 +26,11 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          break;
-        case 403:
-          break;
-        case 500:
-          break;
-        default:
-          break;
-      }
+      console.error('API Error:', error.response.data);
+    } else if (error.request) {
+      console.error('Network Error:', error.request);
+    } else {
+      console.error('Error:', error.message);
     }
     return Promise.reject(error);
   }

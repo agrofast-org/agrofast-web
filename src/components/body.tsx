@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Header from "./header";
 import { cn } from "@/lib/utils";
+import Loading from "./loading";
 
 interface BodyProps {
   className?: string;
@@ -11,6 +12,7 @@ interface BodyProps {
 const Body: React.FC<BodyProps> = ({ className, children, hideHeader }) => {
   return (
     <>
+      <Loading />
       <Head>
         <title>Agrofast</title>
       </Head>

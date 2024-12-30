@@ -1,6 +1,6 @@
-import en from "../../messages/pt-BR.json";
+import ptBR from "../../messages/pt-BR.json";
 
-type Messages = typeof en;
+type Messages = typeof ptBR;
 
 declare global {
   // Use type safe message keys with `next-intl`
