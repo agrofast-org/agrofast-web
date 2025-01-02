@@ -1,19 +1,28 @@
-import { Toaster } from "react-hot-toast";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { Toaster } from "sonner";
 
 interface ToasterProviderProps {
   children: React.ReactNode;
 }
 
 const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
+  const { theme } = useTheme();
+
   return (
     <>
       <Toaster
+        cn={cn}
         position="top-right"
-        // gutter={8}
-        // containerStyle={{ zIndex: 200 }}
+        theme={theme === "dark" ? "dark" : "light"}
         toastOptions={{
-          className: "bg-slate-50 dark:bg-neutral-900",
+          duration: 750000,
+          classNames: {
+            closeButton: "!top-3 !right-3 rounded-lg"
+          }
         }}
+        closeButton
+        richColors
       />
       {children}
     </>

@@ -5,12 +5,16 @@ import {
   Checkbox,
   Code,
   Form,
+  Modal,
+  ModalContent,
+  ModalFooter,
   Popover,
   PopoverContent,
   PopoverTrigger,
   Spacer,
+  useDisclosure,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl, numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
@@ -23,16 +27,32 @@ import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useUser } from "@/contexts/auth-provider";
 import Link from "next/link";
+import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 
 export default function SignIn() {
   const router = useRouter();
   const t = useTranslations();
+  const pt = useTranslations("Pages.SignUp");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { translateResponse } = useLanguage();
   const { setUser, setTempToken } = useUser();
   const { setIsLoading } = useOverlay();
 
   const [number, setNumber] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [modalContent, setModalContent] = useState<JSX.Element | undefined>();
+
+  const openTermsOfUse = () => {
+    setModalContent(<TermsOfUse />);
+    onOpen();
+  };
+
+  const openPrivacyPolicy = () => {
+    setModalContent(<PrivacyPolicy />);
+    onOpen();
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,20 +82,39 @@ export default function SignIn() {
   return (
     <>
       <Head>
-        <title>{t("SignUp.meta_title")}</title>
-        <meta name="description" content={t("SignUp.meta_description_1")} />
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
       </Head>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={isOpen}
+        size="2xl"
+        onClose={onClose}
+      >
+        <ModalContent className="m-1 md:m-0 max-h-[calc(100vh-8px)] md:max-h-[calc(100vh-4rem)]">
+          {(onClose) => (
+            <>
+              {modalContent}
+              <ModalFooter>
+                <Button color="primary" onPress={onClose}>
+                  {t("UI.buttons.understood")}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Body className="flex flex-row" hideHeader>
         <div className="lg:flex flex-col flex-[4] justify-center items-center hidden">
           <section className="flex flex-col items-start gap-4 p-4">
             <h1 className="font-light font-mono text-2xl text-gray-700 dark:text-gray-200">
-              {t("Advertizement.self_title1")}
+              {t("Advertizement.titles.primary")}
             </h1>
             <h1 className="max-w-md font-bold font-inter text-4xl text-gray-700 dark:text-gray-200">
-              {t("Advertizement.self_subtitle1")}
+              {t("Advertizement.subtitles.primary")}
             </h1>
             <p className="text-gray-700 text-sm dark:text-gray-200">
-              {t("Advertizement.self_description1")}
+              {t("Advertizement.descriptions.primary")}
             </p>
             <Button
               color="success"
@@ -84,7 +123,7 @@ export default function SignIn() {
                 router.push(`${getPortfolioUrl()}/${router.locale}/about`);
               }}
             >
-              {t("Base.see_more")}
+              {t("UI.redirects.see_more")}
               <ArrowUpRight01Icon />
             </Button>
           </section>
@@ -95,7 +134,7 @@ export default function SignIn() {
               <Agrofast.Logo className="w-40 h-10" />
             </div>
             <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
-              {t("Base.create_account")}
+              {t("UI.titles.create_account")}
             </p>
             <Form
               className="flex flex-col gap-4"
@@ -106,10 +145,10 @@ export default function SignIn() {
               <Input
                 isRequired
                 className="text-gray-700 dark:text-gray-200"
-                label={t("Base.name")}
+                label={t("UI.labels.name")}
                 labelPlacement="outside"
                 name="name"
-                placeholder={t("Base.write_name")}
+                placeholder={t("UI.placeholders.write_name")}
                 type="name"
                 autoCapitalize="words"
                 variant="bordered"
@@ -117,10 +156,10 @@ export default function SignIn() {
               <Input
                 isRequired
                 className="text-gray-700 dark:text-gray-200"
-                label={t("Base.surname")}
+                label={t("UI.labels.surname")}
                 labelPlacement="outside"
                 name="surname"
-                placeholder={t("Base.write_surname")}
+                placeholder={t("UI.placeholders.write_surname")}
                 type="name"
                 autoCapitalize="words"
                 variant="bordered"
@@ -148,13 +187,13 @@ export default function SignIn() {
                     <PopoverContent>
                       <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
                         <div className="font-bold text-small">
-                          {t("Base.write_number")}
+                          {t("UI.tooltips.write_number.title")}
                         </div>
                         <div className="text-tiny">
-                          {t("Base.write_your_number_info")}
+                          {t("UI.tooltips.write_number.info")}
                         </div>
                         <div className="text-tiny">
-                          {t("Base.write_your_number_info2")}
+                          {t("UI.tooltips.write_number.example")}
                           <Code className="px-1 p-0.5 text-tiny">
                             +55 01 23456-7890
                           </Code>
@@ -163,7 +202,7 @@ export default function SignIn() {
                     </PopoverContent>
                   </Popover>
                 }
-                label={t("Base.number")}
+                label={t("UI.labels.number")}
                 labelPlacement="outside"
                 name="number"
                 placeholder="+55 99 99999-9999"
@@ -176,10 +215,10 @@ export default function SignIn() {
                 isRequired
                 taggableVisibility
                 className="text-gray-700 dark:text-gray-200"
-                label={t("Base.password")}
+                label={t("UI.labels.password")}
                 labelPlacement="outside"
                 name="password"
-                placeholder={t("Base.write_password")}
+                placeholder={t("UI.placeholders.write_password")}
                 type="password"
                 variant="bordered"
               />
@@ -187,29 +226,50 @@ export default function SignIn() {
                 isRequired
                 taggableVisibility
                 className="text-gray-700 dark:text-gray-200"
-                label={t("Base.password_confirm")}
+                label={t("UI.labels.password_confirm")}
                 labelPlacement="outside"
                 name="password_confirm"
-                placeholder={t("Base.write_password_confirm")}
+                placeholder={t("UI.placeholders.write_password_confirm")}
                 type="password"
                 variant="bordered"
               />
               <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-2 px-1 py-2 w-full">
                 <Checkbox
-                  defaultSelected
                   name="terms_of_use_agreement"
-                  value="true"
+                  value="false"
                   size="sm"
-                >
-                  {t("Base.terms_of_use_agreement")}
-                </Checkbox>
+                ></Checkbox>
+                <p className="text-gray-700 text-small text-start dark:text-gray-200">
+                  {t.rich("Legal.agreements.accept_policy_and_terms", {
+                    use: (chunks) => (
+                      <span
+                        onClick={() => {
+                          openTermsOfUse();
+                        }}
+                        className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
+                      >
+                        {chunks}
+                      </span>
+                    ),
+                    privacy: (chunks) => (
+                      <span
+                        onClick={() => {
+                          openPrivacyPolicy();
+                        }}
+                        className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
+                      >
+                        {chunks}
+                      </span>
+                    ),
+                  })}
+                </p>
               </div>
               <Spacer y={4} />
               <p className="text-gray-700 text-small text-start dark:text-gray-200">
-                {t("Base.sign_in_terms_agreement")}
+                {t("Legal.agreements.sign_in_terms")}
               </p>
               <Button className="w-full" color="primary" type="submit">
-                {t("Base.continue")}
+                {t("UI.buttons.continue")}
               </Button>
             </Form>
             <p className="text-center text-small">
@@ -217,7 +277,7 @@ export default function SignIn() {
                 href="/login"
                 className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
               >
-                {t("Base.enter_existing_account")}
+                {t("UI.redirects.enter_existing_account")}
               </Link>
             </p>
           </div>

@@ -1,179 +1,188 @@
 {
-  "Index": {
-    "meta_title": "Agrofast - Agricultural Machinery Transport",
-    "meta_description_1": "Fast and safe agricultural machinery transport"
+  "Pages": {
+    "Index": {
+      "meta": {
+        "title": "Agrofast - Agricultural Machinery Transport",
+        "description": "Fast and safe agricultural machinery transport"
+      }
+    },
+    "Login": {
+      "meta": {
+        "title": "Agrofast - Login",
+        "description": "Log in to access your Agrofast account"
+      }
+    },
+    "SignUp": {
+      "meta": {
+        "title": "Agrofast - Sign Up",
+        "description": "Create a new account on Agrofast"
+      }
+    },
+    "AuthCode": {
+      "meta": {
+        "title": "Agrofast - Authentication Code",
+        "description": "Enter the authentication code sent to your phone"
+      }
+    },
+    "ForgotPass": {
+      "meta": {
+        "title": "Agrofast - Forgot My Password",
+        "description": "Recover your Agrofast password"
+      }
+    },
+    "RecoverToken": {
+      "meta": {
+        "title": "Agrofast - Recover Password",
+        "description": "Enter the recovery token sent to your phone"
+      }
+    },
+    "NotFound": {
+      "meta": {
+        "title": "Agrofast - Page Not Found",
+        "description": "Page not found"
+      },
+      "messages": {
+        "page_not_found": "Page not found",
+        "as_expected": "As expected?",
+        "back_to_safety": "Back to safety"
+      }
+    },
+    "InternalError": {
+      "meta": {
+        "title": "Agrofast - Internal Error",
+        "description": "An error occurred"
+      },
+      "messages": {
+        "an_error_has_occurred": "An internal error occurred"
+      }
+    }
   },
-  "Login": {
-    "meta_title": "Agrofast - Login",
-    "meta_description_1": "Log in to access your Agrofast account"
+  "UI": {
+    "tooltips": {
+      "write_number": {
+        "title": "Enter your number",
+        "info": "Write your phone number with area code.",
+        "example": "Your phone number should be formatted as follows: +55 01 23456-7890"
+      }
+    },
+    "info": {
+      "verification_code_sent": "A verification code has been sent to the number: ",
+      "did_not_received_code": "Didn't receive the code?"
+    },
+    "buttons": {
+      "next": "Next",
+      "enter": "Enter",
+      "continue": "Continue",
+      "cancel": "Cancel",
+      "search": "Search",
+      "understood": "Understood",
+      "resend_code": "Resend code"
+    },
+    "labels": {
+      "code": "Code",
+      "name": "Name",
+      "surname": "Surname",
+      "number": "Number",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "new_password": "New password",
+      "new_password_confirm": "Confirm new password"
+    },
+    "placeholders": {
+      "write_code": "Enter the code",
+      "write_name": "Enter your name",
+      "write_surname": "Enter your surname",
+      "write_number": "Enter your number",
+      "write_password": "Enter your password",
+      "write_password_confirm": "Confirm your password",
+      "write_new_password": "Enter your new password",
+      "write_new_password_confirm": "Confirm your new password"
+    },
+    "messages": {
+      "required_field": "Required field",
+      "fill_this_field": "Fill in this field"
+    },
+    "titles": {
+      "welcome_again": "Welcome back, {name}!",
+      "create_account": "Create account",
+      "create_new_password": "Create new password",
+      "inform_your_number": "Inform your number"
+    },
+    "checkboxes": {
+      "remember_me": "Remember me"
+    },
+    "redirects": {
+      "see_more": "See more",
+      "about": "About",
+      "profile": "Profile",
+      "configs": "Settings",
+      "home": "Home",
+      "application": "Application",
+      "create_account": "Create an account",
+      "forgot_password": "Forgot my password",
+      "enter_another_account": "Enter another account",
+      "enter_existing_account": "Enter an existing account"
+    }
   },
-  "SignUp": {
-    "meta_title": "Agrofast - Sign Up",
-    "meta_description_1": "Create a new Agrofast account"
+  "Messages": {
+    "errors": {
+      "default": "An unexpected error occurred. Please try again later.",
+      "not_implemented": "Not implemented",
+      "user_not_found": "User not found",
+      "error_creating_user": "Error creating user",
+      "user_already_exists": "User already exists",
+      "invalid_login_credentials": "Invalid login credentials",
+      "wrong_password": "Incorrect password",
+      "user_not_authenticated": "User not authenticated",
+      "invalid_authentication_code": "Invalid authentication code",
+      "authentication_code_attempts_exceeded": "Authentication code attempts exceeded",
+      "incorrect_authentication_code": "Incorrect authentication code",
+      "failed_to_resend_code": "Failed to resend code",
+      "failed_to_upload_image": "Failed to upload image",
+      "failed_to_save_image_record": "Failed to save image record",
+      "no_images_found": "No images found"
+    },
+    "success": {
+      "user_created_successfully": "User created successfully",
+      "login_successful": "Login successful",
+      "user_authenticated_successfully": "User authenticated successfully",
+      "authentication_code_resent": "Authentication code resent",
+      "image_uploaded_successfully": "Image uploaded successfully",
+      "user_found": "User found"
+    },
+    "info": {
+      "wait_resend_code_timeout": "Wait {seconds} seconds to resend the code."
+    }
   },
-  "AuthCode": {
-    "meta_title": "Agrofast - Authentication Code",
-    "meta_description_1": "Enter the authentication code sent to your phone"
-  },
-  "ForgotPass": {
-    "meta_title": "Agrofast - Forgot My Password",
-    "meta_description_1": "Recover your Agrofast password"
-  },
-  "RecoverToken": {
-    "meta_title": "Agrofast - Recover Password",
-    "meta_description_1": "Enter the recovery token sent to your phone"
-  },
-  "NotFound": {
-    "meta_title": "Agrofast - Page Not Found",
-    "meta_description_1": "Page not found",
-
-    "page_not_found": "Page not found",
-    "as_expected": "As expected?",
-    "back_to_safety": "Back to safety"
-  },
-  "InternalError": {
-    "meta_title": "Agrofast - Internal Error",
-    "meta_description_1": "An error occurred",
-
-    "an_error_has_occurred": "An internal error occurred"
-  },
-
   "Application": {
     "slogan": "TRANSPORTING YOUR PRODUCTION",
     "index_init_button": "Let's go!"
   },
   "Advertizement": {
-    "self_title1": "Agricultural Transport",
-    "self_subtitle1": "Agility in agricultural machinery transport",
-    "self_description1": "Revolutionizing the way you transport your agricultural machines"
+    "titles": {
+      "primary": "Agricultural transport"
+    },
+    "subtitles": {
+      "primary": "Agility in agricultural machinery transport"
+    },
+    "descriptions": {
+      "primary": "Revolutionizing the way you transport your agricultural machines"
+    }
   },
-  "Responses": {
-    "user_already_exists": "A user with this phone number already exists",
-    "user_not_found": "User not found",
-    "not_implemented": "Not implemented",
-    "no_images_found": "No images found",
-    "user_not_authenticated": "User not authenticated",
-    "failed_to_upload_image": "Failed to upload image",
-    "failed_to_save_image_record": "Failed to save image record",
-    "image_uploaded_successfully": "Image uploaded successfully",
-    "user_found": "User found",
-    "error_creating_user": "Error creating user",
-    "user_created_successfully": "User created successfully",
-    "user_updated_successfully": "User updated successfully",
-    "invalid_authentication_code": "Invalid authentication code",
-    "user_authenticated_successfully": "User authenticated successfully",
-    "authentication_code_resent": "Authentication code resent",
-    "failed_to_resend_code": "Failed to resend code",
-    "invalid_login_credentials": "Invalid login credentials",
-    "wrong_password": "Wrong password",
-    "login_successful_authentication_code_sent": "Login successful, authentication code sent",
-    "failed_to_send_authentication_code": "Failed to send authentication code",
-    "password_not_coincide_message": "Passwords do not match",
-    "user_number_required_message": "Phone number is required",
-    "user_invalid_number_message": "Invalid phone number",
-    "user_email_required_message": "Email is required",
-    "user_invalid_email_message": "Invalid email",
-    "user_password_required_message": "Password is required",
-    "user_password_length_message": "Password must be at least 8 characters long",
-    "user_password_character_message": "Must contain uppercase, lowercase letters, and numbers",
-    "authentication_code_attempts_exceeded": "Authentication code attempts exceeded"
+  "Language": {
+    "current": "English",
+    "flag": "🇺🇸"
   },
-  "Base": {
-    "language": "English",
-    "flag": "🇺🇸",
-
-    "about": "About",
-    "application": "Application",
-
-    "see_more": "See more",
-
-    "next": "Next",
-    "enter": "Enter",
-    "continue": "Continue",
-
-    "error": "Error",
-    "warning": "Warning",
-    "wait": "Wait",
-    "cancel": "Cancel",
-    "search": "Search",
-
-    "required_field": "Required field",
-    "fill_this_field": "Fill this field",
-
-    "name": "Name",
-    "surname": "Surname",
-    "number": "Number",
-    "password": "Password",
-    "password_confirm": "Confirm password",
-    "new_password": "New password",
-    "new_password_confirm": "Confirm new password",
-
-    "write_code": "Enter the code",
-
-    "write_name": "Enter your name",
-    "write_surname": "Enter your surname",
-    "write_number": "Enter your number",
-    "write_password": "Enter your password",
-    "write_password_confirm": "Confirm your password",
-    "write_new_password": "Enter your new password",
-    "write_new_password_confirm": "Confirm your new password",
-
-    "write_your_number_info": "Write your phone number with area code.", 
-    "write_your_number_info2": "Your phone number should be formatted as follows:",
-
-    "inform_your_number": "Enter your phone number",
-
-    "profile": "Profile",
-    "messages": "Messages",
-    "home": "Home",
-    "account": "Account",
-    "configs": "Settings",
-
-    "common_user": "Common User",
-
-    "machinery": "Machinery",
-    "carrier": "Carrier",
-    "payment": "Payment Methods",
-
-    "none_registered": "None registered",
-
-    "carrier_profile": "Carrier profile",
-
-    "no_country_found": "No country found",
-
-    "inform_telephone_number": "Enter your mobile number",
-
-    "terms_of_use_agreement": "I agree to the Terms of Use and acknowledge that I have read the Privacy Policy.",
-    "sign_in_terms_agreement": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
-
-    "remember_me": "Remember me",
-    "forgot_password": "Forgot my password",
-    "create_account": "Create an account",
-
-    "welcome_again": "Welcome back, {name}!",
-    "enter_account": "Enter an account",
-    "enter_another_account": "Enter another account",
-    "enter_existing_account": "Enter with an existing account",
-    "create_new_password": "Create a new secure password",
-    "leave": "Leave",
-    "logout": "Logout",
-    "logout_confirm": "Do you really want to logout?",
-
-    "default_error_message": "An unexpected error occurred",
-
-    "verify_code_resent": "Code resent",
-
-    "verification_code_sent_message": "A 4-digit code was sent to the number:",
-    "recover_code_sent_message": "A 6-digit code was sent to the number:",
-    "did_not_received_code": "Didn't receive the code?",
-    "resend_code": "Resend code"
-  },
-  "Descriptions": {
-    "verify_code_sent_description": "A new code was sent to your number.",
-    "verify_code_sent_again_description": "Code sent again.",
-    "session_expired_description": "Your session has expired.",
-    "unable_to_resend_verify_code_description": "Unable to resend the code. Try again later.",
-    "wait_until_verify_code_timeout_description": "Wait until the time runs out to resend the code.",
-    "invalid_verification_code_description": "Invalid code, try again."
+  "Legal": {
+    "agreements": {
+      "accept_policy_and_terms": "I agree to the <use>Terms of Use</use> and acknowledge that I have read the <privacy>Privacy Policy</privacy>",
+      "terms_of_use": "Terms of Use",
+      "privacy_policy": "Privacy Policy",
+      "sign_in_terms": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
+      "login_terms": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
+      "mailing_list": "I want to receive promotional emails from Agrofast."
+    },
+    "terms_of_use_markdown": "",
+    "privacy_policy_markdown": ""
   }
 }

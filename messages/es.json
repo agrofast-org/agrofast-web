@@ -1,179 +1,188 @@
 {
-  "Index": {
-    "meta_title": "Agrofast - Transporte de Maquinaria Agrícola",
-    "meta_description_1": "Transporte de maquinaria agrícola de forma rápida y segura"
+  "Pages": {
+    "Index": {
+      "meta": {
+        "title": "Agrofast - Transporte de Maquinaria Agrícola",
+        "description": "Transporte de maquinaria agrícola de forma rápida y segura"
+      }
+    },
+    "Login": {
+      "meta": {
+        "title": "Agrofast - Iniciar sesión",
+        "description": "Inicie sesión para acceder a su cuenta de Agrofast"
+      }
+    },
+    "SignUp": {
+      "meta": {
+        "title": "Agrofast - Registro",
+        "description": "Cree una nueva cuenta en Agrofast"
+      }
+    },
+    "AuthCode": {
+      "meta": {
+        "title": "Agrofast - Código de Autenticación",
+        "description": "Ingrese el código de autenticación enviado a su teléfono"
+      }
+    },
+    "ForgotPass": {
+      "meta": {
+        "title": "Agrofast - Olvidé mi Contraseña",
+        "description": "Recupere su contraseña de Agrofast"
+      }
+    },
+    "RecoverToken": {
+      "meta": {
+        "title": "Agrofast - Recuperar Contraseña",
+        "description": "Ingrese el token de recuperación enviado a su teléfono"
+      }
+    },
+    "NotFound": {
+      "meta": {
+        "title": "Agrofast - Página no encontrada",
+        "description": "Página no encontrada"
+      },
+      "messages": {
+        "page_not_found": "Página no encontrada",
+        "as_expected": "¿Como se esperaba?",
+        "back_to_safety": "Volver a la seguridad"
+      }
+    },
+    "InternalError": {
+      "meta": {
+        "title": "Agrofast - Error Interno",
+        "description": "Ocurrió un error"
+      },
+      "messages": {
+        "an_error_has_occurred": "Ocurrió un error interno"
+      }
+    }
   },
-  "Login": {
-    "meta_title": "Agrofast - Iniciar sesión",
-    "meta_description_1": "Inicie sesión para acceder a su cuenta Agrofast"
+  "UI": {
+    "tooltips": {
+      "write_number": {
+        "title": "Ingrese su número",
+        "info": "Escriba su número de teléfono con código de área.",
+        "example": "Su número de teléfono debe estar formateado de la siguiente manera: +55 01 23456-7890"
+      }
+    },
+    "info": {
+      "verification_code_sent": "Se ha enviado un código de verificación al número: ",
+      "did_not_received_code": "¿No recibió el código?"
+    },
+    "buttons": {
+      "next": "Siguiente",
+      "enter": "Entrar",
+      "continue": "Continuar",
+      "cancel": "Cancelar",
+      "search": "Buscar",
+      "understood": "Entendido",
+      "resend_code": "Reenviar código"
+    },
+    "labels": {
+      "code": "Código",
+      "name": "Nombre",
+      "surname": "Apellido",
+      "number": "Número",
+      "password": "Contraseña",
+      "password_confirm": "Confirmar contraseña",
+      "new_password": "Nueva contraseña",
+      "new_password_confirm": "Confirmar nueva contraseña"
+    },
+    "placeholders": {
+      "write_code": "Ingrese el código",
+      "write_name": "Ingrese su nombre",
+      "write_surname": "Ingrese su apellido",
+      "write_number": "Ingrese su número",
+      "write_password": "Ingrese su contraseña",
+      "write_password_confirm": "Confirme su contraseña",
+      "write_new_password": "Ingrese su nueva contraseña",
+      "write_new_password_confirm": "Confirme su nueva contraseña"
+    },
+    "messages": {
+      "required_field": "Campo obligatorio",
+      "fill_this_field": "Complete este campo"
+    },
+    "titles": {
+      "welcome_again": "Bienvenido de nuevo, {name}!",
+      "create_account": "Crear cuenta",
+      "create_new_password": "Crear nueva contraseña",
+      "inform_your_number": "Informe su número"
+    },
+    "checkboxes": {
+      "remember_me": "Recuérdame"
+    },
+    "redirects": {
+      "see_more": "Ver más",
+      "about": "Acerca de",
+      "profile": "Perfil",
+      "configs": "Configuraciones",
+      "home": "Inicio",
+      "application": "Aplicación",
+      "create_account": "Crear una cuenta",
+      "forgot_password": "Olvidé mi contraseña",
+      "enter_another_account": "Ingresar a otra cuenta",
+      "enter_existing_account": "Ingresar a una cuenta existente"
+    }
   },
-  "SignUp": {
-    "meta_title": "Agrofast - Registro",
-    "meta_description_1": "Cree una nueva cuenta en Agrofast"
+  "Messages": {
+    "errors": {
+      "default": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+      "not_implemented": "No implementado",
+      "user_not_found": "Usuario no encontrado",
+      "error_creating_user": "Error al crear usuario",
+      "user_already_exists": "El usuario ya existe",
+      "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
+      "wrong_password": "Contraseña incorrecta",
+      "user_not_authenticated": "Usuario no autenticado",
+      "invalid_authentication_code": "Código de autenticación inválido",
+      "authentication_code_attempts_exceeded": "Intentos de código de autenticación excedidos",
+      "incorrect_authentication_code": "Código de autenticación incorrecto",
+      "failed_to_resend_code": "Error al reenviar el código",
+      "failed_to_upload_image": "Error al cargar la imagen",
+      "failed_to_save_image_record": "Error al guardar el registro de la imagen",
+      "no_images_found": "No se encontraron imágenes"
+    },
+    "success": {
+      "user_created_successfully": "Usuario creado con éxito",
+      "login_successful": "Inicio de sesión exitoso",
+      "user_authenticated_successfully": "Usuario autenticado con éxito",
+      "authentication_code_resent": "Código de autenticación reenviado",
+      "image_uploaded_successfully": "Imagen cargada con éxito",
+      "user_found": "Usuario encontrado"
+    },
+    "info": {
+      "wait_resend_code_timeout": "Espere {seconds} segundos para reenviar el código."
+    }
   },
-  "AuthCode": {
-    "meta_title": "Agrofast - Código de Autenticación",
-    "meta_description_1": "Ingrese el código de autenticación enviado a su teléfono"
-  },
-  "ForgotPass": {
-    "meta_title": "Agrofast - Olvidé mi Contraseña",
-    "meta_description_1": "Recupere su contraseña de Agrofast"
-  },
-  "RecoverToken": {
-    "meta_title": "Agrofast - Recuperar contraseña",
-    "meta_description_1": "Ingrese el token de recuperación enviado a su teléfono"
-  },
-  "NotFound": {
-    "meta_title": "Agrofast - Página no encontrada",
-    "meta_description_1": "Página no encontrada",
-
-    "page_not_found": "Página no encontrada",
-    "as_expected": "¿Como se esperaba?",
-    "back_to_safety": "Volver a la seguridad"
-  },
-  "InternalError": {
-    "meta_title": "Agrofast - Error interno",
-    "meta_description_1": "Ocurrió un error",
-
-    "an_error_has_occurred": "Ocurrió un error interno"
-  },
-
   "Application": {
     "slogan": "TRANSPORTANDO SU PRODUCCIÓN",
     "index_init_button": "¡Vamos allá!"
   },
   "Advertizement": {
-    "self_title1": "Transportes agrícolas",
-    "self_subtitle1": "Agilidad en el transporte de maquinaria agrícola",
-    "self_description1": "Revolucionando la forma en que transporta sus máquinas agrícolas"
+    "titles": {
+      "primary": "Transportes agrícolas"
+    },
+    "subtitles": {
+      "primary": "Agilidad en el transporte de maquinaria agrícola"
+    },
+    "descriptions": {
+      "primary": "Revolucionando la forma en que transporta sus máquinas agrícolas"
+    }
   },
-  "Responses": {
-    "user_already_exists": "Ya existe un usuario con este número de teléfono",
-    "user_not_found": "Usuario no encontrado",
-    "not_implemented": "No implementado",
-    "no_images_found": "No se encontraron imágenes",
-    "user_not_authenticated": "Usuario no autenticado",
-    "failed_to_upload_image": "Error al subir la imagen",
-    "failed_to_save_image_record": "Error al guardar el registro de la imagen",
-    "image_uploaded_successfully": "Imagen subida con éxito",
-    "user_found": "Usuario encontrado",
-    "error_creating_user": "Error al crear usuario",
-    "user_created_successfully": "Usuario creado con éxito",
-    "user_updated_successfully": "Usuario actualizado con éxito",
-    "invalid_authentication_code": "Código de autenticación inválido",
-    "user_authenticated_successfully": "Usuario autenticado con éxito",
-    "authentication_code_resent": "Código de autenticación reenviado",
-    "failed_to_resend_code": "Error al reenviar el código",
-    "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
-    "wrong_password": "Contraseña incorrecta",
-    "login_successful_authentication_code_sent": "Inicio de sesión exitoso, código de autenticación enviado",
-    "failed_to_send_authentication_code": "Error al enviar el código de autenticación",
-    "password_not_coincide_message": "Las contraseñas no coinciden",
-    "user_number_required_message": "El número de teléfono es obligatorio",
-    "user_invalid_number_message": "Número de teléfono inválido",
-    "user_email_required_message": "El correo electrónico es obligatorio",
-    "user_invalid_email_message": "Correo electrónico inválido",
-    "user_password_required_message": "La contraseña es obligatoria",
-    "user_password_length_message": "La contraseña debe tener al menos 8 caracteres",
-    "user_password_character_message": "Debe contener letras mayúsculas, minúsculas y números",
-    "authentication_code_attempts_exceeded": "Intentos de código de autenticación excedidos"
+  "Language": {
+    "current": "Español",
+    "flag": "🇪🇸"
   },
-  "Base": {
-    "language": "Español",
-    "flag": "🇪🇸",
-
-    "about": "Acerca de",
-    "application": "Aplicación",
-
-    "see_more": "Ver más",
-
-    "next": "Siguiente",
-    "enter": "Entrar",
-    "continue": "Continuar",
-
-    "error": "Error",
-    "warning": "Advertencia",
-    "wait": "Espere",
-    "cancel": "Cancelar",
-    "search": "Buscar",
-
-    "required_field": "Campo obligatorio",
-    "fill_this_field": "Rellene este campo",
-
-    "name": "Nombre",
-    "surname": "Apellido",
-    "number": "Número",
-    "password": "Contraseña",
-    "password_confirm": "Confirmar contraseña",
-    "new_password": "Nueva contraseña",
-    "new_password_confirm": "Confirmar nueva contraseña",
-
-    "write_code": "Ingrese el código",
-
-    "write_name": "Ingrese su nombre",
-    "write_surname": "Ingrese su apellido",
-    "write_number": "Ingrese su número",
-    "write_password": "Ingrese su contraseña",
-    "write_password_confirm": "Confirme su contraseña",
-    "write_new_password": "Ingrese su nueva contraseña",
-    "write_new_password_confirm": "Confirme su nueva contraseña",
-
-    "write_your_number_info": "Escriba su número de teléfono con DDD.", 
-    "write_your_number_info2": "Su número de teléfono debe estar formateado de la siguiente manera:",
-
-    "inform_your_number": "Informe su número de teléfono",
-
-    "profile": "Perfil",
-    "messages": "Mensajes",
-    "home": "Inicio",
-    "account": "Cuenta",
-    "configs": "Configuraciones",
-
-    "common_user": "Usuario Común",
-
-    "machinery": "Maquinaria",
-    "carrier": "Transportista",
-    "payment": "Formas de Pago",
-
-    "none_registered": "Ninguno registrado",
-
-    "carrier_profile": "Perfil del transportista",
-
-    "no_country_found": "No se encontró ningún país",
-
-    "inform_telephone_number": "Ingrese su número de celular",
-
-    "terms_of_use_agreement": "Estoy de acuerdo con los Términos de Uso y reconozco que he leído la Política de Privacidad.",
-    "sign_in_terms_agreement": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
-
-    "remember_me": "Recuérdame",
-    "forgot_password": "Olvidé mi contraseña",
-    "create_account": "Crear una cuenta",
-
-    "welcome_again": "¡Bienvenido de nuevo, {name}!",
-    "enter_account": "Ingresar a una cuenta",
-    "enter_another_account": "Ingresar a otra cuenta",
-    "enter_existing_account": "Ingresar con una cuenta existente",
-    "create_new_password": "Cree una nueva contraseña segura",
-    "leave": "Salir",
-    "logout": "Cerrar sesión",
-    "logout_confirm": "¿Realmente desea salir?",
-
-    "default_error_message": "Ocurrió un error inesperado",
-
-    "verify_code_resent": "Código reenviado",
-
-    "verification_code_sent_message": "Se ha enviado un código de 4 dígitos al número:",
-    "recover_code_sent_message": "Se ha enviado un código de 6 dígitos al número:",
-    "did_not_received_code": "¿No recibió el código?",
-    "resend_code": "Reenviar código"
-  },
-  "Descriptions": {
-    "verify_code_sent_description": "Se ha enviado un nuevo código a su número.",
-    "verify_code_sent_again_description": "Código enviado nuevamente.",
-    "session_expired_description": "Su sesión ha expirado.",
-    "unable_to_resend_verify_code_description": "No se pudo reenviar el código. Inténtelo de nuevo más tarde.",
-    "wait_until_verify_code_timeout_description": "Espere hasta el final del tiempo para reenviar el código.",
-    "invalid_verification_code_description": "Código inválido, inténtelo de nuevo."
+  "Legal": {
+    "agreements": {
+      "accept_policy_and_terms": "Acepto los <use>Términos de Uso</use> y reconozco que he leído la <privacy>Política de Privacidad</privacy>",
+      "terms_of_use": "Términos de Uso",
+      "privacy_policy": "Política de Privacidad",
+      "sign_in_terms": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
+      "login_terms": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
+      "mailing_list": "Deseo recibir correos electrónicos promocionales de Agrofast."
+    },
+    "terms_of_use_markdown": "",
+    "privacy_policy_markdown": ""
   }
 }

@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 
 export default function RecoverToken() {
   const t = useTranslations();
+  const pt = useTranslations("Pages.RecoverToken");
   const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +18,11 @@ export default function RecoverToken() {
   };
 
   if (typeof window !== "undefined") {
-    if (router.query.token === undefined || router.query.token === "" || typeof router.query.token !== "string") {
+    if (
+      router.query.token === undefined ||
+      router.query.token === "" ||
+      typeof router.query.token !== "string"
+    ) {
       // router.push("/forgot-pass");
       // return null;
     }
@@ -26,8 +31,8 @@ export default function RecoverToken() {
   return (
     <>
       <Head>
-        <title>{t("RecoverToken.meta_title")}</title>
-        <meta name="description" content={t("RecoverToken.meta_description_1")} />
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row" hideHeader>
         <div className="flex flex-[5] justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
@@ -36,7 +41,7 @@ export default function RecoverToken() {
               <Agrofast.Logo className="w-40 h-10" />
             </div>
             <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
-              {t("Base.create_new_password")}
+              {t("UI.titles.create_new_password")}
             </p>
             <Form
               className="flex flex-col gap-4"
@@ -47,10 +52,10 @@ export default function RecoverToken() {
                 isRequired
                 taggableVisibility
                 className="text-gray-700 dark:text-gray-200"
-                label={t("Base.new_password")}
+                label={t("UI.labels.new_password")}
                 labelPlacement="outside"
                 name="password"
-                placeholder={t("Base.write_new_password")}
+                placeholder={t("UI.placeholders.write_new_password")}
                 type="password"
                 variant="bordered"
               />
@@ -58,16 +63,16 @@ export default function RecoverToken() {
                 isRequired
                 taggableVisibility
                 className="text-gray-700 dark:text-gray-200"
-                label={t("Base.new_password_confirm")}
+                label={t("UI.labels.new_password_confirm")}
                 labelPlacement="outside"
                 name="password_confirm"
-                placeholder={t("Base.write_new_password_confirm")}
+                placeholder={t("UI.placeholders.write_new_password_confirm")}
                 type="password"
                 variant="bordered"
               />
               <Spacer y={8} />
               <Button className="w-full" color="primary" type="submit">
-                {t("Base.continue")}
+                {t("UI.buttons.continue")}
               </Button>
             </Form>
           </div>
