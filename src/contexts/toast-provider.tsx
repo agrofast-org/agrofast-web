@@ -16,7 +16,7 @@ const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
         position="top-right"
         theme={theme === "dark" ? "dark" : "light"}
         toastOptions={{
-          duration: 750000,
+          duration: 7500,
           classNames: {
             closeButton: "!top-3 !right-3 rounded-lg"
           }

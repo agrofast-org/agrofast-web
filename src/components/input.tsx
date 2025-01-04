@@ -5,7 +5,7 @@ import {
   Input as NextUIInput,
 } from "@nextui-org/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 export interface InputProps extends NextUIInputProps {
@@ -13,11 +13,18 @@ export interface InputProps extends NextUIInputProps {
   error?: string | Record<string, string>;
 }
 
-const Input = ({ taggableVisibility, ...props }: InputProps) => {
+const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
   const t = useTranslations();
+  const [inputValue, setInputValue] = useState(value);
   const [isPassVisible, setIsPassVisible] = useState(false);
 
   const togglePassVisibility = () => setIsPassVisible(!isPassVisible);
+
+  useEffect(() => {
+    if (value) {
+      setInputValue(value);
+    }
+  }, [value]);
 
   return (
     <NextUIInput
@@ -26,6 +33,9 @@ const Input = ({ taggableVisibility, ...props }: InputProps) => {
         label: "top-6",
         helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max",
       }}
+      {...props}
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
       endContent={
         taggableVisibility &&
         props.type === "password" && (
@@ -70,7 +80,6 @@ const Input = ({ taggableVisibility, ...props }: InputProps) => {
           </Button>
         )
       }
-      {...props}
       validate={(value) => {
         if (props.isRequired && !value) {
           return t("UI.messages.fill_this_field");
