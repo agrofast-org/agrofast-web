@@ -17,18 +17,53 @@ import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useEffect, useState } from "react";
 import { useUser } from "@/contexts/auth-provider";
-import { numberInputMask } from "@/lib/utils";
-import toast from "react-hot-toast";
+import { cn, numberInputMask } from "@/lib/utils";
+import { toast } from "sonner";
+
+const TIMEOUT = 60;
 
 export default function AuthCode() {
   const router = useRouter();
   const t = useTranslations();
+  const pt = useTranslations("Pages.AuthCode");
+
   const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
   const { user, setUser, setToken, logout } = useUser();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [timer, setTimer] = useState<number>(TIMEOUT);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
+
+  const resendCode = async () => {
+    if (timer <= 0) {
+      setIsLoading(true);
+      api
+        .get("/user/resend-code")
+        .then(() => {
+          toast.success(t("Messages.success.authentication_code_resent"));
+          setTimer(TIMEOUT);
+        })
+        .catch(() => {
+          toast.warning(t("Messages.errors.default"));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      toast.info(t("Messages.info.wait_resend_code_timeout", { seconds: timer }));
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,12 +85,16 @@ export default function AuthCode() {
       .catch(({ response }) => {
         const { data: error } = response;
         if (response.status === 401) {
-          toast.error(t("Responses.authentication_code_attempts_exceeded"));
+          toast.error(
+            t("Messages.errors.authentication_code_attempts_exceeded")
+          );
           logout();
           return;
         }
-        const fields = translateResponse(error.fields);
-        toast.error(t("Responses.invalid_authentication_code"));
+        const fields = translateResponse(error.fields, {
+          attempts_left: error.attempts_left,
+        });
+        // toast.error(t("Responses.invalid_authentication_code", { attempts_left: error.attempts_left }));
         setErrors(fields);
         console.log("errors", errors);
       })
@@ -75,8 +114,8 @@ export default function AuthCode() {
   return (
     <>
       <Head>
-        <title>{t("AuthCode.meta_title")}</title>
-        <meta name="description" content={t("AuthCode.meta_description_1")} />
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row" hideHeader>
         <div className="flex flex-[5] justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
@@ -89,7 +128,7 @@ export default function AuthCode() {
               isLoaded={isDataLoading}
             >
               <p className="pb-2 font-semibold text-gray-700 text-left text-xl dark:text-gray-200">
-                {t("Base.welcome_again", { name: user?.name })}
+                {t("UI.titles.welcome_again", { name: user?.name })}
                 <span aria-label="emoji" className="ml-2" role="img">
                   👋
                 </span>
@@ -107,7 +146,7 @@ export default function AuthCode() {
                     htmlFor="code"
                     className="text-[#12181c] dark:text-[#ecedee]"
                   >
-                    {t("Base.write_code")}
+                    {t("UI.placeholders.write_code")}
                   </label>
                   <InputOtp
                     name="code"
@@ -127,15 +166,23 @@ export default function AuthCode() {
                   isLoaded={isDataLoading}
                 >
                   <p className="text-center text-gray-700 text-small dark:text-gray-200">
-                    {t("Base.verification_code_sent_message")}{" "}
+                    {t("UI.info.verification_code_sent")}{" "}
                     <span className="font-bold">
                       {user
                         ? numberInputMask(user?.number)
                         : "+55 (99) 99999-9999"}
                     </span>
-                    . {t("Base.did_not_received_code")}{" "}
-                    <span className="hover:opacity-80 text-primary hover:underline cursor-pointer">
-                      {t("Base.resend_code")}
+                    . {t("UI.info.did_not_received_code")}{" "}
+                    <span
+                      onClick={resendCode}
+                      className={cn(
+                        timer <= 0
+                          ? "opacity-100 hover:underline cursor-pointer text-primary"
+                          : "opacity-60 text-neutral-400"
+                      )}
+                    >
+                      {t("UI.buttons.resend_code")}
+                      {timer <= 0 ? "" : `(${timer})`}
                     </span>
                     .
                   </p>
@@ -144,11 +191,11 @@ export default function AuthCode() {
               </div>
               <div className="flex flex-col gap-4 w-full">
                 <Button className="w-full" color="primary" type="submit">
-                  {t("Base.continue")}
+                  {t("UI.buttons.continue")}
                 </Button>
                 <p className="w-full text-center text-small">
                   <Link href="/login" size="sm">
-                    {t("Base.enter_another_account")}
+                    {t("UI.redirects.enter_another_account")}
                   </Link>
                 </p>
               </div>

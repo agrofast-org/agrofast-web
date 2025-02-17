@@ -20,6 +20,7 @@ import Link from "next/link";
 
 export default function ForgotPass() {
   const t = useTranslations();
+  const pt = useTranslations("Pages.ForgotPass");
 
   const [number, setNumber] = useState("");
 
@@ -31,8 +32,8 @@ export default function ForgotPass() {
   return (
     <>
       <Head>
-        <title>{t("ForgotPass.meta_title")}</title>
-        <meta name="description" content={t("ForgotPass.meta_description_1")} />
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row" hideHeader>
         <div className="flex flex-1 justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
@@ -41,7 +42,7 @@ export default function ForgotPass() {
               <Agrofast.Logo className="w-40 h-10" />
             </div>
             <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
-              {t("Base.inform_your_number")}
+              {t("UI.titles.inform_your_number")}
             </p>
             <Form
               className="flex flex-col flex-1 gap-4"
@@ -72,13 +73,13 @@ export default function ForgotPass() {
                       <PopoverContent>
                         <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
                           <div className="font-bold text-small">
-                            {t("Base.write_number")}
+                            {t("UI.tooltips.write_number.title")}
                           </div>
                           <div className="text-tiny">
-                            {t("Base.write_your_number_info")}
+                            {t("UI.tooltips.write_number.info")}
                           </div>
                           <div className="text-tiny">
-                            {t("Base.write_your_number_info2")}
+                            {t("UI.tooltips.write_number.example")}
                             <Code className="px-1 p-0.5 text-tiny">
                               +55 99 99999-9999
                             </Code>
@@ -87,10 +88,10 @@ export default function ForgotPass() {
                       </PopoverContent>
                     </Popover>
                   }
-                  label={t("Base.number")}
+                  label={t("UI.labels.number")}
                   labelPlacement="outside"
                   name="text"
-                  placeholder={t("Base.write_number")}
+                  placeholder={t("UI.placeholders.write_number")}
                   value={number}
                   onChange={(e) => setNumber(numberInputMask(e.target.value))}
                   type="text"
@@ -100,23 +101,23 @@ export default function ForgotPass() {
               <Spacer y={8} />
               <div className="flex flex-col gap-4 w-full">
                 <p className="text-gray-700 text-small text-start dark:text-gray-200">
-                  {t("Base.sign_in_terms_agreement")}
+                  {t("Legal.agreements.login_terms")}
                 </p>
                 <Button className="w-full" color="primary" type="submit">
-                  {t("Base.enter")}
+                  {t("UI.buttons.enter")}
                 </Button>
                 <div className="flex justify-between text-center text-small">
                   <Link
-                    href="/sign-in"
+                    href="/sign-up"
                     className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
                   >
-                    {t("Base.create_account")}
+                    {t("UI.redirects.create_account")}
                   </Link>
                   <Link
                     href="/login"
                     className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
                   >
-                    {t("Base.enter_existing_account")}
+                    {t("UI.redirects.enter_existing_account")}
                   </Link>
                 </div>
               </div>

@@ -41,13 +41,13 @@ const Header: React.FC = () => {
               href={`${getPortfolioUrl()}/about`}
               className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
             >
-              {t("Base.about") as string}
+              {t("UI.redirects.about") as string}
             </Link>
             <Link
               href={`${getPortfolioUrl()}/download`}
               className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
             >
-              {t("Base.application") as string}
+              {t("UI.redirects.application") as string}
             </Link>
           </div>
           <div className="flex flex-row flex-1 justify-end items-center gap-4">

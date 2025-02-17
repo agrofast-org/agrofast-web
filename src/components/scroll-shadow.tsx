@@ -1,0 +1,32 @@
+import { cn } from "@/lib/utils";
+import {
+  ScrollShadow as NextUIScrollShadow,
+  ScrollShadowProps as NextUIScrollShadowProps,
+} from "@nextui-org/react";
+
+export interface ScrollShadowProps extends NextUIScrollShadowProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const ScrollShadow = ({ children, className, ...props }: ScrollShadowProps) => {
+  return (
+    <NextUIScrollShadow
+      className={cn(
+        "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]",
+        "[&::-webkit-scrollbar-track]:rounded-full",
+        "[&::-webkit-scrollbar-thumb]:rounded-full",
+        "[&::-webkit-scrollbar-track]:bg-gray-100",
+        "[&::-webkit-scrollbar-thumb]:bg-gray-300",
+        "dark:[&::-webkit-scrollbar-track]:bg-neutral-800",
+        "dark:[&::-webkit-scrollbar-thumb]:bg-neutral-600",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </NextUIScrollShadow>
+  );
+};
+
+export default ScrollShadow;

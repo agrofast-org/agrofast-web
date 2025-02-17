@@ -6,12 +6,13 @@ import Head from "next/head";
 
 export default function InternalError() {
   const t = useTranslations();
+  const pt = useTranslations("Pages.InternalError");
 
   return (
     <>
       <Head>
-        <title>{t("InternalError.meta_title")}</title>
-        <meta name="description" content={t("InternalError.meta_description_1")} />
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="" hideHeader>
         <div className="flex flex-1 justify-center md:items-center pt-8 md:pt-0 h-svh max-h-svh overflow-hidden overflow-y-auto">
@@ -19,7 +20,7 @@ export default function InternalError() {
             <div className="flex flex-col items-center">
               <Agrofast.Logo className="w-72 h-min" />
               <p className="py-2 font-semibold text-2xl text-center text-gray-700 dark:text-gray-200">
-                {t("InternalError.an_error_has_occurred")}
+                {t("Pages.InternalError.messages.an_error_has_occurred")}
               </p>
             </div>
           </div>

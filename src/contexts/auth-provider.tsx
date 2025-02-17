@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
+import { useCookies } from "react-cookie";
 
 interface User {
   id: string;
@@ -42,30 +43,42 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
+
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "agrofast_temp_auth_token",
+    "agrofast_auth_token",
+  ]);
+
   const [tempToken, setTempAuthToken] = useState<string | undefined>(undefined);
   const [token, setAuthToken] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
 
-  const setTempToken = useCallback((token: string | undefined) => {
-    if (token) {
-      localStorage.setItem("agrofast_temp_auth_token", token);
-    } else {
-      localStorage.removeItem("agrofast_temp_auth_token");
-    }
-    setTempAuthToken(token);
-  }, []);
+  const setTempToken = useCallback(
+    (token: string | undefined) => {
+      if (token) {
+        setAuthToken(undefined);
+        setTempAuthToken(token);
+        setCookie("agrofast_temp_auth_token", token);
+      } else {
+        setTempAuthToken(undefined);
+        removeCookie("agrofast_temp_auth_token");
+      }
+    },
+    [setCookie, removeCookie]
+  );
 
   const setToken = useCallback(
     (token: string | undefined) => {
       if (token) {
-        localStorage.setItem("agrofast_auth_token", token);
+        setAuthToken(token);
         setTempToken(undefined);
+        setCookie("agrofast_auth_token", token);
       } else {
-        localStorage.removeItem("agrofast_auth_token");
+        setAuthToken(undefined);
+        removeCookie("agrofast_auth_token");
       }
-      setAuthToken(token);
     },
-    [setTempToken]
+    [setCookie, setTempToken, removeCookie]
   );
 
   const logout = useCallback(() => {
@@ -77,12 +90,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     router.push("/login", undefined, { locale: router.locale });
   }, [router, setAuthToken, setUser, setToken, setTempToken]);
 
-  const fetchUser = useCallback(async () => {    
+  const fetchUser = useCallback(async () => {
     if (token || tempToken) {
       api.defaults.headers["Authorization"] = `Bearer ${token ?? tempToken}`;
       api
-      .get("/user/info/me")
-      .then(({ data }) => {
+        .get("/user/info/me")
+        .then(({ data }) => {
           setUser(data?.user);
         })
         .catch(() => {
@@ -92,8 +105,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [token, tempToken, setUser, logout]);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("agrofast_auth_token");
-    const storedTempToken = localStorage.getItem("agrofast_temp_auth_token");
+    const storedToken = cookies.agrofast_auth_token;
+    const storedTempToken = cookies.agrofast_temp_auth_token;
     if (storedToken) {
       setAuthToken(storedToken);
     }
@@ -101,7 +114,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setTempAuthToken(storedTempToken);
     }
     fetchUser();
-  }, [fetchUser]);
+  }, [
+    fetchUser,
+    cookies.agrofast_auth_token,
+    cookies.agrofast_temp_auth_token,
+  ]);
 
   return (
     <AuthContext.Provider

@@ -26,6 +26,7 @@ import { useLanguage } from "@/contexts/language-provider";
 export default function Login() {
   const router = useRouter();
   const t = useTranslations();
+  const pt = useTranslations("Pages.Login");
   const { setIsLoading } = useOverlay();
   const { translateResponse } = useLanguage();
   const { setUser, setTempToken } = useUser();
@@ -62,20 +63,20 @@ export default function Login() {
   return (
     <>
       <Head>
-        <title>{t("Login.meta_title")}</title>
-        <meta name="description" content={t("Login.meta_description_1")} />
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row" hideHeader>
         <div className="lg:flex flex-col flex-[4] justify-center items-center hidden">
           <section className="flex flex-col items-start gap-4 p-4">
             <h1 className="font-light font-mono text-2xl text-gray-700 dark:text-gray-200">
-              {t("Advertizement.self_title1")}
+              {t("Advertizement.titles.primary")}
             </h1>
             <h1 className="max-w-md font-bold font-inter text-4xl text-gray-700 dark:text-gray-200">
-              {t("Advertizement.self_subtitle1")}
+              {t("Advertizement.subtitles.primary")}
             </h1>
             <p className="text-gray-700 text-sm dark:text-gray-200">
-              {t("Advertizement.self_description1")}
+              {t("Advertizement.descriptions.primary")}
             </p>
             <Button
               color="success"
@@ -84,7 +85,7 @@ export default function Login() {
                 router.push(`${getPortfolioUrl()}/${router.locale}/about`);
               }}
             >
-              {t("Base.see_more")}
+              {t("UI.redirects.see_more")}
               <ArrowUpRight01Icon />
             </Button>
           </section>
@@ -95,7 +96,7 @@ export default function Login() {
               <Agrofast.Logo className="w-40 h-10" />
             </div>
             <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
-              {t("Base.enter_existing_account")}
+              {t("UI.redirects.enter_existing_account")}
             </p>
             <Form
               className="flex flex-col flex-1 gap-4"
@@ -127,13 +128,13 @@ export default function Login() {
                       <PopoverContent>
                         <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
                           <div className="font-bold text-small">
-                            {t("Base.write_number")}
+                            {t("UI.tooltips.write_number.title")}
                           </div>
                           <div className="text-tiny">
-                            {t("Base.write_your_number_info")}
+                            {t("UI.tooltips.write_number.info")}
                           </div>
                           <div className="text-tiny">
-                            {t("Base.write_your_number_info2")}
+                            {t("UI.tooltips.write_number.example")}
                             <Code className="px-1 p-0.5 text-tiny">
                               +55 99 99999-9999
                             </Code>
@@ -142,10 +143,10 @@ export default function Login() {
                       </PopoverContent>
                     </Popover>
                   }
-                  label={t("Base.number")}
+                  label={t("UI.labels.number")}
                   labelPlacement="outside"
                   name="number"
-                  placeholder={t("Base.write_number")}
+                  placeholder={t("UI.placeholders.write_number")}
                   value={number}
                   onChange={(e) => setNumber(numberInputMask(e.target.value))}
                   type="text"
@@ -154,10 +155,10 @@ export default function Login() {
                 <Input
                   isRequired
                   className="text-gray-700 dark:text-gray-200"
-                  label={t("Base.password")}
+                  label={t("UI.labels.password")}
                   labelPlacement="outside"
                   name="password"
-                  placeholder={t("Base.write_password")}
+                  placeholder={t("UI.placeholders.write_password")}
                   type="password"
                   variant="bordered"
                 />
@@ -168,26 +169,26 @@ export default function Login() {
                     value="true"
                     size="sm"
                   >
-                    {t("Base.remember_me")}
+                    {t("UI.checkboxes.remember_me")}
                   </Checkbox>
                   <Link
                     href="/forgot-pass"
                     className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
                   >
-                    {t("Base.forgot_password")}
+                    {t("UI.redirects.forgot_password")}
                   </Link>
                 </div>
               </div>
               <div className="flex flex-col gap-4 w-full">
                 <Button className="w-full" color="primary" type="submit">
-                  {t("Base.enter")}
+                  {t("UI.buttons.enter")}
                 </Button>
                 <p className="text-center text-small">
                   <Link
                     href="/sign-up"
                     className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
                   >
-                    {t("Base.create_account")}
+                    {t("UI.redirects.create_account")}
                   </Link>
                 </p>
               </div>
