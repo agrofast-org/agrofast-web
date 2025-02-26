@@ -2,7 +2,7 @@ import {
   Select,
   SelectItem,
   SelectProps as NextUISelectProps,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { motion } from "framer-motion";

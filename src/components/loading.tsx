@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@heroui/react";
 import { useOverlay } from "@/contexts/overlay-provider";
 
 const Loading = () => {

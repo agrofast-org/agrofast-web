@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import {
   ScrollShadow as NextUIScrollShadow,
   ScrollShadowProps as NextUIScrollShadowProps,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 export interface ScrollShadowProps extends NextUIScrollShadowProps {
   children?: React.ReactNode;

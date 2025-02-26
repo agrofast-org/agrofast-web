@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
   Spacer,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { JSX, useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl, numberInputMask } from "@/lib/utils";

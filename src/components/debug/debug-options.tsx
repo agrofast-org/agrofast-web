@@ -6,7 +6,7 @@ import {
   Select,
   SelectItem,
   Switch,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useRouter } from "next/router";
 import { LazyThemeSwitcher } from "../ui/theme-switcher";
 import dynamic from "next/dynamic";

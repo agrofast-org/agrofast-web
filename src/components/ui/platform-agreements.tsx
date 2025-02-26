@@ -1,4 +1,4 @@
-import { ModalBody, ModalHeader } from "@nextui-org/react";
+import { ModalBody, ModalHeader } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import ScrollShadow from "../scroll-shadow";
 

@@ -8,7 +8,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl, numberInputMask } from "@/lib/utils";

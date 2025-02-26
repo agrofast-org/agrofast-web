@@ -3,7 +3,7 @@ import {
   Button,
   InputProps as NextUIInputProps,
   Input as NextUIInput,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
 import { useState } from "react";
 import { useTranslations } from "next-intl";

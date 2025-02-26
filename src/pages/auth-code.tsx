@@ -6,7 +6,7 @@ import {
   Link,
   Skeleton,
   Spacer,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";

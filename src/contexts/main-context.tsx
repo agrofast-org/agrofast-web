@@ -1,5 +1,5 @@
 import DebugOptions from "@/components/debug/debug-options";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import ToasterProvider from "./toast-provider";
 import { OverlayProvider } from "./overlay-provider";
@@ -23,7 +23,7 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
       timeZone="America/Sao_Paulo"
       messages={pageProps.messages}
     >
-      <NextUIProvider>
+      <HeroUIProvider>
         <NextThemesProvider attribute="class" defaultTheme="dark">
           <LanguageProvider>
             <AuthProvider>
@@ -36,7 +36,7 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
             </AuthProvider>
           </LanguageProvider>
         </NextThemesProvider>
-      </NextUIProvider>
+      </HeroUIProvider>
     </NextIntlClientProvider>
   );
 };
