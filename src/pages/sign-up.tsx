@@ -105,15 +105,15 @@ export default function SignIn() {
         </ModalContent>
       </Modal>
       <Body className="flex flex-row" hideHeader>
-        <div className="lg:flex flex-col flex-[4] justify-center items-center hidden">
+        <div className="hidden lg:flex flex-col flex-[4] justify-center items-center">
           <section className="flex flex-col items-start gap-4 p-4">
-            <h1 className="font-light font-mono text-2xl text-gray-700 dark:text-gray-200">
+            <h1 className="font-mono font-light text-gray-700 dark:text-gray-200 text-2xl">
               {t("Advertizement.titles.primary")}
             </h1>
-            <h1 className="max-w-md font-bold font-inter text-4xl text-gray-700 dark:text-gray-200">
+            <h1 className="max-w-md font-inter font-bold text-gray-700 dark:text-gray-200 text-4xl">
               {t("Advertizement.subtitles.primary")}
             </h1>
-            <p className="text-gray-700 text-sm dark:text-gray-200">
+            <p className="text-gray-700 dark:text-gray-200 text-sm">
               {t("Advertizement.descriptions.primary")}
             </p>
             <Button
@@ -133,7 +133,7 @@ export default function SignIn() {
             <div className="flex flex-col items-center gap-2">
               <Agrofast.Logo className="w-40 h-10" />
             </div>
-            <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
+            <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
               {t("UI.titles.create_account")}
             </p>
             <Form
@@ -194,7 +194,7 @@ export default function SignIn() {
                         </div>
                         <div className="text-tiny">
                           {t("UI.tooltips.write_number.example")}
-                          <Code className="px-1 p-0.5 text-tiny">
+                          <Code className="p-0.5 px-1 text-tiny">
                             +55 01 23456-7890
                           </Code>
                         </div>
@@ -239,7 +239,7 @@ export default function SignIn() {
                   value="false"
                   size="sm"
                 ></Checkbox>
-                <p className="text-gray-700 text-small text-start dark:text-gray-200">
+                <p className="text-gray-700 dark:text-gray-200 text-small text-start">
                   {t.rich("Legal.agreements.accept_policy_and_terms", {
                     use: (chunks) => (
                       <span
@@ -265,14 +265,14 @@ export default function SignIn() {
                 </p>
               </div>
               <Spacer y={4} />
-              <p className="text-gray-700 text-small text-start dark:text-gray-200">
+              <p className="text-gray-700 dark:text-gray-200 text-small text-start">
                 {t("Legal.agreements.sign_in_terms")}
               </p>
               <Button className="w-full" color="primary" type="submit">
                 {t("UI.buttons.continue")}
               </Button>
             </Form>
-            <p className="text-center text-small">
+            <p className="text-small text-center">
               <Link
                 href="/login"
                 className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
