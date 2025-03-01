@@ -1,38 +1,36 @@
-import axios from 'axios';
+import { addToast } from "@heroui/react";
+import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
-    if (error.response) {
-      console.error('API Error:', error.response.data);
-    } else if (error.request) {
-      console.error('Network Error:', error.request);
-    } else {
-      console.error('Error:', error.message);
+    const { status, data } = error.response;
+
+    switch (status) {
+      case 201:
+      case 204:
+        addToast({
+          title: "Success",
+          description: error.response
+        });
+        break;
+      case 401:
+        // logout();
+        return Promise.reject(error);
+        break;
+      default:
+        if (data?.error) {
+          return Promise.reject(data.error);
+        }
+        return Promise.reject(error);
     }
-    return Promise.reject(error);
   }
 );
 

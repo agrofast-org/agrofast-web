@@ -66,7 +66,12 @@
       }
     },
     "info": {
-      "verification_code_sent": "Um code de verificação foi enviado para o número: ",
+      "title": {
+        "verification_code_sent": "Código de verificação enviado"
+      },
+      "description": {
+        "verification_code_sent": "Um code de verificação foi enviado para o número: "
+      },
       "did_not_received_code": "Não recebeu o código?"
     },
     "buttons": {
@@ -125,6 +130,12 @@
     }
   },
   "Messages": {
+    "titles": {
+      "error": "Erro",
+      "success": "Sucesso",
+      "info": "Informação",
+      "warning": "Atenção"
+    },
     "errors": {
       "default": "Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.",
 

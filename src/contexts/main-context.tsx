@@ -1,13 +1,13 @@
 import DebugOptions from "@/components/debug/debug-options";
 import { HeroUIProvider } from "@heroui/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import ToasterProvider from "./toast-provider";
 import { OverlayProvider } from "./overlay-provider";
 import { LanguageProvider } from "./language-provider";
 import { AuthProvider } from "./auth-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { useRouter } from "next/router";
 import { AppProps } from "next/app";
+import ToasterProvider from "./toast-provider";
 
 interface MainProviderProps {
   children: React.ReactNode;
@@ -24,18 +24,18 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
       messages={pageProps.messages}
     >
       <HeroUIProvider>
-        <NextThemesProvider attribute="class" defaultTheme="dark">
-          <LanguageProvider>
-            <AuthProvider>
-              <OverlayProvider>
-                <ToasterProvider>
+        <ToasterProvider>
+          <NextThemesProvider attribute="class" defaultTheme="dark">
+            <LanguageProvider>
+              <AuthProvider>
+                <OverlayProvider>
                   {children}
                   <DebugOptions />
-                </ToasterProvider>
-              </OverlayProvider>
-            </AuthProvider>
-          </LanguageProvider>
-        </NextThemesProvider>
+                </OverlayProvider>
+              </AuthProvider>
+            </LanguageProvider>
+          </NextThemesProvider>
+        </ToasterProvider>
       </HeroUIProvider>
     </NextIntlClientProvider>
   );

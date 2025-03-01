@@ -55,7 +55,7 @@ const RouteSelector = () => {
       placeholder="Select route"
     >
       {routes.map((route) => (
-        <SelectItem key={route} value={route}>
+        <SelectItem key={route} data-value={route}>
           {route}
         </SelectItem>
       ))}
