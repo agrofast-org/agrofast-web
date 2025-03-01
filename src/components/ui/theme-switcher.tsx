@@ -4,7 +4,7 @@ import {
   Button,
   ButtonProps as NextUIButtonProps,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";

@@ -2,7 +2,7 @@ import {
   Select,
   SelectItem,
   SelectProps as NextUISelectProps,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -30,7 +30,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   return (
     <Select
       onChange={handleRouteChange}
-      className={cn("text-medium max-w-40", className)}
+      className={cn("max-w-40 text-medium", className)}
       classNames={{
         popoverContent: "rounded-md min-w-[10rem]",
         selectorIcon: "right-2",
@@ -84,7 +84,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       disableSelectorIconRotation
     >
       {languages.map((lang) => (
-        <SelectItem startContent={lang.flag} key={lang.id} value={lang.id}>
+        <SelectItem startContent={lang.flag} key={lang.id} data-value={lang.id}>
           {lang.name}
         </SelectItem>
       ))}
@@ -102,11 +102,11 @@ export const LazyLanguageSelector: React.FC<LanguageSelectorProps> = ({
       radius="sm"
       aria-label="Language"
       placeholder="Select language"
-      className={cn("text-medium max-w-40", className)}
+      className={cn("max-w-40 text-medium", className)}
       {...props}
     >
       {languages.map((lang) => (
-        <SelectItem startContent={lang.flag} key={lang.id} value={lang.id}>
+        <SelectItem startContent={lang.flag} key={lang.id} data-value={lang.id}>
           {lang.name}
         </SelectItem>
       ))}

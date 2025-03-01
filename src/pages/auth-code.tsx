@@ -1,12 +1,13 @@
 import Body from "@/components/body";
 import {
+  addToast,
   Button,
   Form,
   InputOtp,
   Link,
   Skeleton,
   Spacer,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
@@ -18,7 +19,6 @@ import { useOverlay } from "@/contexts/overlay-provider";
 import { useEffect, useState } from "react";
 import { useUser } from "@/contexts/auth-provider";
 import { cn, numberInputMask } from "@/lib/utils";
-import { toast } from "sonner";
 
 const TIMEOUT = 60;
 
@@ -51,17 +51,31 @@ export default function AuthCode() {
       api
         .get("/user/resend-code")
         .then(() => {
-          toast.success(t("Messages.success.authentication_code_resent"));
+          addToast({
+            title: t("Messages.titles.success"),
+            description: t("Messages.success.authentication_code_resent"),
+            color: "success",
+          });
           setTimer(TIMEOUT);
         })
         .catch(() => {
-          toast.warning(t("Messages.errors.default"));
+          addToast({
+            title: t("Messages.titles.warning"),
+            description: t("Messages.errors.default"),
+            color: "warning",
+          });
         })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
-      toast.info(t("Messages.info.wait_resend_code_timeout", { seconds: timer }));
+      addToast({
+        title: t("Messages.titles.warning"),
+        description: t("Messages.info.wait_resend_code_timeout", {
+          seconds: timer,
+        }),
+        color: "warning",
+      });
     }
   };
 
@@ -85,9 +99,13 @@ export default function AuthCode() {
       .catch(({ response }) => {
         const { data: error } = response;
         if (response.status === 401) {
-          toast.error(
-            t("Messages.errors.authentication_code_attempts_exceeded")
-          );
+          addToast({
+            title: t("Messages.titles.error"),
+            description: t(
+              "Messages.errors.authentication_code_attempts_exceeded"
+            ),
+            color: "danger",
+          });
           logout();
           return;
         }
@@ -127,7 +145,7 @@ export default function AuthCode() {
               className="inline-block rounded-lg h-6"
               isLoaded={isDataLoading}
             >
-              <p className="pb-2 font-semibold text-gray-700 text-left text-xl dark:text-gray-200">
+              <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-xl text-left">
                 {t("UI.titles.welcome_again", { name: user?.name })}
                 <span aria-label="emoji" className="ml-2" role="img">
                   👋
@@ -165,8 +183,8 @@ export default function AuthCode() {
                   className="inline-block rounded-lg"
                   isLoaded={isDataLoading}
                 >
-                  <p className="text-center text-gray-700 text-small dark:text-gray-200">
-                    {t("UI.info.verification_code_sent")}{" "}
+                  <p className="text-gray-700 dark:text-gray-200 text-small text-center">
+                    {t("UI.info.description.verification_code_sent")}{" "}
                     <span className="font-bold">
                       {user
                         ? numberInputMask(user?.number)
@@ -193,7 +211,7 @@ export default function AuthCode() {
                 <Button className="w-full" color="primary" type="submit">
                   {t("UI.buttons.continue")}
                 </Button>
-                <p className="w-full text-center text-small">
+                <p className="w-full text-small text-center">
                   <Link href="/login" size="sm">
                     {t("UI.redirects.enter_another_account")}
                   </Link>

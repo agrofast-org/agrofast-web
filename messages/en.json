@@ -66,7 +66,12 @@
       }
     },
     "info": {
-      "verification_code_sent": "A verification code has been sent to the number: ",
+      "title": {
+        "verification_code_sent": "Verification code sent"
+      },
+      "description": {
+        "verification_code_sent": "A verification code has been sent to the number: "
+      },
       "did_not_received_code": "Didn't receive the code?"
     },
     "buttons": {
@@ -125,6 +130,12 @@
     }
   },
   "Messages": {
+    "titles": {
+      "error": "Error",
+      "success": "Success",
+      "info": "Information",
+      "warning": "Warning"
+    },
     "errors": {
       "default": "An unexpected error occurred. Please try again later.",
       "not_implemented": "Not implemented",

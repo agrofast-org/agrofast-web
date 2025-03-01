@@ -1,7 +1,7 @@
 import Body from "@/components/body";
 import Agrofast from "@/components/ui/agrofast";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
-import { Link } from "@nextui-org/react";
+import { Link } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";

@@ -1,28 +1,35 @@
-import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
-import { Toaster } from "sonner";
+import { ToastProvider } from "@heroui/react";
 
 interface ToasterProviderProps {
   children: React.ReactNode;
 }
 
-const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
-  const { theme } = useTheme();
+const ToastCloseIcon = () => (
+  <svg
+    fill="none"
+    height="32"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    width="32"
+  >
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+);
 
+const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
   return (
     <>
-      <Toaster
-        cn={cn}
-        position="top-right"
-        theme={theme === "dark" ? "dark" : "light"}
-        toastOptions={{
-          duration: 7500,
-          classNames: {
-            closeButton: "!top-3 !right-3 rounded-lg"
-          }
+      <ToastProvider
+        placement="bottom-right"
+        toastProps={{
+          variant: "flat",
+          radius: "md",
+          closeIcon: <ToastCloseIcon />,
         }}
-        closeButton
-        richColors
       />
       {children}
     </>

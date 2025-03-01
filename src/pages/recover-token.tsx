@@ -1,5 +1,5 @@
 import Body from "@/components/body";
-import { Button, Form, Spacer } from "@nextui-org/react";
+import { Button, Form, Spacer } from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import Input from "@/components/input";
 import { useTranslations } from "next-intl";
