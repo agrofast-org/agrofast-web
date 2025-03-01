@@ -87,6 +87,7 @@
       "code": "Código",
       "name": "Nome",
       "surname": "Sobrenome",
+      "email": "Email",
       "number": "Número",
       "password": "Senha",
       "password_confirm": "Confirmar senha",
@@ -97,6 +98,7 @@
       "write_code": "Digite o código",
       "write_name": "Digite seu nome",
       "write_surname": "Digite seu sobrenome",
+      "write_email": "Digite seu email",
       "write_number": "Digite seu número",
       "write_password": "Digite sua senha",
       "write_password_confirm": "Confirme sua senha",
@@ -111,7 +113,8 @@
       "welcome_again": "Bem-vindo de volta, {name}!",
       "create_account": "Criar conta",
       "create_new_password": "Criar nova senha",
-      "inform_your_number": "Informe seu número"
+      "inform_your_number": "Informe seu número",
+      "update_account": "Atualizar conta"
     },
     "checkboxes": {
       "remember_me": "Lembrar-se de mim"
