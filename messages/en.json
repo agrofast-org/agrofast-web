@@ -3,7 +3,7 @@
     "Index": {
       "meta": {
         "title": "Agrofast - Agricultural Machinery Transport",
-        "description": "Fast and safe agricultural machinery transport"
+        "description": "Transport agricultural machinery quickly and safely"
       }
     },
     "Login": {
@@ -87,6 +87,7 @@
       "code": "Code",
       "name": "Name",
       "surname": "Surname",
+      "email": "Email",
       "number": "Number",
       "password": "Password",
       "password_confirm": "Confirm password",
@@ -97,6 +98,7 @@
       "write_code": "Enter the code",
       "write_name": "Enter your name",
       "write_surname": "Enter your surname",
+      "write_email": "Enter your email",
       "write_number": "Enter your number",
       "write_password": "Enter your password",
       "write_password_confirm": "Confirm your password",
@@ -105,13 +107,14 @@
     },
     "messages": {
       "required_field": "Required field",
-      "fill_this_field": "Fill in this field"
+      "fill_this_field": "Fill this field"
     },
     "titles": {
       "welcome_again": "Welcome back, {name}!",
       "create_account": "Create account",
       "create_new_password": "Create new password",
-      "inform_your_number": "Inform your number"
+      "inform_your_number": "Inform your number",
+      "update_account": "Update account"
     },
     "checkboxes": {
       "remember_me": "Remember me"
@@ -134,7 +137,7 @@
       "error": "Error",
       "success": "Success",
       "info": "Information",
-      "warning": "Warning"
+      "warning": "Attention"
     },
     "errors": {
       "default": "An unexpected error occurred. Please try again later.",
@@ -188,7 +191,13 @@
     "agreements": {
       "accept_policy_and_terms": "I agree to the <use>Terms of Use</use> and acknowledge that I have read the <privacy>Privacy Policy</privacy>",
       "terms_of_use": "Terms of Use",
+      "terms_of_use_info_1": "By accessing or using the site, you agree to comply with the Terms of Use and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.",
+      "terms_of_use_info_2": "The materials contained on this site are protected by applicable copyright and trademark laws.",
+      "terms_of_use_info_3": "For more information on how we use your data, visit the <link>terms of use</link> page of our platform.",
       "privacy_policy": "Privacy Policy",
+      "privacy_policy_info_1": "Your privacy is important to us. It is Agrofast's policy to respect your privacy regarding any information we may collect on the Agrofast site, and other sites we own and operate.",
+      "privacy_policy_info_2": "We request personal information only when we really need it to provide you with a service. We do so by fair and legal means, with your knowledge and consent. We also inform you why we are collecting it and how it will be used.",
+      "privacy_policy_info_3": "For more information on how we use your data, visit the <link>privacy policy</link> page of our platform.",
       "sign_in_terms": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
       "login_terms": "By continuing, we will send a validation code to the provided number. Data and message rates may apply.",
       "mailing_list": "I want to receive promotional emails from Agrofast."

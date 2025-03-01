@@ -9,7 +9,7 @@ import {
   ModalHeader,
   Spacer,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useEffect, useState } from "react";
 import { cn, numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
@@ -207,7 +207,7 @@ export default function SignIn() {
       </Modal>
       <Body className="flex flex-row justify-center">
         <div className="flex flex-col flex-1 container">
-          <p className="px-8 py-6 pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
+          <p className="px-8 py-6 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
             {t("UI.titles.update_account")}
           </p>
           <div className="flex flex-row gap-4 px-8 py-6 w-full min-h-max">
@@ -291,14 +291,14 @@ export default function SignIn() {
                 <div className="max-w-48">
                   <label
                     data-slot="label"
-                    className="flex-shrink-0 max-w-full text-gray-700 text-small dark:text-gray-200 pointer-events-none"
+                    className="flex-shrink-0 max-w-full text-gray-700 dark:text-gray-200 text-small pointer-events-none"
                   >
                     Profile picture
                   </label>
                   <Img
                     src={user?.profile_picture ?? userPicture.src}
                     fallbackSrc={userPicture.src}
-                    className="border-2 border-default-200 hover:border-default-400 bg-gray-100 dark:bg-gray-500/75 rounded-xl min-w-8 min-h-8 cursor-pointer aspect-square object-cover"
+                    className="bg-gray-100 dark:bg-gray-500/75 border-2 border-default-200 hover:border-default-400 rounded-xl min-w-8 min-h-8 object-cover aspect-square cursor-pointer"
                     width={192}
                     height={192}
                     alt="Avatar"

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, memo, useEffect } from "react";
-import { Skeleton } from "@nextui-org/react";
+import { Skeleton } from "@heroui/react";
 import { cn } from "@/lib/utils";
 
 export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {

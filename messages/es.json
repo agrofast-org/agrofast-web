@@ -9,7 +9,7 @@
     "Login": {
       "meta": {
         "title": "Agrofast - Iniciar sesión",
-        "description": "Inicie sesión para acceder a su cuenta de Agrofast"
+        "description": "Inicie sesión para acceder a su cuenta Agrofast"
       }
     },
     "SignUp": {
@@ -26,13 +26,13 @@
     },
     "ForgotPass": {
       "meta": {
-        "title": "Agrofast - Olvidé mi Contraseña",
+        "title": "Agrofast - Olvidé mi contraseña",
         "description": "Recupere su contraseña de Agrofast"
       }
     },
     "RecoverToken": {
       "meta": {
-        "title": "Agrofast - Recuperar Contraseña",
+        "title": "Agrofast - Recuperar contraseña",
         "description": "Ingrese el token de recuperación enviado a su teléfono"
       }
     },
@@ -49,7 +49,7 @@
     },
     "InternalError": {
       "meta": {
-        "title": "Agrofast - Error Interno",
+        "title": "Agrofast - Error interno",
         "description": "Ocurrió un error"
       },
       "messages": {
@@ -61,7 +61,7 @@
     "tooltips": {
       "write_number": {
         "title": "Ingrese su número",
-        "info": "Escriba su número de teléfono con código de área.",
+        "info": "Escriba su número de teléfono con DDD.",
         "example": "Su número de teléfono debe estar formateado de la siguiente manera: +55 01 23456-7890"
       }
     },
@@ -87,6 +87,7 @@
       "code": "Código",
       "name": "Nombre",
       "surname": "Apellido",
+      "email": "Correo electrónico",
       "number": "Número",
       "password": "Contraseña",
       "password_confirm": "Confirmar contraseña",
@@ -97,6 +98,7 @@
       "write_code": "Ingrese el código",
       "write_name": "Ingrese su nombre",
       "write_surname": "Ingrese su apellido",
+      "write_email": "Ingrese su correo electrónico",
       "write_number": "Ingrese su número",
       "write_password": "Ingrese su contraseña",
       "write_password_confirm": "Confirme su contraseña",
@@ -111,7 +113,8 @@
       "welcome_again": "Bienvenido de nuevo, {name}!",
       "create_account": "Crear cuenta",
       "create_new_password": "Crear nueva contraseña",
-      "inform_your_number": "Informe su número"
+      "inform_your_number": "Informe su número",
+      "update_account": "Actualizar cuenta"
     },
     "checkboxes": {
       "remember_me": "Recuérdame"
@@ -134,7 +137,7 @@
       "error": "Error",
       "success": "Éxito",
       "info": "Información",
-      "warning": "Advertencia"
+      "warning": "Atención"
     },
     "errors": {
       "default": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.",
@@ -149,8 +152,8 @@
       "authentication_code_attempts_exceeded": "Intentos de código de autenticación excedidos",
       "incorrect_authentication_code": "Código de autenticación incorrecto",
       "failed_to_resend_code": "Error al reenviar el código",
-      "failed_to_upload_image": "Error al cargar la imagen",
-      "failed_to_save_image_record": "Error al guardar el registro de la imagen",
+      "failed_to_upload_image": "Error al subir la imagen",
+      "failed_to_save_image_record": "Error al guardar el registro de imagen",
       "no_images_found": "No se encontraron imágenes"
     },
     "success": {
@@ -158,7 +161,7 @@
       "login_successful": "Inicio de sesión exitoso",
       "user_authenticated_successfully": "Usuario autenticado con éxito",
       "authentication_code_resent": "Código de autenticación reenviado",
-      "image_uploaded_successfully": "Imagen cargada con éxito",
+      "image_uploaded_successfully": "Imagen subida con éxito",
       "user_found": "Usuario encontrado"
     },
     "info": {
@@ -188,7 +191,13 @@
     "agreements": {
       "accept_policy_and_terms": "Acepto los <use>Términos de Uso</use> y reconozco que he leído la <privacy>Política de Privacidad</privacy>",
       "terms_of_use": "Términos de Uso",
+      "terms_of_use_info_1": "Al acceder o usar el sitio, usted acepta cumplir con los Términos de Uso y todas las leyes y regulaciones aplicables. Si no está de acuerdo con alguno de estos términos, tiene prohibido usar o acceder a este sitio.",
+      "terms_of_use_info_2": "Los materiales contenidos en este sitio están protegidos por las leyes de derechos de autor y marcas comerciales aplicables.",
+      "terms_of_use_info_3": "Para más información sobre cómo usamos sus datos, visite la página de <link>términos de uso</link> de nuestra plataforma.",
       "privacy_policy": "Política de Privacidad",
+      "privacy_policy_info_1": "Su privacidad es importante para nosotros. Es política de Agrofast respetar su privacidad con respecto a cualquier información suya que podamos recopilar en el sitio Agrofast, y otros sitios que poseemos y operamos.",
+      "privacy_policy_info_2": "Solicitamos información personal solo cuando realmente la necesitamos para brindarle un servicio. Lo hacemos por medios justos y legales, con su conocimiento y consentimiento. También le informamos por qué estamos recopilando y cómo será utilizada.",
+      "privacy_policy_info_3": "Para más información sobre cómo usamos sus datos, visite la página de <link>política de privacidad</link> de nuestra plataforma.",
       "sign_in_terms": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
       "login_terms": "Al continuar, enviaremos un código de validación al número informado. Pueden aplicarse tarifas de datos y mensajes.",
       "mailing_list": "Deseo recibir correos electrónicos promocionales de Agrofast."
