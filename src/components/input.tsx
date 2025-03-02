@@ -33,7 +33,6 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
         label: "top-6",
         helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max",
       }}
-      {...props}
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       endContent={
@@ -59,7 +58,7 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
               <ViewOffIcon
                 type="rounded"
                 variant="bulk"
-                className="group-data-[pressed=true]:scale-y-90 text-default-700 text-xl transition-transform pointer-events-none"
+                className="text-default-700 text-xl group-data-[pressed=true]:scale-y-90 transition-transform pointer-events-none"
               />
             </motion.div>
             <motion.div
@@ -74,7 +73,7 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
               <ViewIcon
                 type="rounded"
                 variant="stroke"
-                className="group-data-[pressed=true]:scale-y-85 text-default-700 text-xl transition-transform pointer-events-none"
+                className="text-default-700 text-xl group-data-[pressed=true]:scale-y-85 transition-transform pointer-events-none"
               />
             </motion.div>
           </Button>
@@ -89,7 +88,8 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
         }
         return null;
       }}
-      type={isPassVisible ? "text" : props.type}
+      type={isPassVisible ? "text" : props.type}  
+      {...props}
     />
   );
 };

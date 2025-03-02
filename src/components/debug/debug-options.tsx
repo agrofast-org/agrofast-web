@@ -33,7 +33,7 @@ const RouteSelector = () => {
     "/login",
     "/sign-up",
     "/auth-code",
-    "/forgot-pass",
+    "/reset-password",
     "/recover-token",
   ];
   const router = useRouter();

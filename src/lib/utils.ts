@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function numberInputMask(value: string | undefined): string {
-  if (!value) {
+  if (value === undefined || value === null || value.trim() === "") {
     return "";
   }
   return value
@@ -23,8 +23,5 @@ export const isDev = (): boolean => {
 };
 
 export const getPortfolioUrl = (): string => {
-  if (isDev()) {
-    return "http://local.agrofast.tech";
-  }
-  return "https://agrofast.tech";
+  return process.env.NEXT_PUBLIC_PORTFOLIO_BASE_URL ?? "https://agrofast.tech";
 };

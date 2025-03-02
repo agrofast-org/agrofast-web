@@ -2,7 +2,7 @@ import { addToast } from "@heroui/react";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -24,7 +24,6 @@ api.interceptors.response.use(
       case 401:
         // logout();
         return Promise.reject(error);
-        break;
       default:
         if (data?.error) {
           return Promise.reject(data.error);

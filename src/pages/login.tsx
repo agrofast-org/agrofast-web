@@ -29,7 +29,7 @@ export default function Login() {
   const pt = useTranslations("Pages.Login");
   const { setIsLoading } = useOverlay();
   const { translateResponse } = useLanguage();
-  const { setUser, setTempToken } = useUser();
+  const { setUser, setToken } = useUser();
 
   const [number, setNumber] = useState("");
 
@@ -47,7 +47,7 @@ export default function Login() {
           config.headers.Authorization = `Bearer ${data.token}`;
           return config;
         });
-        setTempToken(data.token);
+        setToken(data.token);
         setUser(data.user);
         router.push(`/auth-code`);
       })
@@ -67,15 +67,15 @@ export default function Login() {
         <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row" hideHeader>
-        <div className="lg:flex flex-col flex-[4] justify-center items-center hidden">
+        <div className="hidden lg:flex flex-col flex-[4] justify-center items-center">
           <section className="flex flex-col items-start gap-4 p-4">
-            <h1 className="font-light font-mono text-2xl text-gray-700 dark:text-gray-200">
+            <h1 className="font-mono font-light text-gray-700 dark:text-gray-200 text-2xl">
               {t("Advertizement.titles.primary")}
             </h1>
-            <h1 className="max-w-md font-bold font-inter text-4xl text-gray-700 dark:text-gray-200">
+            <h1 className="max-w-md font-inter font-bold text-gray-700 dark:text-gray-200 text-4xl">
               {t("Advertizement.subtitles.primary")}
             </h1>
-            <p className="text-gray-700 text-sm dark:text-gray-200">
+            <p className="text-gray-700 dark:text-gray-200 text-sm">
               {t("Advertizement.descriptions.primary")}
             </p>
             <Button
@@ -95,7 +95,7 @@ export default function Login() {
             <div className="flex flex-col items-center gap-2">
               <Agrofast.Logo className="w-40 h-10" />
             </div>
-            <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
+            <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
               {t("UI.redirects.enter_existing_account")}
             </p>
             <Form
@@ -135,7 +135,7 @@ export default function Login() {
                           </div>
                           <div className="text-tiny">
                             {t("UI.tooltips.write_number.example")}
-                            <Code className="px-1 p-0.5 text-tiny">
+                            <Code className="p-0.5 px-1 text-tiny">
                               +55 99 99999-9999
                             </Code>
                           </div>
@@ -154,6 +154,7 @@ export default function Login() {
                 />
                 <Input
                   isRequired
+                  taggableVisibility
                   className="text-gray-700 dark:text-gray-200"
                   label={t("UI.labels.password")}
                   labelPlacement="outside"
@@ -169,10 +170,12 @@ export default function Login() {
                     value="true"
                     size="sm"
                   >
-                    {t("UI.checkboxes.remember_me")}
+                    <p className="text-gray-700 dark:text-gray-200 text-small text-start">
+                      {t("UI.checkboxes.remember_me")}
+                    </p>
                   </Checkbox>
                   <Link
-                    href="/forgot-pass"
+                    href="/reset-password"
                     className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
                   >
                     {t("UI.redirects.forgot_password")}
@@ -183,7 +186,7 @@ export default function Login() {
                 <Button className="w-full" color="primary" type="submit">
                   {t("UI.buttons.enter")}
                 </Button>
-                <p className="text-center text-small">
+                <p className="text-small text-center">
                   <Link
                     href="/sign-up"
                     className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"

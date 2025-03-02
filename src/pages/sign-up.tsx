@@ -36,7 +36,7 @@ export default function SignIn() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { translateResponse } = useLanguage();
-  const { setUser, setTempToken } = useUser();
+  const { setUser, setToken } = useUser();
   const { setIsLoading } = useOverlay();
 
   const [number, setNumber] = useState("");
@@ -66,7 +66,7 @@ export default function SignIn() {
           config.headers.Authorization = `Bearer ${data.token}`;
           return config;
         });
-        setTempToken(data.token);
+        setToken(data.token);
         setUser(data.user);
         router.push(`/auth-code`);
       })
@@ -233,12 +233,12 @@ export default function SignIn() {
                 type="password"
                 variant="bordered"
               />
-              <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-2 px-1 py-2 w-full">
+              <div className="flex flex-row justify-between items-center gap-2 px-1 py-2 w-full">
                 <Checkbox
                   name="terms_of_use_agreement"
                   value="false"
                   size="sm"
-                ></Checkbox>
+                />
                 <p className="text-gray-700 dark:text-gray-200 text-small text-start">
                   {t.rich("Legal.agreements.accept_policy_and_terms", {
                     use: (chunks) => (

@@ -23,7 +23,7 @@ export default function RecoverToken() {
       router.query.token === "" ||
       typeof router.query.token !== "string"
     ) {
-      // router.push("/forgot-pass");
+      // router.push("/reset-password");
       // return null;
     }
   }
@@ -40,7 +40,7 @@ export default function RecoverToken() {
             <div className="flex flex-col items-center gap-2">
               <Agrofast.Logo className="w-40 h-10" />
             </div>
-            <p className="pb-2 font-semibold text-2xl text-gray-700 text-left dark:text-gray-200">
+            <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
               {t("UI.titles.create_new_password")}
             </p>
             <Form

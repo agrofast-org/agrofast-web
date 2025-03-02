@@ -62,7 +62,7 @@
       "write_number": {
         "title": "Ingrese su número",
         "info": "Escriba su número de teléfono con DDD.",
-        "example": "Su número de teléfono debe estar formateado de la siguiente manera: +55 01 23456-7890"
+        "example": "Su número de teléfono debe estar formateado de la siguiente manera: "
       }
     },
     "info": {

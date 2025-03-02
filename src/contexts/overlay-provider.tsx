@@ -21,7 +21,7 @@ export const useOverlay = (): OverlayContextProps => {
 export const OverlayProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string | undefined>();
 
   return (

@@ -62,7 +62,7 @@
       "write_number": {
         "title": "Enter your number",
         "info": "Write your phone number with area code.",
-        "example": "Your phone number should be formatted as follows: +55 01 23456-7890"
+        "example": "Your phone number should be formatted as follows: "
       }
     },
     "info": {

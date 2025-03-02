@@ -27,12 +27,12 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
         <ToasterProvider>
           <NextThemesProvider attribute="class" defaultTheme="dark">
             <LanguageProvider>
-              <AuthProvider>
-                <OverlayProvider>
+              <OverlayProvider>
+                <AuthProvider>
                   {children}
                   <DebugOptions />
-                </OverlayProvider>
-              </AuthProvider>
+                </AuthProvider>
+              </OverlayProvider>
             </LanguageProvider>
           </NextThemesProvider>
         </ToasterProvider>

@@ -28,6 +28,10 @@ const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
         toastProps={{
           variant: "flat",
           radius: "md",
+          hideIcon: true,
+          classNames: {
+            closeButton: "opacity-100 absolute right-4 top-1/2 -translate-y-1/2",
+          },
           closeIcon: <ToastCloseIcon />,
         }}
       />
