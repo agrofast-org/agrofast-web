@@ -18,8 +18,23 @@ const Loading = () => {
         "text-slate-800 dark:text-slate-50 bg-zinc-400/35 dark:bg-zinc-800/35 backdrop-blur-[1px]"
       )}
     >
-      <Spinner size="lg" color="current" />
-      {message && <div className="max-w-56 font-medium text- text-center">{message}</div>}
+      <Spinner
+        size="lg"
+        color="current"
+        className={cn(
+          isLoading ? "pointer-events-auto" : "pointer-events-none"
+        )}
+      />
+      {message && (
+        <div
+          className={cn(
+            isLoading ? "pointer-events-auto" : "pointer-events-none",
+            "max-w-56 font-medium text- text-center"
+          )}
+        >
+          {message}
+        </div>
+      )}
     </motion.div>
   );
 };
