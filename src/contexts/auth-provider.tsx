@@ -43,14 +43,13 @@ export const useUser = (): AuthContextProps => {
 };
 
 export const PUBLIC_PATHS = [
-  "/",
   "/login",
   "/sign-up",
   "/public",
   "/recover-token",
   "/reset-password",
 ];
-export const USER_PATHS = ["/dashboard", "/user", "/profile", "/settings"];
+export const USER_PATHS = ["/", "/dashboard", "/user", "/profile", "/settings"];
 export const ADMIN_PATHS = [
   "/admin/",
   "/admin/settings",
@@ -215,11 +214,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
 
-    if (
-      token &&
-      !USER_PATHS.includes(url) &&
-      !PUBLIC_PATHS.includes(url)
-    ) {
+    if (token && !USER_PATHS.includes(url) && !PUBLIC_PATHS.includes(url)) {
       router.push("/dashboard");
     }
     setIsPageLoading(false);
