@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Header from "./header";
 import { cn } from "@/lib/utils";
 import Loading from "./loading";
@@ -13,9 +12,6 @@ const Body: React.FC<BodyProps> = ({ className, children, hideHeader }) => {
   return (
     <>
       <Loading />
-      <Head>
-        <title>Agrofast</title>
-      </Head>
       {!hideHeader && <Header />}
       <main
         className={cn(

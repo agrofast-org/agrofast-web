@@ -20,7 +20,6 @@ interface User {
   name: string;
   surname: string;
   number: string;
-  role?: "admin" | "user";
   email?: string;
   profile_picture?: string;
 }
@@ -211,19 +210,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
 
-    if (token && user?.role !== "admin" && ADMIN_PATHS.includes(url)) {
+    if (token && ADMIN_PATHS.includes(url)) {
       router.push("/dashboard");
-      return;
-    }
-
-    if (token && user?.role === "admin" && !ADMIN_PATHS.includes(url)) {
-      router.push("/admin/dashboard");
       return;
     }
 
     if (
       token &&
-      user?.role !== "admin" &&
       !USER_PATHS.includes(url) &&
       !PUBLIC_PATHS.includes(url)
     ) {

@@ -64,7 +64,7 @@ const RouteSelector = () => {
 };
 
 const DebugOptions = () => {
-  const { isLoading, setIsLoading } = useOverlay();
+  const { isLoading, setIsLoading, isPageLoading, setIsPageLoading } = useOverlay();
 
   if (process.env.NODE_ENV !== "development") {
     return null;
@@ -90,6 +90,19 @@ const DebugOptions = () => {
               <hr className="flex-1 mx-2 border-dashed" />
               <p>Change theme</p>
             </div>
+            <div className="flex flex-row justify-between items-center text-tiny">
+              <Switch
+                size="sm"
+                defaultChecked={isPageLoading}
+                onChange={(value) => {
+                  setIsPageLoading(value.target.checked);
+                }}
+                className="text-medium"
+              />
+              <hr className="flex-1 mx-2 border-dashed" />
+              <p>Page Loading</p>
+            </div>
+
             <div className="flex flex-row justify-between items-center text-tiny">
               <Switch
                 size="sm"
