@@ -48,7 +48,7 @@ export const PrivacyPolicy = () => {
             {t.rich("Legal.agreements.privacy_policy_info_3", {
               link: (chunks) => (
                 <Link
-                  href={`https://agrofast.tech/privacy-policy`}
+                  href={`https://agrofast.tech/privacy-policies`}
                   className="hover:opacity-80 font-medium text-primary hover:underline transition-all cursor-pointer"
                 >
                   {chunks}
