@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const router = useRouter();
   const t = useTranslations();
-  const { setIsLoading } = useOverlay();
+  const { setIsPageLoading } = useOverlay();
 
   const [cookies, setCookie, removeCookie] = useCookies([
     AUTH_TOKEN_KEY,
@@ -222,8 +222,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     ) {
       router.push("/dashboard");
     }
-    setIsLoading(false);
-  }, [token, authenticated, user, router, setIsLoading]);
+    setIsPageLoading(false);
+  }, [token, authenticated, user, router, setIsPageLoading]);
 
   return (
     <AuthContext.Provider

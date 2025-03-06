@@ -1,17 +1,14 @@
-import type { useTranslations } from "next-intl";
 import React, { createContext, useContext, ReactNode, useState } from "react";
-
-export type TranslationKey = Parameters<ReturnType<typeof useTranslations>["raw"]>[0];
 
 interface OverlayContextProps {
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
   isPageLoading: boolean;
   setIsPageLoading: (isPageLoading: boolean) => void;
-  message: TranslationKey | undefined;
-  setMessage: (message: TranslationKey | undefined) => void;
-  pageMessage: TranslationKey | undefined;
-  setPageMessage: (pageMessage: TranslationKey | undefined) => void;
+  message: string | undefined;
+  setMessage: (message: string | undefined) => void;
+  pageMessage: string | undefined;
+  setPageMessage: (pageMessage: string | undefined) => void;
 }
 
 const OverlayContext = createContext<OverlayContextProps | undefined>(
@@ -26,16 +23,15 @@ export const useOverlay = (): OverlayContextProps => {
   return context;
 };
 
-
 export const OverlayProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const t = useTranslations();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPageLoading, setIsPageLoading] = useState<boolean>(true);
-  const [message, setMessage] = useState<TranslationKey | undefined>();
-  const [pageMessage, setPageMessage] = useState<TranslationKey | undefined>("Messages.info.loading");
+  const [message, setMessage] = useState<string | undefined>();
+  const [pageMessage, setPageMessage] = useState<string | undefined>(
+    "Messages.info.loading"
+  );
 
   return (
     <OverlayContext.Provider
