@@ -88,8 +88,8 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
         }
         return null;
       }}
-      type={isPassVisible ? "text" : props.type}  
       {...props}
+      type={isPassVisible ? "text" : props.type}  
     />
   );
 };
