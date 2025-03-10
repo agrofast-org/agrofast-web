@@ -52,7 +52,7 @@ export default function Login() {
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
-        const fields = translateResponse(error.fields);
+        const fields = translateResponse(error.errors);
         setErrors(fields);
       })
       .finally(() => {
@@ -170,9 +170,7 @@ export default function Login() {
                     value="true"
                     size="sm"
                   >
-                    <p className="text-gray-700 dark:text-gray-200 text-small text-start">
-                      {t("UI.checkboxes.remember_me")}
-                    </p>
+                    {t("UI.checkboxes.remember_me")}
                   </Checkbox>
                   <Link
                     href="/reset-password"

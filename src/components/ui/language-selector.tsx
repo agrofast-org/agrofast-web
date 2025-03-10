@@ -1,7 +1,7 @@
 import {
   Select,
   SelectItem,
-  SelectProps as NextUISelectProps,
+  SelectProps as HeroUISelectProps,
 } from "@heroui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import { Globe02Icon, LanguageSkillIcon } from "@hugeicons/react";
 import { languages } from "@/internationalization/languages";
 import { cn } from "@/lib/utils";
 
-interface LanguageSelectorProps extends Omit<NextUISelectProps, 'children'> {
+interface LanguageSelectorProps extends Omit<HeroUISelectProps, 'children'> {
   className?: string;
   children?: React.ReactNode;
 }

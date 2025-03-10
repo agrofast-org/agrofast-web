@@ -1,19 +1,23 @@
 import { motion } from "framer-motion";
 import {
   Button,
-  InputProps as NextUIInputProps,
-  Input as NextUIInput,
+  InputProps as HeroUIInputProps,
+  Input as HeroUIInput,
 } from "@heroui/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-export interface InputProps extends NextUIInputProps {
+export interface InputProps extends HeroUIInputProps {
   taggableVisibility?: boolean;
   error?: string | Record<string, string>;
 }
 
-const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
+const Input: React.FC<InputProps> = ({
+  taggableVisibility,
+  value,
+  ...props
+}) => {
   const t = useTranslations();
   const [inputValue, setInputValue] = useState(value);
   const [isPassVisible, setIsPassVisible] = useState(false);
@@ -27,7 +31,7 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
   }, [value]);
 
   return (
-    <NextUIInput
+    <HeroUIInput
       classNames={{
         base: "relative",
         label: "top-6",
@@ -89,7 +93,7 @@ const Input = ({ taggableVisibility, value, ...props }: InputProps) => {
         return null;
       }}
       {...props}
-      type={isPassVisible ? "text" : props.type}  
+      type={isPassVisible ? "text" : props.type}
     />
   );
 };

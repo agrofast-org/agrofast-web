@@ -1,17 +1,17 @@
 import { cn } from "@/lib/utils";
 import {
-  ScrollShadow as NextUIScrollShadow,
-  ScrollShadowProps as NextUIScrollShadowProps,
+  ScrollShadow as HeroUIScrollShadow,
+  ScrollShadowProps as HeroUIScrollShadowProps,
 } from "@heroui/react";
 
-export interface ScrollShadowProps extends NextUIScrollShadowProps {
+export interface ScrollShadowProps extends HeroUIScrollShadowProps {
   children?: React.ReactNode;
   className?: string;
 }
 
 const ScrollShadow = ({ children, className, ...props }: ScrollShadowProps) => {
   return (
-    <NextUIScrollShadow
+    <HeroUIScrollShadow
       className={cn(
         "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]",
         "[&::-webkit-scrollbar-track]:rounded-full",
@@ -25,7 +25,7 @@ const ScrollShadow = ({ children, className, ...props }: ScrollShadowProps) => {
       {...props}
     >
       {children}
-    </NextUIScrollShadow>
+    </HeroUIScrollShadow>
   );
 };
 

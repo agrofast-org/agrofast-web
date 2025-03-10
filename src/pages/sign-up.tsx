@@ -2,7 +2,6 @@ import Body from "@/components/body";
 import { ArrowUpRight01Icon, InformationCircleIcon } from "@hugeicons/react";
 import {
   Button,
-  Checkbox,
   Code,
   Form,
   Modal,
@@ -14,7 +13,7 @@ import {
   Spacer,
   useDisclosure,
 } from "@heroui/react";
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl, numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
@@ -28,6 +27,7 @@ import { useOverlay } from "@/contexts/overlay-provider";
 import { useUser } from "@/contexts/auth-provider";
 import Link from "next/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
+import Checkbox from "@/components/checkbox";
 
 export default function SignIn() {
   const router = useRouter();
@@ -71,13 +71,17 @@ export default function SignIn() {
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
-        const fields = translateResponse(error.fields);
+        const fields = translateResponse(error.errors);
         setErrors(fields);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   return (
     <>
@@ -152,6 +156,7 @@ export default function SignIn() {
                 type="name"
                 autoCapitalize="words"
                 variant="bordered"
+                error={"cu"}
               />
               <Input
                 isRequired
@@ -233,37 +238,43 @@ export default function SignIn() {
                 type="password"
                 variant="bordered"
               />
-              <div className="flex flex-row justify-between items-center gap-2 px-1 py-2 w-full">
+              <div>
                 <Checkbox
-                  name="terms_of_use_agreement"
-                  value="false"
+                  defaultSelected
+                  name="remember"
+                  value="true"
                   size="sm"
-                />
-                <p className="text-gray-700 dark:text-gray-200 text-small text-start">
-                  {t.rich("Legal.agreements.accept_policy_and_terms", {
-                    use: (chunks) => (
-                      <span
-                        onClick={() => {
-                          openTermsOfUse();
-                        }}
-                        className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
-                      >
-                        {chunks}
-                      </span>
-                    ),
-                    privacy: (chunks) => (
-                      <span
-                        onClick={() => {
-                          openPrivacyPolicy();
-                        }}
-                        className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
-                      >
-                        {chunks}
-                      </span>
-                    ),
-                  })}
-                </p>
+                >
+                  {t("UI.checkboxes.remember_me")}
+                </Checkbox>
+                <Checkbox name="terms_and_privacy_agreement" value="false" size="sm">
+                  <>
+                    {t.rich("Legal.agreements.accept_policy_and_terms", {
+                      use: (chunks) => (
+                        <span
+                          onClick={() => {
+                            openTermsOfUse();
+                          }}
+                          className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
+                        >
+                          {chunks}
+                        </span>
+                      ),
+                      privacy: (chunks) => (
+                        <span
+                          onClick={() => {
+                            openPrivacyPolicy();
+                          }}
+                          className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
+                        >
+                          {chunks}
+                        </span>
+                      ),
+                    })}
+                  </>
+                </Checkbox>
               </div>
+              <input type="hidden" name="language" value={router.locale} />
               <Spacer y={4} />
               <p className="text-gray-700 dark:text-gray-200 text-small text-start">
                 {t("Legal.agreements.sign_in_terms")}

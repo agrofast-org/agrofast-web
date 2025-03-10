@@ -45,18 +45,14 @@ export const useUser = (): AuthContextProps => {
 export const PUBLIC_PATHS = [
   "/login",
   "/sign-up",
-  "/public",
   "/recover-token",
   "/reset-password",
 ];
-export const USER_PATHS = ["/", "/dashboard", "/user", "/profile", "/settings"];
-export const ADMIN_PATHS = [
-  "/admin/",
-  "/admin/settings",
-  "/admin/users",
-  "/admin/dashboard",
-  "/admin/products",
+export const PUBLIC_AUTH_PATHS = [
+  "/auth-code",
+  "/auth-with",
 ];
+export const USER_PATHS = ["/", "/dashboard", "/user", "/profile", "/settings"];
 
 export const AUTH_TOKEN_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_token`;
 export const AUTH_BROWSER_AGENT_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_browser_agent`;
@@ -198,27 +194,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const url = router.pathname;
+    const unauthenticatedPaths = [...PUBLIC_PATHS, ...PUBLIC_AUTH_PATHS];
+    const authenticatedPaths = USER_PATHS;
+    const allAllowedPaths = [...unauthenticatedPaths, ...authenticatedPaths];
 
-    if (!token && !PUBLIC_PATHS.includes(url)) {
-      router.push("/login");
+    if (!allAllowedPaths.includes(url)) {
+      setIsPageLoading(false);
       return;
     }
 
-    if (token && !authenticated) {
-      router.push("/auth-code");
+    if (!token && !PUBLIC_PATHS.includes(url) && PUBLIC_AUTH_PATHS.includes(url)) {
+      router.push("/login", undefined, { locale: router.locale });
       return;
     }
 
-    if (token && ADMIN_PATHS.includes(url)) {
-      router.push("/dashboard");
+    if (token && !authenticated && !PUBLIC_AUTH_PATHS.includes(url)) {
+      router.push(PUBLIC_AUTH_PATHS[0], undefined, { locale: router.locale });
       return;
     }
 
-    if (token && !USER_PATHS.includes(url) && !PUBLIC_PATHS.includes(url)) {
-      router.push("/dashboard");
+    if (token && authenticated && unauthenticatedPaths.includes(url)) {
+      router.push("/dashboard", undefined, { locale: router.locale });
+      return;
     }
+
     setIsPageLoading(false);
-  }, [token, authenticated, user, router, setIsPageLoading]);
+  }, [token, authenticated, router, setIsPageLoading]);
 
   return (
     <AuthContext.Provider

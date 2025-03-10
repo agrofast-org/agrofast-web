@@ -2,7 +2,7 @@
 
 import {
   Button,
-  ButtonProps as NextUIButtonProps,
+  ButtonProps as HeroUIButtonProps,
   Spinner,
 } from "@heroui/react";
 import { useTheme } from "next-themes";
@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Moon02Icon, Sun01Icon } from "@hugeicons/react";
 
-interface ThemeSwitcherProps extends NextUIButtonProps {
+interface ThemeSwitcherProps extends HeroUIButtonProps {
   className?: string;
 }
 

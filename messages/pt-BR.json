@@ -142,6 +142,19 @@
     "errors": {
       "default": "Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.",
 
+      "name_required": "Nome é obrigatório",
+      "surname_required": "Sobrenome é obrigatório",
+      "number_required": "Número é obrigatório",
+      "invalid_number": "Número inválido",
+      "invalid_email": "Email inválido",
+      "password_required": "Senha é obrigatória",
+      "password_length": "A senha deve ter pelo menos 8 caracteres",
+      "password_character": "A senha deve conter pelo menos um número, uma letra maiúscula e um caractere especial",
+      "password_confirm_required": "Confirmação da senha é obrigatória",
+      "password_not_coincide": "A senha e a confirmação não coincidem",
+      "terms_and_privacy_agreement_required": "Você deve aceitar os Termos de Uso e a Política de Privacidade",
+      "terms_and_privacy_agreement_not_accepted": "Os Termos de Uso ou a Política de Privacidade não foram aceitos",
+
       "not_implemented": "Não implementado",
       "user_not_found": "Usuário não encontrado",
       "error_creating_user": "Erro ao criar usuário",
