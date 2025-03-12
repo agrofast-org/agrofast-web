@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import Agrofast from "@/components/ui/agrofast";
 
@@ -8,16 +7,20 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
 import { getPortfolioUrl } from "@/lib/utils";
+import Link from "@/components/link";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
   loading: () => <LazyThemeSwitcher />,
 });
 
-const LanguageSelector = dynamic(() => import("@/components/ui/language-selector"), {
-  ssr: false,
-  loading: () => <LazyLanguageSelector />,
-});
+const LanguageSelector = dynamic(
+  () => import("@/components/ui/language-selector"),
+  {
+    ssr: false,
+    loading: () => <LazyLanguageSelector />,
+  }
+);
 
 const Header: React.FC = () => {
   const t = useTranslations();
@@ -36,7 +39,7 @@ const Header: React.FC = () => {
               <Agrofast.Logo className="w-36 h-9 translate-y-1" />
             </Link>
           </div>
-          <div className="md:block space-x-4 hidden">
+          <div className="hidden md:block space-x-4">
             <Link
               href={`${getPortfolioUrl()}/about`}
               className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"

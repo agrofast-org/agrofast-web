@@ -1,87 +1,19 @@
 import Body from "@/components/body";
-import { ArrowUpRight01Icon, InformationCircleIcon } from "@hugeicons/react";
-import {
-  Button,
-  Code,
-  Form,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Spacer,
-  useDisclosure,
-} from "@heroui/react";
-import { JSX, useEffect, useState } from "react";
+import { ArrowUpRight01Icon } from "@hugeicons/react";
+import { Button } from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
-import { getPortfolioUrl, numberInputMask } from "@/lib/utils";
-import Input from "@/components/input";
+import { getPortfolioUrl } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import api from "@/service/api";
-import { useLanguage } from "@/contexts/language-provider";
-import { useOverlay } from "@/contexts/overlay-provider";
-import { useUser } from "@/contexts/auth-provider";
-import Link from "next/link";
-import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
-import Checkbox from "@/components/checkbox";
+import Link from "@/components/link";
+import SignInForm from "@/forms/sign-up-form";
 
 export default function SignIn() {
   const router = useRouter();
   const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { translateResponse } = useLanguage();
-  const { setUser, setToken } = useUser();
-  const { setIsLoading } = useOverlay();
-
-  const [number, setNumber] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const [modalContent, setModalContent] = useState<JSX.Element | undefined>();
-
-  const openTermsOfUse = () => {
-    setModalContent(<TermsOfUse />);
-    onOpen();
-  };
-
-  const openPrivacyPolicy = () => {
-    setModalContent(<PrivacyPolicy />);
-    onOpen();
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-
-    setIsLoading(true);
-    api
-      .post("/user", data)
-      .then(({ data }) => {
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${data.token}`;
-          return config;
-        });
-        setToken(data.token);
-        setUser(data.user);
-        router.push(`/auth-code`);
-      })
-      .catch(({ response: { data: error } }) => {
-        const fields = translateResponse(error.errors);
-        setErrors(fields);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <>
@@ -89,25 +21,6 @@ export default function SignIn() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Modal
-        scrollBehavior="inside"
-        isOpen={isOpen}
-        size="2xl"
-        onClose={onClose}
-      >
-        <ModalContent className="m-1 md:m-0 max-h-[calc(100vh-8px)] md:max-h-[calc(100vh-4rem)]">
-          {(onClose) => (
-            <>
-              {modalContent}
-              <ModalFooter>
-                <Button color="primary" onPress={onClose}>
-                  {t("UI.buttons.understood")}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
       <Body className="flex flex-row" hideHeader>
         <div className="hidden lg:flex flex-col flex-[4] justify-center items-center">
           <section className="flex flex-col items-start gap-4 p-4">
@@ -140,157 +53,7 @@ export default function SignIn() {
             <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
               {t("UI.titles.create_account")}
             </p>
-            <Form
-              className="flex flex-col gap-4"
-              validationBehavior="native"
-              validationErrors={errors}
-              onSubmit={handleSubmit}
-            >
-              <Input
-                isRequired
-                className="text-gray-700 dark:text-gray-200"
-                label={t("UI.labels.name")}
-                labelPlacement="outside"
-                name="name"
-                placeholder={t("UI.placeholders.write_name")}
-                type="name"
-                autoCapitalize="words"
-                variant="bordered"
-                error={"cu"}
-              />
-              <Input
-                isRequired
-                className="text-gray-700 dark:text-gray-200"
-                label={t("UI.labels.surname")}
-                labelPlacement="outside"
-                name="surname"
-                placeholder={t("UI.placeholders.write_surname")}
-                type="name"
-                autoCapitalize="words"
-                variant="bordered"
-              />
-              <Input
-                isRequired
-                className="text-gray-700 dark:text-gray-200"
-                endContent={
-                  <Popover placement="top-end" radius="sm" offset={8}>
-                    <PopoverTrigger>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="flat"
-                        className="-right-[9px]"
-                        isIconOnly
-                      >
-                        <InformationCircleIcon
-                          type="rounded"
-                          variant="stroke"
-                          className="text-default-700 text-xl pointer-events-none"
-                        />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
-                        <div className="font-bold text-small">
-                          {t("UI.tooltips.write_number.title")}
-                        </div>
-                        <div className="text-tiny">
-                          {t("UI.tooltips.write_number.info")}
-                        </div>
-                        <div className="text-tiny">
-                          {t("UI.tooltips.write_number.example")}
-                          <Code className="p-0.5 px-1 text-tiny">
-                            +55 01 23456-7890
-                          </Code>
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                }
-                label={t("UI.labels.number")}
-                labelPlacement="outside"
-                name="number"
-                placeholder="+55 99 99999-9999"
-                value={number}
-                onChange={(e) => setNumber(numberInputMask(e.target.value))}
-                type="text"
-                variant="bordered"
-              />
-              <Input
-                isRequired
-                taggableVisibility
-                className="text-gray-700 dark:text-gray-200"
-                label={t("UI.labels.password")}
-                labelPlacement="outside"
-                name="password"
-                placeholder={t("UI.placeholders.write_password")}
-                type="password"
-                variant="bordered"
-              />
-              <Input
-                isRequired
-                taggableVisibility
-                className="text-gray-700 dark:text-gray-200"
-                label={t("UI.labels.password_confirm")}
-                labelPlacement="outside"
-                name="password_confirm"
-                placeholder={t("UI.placeholders.write_password_confirm")}
-                type="password"
-                variant="bordered"
-              />
-              <div>
-                <Checkbox
-                  defaultSelected
-                  name="remember"
-                  value="true"
-                  size="sm"
-                >
-                  {t("UI.checkboxes.remember_me")}
-                </Checkbox>
-                <Checkbox name="terms_and_privacy_agreement" value="false" size="sm">
-                  <>
-                    {t.rich("Legal.agreements.accept_policy_and_terms", {
-                      use: (chunks) => (
-                        <span
-                          onClick={() => {
-                            openTermsOfUse();
-                          }}
-                          className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
-                        >
-                          {chunks}
-                        </span>
-                      ),
-                      privacy: (chunks) => (
-                        <span
-                          onClick={() => {
-                            openPrivacyPolicy();
-                          }}
-                          className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all cursor-pointer"
-                        >
-                          {chunks}
-                        </span>
-                      ),
-                    })}
-                  </>
-                </Checkbox>
-              </div>
-              <input type="hidden" name="language" value={router.locale} />
-              <Spacer y={4} />
-              <p className="text-gray-700 dark:text-gray-200 text-small text-start">
-                {t("Legal.agreements.sign_in_terms")}
-              </p>
-              <Button className="w-full" color="primary" type="submit">
-                {t("UI.buttons.continue")}
-              </Button>
-            </Form>
-            <p className="text-small text-center">
-              <Link
-                href="/login"
-                className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
-              >
-                {t("UI.redirects.enter_existing_account")}
-              </Link>
-            </p>
+            <SignInForm />
           </div>
         </div>
       </Body>

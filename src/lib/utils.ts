@@ -18,6 +18,8 @@ export function numberInputMask(value: string | undefined): string {
     .replace(/^(\d{2})(\d{2})(\d{5})(\d{4})$/, "+$1 ($2) $3-$4");
 }
 
+export const isNumeric = (key: string): boolean => /^\d+$/.test(key);
+
 export const isDev = (): boolean => {
   return process.env.NODE_ENV === "development";
 };

@@ -7,18 +7,27 @@ import {
 import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/router";
+import { cn } from "@/lib/utils";
 
 export interface InputProps extends HeroUIInputProps {
+  format?: (value: string) => string;
+  queryCollectable?: boolean;
   taggableVisibility?: boolean;
-  error?: string | Record<string, string>;
 }
 
 const Input: React.FC<InputProps> = ({
-  taggableVisibility,
+  name,
   value,
+  format,
+  className,
+  queryCollectable = false,
+  taggableVisibility,
   ...props
 }) => {
+  const router = useRouter();
   const t = useTranslations();
+
   const [inputValue, setInputValue] = useState(value);
   const [isPassVisible, setIsPassVisible] = useState(false);
 
@@ -30,15 +39,38 @@ const Input: React.FC<InputProps> = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    if (queryCollectable && name && router.query[name]) {
+      const queryValue = router.query[name];
+      if (queryValue) {
+        setInputValue(queryValue as string);
+      }
+    }
+  }, [queryCollectable, name, router.query]);
+
   return (
     <HeroUIInput
       classNames={{
         base: "relative",
         label: "top-6",
         helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max",
+        input: "!transition-colors !duration-100 ",
+        inputWrapper: "!transition-colors !duration-100",
       }}
+      labelPlacement="outside"
+      variant="bordered"
+      className={cn(
+        "text-gray-700 dark:text-gray-200 transition-colors duration-100",
+        className
+      )}
       value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
+      onChange={(e) => {
+        if (format) {
+          setInputValue(format(e.target.value));
+          return;
+        }
+        setInputValue(e.target.value);
+      }}
       endContent={
         taggableVisibility &&
         props.type === "password" && (

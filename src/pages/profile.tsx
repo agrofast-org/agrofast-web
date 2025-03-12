@@ -1,12 +1,16 @@
 import Body from "@/components/body";
 import {
   Button,
+  Code,
   Form,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Spacer,
   useDisclosure,
 } from "@heroui/react";
@@ -23,7 +27,7 @@ import Img from "@/components/image";
 
 import userPicture from "@public/user-default.png";
 import Cropper, { Area } from "react-easy-crop";
-import { Upload04Icon } from "@hugeicons/react";
+import { InformationCircleIcon, Upload04Icon } from "@hugeicons/react";
 import { useLanguage } from "@/contexts/language-provider";
 
 export default function SignIn() {
@@ -129,12 +133,6 @@ export default function SignIn() {
     }
   };
 
-  useEffect(() => {
-    if (user?.number) {
-      setNumber(numberInputMask(user.number));
-    }
-  }, [user]);
-
   return (
     <>
       <Head>
@@ -218,15 +216,12 @@ export default function SignIn() {
               onSubmit={handleSubmit}
             >
               <Input
-                className="text-gray-700 dark:text-gray-200"
-                label={t("UI.labels.name")}
-                labelPlacement="outside"
                 name="name"
+                label={t("UI.labels.name")}
                 placeholder={t("UI.placeholders.write_name")}
-                type="name"
                 autoCapitalize="words"
-                variant="bordered"
                 value={user?.name}
+                type="name"
               />
               <Input
                 className="text-gray-700 dark:text-gray-200"
@@ -240,16 +235,47 @@ export default function SignIn() {
                 value={user?.surname}
               />
               <Input
-                className="opacity-50 text-gray-700 dark:text-gray-200 pointer-events-none"
-                label={t("UI.labels.number")}
-                labelPlacement="outside"
                 name="number"
-                placeholder="+55 99 99999-9999"
-                value={number}
-                onChange={(e) => setNumber(numberInputMask(e.target.value))}
-                type="text"
-                variant="bordered"
-                disabled
+                label={t("UI.labels.number")}
+                placeholder={t("UI.placeholders.write_number")}
+                queryCollectable
+                format={numberInputMask}
+                isRequired
+                endContent={
+                  <Popover placement="top-end" radius="sm" offset={8}>
+                    <PopoverTrigger>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="flat"
+                        className="-right-[9px]"
+                        isIconOnly
+                      >
+                        <InformationCircleIcon
+                          type="rounded"
+                          variant="stroke"
+                          className="text-default-700 text-xl pointer-events-none"
+                        />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
+                        <div className="font-bold text-small">
+                          {t("UI.tooltips.write_number.title")}
+                        </div>
+                        <div className="text-tiny">
+                          {t("UI.tooltips.write_number.info")}
+                        </div>
+                        <div className="text-tiny">
+                          {t("UI.tooltips.write_number.example")}
+                          <Code className="p-0.5 px-1 text-tiny">
+                            +55 01 23456-7890
+                          </Code>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                }
               />
               <Input
                 className="text-gray-700 dark:text-gray-200"
