@@ -165,6 +165,7 @@
       "user_found": "Usuario encontrado"
     },
     "info": {
+      "loading": "Cargando...",
       "wait_resend_code_timeout": "Espere {seconds} segundos para reenviar el código."
     }
   },

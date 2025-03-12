@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Link from "@/components/link";
 import SignInForm from "@/forms/sign-up-form";
 
 export default function SignIn() {

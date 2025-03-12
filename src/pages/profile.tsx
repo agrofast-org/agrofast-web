@@ -44,7 +44,7 @@ export default function SignIn() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
-  const [number, setNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>(user?.email ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -285,7 +285,8 @@ export default function SignIn() {
                 placeholder={t("UI.placeholders.write_email")}
                 type="email"
                 variant="bordered"
-                value={user?.email}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               {/* <Input
                 taggableVisibility

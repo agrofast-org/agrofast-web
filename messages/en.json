@@ -165,6 +165,7 @@
       "user_found": "User found"
     },
     "info": {
+      "loading": "Loading...",
       "wait_resend_code_timeout": "Wait {seconds} seconds to resend the code."
     }
   },
