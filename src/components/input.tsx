@@ -50,6 +50,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <HeroUIInput
+      name={name}
       classNames={{
         base: "relative",
         label: "top-6",

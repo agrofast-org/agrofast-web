@@ -115,12 +115,12 @@ const SignInForm: React.FC = () => {
           isRequired
         />
         <Input
+          id="email"
           name="email"
           label={t("UI.labels.email")}
           placeholder={t("UI.placeholders.write_email")}
-          type="email"
-          value={email}
           onChange={(e) => setEmail(e.target.value)}
+          type="email"
           isRequired
         />
         <Input
@@ -143,7 +143,7 @@ const SignInForm: React.FC = () => {
           <Checkbox defaultSelected name="remember" value="true" size="sm">
             {t("UI.checkboxes.remember_me")}
           </Checkbox>
-          <Checkbox name="terms_and_privacy_agreement" value="false" size="sm">
+          <Checkbox name="terms_and_privacy_agreement" value="true" size="sm">
             <>
               {t.rich("Legal.agreements.accept_policy_and_terms", {
                 use: (chunks) => (

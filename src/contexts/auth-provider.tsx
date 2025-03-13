@@ -203,7 +203,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
 
-    if (!token && !PUBLIC_PATHS.includes(url) && PUBLIC_AUTH_PATHS.includes(url)) {
+    if (!token && (!PUBLIC_PATHS.includes(url) || PUBLIC_AUTH_PATHS.includes(url))) {
       router.push("/login", undefined, { locale: router.locale });
       return;
     }
