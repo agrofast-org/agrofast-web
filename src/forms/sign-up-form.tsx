@@ -63,8 +63,11 @@ const SignInForm: React.FC = () => {
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
-        const fields = translateResponse(error.errors);
-        setErrors(fields);
+        // const fields = translateResponse(error.errors);
+        // setErrors(fields);
+        console.log(error.errors);
+        
+        setErrors(error.errors);
       })
       .finally(() => {
         setIsLoading(false);
@@ -94,7 +97,6 @@ const SignInForm: React.FC = () => {
       </Modal>
       <Form
         className="flex flex-col gap-4"
-        validationBehavior="native"
         validationErrors={errors}
         onSubmit={handleSubmit}
       >
