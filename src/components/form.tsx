@@ -6,6 +6,9 @@ import { createContext, useContext, useState } from "react";
 
 export interface FormProps extends HeroUIFormProps {
   children?: React.ReactNode;
+  success?: (value) => void;
+  error?: (error: Error) => void;
+  finally?: () => void;
 }
 
 interface FormProviderProps {
