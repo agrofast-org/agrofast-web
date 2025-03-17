@@ -1,7 +1,8 @@
 import { validateBrowserAgent } from "@/lib/validations";
-import api from "@/service/api";
-import { addToast } from "@heroui/react";
-import { useTranslations } from "next-intl";
+import api, {
+  setBearerToken,
+  setBrowserAgent as setBrowserFingerprint,
+} from "@/service/api";
 import { useRouter } from "next/router";
 import React, {
   createContext,
@@ -15,7 +16,10 @@ import React, {
 import { useCookies } from "react-cookie";
 import { useOverlay } from "./overlay-provider";
 import { User } from "@/types/user";
-
+import { useToast } from "@/service/toast";
+import { AxiosError } from "axios";
+import { getMe } from "@/http/user/get-me";
+import { validateFingerprint } from "@/http/validate-fingerprint";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -30,7 +34,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const useUser = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useUser must be used within a AuthProvider");
+    throw new Error("useUser must be used within an AuthProvider");
   }
   return context;
 };
@@ -41,10 +45,7 @@ export const PUBLIC_PATHS = [
   "/recover-token",
   "/reset-password",
 ];
-export const PUBLIC_AUTH_PATHS = [
-  "/auth-code",
-  "/auth-with",
-];
+export const PUBLIC_AUTH_PATHS = ["/auth-code", "/auth-with"];
 export const USER_PATHS = ["/", "/dashboard", "/user", "/profile", "/settings"];
 
 export const AUTH_TOKEN_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_token`;
@@ -54,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
-  const t = useTranslations();
+  const toast = useToast();
   const { setIsPageLoading } = useOverlay();
 
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -62,20 +63,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     AUTH_BROWSER_AGENT_KEY,
   ]);
 
-  const [authBrowserAgentLoaded, setAuthBrowserAgentLoaded] = useState(false);
-  const [token, setAuthToken] = useState<string | undefined>(undefined);
+  const [isBrowserAgentLoaded, setIsBrowserAgentLoaded] = useState(false);
+  const [token, setAuthTokenState] = useState<string | undefined>(undefined);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>(undefined);
 
   const fetchInProgress = useRef(false);
 
   const setToken = useCallback(
-    (token: string | undefined) => {
-      if (token) {
-        setAuthToken(token);
-        setCookie(AUTH_TOKEN_KEY, token);
+    (tokenValue: string | undefined) => {
+      if (tokenValue) {
+        setAuthTokenState(tokenValue);
+        setCookie(AUTH_TOKEN_KEY, tokenValue);
       } else {
-        setAuthToken(undefined);
+        setAuthTokenState(undefined);
         removeCookie(AUTH_TOKEN_KEY);
       }
     },
@@ -84,21 +85,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const logout = useCallback(() => {
     setUser(undefined);
-    setAuthToken(undefined);
     setToken(undefined);
     delete api.defaults.headers["Authorization"];
     router.push("/login", undefined, { locale: router.locale });
   }, [router, setToken]);
 
-  const fetchBrowserAgent = useCallback(() => {
-    if (authBrowserAgentLoaded || fetchInProgress.current) return;
-
+  const fetchBrowserAgent = useCallback(async () => {
+    if (isBrowserAgentLoaded || fetchInProgress.current) return;
     fetchInProgress.current = true;
 
     const storedBrowserAgent = cookies[AUTH_BROWSER_AGENT_KEY];
 
     const setBrowserAgent = (fingerprint: string) => {
-      api.defaults.headers["Browser-Agent"] = fingerprint;
+      setBrowserFingerprint(fingerprint);
       setCookie(AUTH_BROWSER_AGENT_KEY, fingerprint);
     };
 
@@ -107,67 +106,51 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const { data } = await api.get("/fingerprint");
         if (validateBrowserAgent(data.fingerprint)) {
           setBrowserAgent(data.fingerprint);
-          setAuthBrowserAgentLoaded(true);
+          setIsBrowserAgentLoaded(true);
         } else {
           removeCookie(AUTH_BROWSER_AGENT_KEY);
-          addToast({
-            title: t("Messages.titles.error"),
-            description: "Failed to fetch browser agent",
-            color: "danger",
-          });
+          toast.error({ description: "Failed to fetch browser agent" });
         }
       } catch {
-        addToast({
-          title: t("Messages.titles.error"),
-          description: "Failed to fetch browser agent",
-          color: "danger",
-        });
+        toast.error({ description: "Failed to fetch browser agent" });
       } finally {
         fetchInProgress.current = false;
       }
     };
 
     const validateStoredBrowserAgent = async () => {
-      try {
-        await api.get("/fingerprint/validate", {
-          headers: {
-            "Browser-Agent": storedBrowserAgent,
-          },
-        });
-        api.defaults.headers["Browser-Agent"] = storedBrowserAgent;
-        setAuthBrowserAgentLoaded(true);
-      } catch {
+      validateFingerprint(storedBrowserAgent).then(() => {
+        setBrowserAgent(storedBrowserAgent);
+        setIsBrowserAgentLoaded(true);
+      }).catch(() => {
         fetchAndSetBrowserAgent();
-      } finally {
-        fetchInProgress.current = false;
       }
+      ).finally(() => {
+        fetchInProgress.current = false;
+      });
     };
 
     if (storedBrowserAgent && validateBrowserAgent(storedBrowserAgent)) {
-      validateStoredBrowserAgent();
+      await validateStoredBrowserAgent();
     } else {
-      fetchAndSetBrowserAgent();
+      await fetchAndSetBrowserAgent();
     }
-  }, [authBrowserAgentLoaded, cookies, t, setCookie, removeCookie]);
+  }, [isBrowserAgentLoaded, cookies, toast, setCookie, removeCookie]);
 
-  const fetchMe = useCallback(() => {
+  const fetchMe = useCallback(async () => {
     if (fetchInProgress.current || user) return;
-
     fetchInProgress.current = true;
 
     const storedToken = cookies[AUTH_TOKEN_KEY];
     if (storedToken) {
-      setAuthToken(storedToken);
-    }
-    if (storedToken && !user) {
-      api.defaults.headers["Authorization"] = `Bearer ${storedToken}`;
-      api
-        .get("/user/info/me")
+      setToken(storedToken);
+      setBearerToken(storedToken);
+      getMe()
         .then(({ data }) => {
-          setUser(data?.user);
-          setAuthenticated(data?.authenticated ?? false);
+          setUser(data.user);
+          setAuthenticated(data.authenticated);
         })
-        .catch((err) => {
+        .catch((err: AxiosError) => {
           if (err.response?.status === 401) {
             logout();
           }
@@ -178,7 +161,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } else {
       fetchInProgress.current = false;
     }
-  }, [logout, user, cookies]);
+  }, [logout, user, cookies, setToken]);
 
   useEffect(() => {
     fetchBrowserAgent();
@@ -186,27 +169,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [fetchBrowserAgent, fetchMe]);
 
   useEffect(() => {
-    const url = router.pathname;
+    const currentPath = router.pathname;
     const unauthenticatedPaths = [...PUBLIC_PATHS, ...PUBLIC_AUTH_PATHS];
-    const authenticatedPaths = USER_PATHS;
-    const allAllowedPaths = [...unauthenticatedPaths, ...authenticatedPaths];
+    const allAllowedPaths = [...unauthenticatedPaths, ...USER_PATHS];
 
-    if (!allAllowedPaths.includes(url)) {
+    if (!allAllowedPaths.includes(currentPath)) {
       setIsPageLoading(false);
       return;
     }
 
-    if (!token && (!PUBLIC_PATHS.includes(url) || PUBLIC_AUTH_PATHS.includes(url))) {
+    if (
+      !token &&
+      (!PUBLIC_PATHS.includes(currentPath) ||
+        PUBLIC_AUTH_PATHS.includes(currentPath))
+    ) {
       router.push("/login", undefined, { locale: router.locale });
       return;
     }
 
-    if (token && !authenticated && !PUBLIC_AUTH_PATHS.includes(url)) {
+    if (token && !authenticated && !PUBLIC_AUTH_PATHS.includes(currentPath)) {
       router.push(PUBLIC_AUTH_PATHS[0], undefined, { locale: router.locale });
       return;
     }
 
-    if (token && authenticated && unauthenticatedPaths.includes(url)) {
+    if (token && authenticated && unauthenticatedPaths.includes(currentPath)) {
       router.push("/dashboard", undefined, { locale: router.locale });
       return;
     }
@@ -228,3 +214,5 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;
