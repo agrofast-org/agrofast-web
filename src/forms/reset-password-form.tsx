@@ -1,23 +1,23 @@
 import Input from "@/components/input";
-import { numberInputMask } from "@/lib/utils";
 import {
   Button,
-  Code,
   Form,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Spacer,
 } from "@heroui/react";
-import { InformationCircleIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const ResetPasswordForm: React.FC = () => {
+  const router = useRouter();
   const t = useTranslations();
 
-  const [number, setNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>(
+    Array.isArray(router.query.email)
+      ? router.query.email[0]
+      : router.query.email || ""
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,51 +33,13 @@ const ResetPasswordForm: React.FC = () => {
       >
         <div className="flex flex-col flex-1 md:flex-auto w-full">
           <Input
+            id="email"
+            name="email"
+            label={t("UI.labels.email")}
+            placeholder={t("UI.placeholders.write_email")}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
             isRequired
-            className="text-gray-700 dark:text-gray-200"
-            endContent={
-              <Popover placement="top-end" radius="sm" offset={8}>
-                <PopoverTrigger>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="flat"
-                    className="-right-[9px]"
-                    isIconOnly
-                  >
-                    <InformationCircleIcon
-                      type="rounded"
-                      variant="stroke"
-                      className="text-default-700 text-xl pointer-events-none"
-                    />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
-                    <div className="font-bold text-small">
-                      {t("UI.tooltips.write_number.title")}
-                    </div>
-                    <div className="text-tiny">
-                      {t("UI.tooltips.write_number.info")}
-                    </div>
-                    <div className="text-tiny">
-                      {t("UI.tooltips.write_number.example")}
-                      <Code className="p-0.5 px-1 text-tiny">
-                        +55 99 99999-9999
-                      </Code>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            }
-            label={t("UI.labels.number")}
-            labelPlacement="outside"
-            name="text"
-            placeholder={t("UI.placeholders.write_number")}
-            value={number}
-            onChange={(e) => setNumber(numberInputMask(e.target.value))}
-            type="text"
-            variant="bordered"
           />
         </div>
         <Spacer y={8} />
@@ -96,7 +58,12 @@ const ResetPasswordForm: React.FC = () => {
               {t("UI.redirects.create_account")}
             </Link>
             <Link
-              href="/login"
+              href={{
+                pathname: "/login",
+                query: {
+                  email: email,
+                },
+              }}
               className="hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all"
             >
               {t("UI.redirects.enter_existing_account")}

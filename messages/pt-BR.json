@@ -69,10 +69,8 @@
       "title": {
         "verification_code_sent": "Código de verificação enviado"
       },
-      "description": {
-        "verification_code_sent": "Um code de verificação foi enviado para o número: "
-      },
-      "did_not_received_code": "Não recebeu o código?"
+      "sms_verification_code_sent": "Um code de verificação foi enviado para o número: <number></number>. Não recebeu o código? <action>{action}</action>",
+      "email_verification_code_sent": "Um code de verificação foi enviado para o email: <email></email>. Não recebeu o código? <action>{action}</action>"
     },
     "buttons": {
       "next": "Próximo",

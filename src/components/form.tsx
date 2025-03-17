@@ -1,12 +1,14 @@
+import { FormValue, FormValues } from "@/types/form";
 import {
   FormProps as HeroUIFormProps,
   Form as HeroUIForm,
 } from "@heroui/react";
+import { AxiosResponse } from "axios";
 import { createContext, useContext, useState } from "react";
 
 export interface FormProps extends HeroUIFormProps {
   children?: React.ReactNode;
-  success?: (value) => void;
+  success?: (response: AxiosResponse<FormValue, FormValue>) => void;
   error?: (error: Error) => void;
   finally?: () => void;
 }
@@ -17,11 +19,6 @@ interface FormProviderProps {
   // setValues: (values: FormValues) => void;
   // setTouched: (touched: Record<string, boolean>) => void;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type FormValue = any;
-
-export type FormValues = Record<string, FormValue>;
 
 const FormProvider = createContext<FormProviderProps | undefined>(undefined);
 

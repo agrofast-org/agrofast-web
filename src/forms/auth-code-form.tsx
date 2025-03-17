@@ -15,6 +15,11 @@ import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  AuthCodeLengthResponse,
+  getAuthCodeLength,
+} from "@/http/get-auth-code-length";
 
 const TIMEOUT = 60;
 
@@ -30,6 +35,15 @@ const AuthCodeForm: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [timer, setTimer] = useState<number>(TIMEOUT);
+
+  const { data } = useQuery<AuthCodeLengthResponse>({
+    queryKey: ["auth-code-length"],
+    queryFn: async () => {
+      const res = await getAuthCodeLength();
+      return res.data;
+    },
+    initialData: { length: 6 },
+  });
 
   const resendCode = async () => {
     if (timer <= 0) {
@@ -154,7 +168,7 @@ const AuthCodeForm: React.FC = () => {
             <InputOtp
               name="code"
               variant="bordered"
-              length={4}
+              length={data?.length}
               className="mb-2"
               classNames={{
                 input: "w-12 h-12 text-center text-2xl",
@@ -169,23 +183,27 @@ const AuthCodeForm: React.FC = () => {
             isLoaded={isDataLoading}
           >
             <p className="text-gray-700 dark:text-gray-200 text-small text-center">
-              {t("UI.info.description.verification_code_sent")}{" "}
-              <span className="font-bold">
-                {user ? numberInputMask(user?.number) : "+55 (99) 99999-9999"}
-              </span>
-              . {t("UI.info.did_not_received_code")}{" "}
-              <span
-                onClick={resendCode}
-                className={cn(
-                  timer <= 0
-                    ? "opacity-100 hover:underline cursor-pointer text-primary"
-                    : "opacity-60 text-neutral-400"
-                )}
-              >
-                {t("UI.buttons.resend_code")}
-                {timer <= 0 ? "" : `(${timer})`}
-              </span>
-              .
+              {t.rich(
+                "UI.info.email_verification_code_sent",
+                {
+                  email: () => (
+                    <span className="font-bold">{user?.email}</span>
+                  ),
+                  action: () => (
+                    <span
+                      onClick={resendCode}
+                      className={cn(
+                        timer <= 0
+                          ? "opacity-100 hover:underline cursor-pointer text-primary"
+                          : "opacity-60 text-neutral-400"
+                      )}
+                    >
+                      {t("UI.buttons.resend_code")}
+                      {timer <= 0 ? "" : `(${timer})`}
+                    </span>
+                  ),
+                },
+              )}
             </p>
           </Skeleton>
           <Spacer y={16} />

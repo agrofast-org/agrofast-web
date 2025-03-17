@@ -33,4 +33,11 @@ api.interceptors.response.use(
   }
 );
 
+export const setBearerToken = (token: string) => {
+  api.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  });
+};
+
 export default api;

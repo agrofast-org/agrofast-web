@@ -6,7 +6,8 @@ import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 import { useUser } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
-import api from "@/service/api";
+import { signUp } from "@/http/user/sign-up";
+import { setBearerToken } from "@/service/api";
 import {
   Button,
   Modal,
@@ -51,15 +52,11 @@ const SignInForm: React.FC = () => {
     const data = Object.fromEntries(new FormData(e.currentTarget));
 
     setIsLoading(true);
-    api
-      .post("/user", data)
-      .then(({ data }) => {
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${data.token}`;
-          return config;
-        });
-        setToken(data.token);
-        setUser(data.user);
+    signUp(data)
+      .then(({ token, user }) => {
+        setBearerToken(token);
+        setToken(token);
+        setUser(user);
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
@@ -118,7 +115,9 @@ const SignInForm: React.FC = () => {
           name="email"
           label={t("UI.labels.email")}
           placeholder={t("UI.placeholders.write_email")}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
+          queryCollectable
           type="email"
           isRequired
         />

@@ -248,7 +248,7 @@ export default function SignIn() {
                         type="button"
                         size="sm"
                         variant="flat"
-                        className="-right-[9px]"
+                        className="-right-[10px]"
                         isIconOnly
                       >
                         <InformationCircleIcon

@@ -14,15 +14,8 @@ import React, {
 } from "react";
 import { useCookies } from "react-cookie";
 import { useOverlay } from "./overlay-provider";
+import { User } from "@/types/user";
 
-interface User {
-  id: string;
-  name: string;
-  surname: string;
-  number: string;
-  email?: string;
-  profile_picture?: string;
-}
 
 interface AuthContextProps {
   token: string | undefined;
