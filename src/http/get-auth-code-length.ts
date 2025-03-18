@@ -6,5 +6,5 @@ export interface AuthCodeLengthResponse {
 }
 
 export const getAuthCodeLength = () => {
-  return api.get("/auth/code-length");
+  return api.get<AuthCodeLengthResponse>("/auth/code-length");
 }

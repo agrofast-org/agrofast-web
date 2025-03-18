@@ -3,13 +3,7 @@ import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
 import api from "@/service/api";
-import {
-  Button,
-  Form,
-  InputOtp,
-  Skeleton,
-  Spacer,
-} from "@heroui/react";
+import { Button, Form, InputOtp, Skeleton, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
@@ -40,13 +34,12 @@ const AuthCodeForm: React.FC = () => {
 
   const [timer, setTimer] = useCountdown(TIMEOUT);
 
-  const { data } = useQuery<AuthCodeLengthResponse>({
+  const { data: codeLength, isLoading: codeLengthLoading } = useQuery({
     queryKey: ["auth-code-length"],
     queryFn: async () => {
       const res = await getAuthCodeLength();
-      return res.data;
+      return res.data.length;
     },
-    initialData: { length: 6 },
   });
 
   const resendCode = async () => {
@@ -85,6 +78,8 @@ const AuthCodeForm: React.FC = () => {
       router.push("/");
     },
     onError: (error: MutationError) => {
+      console.log(error);
+
       if (error.response?.status === 401) {
         toast.error({
           description: t(
@@ -97,7 +92,6 @@ const AuthCodeForm: React.FC = () => {
           attempts_left: error.response.data.attempts_left,
         };
         const fields = translateResponse(error.response.data.fields, params);
-
         toast.error({
           description: t("Messages.errors.invalid_authentication_code", params),
         });
@@ -141,24 +135,26 @@ const AuthCodeForm: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col flex-1 gap-4">
-          <div className="flex flex-col items-center gap-1 w-full text-gray-700 dark:text-gray-200">
+          <div className="flex flex-col items-center gap-1 rounded-lg w-full text-gray-700 dark:text-gray-200">
             <label
               htmlFor="code"
               className="text-[#12181c] dark:text-[#ecedee]"
             >
               {t("UI.placeholders.write_code")}
             </label>
-            <InputOtp
-              name="code"
-              variant="bordered"
-              length={data?.length}
-              className="mb-2"
-              classNames={{
-                input: "w-12 h-12 text-center text-2xl",
-                helperWrapper:
-                  "absolute min-w-max -bottom-[14px] -translate-x-1/2 left-1/2 flex justify-center",
-              }}
-            />
+            <Skeleton className="rounded-lg h-14" isLoaded={!codeLengthLoading}>
+              <InputOtp
+                name="code"
+                variant="bordered"
+                length={codeLength || 6}
+                className="mb-2"
+                classNames={{
+                  input: "w-12 h-12 text-center text-2xl",
+                  helperWrapper:
+                    "absolute min-w-max -bottom-[14px] -translate-x-1/2 left-1/2 flex justify-center",
+                }}
+              />
+            </Skeleton>
           </div>
           <Skeleton
             className="inline-block rounded-lg"

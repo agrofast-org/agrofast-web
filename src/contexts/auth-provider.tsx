@@ -20,6 +20,7 @@ import { useToast } from "@/service/toast";
 import { AxiosError } from "axios";
 import { getMe } from "@/http/user/get-me";
 import { validateFingerprint } from "@/http/validate-fingerprint";
+import { getFingerprint } from "@/http/get-fingerprint";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -102,32 +103,35 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     };
 
     const fetchAndSetBrowserAgent = async () => {
-      try {
-        const { data } = await api.get("/fingerprint");
-        if (validateBrowserAgent(data.fingerprint)) {
-          setBrowserAgent(data.fingerprint);
-          setIsBrowserAgentLoaded(true);
-        } else {
-          removeCookie(AUTH_BROWSER_AGENT_KEY);
-          toast.error({ description: "Failed to fetch browser agent" });
-        }
-      } catch {
+      getFingerprint()
+        .then(({ data: { fingerprint } }) => {
+          if (validateBrowserAgent(fingerprint)) {
+            setBrowserAgent(fingerprint);
+            setIsBrowserAgentLoaded(true);
+          } else {
+            removeCookie(AUTH_BROWSER_AGENT_KEY);
+            toast.error({ description: "Failed to fetch browser agent" });
+          }
+        })
+        .catch(() => {
         toast.error({ description: "Failed to fetch browser agent" });
-      } finally {
-        fetchInProgress.current = false;
-      }
+        }).finally(() => {
+          fetchInProgress.current = false;
+        });
     };
 
     const validateStoredBrowserAgent = async () => {
-      validateFingerprint(storedBrowserAgent).then(() => {
-        setBrowserAgent(storedBrowserAgent);
-        setIsBrowserAgentLoaded(true);
-      }).catch(() => {
-        fetchAndSetBrowserAgent();
-      }
-      ).finally(() => {
-        fetchInProgress.current = false;
-      });
+      validateFingerprint(storedBrowserAgent)
+        .then(() => {
+          setBrowserAgent(storedBrowserAgent);
+          setIsBrowserAgentLoaded(true);
+        })
+        .catch(() => {
+          fetchAndSetBrowserAgent();
+        })
+        .finally(() => {
+          fetchInProgress.current = false;
+        });
     };
 
     if (storedBrowserAgent && validateBrowserAgent(storedBrowserAgent)) {
@@ -183,17 +187,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       (!PUBLIC_PATHS.includes(currentPath) ||
         PUBLIC_AUTH_PATHS.includes(currentPath))
     ) {
-      router.push("/login", undefined, { locale: router.locale });
+      // router.push("/login", undefined, { locale: router.locale });
       return;
     }
 
     if (token && !authenticated && !PUBLIC_AUTH_PATHS.includes(currentPath)) {
-      router.push(PUBLIC_AUTH_PATHS[0], undefined, { locale: router.locale });
+      // router.push(PUBLIC_AUTH_PATHS[0], undefined, { locale: router.locale });
       return;
     }
 
     if (token && authenticated && unauthenticatedPaths.includes(currentPath)) {
-      router.push("/dashboard", undefined, { locale: router.locale });
+      // router.push("/dashboard", undefined, { locale: router.locale });
       return;
     }
 

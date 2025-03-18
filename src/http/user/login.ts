@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import { Success } from "@/types/api-response";
 import { FormValues } from "@/types/form";
 import { User } from "@/types/user";
 
@@ -8,16 +9,20 @@ export interface LoginData {
   remember?: boolean;
 }
 
-export interface LoginResponse {
+export type LoginResponse = Success<{
   token: string;
   user: User;
-}
+}>;
 
-export const login = async (data: LoginData | FormValues): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>("/user/login", data);
-  api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${response.data.token}`;
-    return config;
+export const login = async (
+  data: LoginData | FormValues
+): Promise<LoginResponse> => {
+  return await api.post<LoginResponse>("/user/login", data).then((res) => {
+
+    api.interceptors.request.use((config) => {
+      config.headers.Authorization = `Bearer ${res.data.data.token}`;
+      return config;
+    });
+    return res.data;
   });
-  return response.data;
 };

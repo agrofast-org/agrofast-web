@@ -52,6 +52,7 @@ const SignInForm: React.FC = () => {
     const data = Object.fromEntries(new FormData(e.currentTarget));
 
     setIsLoading(true);
+
     signUp(data)
       .then(({ token, user }) => {
         setBearerToken(token);

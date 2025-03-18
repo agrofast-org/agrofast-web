@@ -1,11 +1,9 @@
 import api from "@/service/api";
+import { Success } from "@/types/api-response";
 import { User } from "@/types/user";
 
-export interface GetMeResponse {
-  user: User;
-  authenticated: boolean;
-};
+export type GetMeResponse = Success<{ user: User }>;
 
 export const getMe = () => {
-  return api.get<GetMeResponse>("/user/info/me");
+  return api.get<GetMeResponse>("/user/info/me").then((res) => res.data);
 };

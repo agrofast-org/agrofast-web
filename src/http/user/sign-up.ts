@@ -18,8 +18,15 @@ export interface SignUpResponse {
   user: User;
 }
 
-export const signUp = async (data: SignUpData | FormValues): Promise<SignUpResponse> => {
-  const response = await api.post<SignUpResponse>("/user", data);
+export const signUp = async (
+  data: SignUpData | FormValues
+): Promise<SignUpResponse> => {
+  const response = await api
+    .post<SignUpResponse>("/user", data)
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
   api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${response.data.token}`;
     return config;
