@@ -114,8 +114,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           }
         })
         .catch(() => {
-        toast.error({ description: "Failed to fetch browser agent" });
-        }).finally(() => {
+          toast.error({ description: "Failed to fetch browser agent" });
+        })
+        .finally(() => {
           fetchInProgress.current = false;
         });
     };

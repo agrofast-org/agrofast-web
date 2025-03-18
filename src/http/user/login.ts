@@ -17,12 +17,11 @@ export type LoginResponse = Success<{
 export const login = async (
   data: LoginData | FormValues
 ): Promise<LoginResponse> => {
-  return await api.post<LoginResponse>("/user/login", data).then((res) => {
-
+  return await api.post<LoginResponse>("/user/login", data).then(({ data }) => {
     api.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${res.data.data.token}`;
+      config.headers.Authorization = `Bearer ${data.data.token}`;
       return config;
     });
-    return res.data;
+    return data;
   });
 };
