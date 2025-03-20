@@ -1,7 +1,7 @@
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { cn, numberInputMask } from "@/lib/utils";
+// import { cn, numberInputMask } from "@/lib/utils";
 import api from "@/service/api";
 import {
   addToast,
@@ -25,45 +25,45 @@ const AuthWithForm: React.FC = () => {
   const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const { user, setUser, setToken, logout } = useUser();
+  const { user, setUser, setToken, logout } = useAuth();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [timer, setTimer] = useState<number>(TIMEOUT);
 
-  const resendCode = async () => {
-    if (timer <= 0) {
-      setIsLoading(true);
-      api
-        .get("/user/resend-code")
-        .then(() => {
-          addToast({
-            title: t("Messages.titles.success"),
-            description: t("Messages.success.authentication_code_resent"),
-            color: "success",
-          });
-          setTimer(TIMEOUT);
-        })
-        .catch(() => {
-          addToast({
-            title: t("Messages.titles.warning"),
-            description: t("Messages.errors.default"),
-            color: "warning",
-          });
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      addToast({
-        title: t("Messages.titles.warning"),
-        description: t("Messages.info.wait_resend_code_timeout", {
-          seconds: timer,
-        }),
-        color: "warning",
-      });
-    }
-  };
+  // const resendCode = async () => {
+  //   if (timer <= 0) {
+  //     setIsLoading(true);
+  //     api
+  //       .get("/user/resend-code")
+  //       .then(() => {
+  //         addToast({
+  //           title: t("Messages.titles.success"),
+  //           description: t("Messages.success.authentication_code_resent"),
+  //           color: "success",
+  //         });
+  //         setTimer(TIMEOUT);
+  //       })
+  //       .catch(() => {
+  //         addToast({
+  //           title: t("Messages.titles.warning"),
+  //           description: t("Messages.errors.default"),
+  //           color: "warning",
+  //         });
+  //       })
+  //       .finally(() => {
+  //         setIsLoading(false);
+  //       });
+  //   } else {
+  //     addToast({
+  //       title: t("Messages.titles.warning"),
+  //       description: t("Messages.info.wait_resend_code_timeout", {
+  //         seconds: timer,
+  //       }),
+  //       color: "warning",
+  //     });
+  //   }
+  // };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,7 +100,6 @@ const AuthWithForm: React.FC = () => {
         });
         // toast.error(t("Responses.invalid_authentication_code", { attempts_left: error.attempts_left }));
         setErrors(fields);
-        console.log("errors", errors);
       })
       .finally(() => {
         setIsLoading(false);
@@ -167,27 +166,7 @@ const AuthWithForm: React.FC = () => {
           <Skeleton
             className="inline-block rounded-lg"
             isLoaded={isDataLoading}
-          >
-            <p className="text-gray-700 dark:text-gray-200 text-small text-center">
-              {t("UI.info.description.verification_code_sent")}{" "}
-              <span className="font-bold">
-                {user ? numberInputMask(user?.number) : "+55 (99) 99999-9999"}
-              </span>
-              . {t("UI.info.did_not_received_code")}{" "}
-              <span
-                onClick={resendCode}
-                className={cn(
-                  timer <= 0
-                    ? "opacity-100 hover:underline cursor-pointer text-primary"
-                    : "opacity-60 text-neutral-400"
-                )}
-              >
-                {t("UI.buttons.resend_code")}
-                {timer <= 0 ? "" : `(${timer})`}
-              </span>
-              .
-            </p>
-          </Skeleton>
+          ></Skeleton>
           <Spacer y={16} />
         </div>
         <div className="flex flex-col gap-4 w-full">

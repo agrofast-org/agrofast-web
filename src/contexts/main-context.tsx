@@ -8,36 +8,44 @@ import { NextIntlClientProvider } from "next-intl";
 import { useRouter } from "next/router";
 import { AppProps } from "next/app";
 import ToasterProvider from "./toast-provider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import BrowserAgentProvider from "./browser-agent-provider";
 
 interface MainProviderProps {
   children: React.ReactNode;
   pageProps: AppProps["pageProps"];
 }
 
+const queryClient = new QueryClient();
+
 const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
   const router = useRouter();
 
   return (
-    <NextIntlClientProvider
-      locale={router.locale ?? "pt-BR"}
-      timeZone="America/Sao_Paulo"
-      messages={pageProps.messages}
-    >
-      <HeroUIProvider>
-        <ToasterProvider>
-          <NextThemesProvider attribute="class" defaultTheme="dark">
-            <LanguageProvider>
-              <OverlayProvider>
-                <AuthProvider>
-                  {children}
-                  <DebugOptions />
-                </AuthProvider>
-              </OverlayProvider>
-            </LanguageProvider>
-          </NextThemesProvider>
-        </ToasterProvider>
-      </HeroUIProvider>
-    </NextIntlClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <NextIntlClientProvider
+        locale={router.locale ?? "pt-BR"}
+        timeZone="America/Sao_Paulo"
+        messages={pageProps.messages}
+      >
+        <HeroUIProvider>
+          <ToasterProvider>
+            <NextThemesProvider attribute="class" defaultTheme="dark">
+              <LanguageProvider>
+                <OverlayProvider>
+                  <BrowserAgentProvider>
+                    <AuthProvider>
+                      {children}
+                      <DebugOptions />
+                    </AuthProvider>
+                  </BrowserAgentProvider>
+                </OverlayProvider>
+              </LanguageProvider>
+            </NextThemesProvider>
+          </ToasterProvider>
+        </HeroUIProvider>
+      </NextIntlClientProvider>
+    </QueryClientProvider>
   );
 };
 

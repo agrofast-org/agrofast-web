@@ -1,120 +1,107 @@
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { cn, numberInputMask } from "@/lib/utils";
-import api from "@/service/api";
-import {
-  addToast,
-  Button,
-  Form,
-  InputOtp,
-  Skeleton,
-  Spacer,
-} from "@heroui/react";
+import { cn } from "@/lib/utils";
+import { Button, Form, InputOtp, Skeleton, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getAuthCodeLength,
+} from "@/http/get-auth-code-length";
+import { auth } from "@/http/user/auth";
+import { MutationError } from "@/types/mutation-error";
+import { useToast } from "@/service/toast";
+import { useCountdown } from "@/lib/useCountdown";
 
 const TIMEOUT = 60;
 
 const AuthCodeForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
+  const toast = useToast();
 
   const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const { user, setUser, setToken, logout } = useUser();
+  const { user, setUser, setToken, logout } = useAuth();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [timer, setTimer] = useState<number>(TIMEOUT);
+  const [timer, setTimer] = useCountdown(TIMEOUT);
+
+  const { data: codeLength, isLoading: codeLengthLoading } = useQuery({
+    queryKey: ["auth-code-length"],
+    queryFn: async () => {
+      const res = await getAuthCodeLength();
+      return res.data.length;
+    },
+  });
 
   const resendCode = async () => {
     if (timer <= 0) {
       setIsLoading(true);
-      api
-        .get("/user/resend-code")
+      resendCode()
         .then(() => {
-          addToast({
-            title: t("Messages.titles.success"),
+          toast.success({
             description: t("Messages.success.authentication_code_resent"),
-            color: "success",
           });
           setTimer(TIMEOUT);
         })
         .catch(() => {
-          addToast({
-            title: t("Messages.titles.warning"),
+          toast.error({
             description: t("Messages.errors.default"),
-            color: "warning",
           });
         })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
-      addToast({
-        title: t("Messages.titles.warning"),
+      toast.warning({
         description: t("Messages.info.wait_resend_code_timeout", {
           seconds: timer,
         }),
-        color: "warning",
       });
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-
-    setIsLoading(true);
-    api
-      .get("/user/auth", { params: { code: data["code"] } })
-      .then(({ data }) => {
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${data.token}`;
-          return config;
+  const authMutation = useMutation({
+    mutationFn: auth,
+    onSuccess: (result) => {
+      setUser(result.data.data.user);
+      setToken(result.data.data.token);
+      setIsLoading(false);
+      router.push("/");
+    },
+    onError: (error: MutationError) => {
+      if (error.response?.status === 401) {
+        toast.error({
+          description: t(
+            "Messages.errors.authentication_code_attempts_exceeded"
+          ),
         });
-        setUser(data.user);
-        setToken(data.token);
-        router.push("/");
-      })
-      .catch(({ response }) => {
-        const { data: error } = response;
-        if (response.status === 401) {
-          addToast({
-            title: t("Messages.titles.error"),
-            description: t(
-              "Messages.errors.authentication_code_attempts_exceeded"
-            ),
-            color: "danger",
-          });
-          logout();
-          return;
-        }
-        const fields = translateResponse(error.fields, {
-          attempts_left: error.attempts_left,
+        logout();
+      } else {
+        const params = {
+          attempts_left: error.response.data.attempts_left,
+        };
+        const fields = translateResponse(error.response.data.fields, params);
+        toast.error({
+          description: t("Messages.errors.invalid_authentication_code", params),
         });
-        // toast.error(t("Responses.invalid_authentication_code", { attempts_left: error.attempts_left }));
         setErrors(fields);
-        console.log("errors", errors);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+      }
+      setIsLoading(false);
+    },
+  });
 
-  useEffect(() => {
-    if (timer > 0) {
-      const interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [timer]);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+    authMutation.mutateAsync(formData["code"] as string);
+  };
 
   useEffect(() => {
     if (user) {
@@ -144,48 +131,48 @@ const AuthCodeForm: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col flex-1 gap-4">
-          <div className="flex flex-col items-center gap-1 w-full text-gray-700 dark:text-gray-200">
+          <div className="flex flex-col items-center gap-1 rounded-lg w-full text-gray-700 dark:text-gray-200">
             <label
               htmlFor="code"
               className="text-[#12181c] dark:text-[#ecedee]"
             >
               {t("UI.placeholders.write_code")}
             </label>
-            <InputOtp
-              name="code"
-              variant="bordered"
-              length={4}
-              className="mb-2"
-              classNames={{
-                input: "w-12 h-12 text-center text-2xl",
-                helperWrapper:
-                  "absolute min-w-max -bottom-[14px] -translate-x-1/2 left-1/2 flex justify-center",
-              }}
-              errorMessage={errors["code"]}
-            />
+            <Skeleton className="rounded-lg h-14" isLoaded={!codeLengthLoading}>
+              <InputOtp
+                name="code"
+                variant="bordered"
+                length={codeLength || 6}
+                className="mb-2"
+                classNames={{
+                  input: "w-12 h-12 text-center text-2xl",
+                  helperWrapper:
+                    "absolute min-w-max -bottom-[14px] -translate-x-1/2 left-1/2 flex justify-center",
+                }}
+              />
+            </Skeleton>
           </div>
           <Skeleton
             className="inline-block rounded-lg"
             isLoaded={isDataLoading}
           >
             <p className="text-gray-700 dark:text-gray-200 text-small text-center">
-              {t("UI.info.description.verification_code_sent")}{" "}
-              <span className="font-bold">
-                {user ? numberInputMask(user?.number) : "+55 (99) 99999-9999"}
-              </span>
-              . {t("UI.info.did_not_received_code")}{" "}
-              <span
-                onClick={resendCode}
-                className={cn(
-                  timer <= 0
-                    ? "opacity-100 hover:underline cursor-pointer text-primary"
-                    : "opacity-60 text-neutral-400"
-                )}
-              >
-                {t("UI.buttons.resend_code")}
-                {timer <= 0 ? "" : `(${timer})`}
-              </span>
-              .
+              {t.rich("UI.info.email_verification_code_sent", {
+                email: () => <span className="font-bold">{user?.email}</span>,
+                action: () => (
+                  <span
+                    onClick={resendCode}
+                    className={cn(
+                      timer <= 0
+                        ? "opacity-100 hover:underline cursor-pointer text-primary"
+                        : "opacity-60 text-neutral-400"
+                    )}
+                  >
+                    {t("UI.buttons.resend_code")}
+                    {timer <= 0 ? "" : `(${timer})`}
+                  </span>
+                ),
+              })}
             </p>
           </Skeleton>
           <Spacer y={16} />

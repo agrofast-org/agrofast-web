@@ -22,7 +22,7 @@ import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
 import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import Img from "@/components/image";
 
 import userPicture from "@public/user-default.png";
@@ -36,7 +36,7 @@ export default function SignIn() {
 
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
   const { translateResponse } = useLanguage();
-  const { user, setUser } = useUser();
+  const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
 
   const [userImage, setUserImage] = useState(user?.profile_picture);
@@ -122,8 +122,7 @@ export default function SignIn() {
               profile_picture: data.profile_picture,
             };
             setUser(updatedUser as typeof user);
-          } catch (error) {
-            console.error("Error uploading image:", error);
+          } catch {
           } finally {
             setIsLoading(false);
             onClose();
@@ -248,7 +247,7 @@ export default function SignIn() {
                         type="button"
                         size="sm"
                         variant="flat"
-                        className="-right-[9px]"
+                        className="-right-[10px]"
                         isIconOnly
                       >
                         <InformationCircleIcon

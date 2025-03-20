@@ -69,10 +69,8 @@
       "title": {
         "verification_code_sent": "Código de verificação enviado"
       },
-      "description": {
-        "verification_code_sent": "Um code de verificação foi enviado para o número: "
-      },
-      "did_not_received_code": "Não recebeu o código?"
+      "sms_verification_code_sent": "Um code de verificação foi enviado para o número: <number></number>. Não recebeu o código? <action>{action}</action>",
+      "email_verification_code_sent": "Um code de verificação foi enviado para o email: <email></email>. Não recebeu o código? <action>{action}</action>"
     },
     "buttons": {
       "next": "Próximo",
@@ -168,7 +166,9 @@
       "failed_to_resend_code": "Falha ao reenviar código",
       "failed_to_upload_image": "Falha ao enviar imagem",
       "failed_to_save_image_record": "Falha ao salvar registro de imagem",
-      "no_images_found": "Nenhuma imagem encontrada"
+      "no_images_found": "Nenhuma imagem encontrada",
+
+      "failed_to_get_browser_agent": "Não foi possível coletar um agente de navegador"
     },
     "success": {
       "user_created_successfully": "Usuário criado com sucesso",

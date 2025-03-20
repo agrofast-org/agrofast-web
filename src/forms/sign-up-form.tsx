@@ -3,10 +3,10 @@ import Form from "@/components/form";
 import Input from "@/components/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
-import api from "@/service/api";
+import { signUp } from "@/http/user/sign-up";
 import {
   Button,
   Modal,
@@ -24,7 +24,7 @@ const SignInForm: React.FC = () => {
   const router = useRouter();
   const { setIsLoading } = useOverlay();
   const { translateResponse } = useLanguage();
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [email, setEmail] = useState<string>(
@@ -51,23 +51,16 @@ const SignInForm: React.FC = () => {
     const data = Object.fromEntries(new FormData(e.currentTarget));
 
     setIsLoading(true);
-    api
-      .post("/user", data)
-      .then(({ data }) => {
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${data.token}`;
-          return config;
-        });
-        setToken(data.token);
+
+    signUp(data)
+      .then(({ data }) => {        
         setUser(data.user);
+        setToken(data.token);
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
-        // const fields = translateResponse(error.errors);
-        // setErrors(fields);
-        console.log(error.errors);
-        
-        setErrors(error.errors);
+        const fields = translateResponse(error.errors);
+        setErrors(fields);
       })
       .finally(() => {
         setIsLoading(false);
@@ -121,7 +114,9 @@ const SignInForm: React.FC = () => {
           name="email"
           label={t("UI.labels.email")}
           placeholder={t("UI.placeholders.write_email")}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
+          queryCollectable
           type="email"
           isRequired
         />

@@ -23,6 +23,7 @@ const Input: React.FC<InputProps> = ({
   className,
   queryCollectable = false,
   taggableVisibility,
+  onChange,
   ...props
 }) => {
   const router = useRouter();
@@ -36,17 +37,22 @@ const Input: React.FC<InputProps> = ({
   useEffect(() => {
     if (value) {
       setInputValue(value);
+      onChange?.({ target: { value } } as React.ChangeEvent<HTMLInputElement>);
     }
-  }, [value]);
+  }, [value, onChange]);
 
   useEffect(() => {
     if (queryCollectable && name && router.query[name]) {
       const queryValue = router.query[name];
       if (queryValue) {
-        setInputValue(queryValue as string);
+        const val = queryValue as string;
+        setInputValue(val);
+        onChange?.({
+          target: { value: val },
+        } as React.ChangeEvent<HTMLInputElement>);
       }
     }
-  }, [queryCollectable, name, router.query]);
+  }, [queryCollectable, name, onChange, router.query]);
 
   return (
     <HeroUIInput
@@ -79,7 +85,7 @@ const Input: React.FC<InputProps> = ({
             type="button"
             size="sm"
             variant="flat"
-            className="-right-[9px]"
+            className="-right-[10px]"
             isIconOnly
             onPress={togglePassVisibility}
           >

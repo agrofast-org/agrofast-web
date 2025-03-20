@@ -18,7 +18,7 @@ api.interceptors.response.use(
       case 204:
         addToast({
           title: "Success",
-          description: error.response
+          description: error.response,
         });
         break;
       case 401:
@@ -32,5 +32,19 @@ api.interceptors.response.use(
     }
   }
 );
+
+export const setBrowserAgent = (fingerprint: string) => {
+  api.interceptors.request.use((config) => {
+    config.headers['Browser-Agent'] = fingerprint;
+    return config;
+  });
+};
+
+export const setBearerToken = (token: string) => {
+  api.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  });
+};
 
 export default api;
