@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import { Success } from "@/types/api-response";
 import { FormValues } from "@/types/form";
 import { User } from "@/types/user";
 
@@ -13,10 +14,10 @@ export interface SignUpData {
   language: string;
 }
 
-export interface SignUpResponse {
+export type SignUpResponse = Success<{
   token: string;
   user: User;
-}
+}>;
 
 export const signUp = async (
   data: SignUpData | FormValues
@@ -24,11 +25,10 @@ export const signUp = async (
   const response = await api
     .post<SignUpResponse>("/user", data)
     .then((data) => {
-      console.log(data);
       return data;
     });
   api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${response.data.token}`;
+    config.headers.Authorization = `Bearer ${response.data.data.token}`;
     return config;
   });
   return response.data;

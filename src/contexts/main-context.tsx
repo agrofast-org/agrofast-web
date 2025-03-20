@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { AppProps } from "next/app";
 import ToasterProvider from "./toast-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import BrowserAgentProvider from "./browser-agent-provider";
 
 interface MainProviderProps {
   children: React.ReactNode;
@@ -32,10 +33,12 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
             <NextThemesProvider attribute="class" defaultTheme="dark">
               <LanguageProvider>
                 <OverlayProvider>
-                  <AuthProvider>
-                    {children}
-                    <DebugOptions />
-                  </AuthProvider>
+                  <BrowserAgentProvider>
+                    <AuthProvider>
+                      {children}
+                      <DebugOptions />
+                    </AuthProvider>
+                  </BrowserAgentProvider>
                 </OverlayProvider>
               </LanguageProvider>
             </NextThemesProvider>

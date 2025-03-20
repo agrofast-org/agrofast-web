@@ -1,4 +1,4 @@
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 // import { cn, numberInputMask } from "@/lib/utils";
@@ -25,7 +25,7 @@ const AuthWithForm: React.FC = () => {
   const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const { user, setUser, setToken, logout } = useUser();
+  const { user, setUser, setToken, logout } = useAuth();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -100,7 +100,6 @@ const AuthWithForm: React.FC = () => {
         });
         // toast.error(t("Responses.invalid_authentication_code", { attempts_left: error.attempts_left }));
         setErrors(fields);
-        console.log("errors", errors);
       })
       .finally(() => {
         setIsLoading(false);

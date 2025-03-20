@@ -1,8 +1,7 @@
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
-import api from "@/service/api";
 import { Button, Form, InputOtp, Skeleton, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
@@ -10,7 +9,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  AuthCodeLengthResponse,
   getAuthCodeLength,
 } from "@/http/get-auth-code-length";
 import { auth } from "@/http/user/auth";
@@ -28,7 +26,7 @@ const AuthCodeForm: React.FC = () => {
   const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const { user, setUser, setToken, logout } = useUser();
+  const { user, setUser, setToken, logout } = useAuth();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -72,14 +70,12 @@ const AuthCodeForm: React.FC = () => {
   const authMutation = useMutation({
     mutationFn: auth,
     onSuccess: (result) => {
-      setUser(result.data.user);
-      setToken(result.data.token);
+      setUser(result.data.data.user);
+      setToken(result.data.data.token);
       setIsLoading(false);
       router.push("/");
     },
     onError: (error: MutationError) => {
-      console.log(error);
-
       if (error.response?.status === 401) {
         toast.error({
           description: t(

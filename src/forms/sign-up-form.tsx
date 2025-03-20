@@ -3,11 +3,10 @@ import Form from "@/components/form";
 import Input from "@/components/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { signUp } from "@/http/user/sign-up";
-import { setBearerToken } from "@/service/api";
 import {
   Button,
   Modal,
@@ -25,7 +24,7 @@ const SignInForm: React.FC = () => {
   const router = useRouter();
   const { setIsLoading } = useOverlay();
   const { translateResponse } = useLanguage();
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [email, setEmail] = useState<string>(
@@ -54,10 +53,9 @@ const SignInForm: React.FC = () => {
     setIsLoading(true);
 
     signUp(data)
-      .then(({ token, user }) => {
-        setBearerToken(token);
-        setToken(token);
-        setUser(user);
+      .then(({ data }) => {        
+        setUser(data.user);
+        setToken(data.token);
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {

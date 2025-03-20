@@ -1,6 +1,6 @@
 import Checkbox from "@/components/checkbox";
 import Input from "@/components/input";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { Button, Form } from "@heroui/react";
@@ -15,7 +15,7 @@ const LoginForm: React.FC = () => {
   const t = useTranslations();
   const { setIsLoading } = useOverlay();
   const { translateResponse } = useLanguage();
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken } = useAuth();
 
   const [email, setEmail] = useState<string>(
     Array.isArray(router.query.email)
