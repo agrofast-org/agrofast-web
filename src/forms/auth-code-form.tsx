@@ -70,28 +70,36 @@ const AuthCodeForm: React.FC = () => {
   const authMutation = useMutation({
     mutationFn: auth,
     onSuccess: (result) => {
-      setUser(result.data.data.user);
-      setToken(result.data.data.token);
+      if ("data" in result && result.data) {
+        setUser(result.data.data.user);
+        setToken(result.data.data.token);
+        router.push("/");
+      }
       setIsLoading(false);
-      router.push("/");
     },
     onError: (error: MutationError) => {
-      if (error.response?.status === 401) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorResponse = (error as any).response;
+      if (errorResponse && errorResponse.status === 401) {
         toast.error({
           description: t(
             "Messages.errors.authentication_code_attempts_exceeded"
           ),
         });
         logout();
-      } else {
+      } else if (errorResponse) {
         const params = {
-          attempts_left: error.response.data.attempts_left,
+          attempts_left: errorResponse.data.attempts_left,
         };
-        const fields = translateResponse(error.response.data.fields, params);
+        const fields = translateResponse(errorResponse.data.fields, params);
         toast.error({
           description: t("Messages.errors.invalid_authentication_code", params),
         });
         setErrors(fields);
+      } else {
+        toast.error({
+          description: t("Messages.errors.default"),
+        });
       }
       setIsLoading(false);
     },

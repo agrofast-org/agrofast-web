@@ -16,6 +16,7 @@ import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
 import { AxiosError } from "axios";
 import { User } from "@/types/user";
 import { useOverlay } from "./overlay-provider";
+import { useBrowserAgent } from "./browser-agent-provider";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -35,11 +36,17 @@ export const useAuth = (): AuthContextProps => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const router = useRouter();
-  const {setIsPageLoading} = useOverlay();
+  const { isLoaded } = useBrowserAgent();
+  const { setIsPageLoading } = useOverlay();
 
-  const [cookies, setCookie, removeCookie] = useCookies([AUTH_TOKEN_KEY, AUTHENTICATED_KEY]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    AUTH_TOKEN_KEY,
+    AUTHENTICATED_KEY,
+  ]);
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
 
@@ -68,9 +75,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [router, setToken]);
 
   const fetchMe = useCallback(async () => {
-    if (fetchInProgress.current || user) return;    
+    if (fetchInProgress.current || user || !isLoaded) return;
     fetchInProgress.current = true;
-    
+
     const storedToken = cookies[AUTH_TOKEN_KEY];
     if (storedToken) {
       setToken(storedToken);
@@ -82,7 +89,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setCookie(AUTHENTICATED_KEY, !data.authenticated);
           return;
         }
-        if (cookies[AUTHENTICATED_KEY] !== "true" || !cookies[AUTHENTICATED_KEY] || data.authenticated) {
+        if (
+          cookies[AUTHENTICATED_KEY] !== "true" ||
+          !cookies[AUTHENTICATED_KEY] ||
+          data.authenticated
+        ) {
           removeCookie(AUTHENTICATED_KEY);
         }
       } catch (err: unknown) {
@@ -97,7 +108,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsPageLoading(false);
       fetchInProgress.current = false;
     }
-  }, [user, cookies, logout, setToken, setCookie, removeCookie, setIsPageLoading]);
+  }, [
+    user,
+    cookies,
+    isLoaded,
+    logout,
+    setToken,
+    setCookie,
+    removeCookie,
+    setIsPageLoading,
+  ]);
 
   useEffect(() => {
     fetchMe();

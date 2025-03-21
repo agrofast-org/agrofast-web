@@ -16,8 +16,8 @@ import { useToast } from "@/service/toast";
 import { useTranslations } from "next-intl";
 
 interface BrowserAgentContextProps {
-  browserAgent: string | undefined;
   isLoaded: boolean;
+  browserAgent: string | undefined;
   refreshBrowserAgent: () => Promise<void>;
 }
 
@@ -51,9 +51,9 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateBrowserAgent = useCallback(
     (fingerprint: string) => {
+      setBrowserAgent(fingerprint);
       setBrowserFingerprint(fingerprint);
       setCookie(AUTH_BROWSER_AGENT_KEY, fingerprint);
-      setBrowserAgent(fingerprint);
     },
     [setCookie]
   );
@@ -62,6 +62,9 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
     if (fetchInProgress.current) return;
     fetchInProgress.current = true;
     const storedFingerprint = cookies[AUTH_BROWSER_AGENT_KEY] || "";
+    if (storedFingerprint) {
+      updateBrowserAgent(storedFingerprint);
+    }
     try {
       const response = await validateFingerprint(storedFingerprint);
       const newFingerprint = response.data.data?.fingerprint;
@@ -80,8 +83,6 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
       toast.error({
         description: t("Messages.errors.failed_to_get_browser_agent"),
       });
-    } finally {
-      fetchInProgress.current = false;
     }
   }, [cookies, toast, t, updateBrowserAgent, removeCookie]);
 
