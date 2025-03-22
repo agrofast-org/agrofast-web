@@ -27,11 +27,7 @@ const SignInForm: React.FC = () => {
   const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [email, setEmail] = useState<string>(
-    Array.isArray(router.query.email)
-      ? router.query.email[0]
-      : router.query.email || ""
-  );
+  const [email, setEmail] = useState<string>("");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [modalContent, setModalContent] = useState<JSX.Element | undefined>();
@@ -53,7 +49,7 @@ const SignInForm: React.FC = () => {
     setIsLoading(true);
 
     signUp(data)
-      .then(({ data }) => {        
+      .then(({ data }) => {
         setUser(data.user);
         setToken(data.token);
         router.push(`/auth-code`);

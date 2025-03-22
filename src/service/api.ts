@@ -22,6 +22,9 @@ api.interceptors.response.use(
         });
         break;
       case 401:
+        if (data?.code === "browser_agent") {
+          window.location.reload();
+        }
         // logout();
         return Promise.reject(error);
       default:

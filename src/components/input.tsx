@@ -29,7 +29,8 @@ const Input: React.FC<InputProps> = ({
   const router = useRouter();
   const t = useTranslations();
 
-  const [inputValue, setInputValue] = useState(value);
+  const [hasFirstRender, setHasFirstRender] = useState(false);
+  const [inputValue, setInputValue] = useState(value ?? "");
   const [isPassVisible, setIsPassVisible] = useState(false);
 
   const togglePassVisibility = () => setIsPassVisible(!isPassVisible);
@@ -42,7 +43,20 @@ const Input: React.FC<InputProps> = ({
   }, [value, onChange]);
 
   useEffect(() => {
-    if (queryCollectable && name && router.query[name]) {
+    if (format) {
+      setInputValue(format(inputValue ?? ""));
+      onChange?.({
+        target: { value: format(inputValue ?? "") },
+      } as React.ChangeEvent<HTMLInputElement>);
+      return;
+    }
+    onChange?.({
+      target: { value: inputValue ?? "" },
+    } as React.ChangeEvent<HTMLInputElement>);
+  }, [format, inputValue, onChange]);
+
+  useEffect(() => {
+    if (queryCollectable && name && router.query[name] && !hasFirstRender) {
       const queryValue = router.query[name];
       if (queryValue) {
         const val = queryValue as string;
@@ -50,9 +64,10 @@ const Input: React.FC<InputProps> = ({
         onChange?.({
           target: { value: val },
         } as React.ChangeEvent<HTMLInputElement>);
+        setHasFirstRender(true);
       }
     }
-  }, [queryCollectable, name, onChange, router.query]);
+  }, [queryCollectable, name, onChange, router.query, hasFirstRender]);
 
   return (
     <HeroUIInput

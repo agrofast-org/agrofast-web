@@ -17,11 +17,7 @@ const LoginForm: React.FC = () => {
   const { translateResponse } = useLanguage();
   const { setUser, setToken } = useAuth();
 
-  const [email, setEmail] = useState<string>(
-    Array.isArray(router.query.email)
-      ? router.query.email[0]
-      : router.query.email || ""
-  );
+  const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,9 +26,9 @@ const LoginForm: React.FC = () => {
 
     setIsLoading(true);
     login(data)
-      .then(({ token, user }) => {
-        setToken(token);
-        setUser(user);
+      .then(({ data }) => {
+        setToken(data.token);
+        setUser(data.user);
         router.push(`/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
@@ -58,6 +54,7 @@ const LoginForm: React.FC = () => {
             name="email"
             label={t("UI.labels.email")}
             placeholder={t("UI.placeholders.write_email")}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             queryCollectable
             type="email"
