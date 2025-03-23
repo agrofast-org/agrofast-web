@@ -9,12 +9,14 @@ export type HrefProps = {
 
 export interface LinkProps extends NextLinkProps {
   href: string | HrefProps;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   children?: React.ReactNode;
   className?: string;
 }
 
 const Link: React.FC<LinkProps> = ({
   href,
+  onClick,
   children,
   className,
 }: LinkProps) => {
@@ -40,6 +42,13 @@ const Link: React.FC<LinkProps> = ({
   return (
     <NextLink
       href={formattedHref}
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          onClick(e);
+          e.currentTarget.click();
+        }
+      }}
       className={cn(
         "hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all",
         className

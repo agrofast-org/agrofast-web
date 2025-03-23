@@ -12,6 +12,7 @@ export interface LoginData {
 export type LoginResponse = Success<{
   token: string;
   user: User;
+  auth?: "authenticate" | "authenticated"
 }>;
 
 export const login = async (

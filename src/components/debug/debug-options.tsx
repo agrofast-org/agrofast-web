@@ -71,8 +71,8 @@ const DebugOptions = () => {
   }
 
   return (
-    <div className="right-4 bottom-4 z-[150] fixed">
-      <Popover radius="sm" placement="top-end" offset={8}>
+    <div className="bottom-4 left-4 z-[150] fixed">
+      <Popover radius="sm" placement="top-start" offset={8}>
         <PopoverTrigger>
           <Button size="md" color="success" isIconOnly>
             <Bug01Icon

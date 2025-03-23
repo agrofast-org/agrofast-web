@@ -16,7 +16,6 @@ import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
 import { AxiosError } from "axios";
 import { User } from "@/types/user";
 import { useOverlay } from "./overlay-provider";
-import { useBrowserAgent } from "./browser-agent-provider";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -40,7 +39,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
-  const { isLoaded } = useBrowserAgent();
   const { setIsPageLoading } = useOverlay();
 
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -75,7 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [router, setToken]);
 
   const fetchMe = useCallback(async () => {
-    if (fetchInProgress.current || user || !isLoaded) return;
+    if (fetchInProgress.current || user) return;
     fetchInProgress.current = true;
 
     const storedToken = cookies[AUTH_TOKEN_KEY];
@@ -111,7 +109,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [
     user,
     cookies,
-    isLoaded,
     logout,
     setToken,
     setCookie,

@@ -161,6 +161,7 @@
       "wrong_password": "Senha incorreta",
       "user_not_authenticated": "Usuário não autenticado",
       "invalid_authentication_code": "Código de autenticação inválido",
+      "authentication_code_attempts": "Código de autenticação inválido. {attempts_left} tentativas restantes.",
       "authentication_code_attempts_exceeded": "Tentativas de código de autenticação excedidas",
       "incorrect_authentication_code": "Código de autenticação incorreto",
       "failed_to_resend_code": "Falha ao reenviar código",

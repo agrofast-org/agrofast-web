@@ -2,19 +2,21 @@ import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
-import { Button, Form, InputOtp, Skeleton, Spacer } from "@heroui/react";
+import { Button, Form, Skeleton, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  getAuthCodeLength,
-} from "@/http/get-auth-code-length";
-import { auth } from "@/http/user/auth";
-import { MutationError } from "@/types/mutation-error";
+import { useQuery } from "@tanstack/react-query";
+import { getAuthCodeLength } from "@/http/get-auth-code-length";
+import { auth, AuthError } from "@/http/user/auth";
 import { useToast } from "@/service/toast";
 import { useCountdown } from "@/lib/useCountdown";
+import { resendCode } from "@/http/user/resend-code";
+import { AxiosError } from "axios";
+import InputOtp from "@/components/input-otp";
+import { useCookies } from "react-cookie";
+import { AUTHENTICATED_KEY } from "@/middleware";
 
 const TIMEOUT = 60;
 
@@ -22,6 +24,8 @@ const AuthCodeForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
   const toast = useToast();
+
+  const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
   const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
@@ -32,15 +36,15 @@ const AuthCodeForm: React.FC = () => {
 
   const [timer, setTimer] = useCountdown(TIMEOUT);
 
-  const { data: codeLength, isLoading: codeLengthLoading } = useQuery({
+  const { data: codeLength, isLoading: codeLengthLoading } = useQuery<number>({
     queryKey: ["auth-code-length"],
     queryFn: async () => {
       const res = await getAuthCodeLength();
-      return res.data.length;
+      return res.data.length ?? 6;
     },
   });
 
-  const resendCode = async () => {
+  const handleResendCode = async () => {
     if (timer <= 0) {
       setIsLoading(true);
       resendCode()
@@ -67,48 +71,42 @@ const AuthCodeForm: React.FC = () => {
     }
   };
 
-  const authMutation = useMutation({
-    mutationFn: auth,
-    onSuccess: (result) => {
-      if ("data" in result && result.data) {
-        setUser(result.data.data.user);
-        setToken(result.data.data.token);
-        router.push("/");
-      }
-      setIsLoading(false);
-    },
-    onError: (error: MutationError) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorResponse = (error as any).response;
-      if (errorResponse && errorResponse.status === 401) {
-        toast.error({
-          description: t(
-            "Messages.errors.authentication_code_attempts_exceeded"
-          ),
-        });
-        logout();
-      } else if (errorResponse) {
-        const params = {
-          attempts_left: errorResponse.data.attempts_left,
-        };
-        const fields = translateResponse(errorResponse.data.fields, params);
-        toast.error({
-          description: t("Messages.errors.invalid_authentication_code", params),
-        });
-        setErrors(fields);
-      } else {
-        toast.error({
-          description: t("Messages.errors.default"),
-        });
-      }
-      setIsLoading(false);
-    },
-  });
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget));
-    authMutation.mutateAsync(formData["code"] as string);
+    setIsLoading(true);
+    auth(String(formData["code"]))
+      .then(({ data }) => {
+        setUser(data.user);
+        setToken(data.token);
+        setCookie(AUTHENTICATED_KEY, "true");
+        router.push("/");
+      })
+      .catch(({ response, status }: AxiosError<AuthError>) => {
+        if (status === 401) {
+          toast.error({
+            description: t(
+              "Messages.errors.authentication_code_attempts_exceeded"
+            ),
+          });
+          logout();
+          return;
+        }
+        const params = {
+          attempts_left: response?.data?.data?.attempts?.toString() || "0",
+        };
+        const errors = translateResponse(response?.data.errors ?? {}, params);
+        toast.error({
+          description: t(
+            "Messages.errors.authentication_code_attempts",
+            params
+          ),
+        });
+        setErrors(errors);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -152,11 +150,6 @@ const AuthCodeForm: React.FC = () => {
                 variant="bordered"
                 length={codeLength || 6}
                 className="mb-2"
-                classNames={{
-                  input: "w-12 h-12 text-center text-2xl",
-                  helperWrapper:
-                    "absolute min-w-max -bottom-[14px] -translate-x-1/2 left-1/2 flex justify-center",
-                }}
               />
             </Skeleton>
           </div>
@@ -164,16 +157,16 @@ const AuthCodeForm: React.FC = () => {
             className="inline-block rounded-lg"
             isLoaded={isDataLoading}
           >
-            <p className="text-gray-700 dark:text-gray-200 text-small text-center">
+            <p className="font-normal text-gray-700 dark:text-gray-200 text-small text-center">
               {t.rich("UI.info.email_verification_code_sent", {
                 email: () => <span className="font-bold">{user?.email}</span>,
                 action: () => (
                   <span
-                    onClick={resendCode}
+                    onClick={handleResendCode}
                     className={cn(
                       timer <= 0
-                        ? "opacity-100 hover:underline cursor-pointer text-primary"
-                        : "opacity-60 text-neutral-400"
+                        ? "hover:underline cursor-pointer text-primary"
+                        : "text-neutral-600 dark:text-neutral-400 cursor-not-allowed"
                     )}
                   >
                     {t("UI.buttons.resend_code")}
@@ -190,7 +183,9 @@ const AuthCodeForm: React.FC = () => {
             {t("UI.buttons.continue")}
           </Button>
           <p className="w-full text-small text-center">
-            <Link href="/login">{t("UI.redirects.enter_another_account")}</Link>
+            <Link href="/login" onClick={logout}>
+              {t("UI.redirects.enter_another_account")}
+            </Link>
           </p>
         </div>
       </Form>

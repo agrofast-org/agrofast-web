@@ -8,9 +8,11 @@ export type AuthResponse = Success<{
 }>;
 
 export type AuthError = Error<{
-  attempts_left: number;
+  attempts: number;
 }>;
 
 export const auth = (code: string) => {
-  return api.get<AuthResponse>("/user/auth", { params: { code } });
+  return api
+    .get<AuthResponse>("/user/auth", { params: { code } })
+    .then((res) => res.data);
 };

@@ -9,6 +9,8 @@ import Link from "@/components/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { login } from "@/http/user/login";
+import { AUTHENTICATED_KEY } from "@/middleware";
+import { useCookies } from "react-cookie";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -16,6 +18,8 @@ const LoginForm: React.FC = () => {
   const { setIsLoading } = useOverlay();
   const { translateResponse } = useLanguage();
   const { setUser, setToken } = useAuth();
+
+  const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
   const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -29,7 +33,13 @@ const LoginForm: React.FC = () => {
       .then(({ data }) => {
         setToken(data.token);
         setUser(data.user);
-        router.push(`/auth-code`);
+        if (data?.auth === "authenticate") {
+          router.push("/auth-code");
+        }
+        if (data?.auth === "authenticated") {
+          setCookie(AUTHENTICATED_KEY, "true");
+          router.push("/");
+        }
       })
       .catch(({ response: { data: error } }) => {
         const fields = translateResponse(error.errors);

@@ -1,10 +1,10 @@
-import { FormValue, FormValues } from "@/types/form";
+import type { FormErrors, FormValue } from "@/types/form";
 import {
   FormProps as HeroUIFormProps,
   Form as HeroUIForm,
 } from "@heroui/react";
 import { AxiosResponse } from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export interface FormProps extends HeroUIFormProps {
   children?: React.ReactNode;
@@ -14,21 +14,33 @@ export interface FormProps extends HeroUIFormProps {
 }
 
 interface FormProviderProps {
-  values: FormValues;
-  // touched: Record<string, boolean>;
-  // setValues: (values: FormValues) => void;
-  // setTouched: (touched: Record<string, boolean>) => void;
+  // values: FormValues;
+  errors: FormErrors;
 }
 
 const FormProvider = createContext<FormProviderProps | undefined>(undefined);
 
-const Form: React.FC<FormProps> = ({ children, ...props }) => {
-  const [values] = useState<FormValues>({});
+const Form: React.FC<FormProps> = ({
+  children,
+  validationErrors,
+  ...props
+}) => {
+  const [errors, setErrors] = useState<FormErrors>(validationErrors ?? {});
+
+  useEffect(() => {
+    if (
+      validationErrors &&
+      Object.keys(validationErrors).length > 0 &&
+      validationErrors !== errors
+    ) {
+      setErrors(validationErrors);
+    }
+  }, [validationErrors, errors]);
 
   return (
     <FormProvider.Provider
       value={{
-        values,
+        errors,
       }}
     >
       <HeroUIForm {...props}>{children}</HeroUIForm>
@@ -36,7 +48,7 @@ const Form: React.FC<FormProps> = ({ children, ...props }) => {
   );
 };
 
-export const useForm = () => {
+export const useForm = (): FormProviderProps | undefined => {
   return useContext(FormProvider);
 };
 
