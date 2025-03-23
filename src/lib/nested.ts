@@ -1,4 +1,4 @@
-import { FormValue, FormValues } from "@/components/form";
+import { FormValue, FormValues } from "@/types/form";
 import { isNumeric } from "./utils";
 
 /**
@@ -29,20 +29,20 @@ import { isNumeric } from "./utils";
 export const parseNested = (nested: Record<string, FormValue>): FormValues => {
   const flat: FormValues = {};
 
-  const flatten = (obj: FormValue, prefix: string = ""): void => {
-    if (typeof obj !== "object" || obj === null) {
-      flat[prefix] = obj;
+  const flatten = (obj: unknown, prefix: string = ""): void => {
+    if (typeof obj !== "object" || obj === null || obj instanceof File) {
+      flat[prefix] = obj as FormValue;
       return;
     }
 
     if (Object.keys(obj).length === 0) {
-      flat[prefix] = obj;
+      flat[prefix] = "" as unknown as FormValue;
       return;
     }
 
     for (const key in obj) {
       if (!obj.hasOwnProperty(key)) continue;
-      const value = obj[key];
+      const value = ((obj as unknown) as Record<string, FormValue>)[key];
       const newKey = prefix ? `${prefix}.${key}` : key;
       if (typeof value === "object" && value !== null) {
         flatten(value, newKey);
@@ -81,8 +81,8 @@ export const parseNested = (nested: Record<string, FormValue>): FormValues => {
  * }
  * ```
  */
-export const toNested = (values: FormValues): FormValue => {
-  const result: FormValue = {};
+export const toNested = (values: FormValues): FormValues => {
+  const result = {} as FormValues;
 
   for (const flatKey in values) {
     if (!values.hasOwnProperty(flatKey)) continue;
@@ -96,16 +96,17 @@ export const toNested = (values: FormValues): FormValue => {
       const isLast = i === parts.length - 1;
 
       if (isLast) {
-        current[key] = value;
+        current[key as FormValue] = value;
       } else {
-        if (current[key] === undefined) {
+        if (current[key as FormValue] === undefined) {
           const nextPart = parts[i + 1];
-          current[key] = isNumeric(nextPart) ? [] : {};
+          current[key as FormValue] = isNumeric(nextPart) ? [] : {};
         }
-        current = current[key];
+        current = current[key as FormValue];
       }
     }
   }
 
   return result;
 };
+
