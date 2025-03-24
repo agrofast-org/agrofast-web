@@ -13,7 +13,6 @@ import { useCookies } from "react-cookie";
 import api, { setBearerToken } from "@/service/api";
 import { getMe } from "@/http/user/get-me";
 import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
-import { AxiosError } from "axios";
 import { User } from "@/types/user";
 import { useOverlay } from "./overlay-provider";
 
@@ -80,28 +79,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     if (storedToken) {
       setToken(storedToken);
       setBearerToken(storedToken);
-      try {
-        const { data } = await getMe();
-        setUser(data.user);
-        if (!data.authenticated) {
-          setCookie(AUTHENTICATED_KEY, !data.authenticated);
-          return;
-        }
-        if (
-          cookies[AUTHENTICATED_KEY] !== "true" ||
-          !cookies[AUTHENTICATED_KEY] ||
-          data.authenticated
-        ) {
-          removeCookie(AUTHENTICATED_KEY);
-        }
-      } catch (err: unknown) {
-        if (err instanceof AxiosError && err.response?.status === 401) {
-          logout();
-        }
-      } finally {
-        setIsPageLoading(false);
-        fetchInProgress.current = false;
-      }
+      getMe()
+        .then(({ data }) => {
+          setUser(data.user);
+          if (!data.authenticated) {
+            setCookie(AUTHENTICATED_KEY, !data.authenticated);
+            return;
+          }
+          if (
+            !cookies[AUTHENTICATED_KEY] ||
+            cookies[AUTHENTICATED_KEY] !== true ||
+            !data.authenticated
+          ) {
+            removeCookie(AUTHENTICATED_KEY);
+          }
+        })
+        .catch(({ response }) => {
+          if (response?.status === 401) {
+            logout();
+          }
+        })
+        .finally(() => {
+          setIsPageLoading(false);
+          fetchInProgress.current = false;
+        });
     } else {
       setIsPageLoading(false);
       fetchInProgress.current = false;

@@ -1,20 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Public paths for user initial access, only accessible if the user has no token
+// Páginas públicas: acessíveis somente se o usuário NÃO estiver logado
 export const PUBLIC_PATHS = [
   "/login",
   "/sign-up",
   "/recover-token",
   "/reset-password",
 ];
-// Paths that require at least a browser agent and a token
+
+// Páginas de pré-autenticação: requerem token e browser agent, mas o usuário ainda não completou a autenticação
 export const PUBLIC_AUTH_PATHS = ["/auth-code", "/auth-with"];
-// Paths that require authentication
-// (browser agent, token, and authenticated cookie)
+
+// Páginas protegidas: requerem autenticação completa (token, browser agent e cookie de autenticação)
 export const USER_PATHS = ["/", "/dashboard", "/user", "/profile", "/settings"];
 
 export const AUTH_TOKEN_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_token`;
-export const AUTHENTICATED_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_authenticated`; // If this cookie is set, the user is authenticated
+export const AUTHENTICATED_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_authenticated`;
 export const AUTH_BROWSER_AGENT_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_browser_agent`;
 
 export function middleware(request: NextRequest) {
@@ -24,14 +25,33 @@ export function middleware(request: NextRequest) {
   const hasToken = request.cookies.has(AUTH_TOKEN_KEY);
   const isAuthenticated = request.cookies.has(AUTHENTICATED_KEY);
 
-  if ((!hasBrowserAgent || !hasToken) && !PUBLIC_PATHS.includes(pathname)) {
-    const redirectUrl = new URL(PUBLIC_PATHS[0], request.url);
-    return NextResponse.redirect(redirectUrl.toString());
+  if (PUBLIC_PATHS.includes(pathname)) {
+    if (hasBrowserAgent && hasToken && isAuthenticated) {
+      const redirectUrl = new URL("/", request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+    return NextResponse.next();
   }
 
-  if (hasBrowserAgent && hasToken && !isAuthenticated && !PUBLIC_AUTH_PATHS.includes(pathname)) {
+  if (PUBLIC_AUTH_PATHS.includes(pathname)) {
+    if (!hasBrowserAgent || !hasToken) {
+      const redirectUrl = new URL(PUBLIC_PATHS[0], request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+    if (isAuthenticated) {
+      const redirectUrl = new URL("/", request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+    return NextResponse.next();
+  }
+
+  if (!hasBrowserAgent || !hasToken) {
+    const redirectUrl = new URL(PUBLIC_PATHS[0], request.url);
+    return NextResponse.redirect(redirectUrl);
+  }
+  if (!isAuthenticated) {
     const redirectUrl = new URL(PUBLIC_AUTH_PATHS[0], request.url);
-    return NextResponse.redirect(redirectUrl.toString());
+    return NextResponse.redirect(redirectUrl);
   }
 
   return NextResponse.next();

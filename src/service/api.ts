@@ -1,4 +1,8 @@
-import { AUTH_BROWSER_AGENT_KEY, AUTH_TOKEN_KEY } from "@/middleware";
+import {
+  AUTH_BROWSER_AGENT_KEY,
+  AUTH_TOKEN_KEY,
+  AUTHENTICATED_KEY,
+} from "@/middleware";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
@@ -50,12 +54,12 @@ api.interceptors.response.use(
       case 204:
         break;
       case 401:
-        if (data?.code === "browser_agent") {
+        if (["browser_agent", "invalid_token"].includes(data?.code)) {
           cookies.remove(AUTH_BROWSER_AGENT_KEY);
+          cookies.remove(AUTHENTICATED_KEY);
           cookies.remove(AUTH_TOKEN_KEY);
           window.location.reload();
         }
-        // logout();
         return Promise.reject(error);
       default:
         if (data?.error) {
