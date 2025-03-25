@@ -1,5 +1,5 @@
 import Body from "@/components/body";
-import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 
@@ -18,4 +18,4 @@ export default function Index() {
   );
 }
 
-export const getStaticProps = getStaticPropsWithMessages;
+export const getStaticProps = getWebStaticPropsWithMessages;

@@ -92,17 +92,23 @@ const AuthCodeForm: React.FC = () => {
           logout();
           return;
         }
-        const params = {
-          attempts_left: response?.data?.data?.attempts?.toString() || "0",
-        };
-        const errors = translateResponse(response?.data.errors ?? {}, params);
+        if (response?.data?.data?.attempts) {
+          const params = {
+            attempts_left: response?.data?.data?.attempts?.toString() || "0",
+          };
+          const errors = translateResponse(response?.data.errors ?? {}, params);
+          toast.error({
+            description: t(
+              "Messages.errors.authentication_code_attempts",
+              params
+            ),
+          });
+          setErrors(errors);
+          return;
+        }
         toast.error({
-          description: t(
-            "Messages.errors.authentication_code_attempts",
-            params
-          ),
+          description: t("Messages.errors.default"),
         });
-        setErrors(errors);
       })
       .finally(() => {
         setIsLoading(false);
@@ -144,7 +150,7 @@ const AuthCodeForm: React.FC = () => {
             >
               {t("UI.placeholders.write_code")}
             </label>
-            <Skeleton className="rounded-lg h-14" isLoaded={!codeLengthLoading}>
+            <Skeleton className="rounded-lg h-14" isLoaded={!codeLengthLoading && isDataLoading}>
               <InputOtp
                 name="code"
                 variant="bordered"

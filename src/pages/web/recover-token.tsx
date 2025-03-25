@@ -1,7 +1,7 @@
 import Body from "@/components/body";
 import Agrofast from "@/components/ui/agrofast";
 import { useTranslations } from "next-intl";
-import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
 import RecoverTokenForm from "@/forms/recover-token-form";
 
@@ -32,4 +32,4 @@ export default function RecoverToken() {
   );
 }
 
-export const getStaticProps = getStaticPropsWithMessages;
+export const getStaticProps = getWebStaticPropsWithMessages;

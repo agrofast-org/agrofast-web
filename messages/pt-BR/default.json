@@ -1,62 +1,4 @@
 {
-  "Pages": {
-    "Index": {
-      "meta": {
-        "title": "Agrofast - Transporte de Maquinário Agrícola",
-        "description": "Transporte de maquinário agrícola de forma rápida e segura"
-      }
-    },
-    "Login": {
-      "meta": {
-        "title": "Agrofast - Login",
-        "description": "Faça login para acessar sua conta Agrofast"
-      }
-    },
-    "SignUp": {
-      "meta": {
-        "title": "Agrofast - Cadastro",
-        "description": "Crie uma nova conta no Agrofast"
-      }
-    },
-    "AuthCode": {
-      "meta": {
-        "title": "Agrofast - Código de Autenticação",
-        "description": "Digite o código de autenticação enviado para seu telefone"
-      }
-    },
-    "ForgotPass": {
-      "meta": {
-        "title": "Agrofast - Esqueci Minha Senha",
-        "description": "Recupere sua senha do Agrofast"
-      }
-    },
-    "RecoverToken": {
-      "meta": {
-        "title": "Agrofast - Recuperar senha",
-        "description": "Digite o token de recuperação enviado para seu telefone"
-      }
-    },
-    "NotFound": {
-      "meta": {
-        "title": "Agrofast - Página não encontrada",
-        "description": "Página não encontrada"
-      },
-      "messages": {
-        "page_not_found": "Página não encontrada",
-        "as_expected": "Assim como esperado?",
-        "back_to_safety": "Voltar para a segurança"
-      }
-    },
-    "InternalError": {
-      "meta": {
-        "title": "Agrofast - Erro interno",
-        "description": "Ocorreu um erro"
-      },
-      "messages": {
-        "an_error_has_occurred": "Ocorreu um erro interno"
-      }
-    }
-  },
   "UI": {
     "tooltips": {
       "write_number": {
@@ -118,16 +60,19 @@
       "remember_me": "Lembrar-se de mim"
     },
     "redirects": {
-      "see_more": "Veja mais",
       "about": "Sobre",
+      "application": "Aplicação",
+      "web_version": "Versão Web",
+      "see_more": "Veja mais",
       "profile": "Perfil",
       "configs": "Configurações",
       "home": "Início",
-      "application": "Aplicação",
       "create_account": "Criar uma conta",
       "forgot_password": "Esqueci minha senha",
       "enter_another_account": "Entrar em outra conta",
-      "enter_existing_account": "Entrar em uma conta existente"
+      "enter_existing_account": "Entrar em uma conta existente",
+      "go_to_download": "Ir Para Download",
+      "download_app": "Fazer Download"
     }
   },
   "Messages": {
@@ -139,7 +84,6 @@
     },
     "errors": {
       "default": "Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.",
-
       "name_required": "Nome é obrigatório",
       "surname_required": "Sobrenome é obrigatório",
       "number_required": "Número é obrigatório",
@@ -152,7 +96,6 @@
       "password_not_coincide": "A senha e a confirmação não coincidem",
       "terms_and_privacy_agreement_required": "Você deve aceitar os Termos de Uso e a Política de Privacidade",
       "terms_and_privacy_agreement_not_accepted": "Os Termos de Uso ou a Política de Privacidade não foram aceitos",
-
       "not_implemented": "Não implementado",
       "user_not_found": "Usuário não encontrado",
       "error_creating_user": "Erro ao criar usuário",
@@ -168,7 +111,6 @@
       "failed_to_upload_image": "Falha ao enviar imagem",
       "failed_to_save_image_record": "Falha ao salvar registro de imagem",
       "no_images_found": "Nenhuma imagem encontrada",
-
       "failed_to_get_browser_agent": "Não foi possível coletar um agente de navegador"
     },
     "success": {
@@ -210,12 +152,10 @@
       "terms_of_use_info_1": "Ao acessar ou usar o site, você concorda em cumprir os Termos de Uso e todas as leis e regulamentos aplicáveis. Se você não concordar com qualquer um destes termos, está proibido de usar ou acessar este site.",
       "terms_of_use_info_2": "Os materiais contidos neste site são protegidos pelas leis de direitos autorais e marcas comerciais aplicáveis.",
       "terms_of_use_info_3": "Para mais informações sobre como usamos seus dados, a pagina de <link>termos de uso</link> da nossa plataforma.",
-
       "privacy_policy": "Política de Privacidade",
       "privacy_policy_info_1": "Sua privacidade é importante para nós. É política do Agrofast respeitar sua privacidade em relação a qualquer informação sua que possamos coletar no site Agrofast, e outros sites que possuímos e operamos.",
       "privacy_policy_info_2": "Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado.",
       "privacy_policy_info_3": "Para mais informações sobre como usamos seus dados, a pagina de <link>política de privacidade</link> da nossa plataforma.",
-
       "sign_in_terms": "Ao continuar, enviaremos um código de validação no número informado. Podem ser aplicadas taxas de dados e mensagens.",
       "login_terms": "Ao continuar, enviaremos um código de validação no número informado. Podem ser aplicadas taxas de dados e mensagens.",
       "mailing_list": "Desejo receber e-mails promocionais da Agrofast."

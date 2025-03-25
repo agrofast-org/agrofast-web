@@ -27,3 +27,11 @@ export const isDev = (): boolean => {
 export const getPortfolioUrl = (): string => {
   return process.env.NEXT_PUBLIC_PORTFOLIO_BASE_URL ?? "https://agrofast.tech";
 };
+
+export const getWebUrl = (): string => {
+  return process.env.NEXT_PUBLIC_WEB_BASE_URL ?? "https://agrofast.tech";
+};
+
+export const getLegalUrl = (): string => {
+  return process.env.NEXT_PUBLIC_LEGAL_BASE_URL ?? "https://agrofast.tech";
+};
