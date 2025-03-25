@@ -89,6 +89,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/:path*",
     "/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt).*)",
   ],
 };
