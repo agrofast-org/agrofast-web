@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { cn, numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
 import { useTranslations } from "next-intl";
-import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
 import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
@@ -340,4 +340,4 @@ export default function SignIn() {
   );
 }
 
-export const getStaticProps = getStaticPropsWithMessages;
+export const getStaticProps = getWebStaticPropsWithMessages;

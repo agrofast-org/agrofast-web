@@ -4,7 +4,6 @@ import {
 } from "@heroui/react";
 import { useForm } from "./form";
 import { useEffect, useState } from "react";
-import { FormErrors } from "@/types/form";
 import { cn } from "@/lib/utils";
 
 export interface CheckboxProps extends HeroUICheckboxProps {
@@ -15,7 +14,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ children, name, ...props }) => {
   const form = useForm();
 
   const [checked, setChecked] = useState<boolean>();
-  const [error, setError] = useState<keyof FormErrors>();
+  const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
     if (name && form?.errors[name]) {
@@ -45,9 +44,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ children, name, ...props }) => {
       <p
         className={cn(
           "text-sm text-start",
-          error
-            ? "text-danger"
-            : "text-gray-700 dark:text-gray-200"
+          error ? "text-danger" : "text-gray-700 dark:text-gray-200"
         )}
       >
         {children}

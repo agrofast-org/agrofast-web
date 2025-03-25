@@ -11,7 +11,7 @@ import { Globe02Icon, LanguageSkillIcon } from "@hugeicons/react";
 import { languages } from "@/internationalization/languages";
 import { cn } from "@/lib/utils";
 
-interface LanguageSelectorProps extends Omit<HeroUISelectProps, 'children'> {
+interface LanguageSelectorProps extends Omit<HeroUISelectProps, "children"> {
   className?: string;
   children?: React.ReactNode;
 }
@@ -24,7 +24,16 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   const handleRouteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    router.push(router.pathname, undefined, { locale: event.target.value });
+    const selectedLocale = event.target.value;
+    let newPath = router.asPath;
+
+    newPath = newPath.replace(/^\/(portfolio|web|legal)/, "");
+
+    if (!newPath.startsWith("/")) {
+      newPath = "/" + newPath;
+    }
+
+    router.push(newPath, undefined, { locale: selectedLocale });
   };
 
   return (
