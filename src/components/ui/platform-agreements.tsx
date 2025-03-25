@@ -2,6 +2,7 @@ import { ModalBody, ModalHeader } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import ScrollShadow from "../scroll-shadow";
 import Link from "@/components/link";
+import { getLegalUrl } from "@/lib/utils";
 
 export const TermsOfUse = () => {
   const t = useTranslations();
@@ -19,7 +20,7 @@ export const TermsOfUse = () => {
             {t.rich("Legal.agreements.terms_of_use_info_3", {
               link: (chunks) => (
                 <Link
-                  href={`https://agrofast.tech/terms-of-use`}
+                  href={`${getLegalUrl()}/terms-of-use`}
                   className="hover:opacity-80 font-medium text-primary hover:underline transition-all cursor-pointer"
                 >
                   {chunks}
@@ -49,7 +50,7 @@ export const PrivacyPolicy = () => {
             {t.rich("Legal.agreements.privacy_policy_info_3", {
               link: (chunks) => (
                 <Link
-                  href={`https://agrofast.tech/privacy-policies`}
+                  href={`${getLegalUrl()}/privacy-policies`}
                   className="hover:opacity-80 font-medium text-primary hover:underline transition-all cursor-pointer"
                 >
                   {chunks}

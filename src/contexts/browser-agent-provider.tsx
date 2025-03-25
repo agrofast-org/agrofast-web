@@ -58,7 +58,17 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
     [setCookie]
   );
 
+  
   const refreshBrowserAgent = useCallback(async () => {
+    console.log(
+      window.location.hostname,
+      new URL(process.env.NEXT_PUBLIC_WEB_BASE_URL || "").hostname
+    );
+    if (
+      window.location.hostname !==
+      new URL(process.env.NEXT_PUBLIC_WEB_BASE_URL || "").hostname
+    )
+      return;
     if (fetchInProgress.current) return;
     fetchInProgress.current = true;
     const storedFingerprint = cookies[AUTH_BROWSER_AGENT_KEY] || "";
