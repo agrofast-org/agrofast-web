@@ -4,7 +4,7 @@ import { Button } from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import SignInForm from "@/forms/sign-up-form";
@@ -60,4 +60,4 @@ export default function SignIn() {
   );
 }
 
-export const getStaticProps = getStaticPropsWithMessages;
+export const getStaticProps = getWebStaticPropsWithMessages;

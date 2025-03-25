@@ -6,7 +6,7 @@ import {
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { getStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import LoginForm from "@/forms/login-form";
@@ -62,4 +62,4 @@ export default function Login() {
   );
 }
 
-export const getStaticProps = getStaticPropsWithMessages;
+export const getStaticProps = getWebStaticPropsWithMessages;

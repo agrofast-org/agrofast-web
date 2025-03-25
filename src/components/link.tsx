@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 
 export type HrefProps = {
   pathname: string;
-  query?: Record<string, string | number | undefined>;
+  query?: Record<string, string | number>;
 };
 
 export interface LinkProps extends NextLinkProps {
   href: string | HrefProps;
+  target?: "_blank" | "_self" | "_parent" | "_top";
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   children?: React.ReactNode;
   className?: string;
@@ -16,6 +17,7 @@ export interface LinkProps extends NextLinkProps {
 
 const Link: React.FC<LinkProps> = ({
   href,
+  target,
   onClick,
   children,
   className,
@@ -48,9 +50,16 @@ const Link: React.FC<LinkProps> = ({
           onClick(e);
           e.currentTarget.click();
         }
+        if (e.defaultPrevented) return;
+        if (href === "#" || target) {
+          e.preventDefault();
+        }
+        if (target) {
+          window.open(formattedHref, target);
+        }
       }}
       className={cn(
-        "hover:opacity-80 font-medium text-primary text-sm hover:underline transition-all",
+        "hover:opacity-80 text-inherit text-primary text-sm hover:underline transition-all",
         className
       )}
     >
