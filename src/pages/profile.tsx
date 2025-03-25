@@ -1,16 +1,12 @@
 import Body from "@/components/body";
 import {
   Button,
-  Code,
   Form,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Spacer,
   useDisclosure,
 } from "@heroui/react";
@@ -27,8 +23,9 @@ import Img from "@/components/image";
 
 import userPicture from "@public/user-default.png";
 import Cropper, { Area } from "react-easy-crop";
-import { InformationCircleIcon, Upload04Icon } from "@hugeicons/react";
 import { useLanguage } from "@/contexts/language-provider";
+import PhoneNumberHelper from "@/components/ux/phone-number-helper";
+import { Upload04Icon } from "@hugeicons/react";
 
 export default function SignIn() {
   const t = useTranslations();
@@ -240,50 +237,14 @@ export default function SignIn() {
                 queryCollectable
                 format={numberInputMask}
                 isRequired
-                endContent={
-                  <Popover placement="top-end" radius="sm" offset={8}>
-                    <PopoverTrigger>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="flat"
-                        className="-right-[10px]"
-                        isIconOnly
-                      >
-                        <InformationCircleIcon
-                          type="rounded"
-                          variant="stroke"
-                          className="text-default-700 text-xl pointer-events-none"
-                        />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
-                        <div className="font-bold text-small">
-                          {t("UI.tooltips.write_number.title")}
-                        </div>
-                        <div className="text-tiny">
-                          {t("UI.tooltips.write_number.info")}
-                        </div>
-                        <div className="text-tiny">
-                          {t("UI.tooltips.write_number.example")}
-                          <Code className="p-0.5 px-1 text-tiny">
-                            +55 01 23456-7890
-                          </Code>
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                }
+                endContent={<PhoneNumberHelper />}
               />
               <Input
-                className="text-gray-700 dark:text-gray-200"
-                label={t("UI.labels.email")}
-                labelPlacement="outside"
                 name="email"
+                label={t("UI.labels.email")}
                 placeholder={t("UI.placeholders.write_email")}
+                className="text-gray-700 dark:text-gray-200"
                 type="email"
-                variant="bordered"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
