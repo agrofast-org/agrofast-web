@@ -21,7 +21,9 @@
       "cancel": "Cancelar",
       "search": "Buscar",
       "understood": "Entendido",
-      "resend_code": "Reenviar código"
+      "resend_code": "Reenviar código",
+      "choose_a_photo": "Elige una foto",
+      "choose_another_photo": "Elige otra foto"
     },
     "labels": {
       "code": "Código",
@@ -111,7 +113,8 @@
       "failed_to_upload_image": "No se pudo cargar la imagen",
       "failed_to_save_image_record": "No se pudo guardar el registro de la imagen",
       "no_images_found": "No se encontraron imágenes",
-      "failed_to_get_browser_agent": "No se pudo recopilar un agente del navegador"
+      "failed_to_get_browser_agent": "No se pudo recopilar un agente del navegador",
+      "failed_to_upload_profile_picture": "Hubo un error al cargar la imagen del perfil"
     },
     "success": {
       "user_created_successfully": "Usuario creado con éxito",

@@ -1,17 +1,7 @@
 import Body from "@/components/body";
-import {
-  Button,
-  Form,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Spacer,
-  useDisclosure,
-} from "@heroui/react";
-import { useEffect, useState } from "react";
-import { cn, numberInputMask } from "@/lib/utils";
+import { Button, Form, Spacer } from "@heroui/react";
+import { useState } from "react";
+import { numberInputMask } from "@/lib/utils";
 import Input from "@/components/input";
 import { useTranslations } from "next-intl";
 import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
@@ -19,40 +9,25 @@ import Head from "next/head";
 import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useAuth } from "@/contexts/auth-provider";
-import Img from "@/components/image";
 
 import userPicture from "@public/user-default.png";
-import Cropper, { Area } from "react-easy-crop";
 import { useLanguage } from "@/contexts/language-provider";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
-import { Upload04Icon } from "@hugeicons/react";
+import PictureInput from "@/components/picture-input";
+import { useToast } from "@/service/toast";
+import { uploadPicture } from "@/http/user/upload-picture";
 
-export default function SignIn() {
+export default function Profile() {
   const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
+  const toast = useToast();
 
-  const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
   const { translateResponse } = useLanguage();
   const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
 
-  const [userImage, setUserImage] = useState(user?.profile_picture);
-  const [imageCrop, setImageCrop] = useState<Area | undefined>();
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-
   const [email, setEmail] = useState<string>(user?.email ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    if (user?.profile_picture) {
-      setUserImage(user.profile_picture);
-    }
-  }, [user]);
-
-  const onCropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
-    setImageCrop(croppedAreaPixels);
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,57 +51,18 @@ export default function SignIn() {
       });
   };
 
-  const saveUserPicture = async () => {
-    if (userImage && imageCrop) {
-      const img = new Image();
-      img.src = userImage;
-
-      img.onload = async () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-
-        canvas.width = imageCrop.width;
-        canvas.height = imageCrop.height;
-
-        ctx.drawImage(
-          img,
-          imageCrop.x,
-          imageCrop.y,
-          imageCrop.width,
-          imageCrop.height,
-          0,
-          0,
-          imageCrop.width,
-          imageCrop.height
-        );
-
-        canvas.toBlob(async (blob) => {
-          if (!blob) return;
-
-          const formData = new FormData();
-          formData.append("image", blob, "profile_picture.png");
-
-          setIsLoading(true);
-          try {
-            const { data } = await api.post("/user/picture/upload", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-            const updatedUser = {
-              ...user,
-              profile_picture: data.profile_picture,
-            };
-            setUser(updatedUser as typeof user);
-          } catch {
-          } finally {
-            setIsLoading(false);
-            onClose();
-          }
-        }, "image/png");
-      };
-    }
+  const handleSubmitPicture = async (file: FormData) => {
+    setIsLoading(true);
+    uploadPicture(file)
+      .then(({ data }) => {
+        setUser(data.user);
+        toast.success({
+          description: t("Messages.success.image_uploaded_successfully"),
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -135,70 +71,6 @@ export default function SignIn() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="text-gray-700 dark:text-gray-200">
-                Foto de perfil
-              </ModalHeader>
-              <ModalBody>
-                <div className="relative p-20 h-96">
-                  <Cropper
-                    image={userImage}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={1}
-                    onCropChange={setCrop}
-                    onCropComplete={onCropComplete}
-                    onZoomChange={setZoom}
-                    objectFit="contain"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="upload-picture"
-                    className={cn(
-                      "inline-flex relative justify-center items-center gap-4 px-4 rounded-medium w-full min-w-20 h-10 text-sm duration-75 cursor-pointer",
-                      "select-none overflow-hidden tap-highlight-transparent active:scale-[0.97] outline-none focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 transition-transform-colors-opacity bg-default text-default-foreground hover:opacity-hover"
-                    )}
-                  >
-                    Escolher uma foto
-                    <input
-                      id="upload-picture"
-                      type="file"
-                      accept="image/png, image/jpeg, image/webp"
-                      tabIndex={0}
-                      className="absolute inset-0 opacity-0 w-full h-full"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (e) => {
-                            if (e.target) {
-                              setUserImage(e.target.result as string);
-                            }
-                          };
-                          reader.readAsDataURL(file);
-                        }
-                      }}
-                    />
-                    <Upload04Icon className="text-gray-700 dark:text-gray-200" />
-                  </label>
-                </div>
-              </ModalBody>
-              <ModalFooter className="justify-between">
-                <Button color="default" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="success" onPress={saveUserPicture}>
-                  Action
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
       <Body className="flex flex-row justify-center">
         <div className="flex flex-col flex-1 container">
           <p className="px-8 py-6 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
@@ -275,23 +147,22 @@ export default function SignIn() {
             </Form>
             <div className="flex flex-row flex-1 gap-4">
               <div className="flex flex-col flex-1 gap-4 max-w-md">
-                <div className="max-w-48">
-                  <label
-                    data-slot="label"
-                    className="flex-shrink-0 max-w-full text-gray-700 dark:text-gray-200 text-small pointer-events-none"
-                  >
-                    Profile picture
-                  </label>
-                  <Img
-                    src={user?.profile_picture ?? userPicture.src}
-                    fallbackSrc={userPicture.src}
-                    className="bg-gray-100 dark:bg-gray-500/75 border-2 border-default-200 hover:border-default-400 rounded-xl min-w-8 min-h-8 object-cover aspect-square cursor-pointer"
-                    width={192}
-                    height={192}
-                    alt="Avatar"
-                    onClick={onOpen}
-                  />
-                </div>
+                <PictureInput
+                  name="profile"
+                  imageSrc={user?.profile_picture}
+                  fallbackSrc={userPicture.src}
+                  onSubmit={handleSubmitPicture}
+                  onSuccess={({ onClose }) => {
+                    onClose();
+                  }}
+                  onError={() => {
+                    toast.error({
+                      description: t(
+                        "Messages.errors.failed_to_upload_profile_picture"
+                      ),
+                    });
+                  }}
+                />
               </div>
             </div>
           </div>

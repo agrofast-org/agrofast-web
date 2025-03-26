@@ -2,7 +2,7 @@ import { Button, Code, Popover, PopoverContent, PopoverTrigger } from "@heroui/r
 import { InformationCircleIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 
-const Component: React.FC = () => {
+const PhoneNumberHelper: React.FC = () => {
   const t = useTranslations();
 
   return (
@@ -37,3 +37,5 @@ const Component: React.FC = () => {
     </Popover>
   );
 };
+
+export default PhoneNumberHelper;

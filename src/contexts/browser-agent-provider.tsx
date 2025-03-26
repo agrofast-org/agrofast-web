@@ -58,12 +58,7 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
     [setCookie]
   );
 
-  
   const refreshBrowserAgent = useCallback(async () => {
-    console.log(
-      window.location.hostname,
-      new URL(process.env.NEXT_PUBLIC_WEB_BASE_URL || "").hostname
-    );
     if (
       window.location.hostname !==
       new URL(process.env.NEXT_PUBLIC_WEB_BASE_URL || "").hostname

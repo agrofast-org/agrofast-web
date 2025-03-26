@@ -17,16 +17,19 @@ const Image: React.FC<ImageProps> = memo(
     className,
     width,
     height,
+    onClick,
     ...props
   }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [imgSrc, setImgSrc] = useState(src);
 
     const handleImageError = () => {
+      console.log('Image failed to load, using fallback source');
       setImgSrc(fallbackSrc);
     };
 
     const handleImageLoad = () => {
+      console.log('Image loaded successfully');
       setIsLoaded(true);
     };
 
@@ -44,9 +47,9 @@ const Image: React.FC<ImageProps> = memo(
           `w-[${width}px] h-[${height}px] rounded-xl`,
         )}
         aria-label={!isLoaded ? "Image loading" : undefined}
+        onClick={onClick}
       >
         <img
-          {...props}
           className={cn(`max-w-[${width}px] max-h-[${height}px]`, className)}
           alt={alt || "Image with no description available"}
           src={imgSrc}
@@ -54,6 +57,7 @@ const Image: React.FC<ImageProps> = memo(
           onLoad={handleImageLoad}
           width={width}
           height={height}
+          {...props}
         />
       </Skeleton>
     );

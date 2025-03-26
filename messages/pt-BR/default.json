@@ -15,13 +15,15 @@
       "email_verification_code_sent": "Um code de verificação foi enviado para o email: <email></email>. Não recebeu o código? <action>{action}</action>"
     },
     "buttons": {
-      "next": "Próximo",
-      "enter": "Entrar",
-      "continue": "Continuar",
-      "cancel": "Cancelar",
-      "search": "Pesquisar",
-      "understood": "Entendi",
-      "resend_code": "Reenviar código"
+      "next": "Next",
+      "enter": "Enter",
+      "continue": "Continue",
+      "cancel": "Cancel",
+      "search": "Search",
+      "understood": "Understood",
+      "resend_code": "Resend code",
+      "choose_a_photo": "Choose a photo",
+      "choose_another_photo": "Choose another photo"
     },
     "labels": {
       "code": "Código",
@@ -111,7 +113,8 @@
       "failed_to_upload_image": "Falha ao enviar imagem",
       "failed_to_save_image_record": "Falha ao salvar registro de imagem",
       "no_images_found": "Nenhuma imagem encontrada",
-      "failed_to_get_browser_agent": "Não foi possível coletar um agente de navegador"
+      "failed_to_get_browser_agent": "Não foi possível coletar um agente de navegador",
+      "failed_to_upload_profile_picture": "Houve um erro ao enviar a imagem do perfil"
     },
     "success": {
       "user_created_successfully": "Usuário criado com sucesso",
