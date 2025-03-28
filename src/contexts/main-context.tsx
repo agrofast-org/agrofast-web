@@ -30,7 +30,7 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
       >
         <HeroUIProvider>
           <ToasterProvider>
-            <NextThemesProvider attribute="class" defaultTheme="dark">
+            <NextThemesProvider attribute="class" defaultTheme="light">
               <LanguageProvider>
                 <OverlayProvider>
                   <BrowserAgentProvider>

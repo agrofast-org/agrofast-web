@@ -9,6 +9,7 @@ import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Moon02Icon, Sun01Icon } from "@hugeicons/react";
+import { cn } from "@/lib/utils";
 
 interface ThemeSwitcherProps extends HeroUIButtonProps {
   className?: string;
@@ -32,7 +33,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   if (!mounted) return null;
 
   return (
-    <Button className={className} onPress={toggleTheme} isIconOnly {...props}>
+    <Button className={cn("bg-default-100 hover:bg-default-200 duration-100", className)} onPress={toggleTheme} isIconOnly {...props}>
       <motion.div
         initial="hidden"
         animate={theme === "dark" ? "hidden" : "visible"}
@@ -44,8 +45,8 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
       >
         <Sun01Icon
           type="rounded"
-          variant="duotone"
-          className="w-[1em] h-[1em] text-gray-700 text-inherit dark:text-gray-200"
+          variant="stroke"
+          className="w-[1em] h-[1em] text-gray-600 text-inherit dark:text-gray-200"
         />
       </motion.div>
       <motion.div
@@ -60,7 +61,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         <Moon02Icon
           type="rounded"
           variant="duotone"
-          className="w-[1em] h-[1em] text-gray-700 text-inherit dark:text-gray-200"
+          className="w-[1em] h-[1em] text-gray-600 text-inherit dark:text-gray-200"
         />
       </motion.div>
     </Button>

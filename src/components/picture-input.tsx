@@ -118,11 +118,11 @@ const PictureInput: React.FC<PictureInputProps> = ({
 
   return (
     <div className="max-w-48">
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="text-gray-700 dark:text-gray-200">
+              <ModalHeader className="pb-1 text-gray-700 dark:text-gray-200">
                 {label}
               </ModalHeader>
               <ModalBody>
@@ -182,7 +182,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
                   </label>
                 </div>
               </ModalBody>
-              <ModalFooter className="justify-between">
+              <ModalFooter className="justify-between pt-1">
                 <Button color="default" onPress={onClose}>
                   Close
                 </Button>
@@ -206,7 +206,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
       <HeroUIImage
         src={imageSrc || fallbackSrc || imageDefault.src || ""}
         className={cn(
-          "transition-colors duration-100",
+          "!transition-all !duration-100",
           "bg-gray-100 dark:bg-gray-500/75 border-2 border-default-200 hover:border-default-400 rounded-xl min-w-8 min-h-8 object-cover aspect-square cursor-pointer"
         )}
         width={192}

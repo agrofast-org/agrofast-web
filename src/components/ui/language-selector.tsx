@@ -41,6 +41,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       onChange={handleRouteChange}
       className={cn("max-w-40 text-medium", className)}
       classNames={{
+        trigger: "!transition-colors !duration-100",
         popoverContent: "rounded-md min-w-[10rem]",
         selectorIcon: "right-2",
       }}

@@ -26,7 +26,6 @@ export default function Profile() {
   const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
 
-  const [email, setEmail] = useState<string>(user?.email ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -73,16 +72,37 @@ export default function Profile() {
       </Head>
       <Body className="flex flex-row justify-center">
         <div className="flex flex-col flex-1 container">
-          <p className="px-8 py-6 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-            {t("UI.titles.update_account")}
-          </p>
-          <div className="flex flex-row gap-4 px-8 py-6 w-full min-h-max">
+          <div className="flex flex-row justify-center gap-4 px-8 py-6 w-full min-h-max">
             <Form
               className="flex flex-col flex-1 gap-4 max-w-md"
               validationBehavior="native"
               validationErrors={errors}
               onSubmit={handleSubmit}
             >
+              <p className="pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
+                {t("UI.titles.update_account")}
+              </p>
+              <div className="flex flex-row flex-1 justify-center gap-4 w-full">
+                <div className="flex flex-col flex-1 items-center gap-4 max-w-md">
+                  <PictureInput
+                    name="profile"
+                    label="Foto de perfil"
+                    imageSrc={user?.profile_picture}
+                    fallbackSrc={userPicture.src}
+                    onSubmit={handleSubmitPicture}
+                    onSuccess={({ onClose }) => {
+                      onClose();
+                    }}
+                    onError={() => {
+                      toast.error({
+                        description: t(
+                          "Messages.errors.failed_to_upload_profile_picture"
+                        ),
+                      });
+                    }}
+                  />
+                </div>
+              </div>
               <Input
                 name="name"
                 label={t("UI.labels.name")}
@@ -117,8 +137,8 @@ export default function Profile() {
                 placeholder={t("UI.placeholders.write_email")}
                 className="text-gray-700 dark:text-gray-200"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={user?.email}
+                disabled
               />
               {/* <Input
                 taggableVisibility
@@ -145,26 +165,6 @@ export default function Profile() {
                 {t("UI.buttons.continue")}
               </Button>
             </Form>
-            <div className="flex flex-row flex-1 gap-4">
-              <div className="flex flex-col flex-1 gap-4 max-w-md">
-                <PictureInput
-                  name="profile"
-                  imageSrc={user?.profile_picture}
-                  fallbackSrc={userPicture.src}
-                  onSubmit={handleSubmitPicture}
-                  onSuccess={({ onClose }) => {
-                    onClose();
-                  }}
-                  onError={() => {
-                    toast.error({
-                      description: t(
-                        "Messages.errors.failed_to_upload_profile_picture"
-                      ),
-                    });
-                  }}
-                />
-              </div>
-            </div>
           </div>
         </div>
       </Body>

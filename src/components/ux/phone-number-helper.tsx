@@ -6,7 +6,7 @@ const PhoneNumberHelper: React.FC = () => {
   const t = useTranslations();
 
   return (
-    <Popover placement="top-end" radius="sm" offset={8}>
+    <Popover className="translate-x-1" placement="top-end" radius="sm" offset={8}>
       <PopoverTrigger>
         <Button
           type="button"
