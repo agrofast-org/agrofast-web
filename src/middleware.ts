@@ -64,7 +64,28 @@ const webMiddleware = (request: NextRequest) => {
   }
 };
 
+const publicMatcher = [
+  "/_next/static",
+  "/_next/image",
+  "/img/",
+  "/favicon.ico",
+  "/legal",
+  "/portfolio",
+  "/web",
+  "/api",
+  "/_next/data",
+  "/_next",
+  "/static",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/sitemap-index.xml",
+];
+
 export function middleware(request: NextRequest) {
+  if (publicMatcher.some((path) => request.nextUrl.pathname.startsWith(path))) {
+    return NextResponse.next();
+  }
+
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") || "";
 
@@ -88,5 +109,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/((?!api|_next/static|_next/image|img/|favicon.ico).*)',
+  matcher: "/:path*",
 };
