@@ -74,7 +74,9 @@
       "enter_another_account": "Iniciar sesión en otra cuenta",
       "enter_existing_account": "Iniciar sesión en una cuenta existente",
       "go_to_download": "Ir a Descargar",
-      "download_app": "Descargar App"
+      "download_app": "Descargar App",
+      "change_theme": "Cambiar tema",
+      "logout": "Cerrar sesión"
     }
   },
   "Messages": {

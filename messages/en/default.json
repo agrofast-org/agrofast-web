@@ -74,7 +74,9 @@
       "enter_another_account": "Sign in to another account",
       "enter_existing_account": "Sign in to an existing account",
       "go_to_download": "Go to Download",
-      "download_app": "Download App"
+      "download_app": "Download App",
+      "change_theme": "Change theme",
+      "logout": "Log out"
     }
   },
   "Messages": {
