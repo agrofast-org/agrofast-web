@@ -7,6 +7,7 @@ import {
   Spinner,
 } from "@heroui/react";
 import { useAuth } from "@/contexts/auth-provider";
+import userPicture from "@public/user-default.png";
 
 interface UserOptionsMenuProps {
   children?: React.ReactNode;
@@ -29,6 +30,7 @@ const UserOptionsMenu: React.FC<UserOptionsMenuProps> = ({
           radius="md"
           className="data-[aria-expanded=true]:blur-md"
           src={user?.profile_picture}
+          fallback={userPicture.src}
           isIconOnly
         />
       </PopoverTrigger>

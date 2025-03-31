@@ -64,22 +64,24 @@ const Header: React.FC = () => {
           <ThemeSwitcher
             className={cn("text-2xl", user ? "md:flex hidden" : "flex")}
           />
-          {user && <UserOptionsMenu>
-            <LinkOption href="/profile" icon={AccountSetting02Icon}>
-              {t("UI.redirects.profile")}
-            </LinkOption>
-            <LinkOption
-              onClick={toggleTheme}
-              href="#"
-              className="md:hidden flex"
-              icon={<ThemeUserFeedback />}
-            >
-              {t("UI.redirects.change_theme")}
-            </LinkOption>
-            <LinkOption onClick={logout} href="/login" icon={Logout01Icon}>
-              {t("UI.redirects.logout")}
-            </LinkOption>
-          </UserOptionsMenu>}
+          {user && (
+            <UserOptionsMenu>
+              <LinkOption href="/profile" icon={AccountSetting02Icon}>
+                {t("UI.redirects.profile")}
+              </LinkOption>
+              <LinkOption
+                href=""
+                onClick={toggleTheme}
+                className="md:hidden flex"
+                icon={<ThemeUserFeedback />}
+              >
+                {t("UI.redirects.change_theme")}
+              </LinkOption>
+              <LinkOption onClick={logout} href="/login" icon={Logout01Icon}>
+                {t("UI.redirects.logout")}
+              </LinkOption>
+            </UserOptionsMenu>
+          )}
         </div>
       </div>
     </motion.header>

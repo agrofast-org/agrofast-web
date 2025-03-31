@@ -17,20 +17,26 @@ const LinkOption = ({
   onClick,
   ...props
 }: LinkOptionProps) => {
+  const onClickProp = onClick
+    ? {
+        onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+          if (noRedirect) {
+            e.preventDefault();
+            onClick?.(e);
+            return;
+          }
+          onClick?.(e);
+        },
+      }
+    : {};
+
   return (
     <Link
       className={cn(
         "flex flex-row items-center gap-2 bg-default-100 bg-opacity-0 hover:bg-opacity-75 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 duration-75",
         className
       )}
-      onClick={(e) => {
-        if (noRedirect) {
-          e.preventDefault();
-          onClick?.(e);
-          return;
-        }
-        onClick?.(e);
-      }}
+      {...onClickProp}
       {...props}
     >
       {icon && (
