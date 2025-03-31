@@ -6,8 +6,14 @@ import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
-import { getPortfolioUrl, getWebUrl } from "@/lib/utils";
+import { cn, getPortfolioUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
+import UserOptionsMenu from "./ui/user-options-menu";
+import { AccountSetting02Icon, Logout01Icon } from "@hugeicons/react";
+import { useAuth } from "@/contexts/auth-provider";
+import LinkOption from "./ui/link-option";
+import ThemeUserFeedback from "./ux/theme-user-feedback";
+import { useTheme } from "next-themes";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -24,6 +30,12 @@ const LanguageSelector = dynamic(
 
 const Header: React.FC = () => {
   const t = useTranslations();
+  const { theme, setTheme } = useTheme();
+  const { logout, user } = useAuth();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <motion.header className="top-0 left-0 z-50 fixed bg-slate-50/60 dark:bg-stone-900/60 shadow-sm backdrop-blur-sm border-b dark:border-b-stone-950/50 w-full transition-colors">
@@ -49,7 +61,25 @@ const Header: React.FC = () => {
         </div>
         <div className="flex flex-row flex-1 justify-end items-center gap-4">
           <LanguageSelector className="text-2xl" />
-          <ThemeSwitcher className="text-2xl" />
+          <ThemeSwitcher
+            className={cn("text-2xl", user ? "md:flex hidden" : "flex")}
+          />
+          <UserOptionsMenu>
+            <LinkOption href="/profile" icon={AccountSetting02Icon}>
+              {t("UI.redirects.profile")}
+            </LinkOption>
+            <LinkOption
+              onClick={toggleTheme}
+              href="#"
+              className="md:hidden flex"
+              icon={<ThemeUserFeedback />}
+            >
+              {t("UI.redirects.change_theme")}
+            </LinkOption>
+            <LinkOption onClick={logout} href="/login" icon={Logout01Icon}>
+              {t("UI.redirects.logout")}
+            </LinkOption>
+          </UserOptionsMenu>
         </div>
       </div>
     </motion.header>

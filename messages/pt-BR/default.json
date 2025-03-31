@@ -74,7 +74,9 @@
       "enter_another_account": "Entrar em outra conta",
       "enter_existing_account": "Entrar em uma conta existente",
       "go_to_download": "Ir Para Download",
-      "download_app": "Fazer Download"
+      "download_app": "Fazer Download",
+      "change_theme": "Alterar tema",
+      "logout": "Sair da conta"
     }
   },
   "Messages": {
