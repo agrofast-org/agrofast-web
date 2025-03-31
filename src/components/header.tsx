@@ -64,7 +64,7 @@ const Header: React.FC = () => {
           <ThemeSwitcher
             className={cn("text-2xl", user ? "md:flex hidden" : "flex")}
           />
-          <UserOptionsMenu>
+          {user && <UserOptionsMenu>
             <LinkOption href="/profile" icon={AccountSetting02Icon}>
               {t("UI.redirects.profile")}
             </LinkOption>
@@ -79,7 +79,7 @@ const Header: React.FC = () => {
             <LinkOption onClick={logout} href="/login" icon={Logout01Icon}>
               {t("UI.redirects.logout")}
             </LinkOption>
-          </UserOptionsMenu>
+          </UserOptionsMenu>}
         </div>
       </div>
     </motion.header>
