@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 // import Img from "./image";
-import imageDefault from "@public/image-default.png";
+import imageDefault from "@public/img/image-default.png";
 import Cropper, { Area } from "react-easy-crop";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";

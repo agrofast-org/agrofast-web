@@ -1,15 +1,14 @@
 import Layout from "@/components/layout";
 import Link from "@/components/link";
 import { getPortfolioStaticPropsWithMessages } from "@/lib/getStaticProps";
-// import { ArrowUpRight02Icon } from "@hugeicons/react";
-// import { Button } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
-// import { useRouter } from "next/router";
 import { getLegalUrl } from "@/lib/utils";
+import Image from "next/image";
+import goodDeals from "@public/assets/good-deals.png";
+import productionAndAgility from "@public/assets/production-and-agility.png";
 
 export default function About() {
-  // const router = useRouter();
   const t = useTranslations();
 
   return (
@@ -18,14 +17,36 @@ export default function About() {
         <title>{t("Pages.About.meta.title")}</title>
         <meta name="description" content={t("Pages.About.meta.description")} />
       </Head>
-      <Layout className="flex flex-col gap-8 pt-24 w-full">
-        <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
-          <p className="font-inter font-normal text-gray-700 dark:text-gray-300">
-            {t("Pages.About.paragraph_1")}
-          </p>
-          <p className="font-inter font-normal text-gray-700 dark:text-gray-300">
-            {t("Pages.About.paragraph_2")}
-          </p>
+      <Layout className="flex flex-col gap-10 pt-20 w-full">
+        <section className="flex flex-col items-start gap-6 mx-auto p-4 max-w-[912px] container">
+          <div className="flex md:flex-row flex-col-reverse items-start gap-2 md:gap-6 mx-auto">
+            <div className="flex flex-col justify-center md:bg-neutral-200/30 dark:md:bg-neutral-800/20 p-2 rounded-lg h-full md:h-44 transition-all">
+              <p className="font-inter font-medium text-gray-700 dark:text-gray-300 indent-8">
+                {t("Pages.About.paragraph_1")}
+              </p>
+            </div>
+            <Image
+              src={goodDeals.src}
+              className="shadow-sm rounded-lg min-w-full md:min-w-60 max-h-52 md:max-h-44 object-cover"
+              width={300}
+              height={250}
+              alt=""
+            />
+          </div>
+          <div className="flex md:flex-row flex-col items-start gap-2 md:gap-6 mx-auto">
+            <Image
+              src={productionAndAgility.src}
+              className="shadow-sm rounded-lg min-w-full md:min-w-60 max-h-52 md:max-h-64 object-cover object-top"
+              width={300}
+              height={250}
+              alt=""
+            />
+            <div className="flex flex-col justify-center md:bg-neutral-200/30 dark:md:bg-neutral-800/20 p-2 rounded-lg h-full md:h-64 transition-all">
+              <p className="font-inter font-medium text-gray-700 dark:text-gray-300 indent-8">
+                {t("Pages.About.paragraph_2")}
+              </p>
+            </div>
+          </div>
           <p className="font-inter font-normal text-gray-700 dark:text-gray-300">
             {t.rich("Pages.About.paragraph_3", {
               policies: (chunks) => (

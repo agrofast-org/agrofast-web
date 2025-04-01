@@ -59,7 +59,7 @@ const Link: React.FC<LinkProps> = ({
         }
       }}
       className={cn(
-        "hover:opacity-80 text-inherit text-primary hover:underline transition-all",
+        "hover:opacity-80 focus:outline-focus text-inherit text-primary hover:underline transition-all",
         className
       )}
     >

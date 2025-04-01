@@ -7,7 +7,7 @@ import {
   Spinner,
 } from "@heroui/react";
 import { useAuth } from "@/contexts/auth-provider";
-import userPicture from "@public/user-default.png";
+import userPicture from "@public/img/user-default.png";
 
 interface UserOptionsMenuProps {
   children?: React.ReactNode;

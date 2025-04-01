@@ -5,8 +5,9 @@ import {
   // Download04Icon,
   Link01Icon,
 } from "@hugeicons/react";
-// import appDownload from "@public/app-download.png";
-import appIcon from "@public/app-icon.png";
+// import appDownload from "@public/img/app-download.png";
+import appIcon from "@public/img/app-icon.png";
+import greenFields from "@public/assets/green-fields.png";
 import { Button } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -25,27 +26,38 @@ export default function Home() {
         <title>{t("Pages.Index.meta.title")}</title>
         <meta name="description" content={t("Pages.Index.meta.description")} />
       </Head>
-      <Layout className="flex flex-col gap-8 pt-24 w-full">
-        <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
-          <h1 className="font-mono font-light text-gray-800 dark:text-gray-200 text-2xl">
-            {t("Pages.Index.title")}
-          </h1>
-          <h1 className="max-w-md font-inter font-bold text-gray-800 dark:text-gray-200 text-4xl">
-            {t("Pages.Index.subtitle")}
-          </h1>
-          <p className="font-inter text-gray-700 dark:text-gray-300 text-sm">
-            {t("Pages.Index.descriptions")}
-          </p>
-          <Button
-            href="/about"
-            onPress={() => {
-              router.push("/about", undefined, { locale: router.locale });
-            }}
-            className="bg-green-500 !text-white dark:text-gray-700"
-          >
-            {t("UI.redirects.see_more")}{" "}
-            <ArrowUpRight02Icon variant="duotone" />
-          </Button>
+      <Layout className="flex flex-col gap-0 pt-24 w-full">
+        <section className="flex flex-row items-start gap-4 mx-auto p-4 container">
+          <div className="flex flex-col items-start gap-4 mx-auto">
+            <h1 className="font-mono font-light text-gray-800 dark:text-gray-200 text-2xl">
+              {t("Pages.Index.title")}
+            </h1>
+            <h1 className="max-w-md font-inter font-bold text-gray-800 dark:text-gray-200 text-4xl">
+              {t("Pages.Index.subtitle")}
+            </h1>
+            <p className="font-inter text-gray-700 dark:text-gray-300 text-sm">
+              {t("Pages.Index.descriptions")}
+            </p>
+            <Button
+              href="/about"
+              onPress={() => {
+                router.push("/about", undefined, { locale: router.locale });
+              }}
+              className="bg-green-500 !text-white dark:text-gray-700"
+            >
+              {t("UI.redirects.see_more")}{" "}
+              <ArrowUpRight02Icon variant="duotone" />
+            </Button>
+          </div>
+          <div className="flex flex-1 justify-end">
+            <Image
+              src={greenFields.src}
+              alt="Example image"
+              className="hidden md:block shadow-sm rounded-lg w-[440px] min-h-[220px] max-h-[220px] object-cover"
+              width={330}
+              height={220}
+            />
+          </div>
         </section>
         <section className="relative flex flex-col items-start gap-4 mx-auto p-4 container">
           <div className="flex gap-4">

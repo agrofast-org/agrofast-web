@@ -1,4 +1,4 @@
-import Body from "@/components/body";
+import Layout from "@/components/layout";
 import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -13,7 +13,11 @@ export default function Index() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Body></Body>
+      <Layout className="flex flex-col gap-8 pt-20 w-full">
+        <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
+          
+        </section>
+      </Layout>
     </>
   );
 }

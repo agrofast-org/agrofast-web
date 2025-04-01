@@ -23,6 +23,7 @@ const Input: React.FC<InputProps> = ({
   className,
   queryCollectable = false,
   taggableVisibility,
+  disabled,
   onChange,
   ...props
 }) => {
@@ -83,7 +84,8 @@ const Input: React.FC<InputProps> = ({
       variant="bordered"
       className={cn(
         "text-gray-700 dark:text-gray-200 transition-colors duration-100",
-        className
+        className,
+        disabled && "opacity-50 pointer-events-none",
       )}
       value={inputValue}
       onChange={(e) => {
@@ -148,6 +150,7 @@ const Input: React.FC<InputProps> = ({
       }}
       {...props}
       type={isPassVisible ? "text" : props.type}
+      disabled={disabled}
     />
   );
 };

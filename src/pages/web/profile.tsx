@@ -10,7 +10,7 @@ import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useAuth } from "@/contexts/auth-provider";
 
-import userPicture from "@public/user-default.png";
+import userPicture from "@public/img/user-default.png";
 import { useLanguage } from "@/contexts/language-provider";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
 import PictureInput from "@/components/picture-input";
@@ -128,8 +128,8 @@ export default function Profile() {
                 placeholder={t("UI.placeholders.write_number")}
                 queryCollectable
                 format={numberInputMask}
-                isRequired
                 endContent={<PhoneNumberHelper />}
+                disabled
               />
               <Input
                 name="email"
