@@ -82,8 +82,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       getMe()
         .then(({ data }) => {
           setUser(data.user);
-          if (!data.authenticated) {
-            setCookie(AUTHENTICATED_KEY, !data.authenticated);
+          if (data.authenticated) {
+            setCookie(AUTHENTICATED_KEY, data.authenticated);
             return;
           }
           if (

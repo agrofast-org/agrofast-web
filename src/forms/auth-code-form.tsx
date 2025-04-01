@@ -153,9 +153,10 @@ const AuthCodeForm: React.FC = () => {
             <Skeleton className="rounded-lg h-14" isLoaded={!codeLengthLoading && isDataLoading}>
               <InputOtp
                 name="code"
+                className="mb-2"
                 variant="bordered"
                 length={codeLength || 6}
-                className="mb-2"
+                queryCollectable
               />
             </Skeleton>
           </div>
