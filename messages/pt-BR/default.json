@@ -15,15 +15,15 @@
       "email_verification_code_sent": "Um code de verificação foi enviado para o email: <email></email>. Não recebeu o código? <action>{action}</action>"
     },
     "buttons": {
-      "next": "Next",
-      "enter": "Enter",
-      "continue": "Continue",
-      "cancel": "Cancel",
-      "search": "Search",
-      "understood": "Understood",
-      "resend_code": "Resend code",
-      "choose_a_photo": "Choose a photo",
-      "choose_another_photo": "Choose another photo"
+      "next": "Proximo",
+      "enter": "Entrar",
+      "continue": "Continuar",
+      "cancel": "Cancelar",
+      "search": "Pesquisar",
+      "understood": "Entendi",
+      "resend_code": "Reenviar código",
+      "choose_a_photo": "Escolher uma foto",
+      "choose_another_photo": "Escolher outra foto"
     },
     "labels": {
       "code": "Código",

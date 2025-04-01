@@ -86,19 +86,19 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") || "";
 
-  if (host === legalHost && !pathname.startsWith("/legal")) {
+  if (host === legalHost) {
     const url = request.nextUrl.clone();
     url.pathname = `/legal${pathname}`;
     return NextResponse.rewrite(url);
   }
 
-  if (host === portfolioHost && !pathname.startsWith("/portfolio")) {
+  if (host === portfolioHost) {
     const url = request.nextUrl.clone();
     url.pathname = `/portfolio${pathname}`;
     return NextResponse.rewrite(url);
   }
 
-  if (host === webHost && !pathname.startsWith("/web")) {
+  if (host === webHost) {
     return webMiddleware(request);
   }
 
