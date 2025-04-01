@@ -30,7 +30,7 @@ const UserOptionsMenu: React.FC<UserOptionsMenuProps> = ({
           radius="md"
           className="data-[aria-expanded=true]:blur-md"
           src={user?.profile_picture}
-          fallback={userPicture.src}
+          fallback={<Avatar src={userPicture.src} />}
           isIconOnly
         />
       </PopoverTrigger>
