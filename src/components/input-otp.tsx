@@ -14,7 +14,7 @@ const InputOtp: React.FC<InputOtpProps> = ({
   length,
   name,
   value,
-  onChange,
+  onValueChange,
   queryCollectable = false,
   ...props
 }) => {
@@ -24,25 +24,30 @@ const InputOtp: React.FC<InputOtpProps> = ({
   const [inputValue, setInputValue] = useState(value ?? "");
 
   useEffect(() => {
+    if (value) {
+      setInputValue(value);
+      onValueChange?.(value);
+    }
+  }, [value, onValueChange]);
+
+  useEffect(() => {
     if (queryCollectable && name && router.query[name] && !hasFirstRender) {
       const queryValue = router.query[name];
       if (queryValue) {
         const val = queryValue as string;
         setInputValue(val);
-        onChange?.({
-          target: { value: val },
-        } as React.ChangeEvent<HTMLInputElement>);
+        onValueChange?.(val);
         setHasFirstRender(true);
       }
     }
-  }, [queryCollectable, name, onChange, router.query, hasFirstRender]);
+  }, [queryCollectable, name, onValueChange, router.query, hasFirstRender]);
 
   return (
     <HeroUIInputOtp
       name={name}
       length={length}
       value={inputValue}
-      onChange={onChange}
+      onValueChange={setInputValue}
       classNames={{
         input: "w-12 h-12 text-center text-2xl",
         helperWrapper:
