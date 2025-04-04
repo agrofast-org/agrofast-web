@@ -4,7 +4,9 @@ import {
 } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
 
-export interface DatePickerProps extends HeroUIDatePickerPro {}
+export interface DatePickerProps extends HeroUIDatePickerPro {
+  label?: string;
+}
 
 const DatePicker: React.FC<DatePickerProps> = ({ ...props }) => {
   return (
