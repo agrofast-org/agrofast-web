@@ -25,14 +25,18 @@ const UserOptionsMenu: React.FC<UserOptionsMenuProps> = ({
   return (
     <Popover radius="sm" placement="bottom-end">
       <PopoverTrigger>
-        <Avatar
+        <Button
           as={Button}
           radius="md"
           className="data-[aria-expanded=true]:blur-md"
-          src={user?.profile_picture}
-          fallback={<Avatar src={userPicture.src} />}
           isIconOnly
-        />
+        >
+          <Avatar
+            src={user?.profile_picture}
+            radius="md"
+            fallback={<Avatar src={userPicture.src} radius="md" />}
+          />
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-0 p-1 w-full min-w-44 h-min text-gray-700 dark:text-gray-200">
         <p className="p-1 w-full text-start">{user.name}</p>
