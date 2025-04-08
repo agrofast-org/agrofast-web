@@ -43,7 +43,7 @@ const Form: React.FC<FormProps> = ({
         errors,
       }}
     >
-      <HeroUIForm {...props}>{children}</HeroUIForm>
+      <HeroUIForm validationErrors={validationErrors} {...props}>{children}</HeroUIForm>
     </FormProvider.Provider>
   );
 };

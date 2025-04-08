@@ -76,7 +76,8 @@ const Input: React.FC<InputProps> = ({
       classNames={{
         base: "relative",
         label: "top-6",
-        helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max",
+        helperWrapper: "absolute -bottom-[20px] -left-0.5 max-w-full",
+        errorMessage: "truncate",
         input: "!transition-colors !duration-100 ",
         inputWrapper: "!transition-colors !duration-100",
       }}

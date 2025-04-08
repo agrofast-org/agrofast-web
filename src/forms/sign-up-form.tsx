@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { signUp } from "@/http/user/sign-up";
+import { useToast } from "@/service/toast";
 import {
   Button,
   Modal,
@@ -26,6 +27,7 @@ const SignInForm: React.FC = () => {
   const { translateResponse } = useLanguage();
   const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [email, setEmail] = useState<string>("");
 
@@ -56,6 +58,11 @@ const SignInForm: React.FC = () => {
       })
       .catch(({ response: { data: error } }) => {
         const fields = translateResponse(error.errors);
+        if (fields["password"]) {
+          toast.error({
+            description: fields["password"],
+          });
+        }
         setErrors(fields);
       })
       .finally(() => {
@@ -86,8 +93,8 @@ const SignInForm: React.FC = () => {
       </Modal>
       <Form
         className="flex flex-col gap-4"
-        validationErrors={errors}
         onSubmit={handleSubmit}
+        validationErrors={errors}
       >
         <Input
           name="name"
