@@ -1,8 +1,9 @@
-version: "3.8"
+version: '3.8'
 services:
   nextjs:
+    container_name: fonesa-web
     build: .
-    environment:
-      - LIB_HUGEICONS=${LIB_HUGEICONS}
+    ports:
+      - 3000:3000
     volumes:
-      - .:/app
+      - ./:/app
