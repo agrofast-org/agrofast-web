@@ -25,13 +25,18 @@ export const isDev = (): boolean => {
 };
 
 export const getPortfolioUrl = (): string => {
-  return process.env.NEXT_PUBLIC_PORTFOLIO_BASE_URL ?? "https://agrofast.tech";
+  const url = process.env.NEXT_PUBLIC_WEB_BASE_URL;
+  return url ?? "https://agrofast.tech";
 };
 
 export const getWebUrl = (): string => {
-  return process.env.NEXT_PUBLIC_WEB_BASE_URL ?? "https://agrofast.tech";
+  const url = process.env.NEXT_PUBLIC_WEB_BASE_URL;
+  return url ? new URL("/web", url).toString() : "https://agrofast.tech/web";
 };
 
 export const getLegalUrl = (): string => {
-  return process.env.NEXT_PUBLIC_LEGAL_BASE_URL ?? "https://agrofast.tech";
+  const url = process.env.NEXT_PUBLIC_WEB_BASE_URL;
+  return url
+    ? new URL("/legal", url).toString()
+    : "https://agrofast.tech/legal";
 };

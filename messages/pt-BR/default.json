@@ -56,7 +56,10 @@
       "create_account": "Criar conta",
       "create_new_password": "Criar nova senha",
       "inform_your_number": "Informe seu número",
-      "update_account": "Atualizar conta"
+      "update_account": "Atualizar conta",
+      "action_confirm": "Confirmar ação",
+      "action_confirm_text": "Você tem certeza que deseja realizar esta ação?"
+
     },
     "checkboxes": {
       "remember_me": "Lembrar-se de mim"

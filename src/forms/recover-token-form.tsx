@@ -21,7 +21,7 @@ const RecoverTokenForm: React.FC = () => {
       router.query.token === "" ||
       typeof router.query.token !== "string"
     ) {
-      // router.push("/reset-password");
+      // router.push("/web/reset-password");
       // return null;
     }
   }

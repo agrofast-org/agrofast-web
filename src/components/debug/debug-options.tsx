@@ -66,7 +66,7 @@ const RouteSelector = () => {
 const DebugOptions = () => {
   const { isLoading, setIsLoading, isPageLoading, setIsPageLoading } = useOverlay();
 
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV !== "development" || true) {
     return null;
   }
 

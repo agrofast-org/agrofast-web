@@ -54,7 +54,7 @@ const SignInForm: React.FC = () => {
       .then(({ data }) => {
         setUser(data.user);
         setToken(data.token);
-        router.push(`/auth-code`);
+        router.push(`/web/auth-code`);
       })
       .catch(({ response: { data: error } }) => {
         const fields = translateResponse(error.errors);
@@ -182,7 +182,7 @@ const SignInForm: React.FC = () => {
       <p className="text-small text-center">
         <Link
           href={{
-            pathname: "/login",
+            pathname: "/web/login",
             query: {
               email: email,
             },

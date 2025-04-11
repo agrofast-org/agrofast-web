@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { Button, Form } from "@heroui/react";
+import { Form } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
@@ -11,6 +11,7 @@ import { useState } from "react";
 import { login } from "@/http/user/login";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { useCookies } from "react-cookie";
+import Button from "@/components/button";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -34,11 +35,11 @@ const LoginForm: React.FC = () => {
         setToken(data.token);
         setUser(data.user);
         if (data?.auth === "authenticate") {
-          router.push("/auth-code");
+          router.push("/web/auth-code");
         }
         if (data?.auth === "authenticated") {
           setCookie(AUTHENTICATED_KEY, "true");
-          router.push("/");
+          router.push("/web");
         }
       })
       .catch(({ response: { data: error } }) => {
@@ -86,7 +87,7 @@ const LoginForm: React.FC = () => {
               {t("UI.checkboxes.remember_me")}
             </Checkbox>
             <Link
-              href="/reset-password"
+              href="/web/reset-password"
               className="hover:opacity-80 min-w-max font-medium text-primary text-sm hover:underline transition-all"
             >
               {t("UI.redirects.forgot_password")}
@@ -100,7 +101,7 @@ const LoginForm: React.FC = () => {
           <p className="text-small text-center">
             <Link
               href={{
-                pathname: "/sign-up",
+                pathname: "/web/sign-up",
                 query: {
                   email: email,
                 },

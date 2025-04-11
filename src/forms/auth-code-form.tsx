@@ -190,7 +190,7 @@ const AuthCodeForm: React.FC = () => {
             {t("UI.buttons.continue")}
           </Button>
           <p className="w-full text-small text-center">
-            <Link href="/login" onClick={logout}>
+            <Link href="/web/login" onClick={logout}>
               {t("UI.redirects.enter_another_account")}
             </Link>
           </p>

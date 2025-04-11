@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = useCallback(() => {
     setUser(undefined);
     setToken(undefined);
-    router.push("/login", undefined, { locale: router.locale });
+    router.push("/web/login", undefined, { locale: router.locale });
   }, [router, setToken]);
 
   const fetchMe = useCallback(async () => {
