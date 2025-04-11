@@ -1,9 +1,7 @@
-version: '3.8'
 services:
   nextjs:
-    container_name: fonesa-web
     build: .
     ports:
-      - 3000:3000
+      - 3030:3000
     volumes:
       - ./:/app
