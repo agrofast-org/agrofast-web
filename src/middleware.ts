@@ -13,20 +13,36 @@ export const AUTHENTICATED_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_authenti
 export const AUTH_BROWSER_AGENT_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_browser_agent`;
 
 const publicMatcher = [
-  "/_next/static",
-  "/_next/image",
   "/img/",
   "/favicon.ico",
   "/api",
-  "/_next/data",
-  "/_next",
   "/static",
   "/robots.txt",
+];
+
+const metaMatcher = [
+  "/_next/static",
+  "/_next/image",
+  "/api",
   "/sitemap.xml",
   "/sitemap-index.xml",
 ];
 
+const log = (request: NextRequest) => {
+  const { method, nextUrl, headers } = request;
+
+  const logMessage = `[${method}] ${nextUrl.pathname} - ${
+    headers.get("user-agent") ?? "unknown agent"
+  }`;
+  console.log(logMessage);
+};
+
 export function middleware(request: NextRequest) {
+  if (metaMatcher.some((path) => request.nextUrl.pathname.startsWith(path))) {
+    return NextResponse.next();
+  }
+
+  log(request);
   if (publicMatcher.some((path) => request.nextUrl.pathname.startsWith(path))) {
     return NextResponse.next();
   }
