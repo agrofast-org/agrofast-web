@@ -1,49 +1,31 @@
-FROM node:18-alpine AS base
-
-FROM base AS deps
-
-RUN apk add --no-cache libc6-compat
+FROM node:slim-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+ARG LIB_HUGEICONS
+ENV LIB_HUGEICONS=${LIB_HUGEICONS}
 
-FROM base AS builder
+COPY package.json package-lock.json ./
+COPY .npmrc .npmrc
 
-WORKDIR /app
-
-COPY --from=deps /app/node_modules ./node_modules
+RUN npm ci
 
 COPY . .
 
-COPY .env.production.sample .env.production
-
 RUN npm run build
 
-FROM base AS runner
+FROM node:slim-alpine AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
+COPY --from=builder /app/next.config.js ./
 
 EXPOSE 3000
-
-ENV PORT=3000
 
 CMD ["npm", "start"]
