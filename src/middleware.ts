@@ -30,8 +30,9 @@ const metaMatcher = [
 
 const log = (request: NextRequest) => {
   const { method, nextUrl, headers } = request;
+  const ip = request.headers.get("x-forwarded-for") ?? "unknown IP";
 
-  const logMessage = `[${method}] ${nextUrl.pathname} - ${
+  const logMessage = `${ip} [${method}] ${nextUrl.pathname} - ${
     headers.get("user-agent") ?? "unknown agent"
   }`;
   console.log(logMessage);
