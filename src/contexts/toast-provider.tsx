@@ -1,6 +1,6 @@
 import Loading from "@/components/loading";
 import { ToastProvider } from "@heroui/react";
-import { Cancel01Icon } from "@hugeicons/react";
+import { Cancel01Icon } from "@hugeicons/react-pro";
 
 interface ToasterProviderProps {
   children: React.ReactNode;

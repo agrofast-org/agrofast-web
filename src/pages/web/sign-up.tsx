@@ -1,5 +1,5 @@
 import Body from "@/components/body";
-import { ArrowUpRight01Icon } from "@hugeicons/react";
+import { ArrowUpRight01Icon } from "@hugeicons/react-pro";
 import { Button } from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl } from "@/lib/utils";

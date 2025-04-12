@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Moon02Icon, Sun01Icon } from "@hugeicons/react";
+import { Moon02Icon, Sun01Icon } from "@hugeicons/react-pro";
 import { useTheme } from "next-themes";
 // import { cn } from "@/lib/utils";
 

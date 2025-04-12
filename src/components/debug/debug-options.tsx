@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/router";
 import { LazyThemeSwitcher } from "../ui/theme-switcher";
 import dynamic from "next/dynamic";
-import { Bug01Icon } from "@hugeicons/react";
+import { Bug01Icon } from "@hugeicons/react-pro";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
 import { useOverlay } from "@/contexts/overlay-provider";
 

@@ -1,10 +1,6 @@
 import Layout from "@/components/layout";
 import { getPortfolioStaticPropsWithMessages } from "@/lib/getStaticProps";
-import {
-  ArrowUpRight02Icon,
-  // Download04Icon,
-  Link01Icon,
-} from "@hugeicons/react";
+import { ArrowUpRight02Icon, Link01Icon } from "@hugeicons/react-pro";
 // import appDownload from "@public/img/app-download.png";
 import appIcon from "@public/img/app-icon.png";
 import greenFields from "@public/assets/green-fields.png";

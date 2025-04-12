@@ -4,7 +4,7 @@ import {
   InputProps as HeroUIInputProps,
   Input as HeroUIInput,
 } from "@heroui/react";
-import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
+import { ViewIcon, ViewOffIcon } from "@hugeicons/react-pro";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";

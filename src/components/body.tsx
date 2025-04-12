@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import Loading from "./loading";
 import { motion } from "framer-motion";
 import TabItem from "./tab-item";
-import { Chatting01Icon, Home01Icon, UserIcon } from "@hugeicons/react";
+import { Chatting01Icon, Home01Icon, UserIcon } from "@hugeicons/react-pro";
 
 interface BodyProps {
   className?: string;

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@heroui/react";
-import { ViewIcon, ViewOffIcon } from "@hugeicons/react";
+import { ViewIcon, ViewOffIcon } from "@hugeicons/react-pro";
 
 interface PasswordVisibilityToggleProps {
   isPassVisible: boolean;

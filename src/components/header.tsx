@@ -9,7 +9,7 @@ import { LazyLanguageSelector } from "@/components/ui/language-selector";
 import { cn, getPortfolioUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
 import UserOptionsMenu from "./ui/user-options-menu";
-import { AccountSetting02Icon, Logout01Icon } from "@hugeicons/react";
+import { AccountSetting02Icon, Logout01Icon } from "@hugeicons/react-pro";
 import { useAuth } from "@/contexts/auth-provider";
 import LinkOption from "./ui/link-option";
 import ThemeUserFeedback from "./ux/theme-user-feedback";

@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import nextConfig from "../../../next.config";
-import { Globe02Icon, LanguageSkillIcon } from "@hugeicons/react";
+import { Globe02Icon, LanguageSkillIcon } from "@hugeicons/react-pro";
 import { languages } from "@/internationalization/languages";
 import { cn } from "@/lib/utils";
 

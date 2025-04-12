@@ -1,5 +1,5 @@
 import { Button, Code, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
-import { InformationCircleIcon } from "@hugeicons/react";
+import { InformationCircleIcon } from "@hugeicons/react-pro";
 import { useTranslations } from "next-intl";
 
 const PhoneNumberHelper: React.FC = () => {
