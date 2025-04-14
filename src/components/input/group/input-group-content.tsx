@@ -1,4 +1,7 @@
-import { useGroup } from "@/components/input/group/input-group";
+import {
+  InputGroupProviderProps,
+  useGroup,
+} from "@/components/input/group/input-group";
 import Button from "@/components/button";
 import {
   Modal,
@@ -7,45 +10,67 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@/components/modal";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
 export interface InputGroupContentProps {
   children?: React.ReactNode;
 }
 
 const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
+  const t = useTranslations();
   const inputGroup = useGroup();
   if (!inputGroup) {
     return null;
   }
 
+  const isEditing = inputGroup.edit !== undefined;
+
   const {
     disclosure: { isOpen, onOpen, onOpenChange, onClose: onCloseModal },
   } = inputGroup;
   const onClose = () => {
+    if (isEditing) {
+      inputGroup.handleEditCancel();
+    }
     onCloseModal();
   };
 
   return (
     <>
       {inputGroup.modal ? (
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          onOpenChange={onOpenChange}
+          placement="center"
+        >
           <ModalContent>
-            <ModalHeader>{inputGroup.label}</ModalHeader>
+            <ModalHeader>
+              {inputGroup.messages[isEditing ? "edit" : "insert"].title}
+            </ModalHeader>
             <ModalBody>{children}</ModalBody>
             <ModalFooter>
-              <Button onPress={onClose}>Fechar</Button>
+              <Button onPress={onClose}>
+                {inputGroup.messages[isEditing ? "edit" : "insert"].cancel}
+              </Button>
               <Button
                 confirmAction
+                confirmActionInfo={{
+                  actionConfirmButtonColor: "primary",
+                  actionConfirmTitle: t("UI.input_group.insert.title"),
+                  actionConfirmText: t("UI.input_group.insert.description"),
+                }}
                 color="primary"
                 onPress={() => {
-                  if (inputGroup.edit !== undefined) {
+                  if (isEditing) {
                     inputGroup.handleEditConfirm();
                     return;
                   }
                   inputGroup.addNew();
                 }}
               >
-                Confirmar
+                {inputGroup.messages[isEditing ? "edit" : "insert"].confirm}
               </Button>
             </ModalFooter>
           </ModalContent>
@@ -69,16 +94,45 @@ const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
               : false
           }
         >
-          {/* TODO: internationalize here */}
-          {inputGroup.count - inputGroup.excluded.length <= 0
-            ? `Cadastrar um ${inputGroup.label?.toLocaleLowerCase()}`
-            : `${
-                inputGroup.count - inputGroup.excluded.length
-              } ${inputGroup.label?.toLocaleLowerCase()} cadastrados`}
+          <RenderButtonText groupContext={inputGroup} />
         </Button>
       )}
     </>
   );
+};
+
+interface RenderButtonProps {
+  groupContext: InputGroupProviderProps;
+}
+
+const RenderButtonText: React.FC<RenderButtonProps> = ({ groupContext }) => {
+  const { count, excluded, buttonLabel, label } = groupContext;
+  const groupTranslations = useTranslations("UI.input_group");
+  const effectiveCount = count - excluded.length;
+
+  const getButtonMessage = useMemo(() => {
+    const candidate = buttonLabel || label;
+    if (!candidate) return "";
+
+    if (typeof candidate === "object") {
+      const name =
+        effectiveCount <= 1
+          ? candidate.default.toLowerCase()
+          : candidate.plural.toLowerCase();
+      return groupTranslations("button", { name, count: effectiveCount });
+    }
+
+    if (buttonLabel) {
+      return candidate.toLowerCase();
+    }
+
+    return groupTranslations("button", {
+      name: candidate.toLowerCase(),
+      count: effectiveCount,
+    });
+  }, [buttonLabel, label, effectiveCount, groupTranslations]);
+
+  return <>{getButtonMessage}</>;
 };
 
 export default InputGroupContent;

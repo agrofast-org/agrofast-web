@@ -6,12 +6,15 @@ import { Delete02TwotoneRounded } from "@hugeicons-pro/core-twotone-rounded";
 import { ItemIndex, useGroup } from "../input/group/input-group";
 import IconOption from "../ui/icon-option";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface InputGroupMenuProps {
   index: ItemIndex;
 }
 
 const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
+  const t = useTranslations();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const group = useGroup();
@@ -49,8 +52,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           }}
           icon={PencilEdit01DuotoneRounded}
         >
-          {/* TODO: internationalize here */}
-          Editar
+          {t("UI.buttons.edit")}
         </IconOption>
         <IconOption
           onClick={() => {
@@ -58,9 +60,13 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           }}
           icon={Delete02TwotoneRounded}
           confirmAction
+          confirmActionInfo={{
+            actionConfirmTitle: t("UI.input_group.delete.title"),
+            actionConfirmText: t("UI.input_group.delete.description"),
+            actionConfirmButtonColor: "danger",
+          }}
         >
-          {/* TODO: internationalize here */}
-          Excluir
+          {t("UI.buttons.delete")}
         </IconOption>
       </PopoverContent>
     </Popover>

@@ -1,7 +1,7 @@
 import { useForm } from "@/components/form";
 import { toNested } from "@/lib/nested";
-// import { toNested } from "@/lib/nested";
 import { useDisclosure } from "@heroui/react";
+import { useTranslations } from "next-intl";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 export type ItemIndex = string | number | undefined;
@@ -14,29 +14,46 @@ export type Field = {
 
 export type Fields = Record<string, Field>;
 
-export interface InputGroupProps {
+export type MessagesSlots = "insert" | "edit" | "delete";
+export type Messages = {
+  title?: string;
+  description?: string;
+  cancel?: string;
+  confirm?: string;
+};
+
+export type InputGroupCommons = {
   prefix: string;
-  label?: string;
+  label?:
+    | string
+    | {
+        default: string;
+        plural: string;
+      };
+  buttonLabel?:
+    | string
+    | {
+        default: string;
+        plural: string;
+      };
   error?: string;
   min?: number;
   max?: number;
   description?: string;
   list?: boolean;
   modal?: boolean;
+
+  messages?: Record<MessagesSlots, Messages>;
+};
+
+export interface InputGroupProps extends InputGroupCommons {
   children: React.ReactNode;
 }
 
-export interface InputGroupProviderProps {
-  disclosure: ReturnType<typeof useDisclosure>;
+export interface InputGroupProviderProps extends InputGroupCommons {
+  messages: Record<MessagesSlots, Messages>;
 
-  prefix: string;
-  label?: string;
-  error?: string;
-  min?: number;
-  max?: number;
-  description?: string;
-  list?: boolean;
-  modal?: boolean;
+  disclosure: ReturnType<typeof useDisclosure>;
 
   count: number;
   edit: ItemIndex;
@@ -48,6 +65,7 @@ export interface InputGroupProviderProps {
   declaredField: (field: string, info?: Field) => void;
   addNew: () => void;
   editItem: (item: ItemIndex) => void;
+  handleEditCancel: () => void;
   handleEditConfirm: () => void;
   removeItem: (item: ItemIndex) => void;
 }
@@ -56,29 +74,62 @@ const InputGroupProvider = createContext<InputGroupProviderProps | undefined>(
   undefined
 );
 
+export const getMessages = (
+  messages: InputGroupProviderProps["messages"],
+  slot: MessagesSlots
+): Messages => {
+  return messages[slot];
+};
+
 const InputGroup: React.FC<InputGroupProps> = ({
   prefix,
   label,
+  buttonLabel,
   error,
   min,
   max,
   description,
+  messages,
   list = false,
   modal = false,
   children,
 }) => {
+  const groupTranslations = useTranslations("UI.input_group");
   const disclosure = useDisclosure();
   const { onOpen, onClose } = disclosure;
   const form = useForm();
   if (!form) {
     throw new Error("InputGroup must be used within a Form component");
   }
+  const defaultMessages: InputGroupProps["messages"] = {
+    insert: {
+      title: messages?.insert.title ?? groupTranslations("insert.title"),
+      description:
+        messages?.insert.description ?? groupTranslations("insert.description"),
+      cancel: messages?.insert.cancel ?? groupTranslations("insert.cancel"),
+      confirm: messages?.insert.confirm ?? groupTranslations("insert.confirm"),
+    },
+    edit: {
+      title: messages?.edit.title ?? groupTranslations("edit.title"),
+      description:
+        messages?.edit.description ?? groupTranslations("edit.description"),
+      cancel: messages?.edit.cancel ?? groupTranslations("edit.cancel"),
+      confirm: messages?.edit.confirm ?? groupTranslations("edit.confirm"),
+    },
+    delete: {
+      title: messages?.delete.title ?? groupTranslations("delete.title"),
+      description:
+        messages?.delete.description ?? groupTranslations("delete.description"),
+      cancel: messages?.delete.cancel ?? groupTranslations("delete.cancel"),
+      confirm: messages?.delete.confirm ?? groupTranslations("delete.confirm"),
+    },
+  };
 
   const [mounted, setMounted] = useState<boolean>(false);
 
   const [count, setCount] = useState<number>(0);
   const [index, setIndex] = useState<ItemIndex>(count);
-  const [edit, setEdit] = useState<ItemIndex>();
+  const [edit, setEdit] = useState<ItemIndex>(undefined);
   const [excluded, setExcluded] = useState<ItemIndex[]>([]);
   const [fields, setFields] = useState<Fields>({});
 
@@ -121,6 +172,15 @@ const InputGroup: React.FC<InputGroupProps> = ({
     onOpen();
   };
 
+  const handleEditCancel = () => {
+    Object.keys(fields).forEach((field) => {
+      form.setValue(getFieldName(field, "edit"), undefined);
+    });
+    setEdit(undefined);
+    setIndex(count);
+    onClose();
+  };
+
   const handleEditConfirm = () => {
     Object.keys(fields).forEach((field) => {
       form.setValue(
@@ -147,23 +207,10 @@ const InputGroup: React.FC<InputGroupProps> = ({
     if (mounted) return;
     const values = toNested(form.values);
     const length = values[prefix]?.length;
-    if (length === undefined) {
-      setCount(0);
-      setIndex(0);
-      setExcluded([]);
-      setEdit(undefined);
-      setMounted(true);
-      return;
-    }
-
-    setCount(length || 0);
-    setExcluded(
-      Object.keys(values[prefix] || {}).filter((key) => {
-        return values[prefix][key] === undefined;
-      })
-    );
-    setIndex(length);
+    setExcluded([]);
     setEdit(undefined);
+    setCount(length ?? 0);
+    setIndex(length ?? 0);
     setMounted(true);
   }, [form.values, prefix, count, index, mounted]);
 
@@ -175,11 +222,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
         prefix,
         label,
         error,
+        buttonLabel,
         min,
         max,
         description,
         list,
         modal,
+        messages: defaultMessages,
 
         count,
         edit,
@@ -191,6 +240,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
         declaredField,
         addNew,
         editItem,
+        handleEditCancel,
         handleEditConfirm,
         removeItem,
       }}
@@ -233,13 +283,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
             );
           })}
       </div>
-      <div className="relative flex flex-col gap-2 w-full">
+      <div className="relative flex flex-col gap-2 pt-[calc(1em+10px)] w-full">
         {/* TODO: internationalize here */}
         {(list || modal) && label && (
-          <label className="inline-flex gap-2 text-gray-700 dark:text-gray-200 text-sm !transition-colors !duration-100">
-            {label}
-            {min && <span>min: {min}</span>}
-            {max && <span>max: {max}</span>}
+          <label className="top-3.5 left-0 z-20 absolute gap-2 *:pl-2 max-w-full text-gray-700 dark:text-gray-200 text-sm truncate !transition-colors -translate-y-1/2 !duration-100">
+            {typeof label === 'string' ? label : label.default}
+            {min && <span color="">min: {min}</span>}
+            {max && <span color="">max: {max}</span>}
           </label>
         )}
         {children}

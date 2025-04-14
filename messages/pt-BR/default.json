@@ -7,6 +7,27 @@
         "example": "Seu número de telefone deve ser formatado da seguinte maneira: "
       }
     },
+    "input_group": {
+      "button": "{count, plural, =0 {Cadastrar um {name}} =1 {Um {name} cadastrado} other {# {name} cadastrados}}",
+      "insert": {
+        "title": "Adicionar item",
+        "description": "Você realmente deseja adicionar um novo item?",
+        "cancel": "Cancelar",
+        "confirm": "Adicionar"
+      },
+      "edit": {
+        "title": "Editar item",
+        "description": "Aplicar as alterações para este item?",
+        "cancel": "Cancelar",
+        "confirm": "Salvar"
+      },
+      "delete": {
+        "title": "Excluir item",
+        "description": "Tem certeza de que quer deletar este item?",
+        "cancel": "Cancelar",
+        "confirm": "Excluir"
+      }
+    },
     "info": {
       "title": {
         "verification_code_sent": "Código de verificação enviado"
@@ -19,6 +40,8 @@
       "enter": "Entrar",
       "continue": "Continuar",
       "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Excluir",
       "search": "Pesquisar",
       "understood": "Entendi",
       "resend_code": "Reenviar código",
@@ -59,7 +82,6 @@
       "update_account": "Atualizar conta",
       "action_confirm": "Confirmar ação",
       "action_confirm_text": "Você tem certeza que deseja realizar esta ação?"
-
     },
     "checkboxes": {
       "remember_me": "Lembrar-se de mim"

@@ -3,25 +3,16 @@ import React, { JSX } from "react";
 import { IconSvgObject } from "@/types/hugeicons";
 import Icon from "../icon";
 import { useDisclosure } from "@heroui/react";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "../modal";
-import Button from "../button";
-import { useTranslations } from "next-intl";
+import ConfirmActionModal, {
+  ConfirmActionModalMessages,
+} from "../ux/confirm-action-modal";
 
 export type OptionIcon = IconSvgObject;
 
 export interface IconOptionProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: OptionIcon | JSX.Element;
   confirmAction?: boolean;
-  actionConfirmTitle?: string;
-  actionConfirmText?: string;
-  actionConfirmButtonLabel?: string;
-  actionCancelButtonLabel?: string;
+  confirmActionInfo?: ConfirmActionModalMessages;
   onClick?: () => void;
 }
 
@@ -30,14 +21,10 @@ const IconOption: React.FC<IconOptionProps> = ({
   className,
   children,
   confirmAction = false,
-  actionConfirmTitle,
-  actionConfirmText,
-  actionCancelButtonLabel,
-  actionConfirmButtonLabel,
+  confirmActionInfo,
   onClick,
   ...props
 }) => {
-  const t = useTranslations();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const newProps = confirmAction
@@ -55,33 +42,12 @@ const IconOption: React.FC<IconOptionProps> = ({
   return (
     <>
       {confirmAction && (
-        <Modal scrollBehavior="inside" isOpen={isOpen} onClose={onClose}>
-          <ModalContent className="m-1 md:m-0 max-h-[calc(100vh-8px)] md:max-h-[calc(100vh-4rem)]">
-            {(onClose) => (
-              <>
-                <ModalHeader>
-                  {actionConfirmTitle ?? t("UI.titles.action_confirm")}
-                </ModalHeader>
-                <ModalBody>
-                  {actionConfirmText ?? t("UI.titles.action_confirm_text")}
-                </ModalBody>
-                <ModalFooter>
-                  <Button onPress={onClose}>
-                    {actionCancelButtonLabel ?? t("UI.buttons.cancel")}
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      onClick?.();
-                      onClose();
-                    }}
-                  >
-                    {actionConfirmButtonLabel ?? t("UI.buttons.continue")}
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
+        <ConfirmActionModal
+          isOpen={isOpen}
+          onClose={onClose}
+          onClick={onClick}
+          {...confirmActionInfo}
+        />
       )}
       <div
         className={cn(

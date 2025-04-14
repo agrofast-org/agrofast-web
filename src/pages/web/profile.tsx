@@ -100,7 +100,7 @@ export default function Profile() {
                   },
                   {
                     document_type: "cnpj",
-                    document: "12.345.678/0001-12",
+                    document: "99.9999.9999/9999-99",
                   },
                 ],
               }}
@@ -136,15 +136,18 @@ export default function Profile() {
                 />
                 <Input
                   name="surname"
-                  label={t("UI.labels.surname")}
+                  label={t("UI.labels.surname")}  
                   placeholder={t("UI.placeholders.write_surname")}
                   className="text-gray-700 dark:text-gray-200"
                   autoCapitalize="words"
                   type="name"
+                  isRequired
                 />
-                {/* TODO: internationalize here */}
                 <InputGroup
-                  label="Documento"
+                  label={{
+                    default: "Documento",
+                    plural: "Documentos",
+                  }}
                   prefix="documents"
                   max={2}
                   list
