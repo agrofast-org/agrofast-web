@@ -19,7 +19,7 @@ export type InputFormatInfo = {
 };
 
 export interface InputProps extends HeroUIInputProps {
-  format?: (value: string, info?: InputFormatInfo) => string;
+  format?: (value: string, info: InputFormatInfo) => string;
   queryCollectable?: boolean;
   taggableVisibility?: boolean;
 }
@@ -63,7 +63,7 @@ const Input: React.FC<InputProps> = ({
         target: { value: finalValue },
       } as unknown as React.ChangeEvent<HTMLInputElement>);
     },
-    [name, form, onChange, format]
+    [name, form, group, onChange, format]
   );
 
   useEffect(() => {

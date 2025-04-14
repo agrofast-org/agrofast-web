@@ -1,5 +1,8 @@
 import { useForm } from "@/components/form";
-import React, { createContext, useContext, useState } from "react";
+import { toNested } from "@/lib/nested";
+// import { toNested } from "@/lib/nested";
+import { useDisclosure } from "@heroui/react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export type ItemIndex = string | number | undefined;
 
@@ -15,6 +18,8 @@ export interface InputGroupProps {
   prefix: string;
   label?: string;
   error?: string;
+  min?: number;
+  max?: number;
   description?: string;
   list?: boolean;
   modal?: boolean;
@@ -22,12 +27,13 @@ export interface InputGroupProps {
 }
 
 export interface InputGroupProviderProps {
-  modalOpen: boolean;
-  setModalOpen: (open: boolean) => void;
+  disclosure: ReturnType<typeof useDisclosure>;
 
   prefix: string;
   label?: string;
   error?: string;
+  min?: number;
+  max?: number;
   description?: string;
   list?: boolean;
   modal?: boolean;
@@ -54,17 +60,21 @@ const InputGroup: React.FC<InputGroupProps> = ({
   prefix,
   label,
   error,
+  min,
+  max,
   description,
   list = false,
   modal = false,
   children,
 }) => {
+  const disclosure = useDisclosure();
+  const { onOpen, onClose } = disclosure;
   const form = useForm();
   if (!form) {
     throw new Error("InputGroup must be used within a Form component");
   }
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const [count, setCount] = useState<number>(0);
   const [index, setIndex] = useState<ItemIndex>(count);
@@ -73,10 +83,10 @@ const InputGroup: React.FC<InputGroupProps> = ({
   const [fields, setFields] = useState<Fields>({});
 
   const getFieldName = (field: string, forcedIndex?: ItemIndex) => {
-    if (forcedIndex) {
+    if (forcedIndex !== undefined) {
       return `${prefix}.${forcedIndex}.${field}`;
     }
-    if (list) {
+    if (list || index === "edit") {
       return `${prefix}.${index}.${field}`;
     }
     return `${prefix}.${field}`;
@@ -94,7 +104,9 @@ const InputGroup: React.FC<InputGroupProps> = ({
     setCount(newCount);
 
     setIndex(newCount);
-    setEdit(newCount);
+    setEdit(undefined);
+
+    onClose();
   };
 
   const editItem = (item: ItemIndex) => {
@@ -102,21 +114,26 @@ const InputGroup: React.FC<InputGroupProps> = ({
     Object.keys(fields).forEach((field) => {
       form.setValue(
         getFieldName(field, "edit"),
-        form.values[getFieldName(field)]
+        form.values[getFieldName(field, list ? item : undefined)]
       );
     });
     setIndex("edit");
-    setModalOpen(true);
+    onOpen();
   };
 
   const handleEditConfirm = () => {
     Object.keys(fields).forEach((field) => {
       form.setValue(
-        getFieldName(field),
+        list
+          ? getFieldName(field, list ? edit : undefined)
+          : `${prefix}.${field}`,
         form.values[getFieldName(field, "edit")]
       );
       form.setValue(getFieldName(field, "edit"), undefined);
     });
+    setEdit(undefined);
+    setIndex(count);
+    onClose();
   };
 
   const removeItem = (item: ItemIndex) => {
@@ -126,15 +143,40 @@ const InputGroup: React.FC<InputGroupProps> = ({
     });
   };
 
+  useEffect(() => {
+    if (mounted) return;
+    const values = toNested(form.values);
+    const length = values[prefix]?.length;
+    if (length === undefined) {
+      setCount(0);
+      setIndex(0);
+      setExcluded([]);
+      setEdit(undefined);
+      setMounted(true);
+      return;
+    }
+
+    setCount(length || 0);
+    setExcluded(
+      Object.keys(values[prefix] || {}).filter((key) => {
+        return values[prefix][key] === undefined;
+      })
+    );
+    setIndex(length);
+    setEdit(undefined);
+    setMounted(true);
+  }, [form.values, prefix, count, index, mounted]);
+
   return (
     <InputGroupProvider.Provider
       value={{
-        modalOpen,
-        setModalOpen,
+        disclosure,
 
         prefix,
         label,
         error,
+        min,
+        max,
         description,
         list,
         modal,
@@ -192,12 +234,16 @@ const InputGroup: React.FC<InputGroupProps> = ({
           })}
       </div>
       <div className="relative flex flex-col gap-2 w-full">
-        {label && (
-          <label className="text-gray-700 dark:text-gray-200 text-sm !transition-colors !duration-100">
+        {/* TODO: internationalize here */}
+        {(list || modal) && label && (
+          <label className="inline-flex gap-2 text-gray-700 dark:text-gray-200 text-sm !transition-colors !duration-100">
             {label}
+            {min && <span>min: {min}</span>}
+            {max && <span>max: {max}</span>}
           </label>
         )}
         {children}
+        {/* TODO: implement input group error && display if there is errors at the items */}
       </div>
     </InputGroupProvider.Provider>
   );

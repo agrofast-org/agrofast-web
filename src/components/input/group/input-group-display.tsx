@@ -25,7 +25,7 @@ const InputGroupDisplay: React.FC<InputGroupDisplayProps> = ({
     (_, i) => !group.excluded.includes(i)
   );
 
-  if (visibleItems.length === 0) return null;
+  if (!group.modal || visibleItems.length === 0) return null;
 
   return (
     <div
@@ -123,8 +123,6 @@ export const InputGroupItem: React.FC<InputGroupItemProps> = ({
     },
     {} as Record<string, FormValue>
   );
-
-  console.log(fields);
 
   return (
     <div className={cn("flex flex-row items-center gap-2", className)}>

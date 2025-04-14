@@ -35,6 +35,9 @@ const Button: React.FC<ButtonProps> = ({
   actionConfirmText,
   actionCancelButtonLabel,
   actionConfirmButtonLabel,
+  disabled,
+  disableAnimation,
+  onPress,
   ...props
 }: ButtonProps) => {
   const t = useTranslations();
@@ -45,7 +48,7 @@ const Button: React.FC<ButtonProps> = ({
         type: "button",
         onPress: onOpen,
       }
-    : {};
+    : { onPress };
 
   return (
     <>
@@ -67,9 +70,12 @@ const Button: React.FC<ButtonProps> = ({
                   <HeroUIButton
                     {...props}
                     type={type}
-                    onPress={() => {
+                    onPress={(e) => {
+                      onPress?.(e);
                       onClose();
-                      document.querySelector("form")?.requestSubmit();
+                      if (type === "submit") {
+                        document.querySelector("form")?.requestSubmit();
+                      }
                     }}
                   >
                     {actionConfirmButtonLabel ?? t("UI.buttons.continue")}
@@ -83,7 +89,13 @@ const Button: React.FC<ButtonProps> = ({
       <HeroUIButton
         {...props}
         {...newProps}
-        className={cn("px-8", className)}
+        disabled={disabled}
+        className={cn(
+          "px-8",
+          className,
+          disabled && "opacity-80 cursor-not-allowed"
+        )}
+        disableAnimation={disableAnimation || disabled}
         type={confirmAction ? "button" : type}
       >
         {children}

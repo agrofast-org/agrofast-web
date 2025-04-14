@@ -236,6 +236,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
                     </div>
                   </ModalBody>
                   <ModalFooter>
+                    {/* TODO: internationalize here */}
                     <Button color="default" onPress={onClose}>
                       Close
                     </Button>

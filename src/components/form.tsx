@@ -1,3 +1,4 @@
+import { parseNested } from "@/lib/nested";
 import type { FormErrors, FormValue, FormValues } from "@/types/form";
 import {
   FormProps as HeroUIFormProps,
@@ -36,7 +37,9 @@ const Form: React.FC<FormProps> = ({
   validationErrors,
   ...props
 }) => {
-  const [values, setValues] = useState<FormValues>(initialData ?? {});
+  const [values, setValues] = useState<FormValues>(
+    parseNested(initialData ?? {})
+  );
   const [errors, setErrors] = useState<FormErrors>(validationErrors ?? {});
 
   const setError = useCallback((address: string, error?: ValidationError) => {
@@ -79,7 +82,7 @@ const Form: React.FC<FormProps> = ({
 
   useEffect(() => {
     if (initialData) {
-      setValues(initialData);
+      setValues(parseNested(initialData));
     }
   }, [initialData]);
 

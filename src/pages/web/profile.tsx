@@ -1,6 +1,6 @@
 import Body from "@/components/body";
 import { useState } from "react";
-import { formatDocument, maskFormat, numberInputMask } from "@/lib/utils";
+import { formatDocument, numberInputMask } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
@@ -32,7 +32,10 @@ export default function Profile() {
   const toast = useToast();
 
   const { translateResponse } = useLanguage();
-  const { user, setUser } = useAuth();
+  const {
+    // user,
+    setUser,
+  } = useAuth();
   const { setIsLoading } = useOverlay();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -85,7 +88,22 @@ export default function Profile() {
             <Form
               className="flex flex-col flex-1 items-center gap-4"
               validationBehavior="native"
-              initialData={user}
+              initialData={{
+                name: "Murilo Elias",
+                surname: "Santos Figueiredo",
+                email: "murilo7456@gmail.com",
+                number: null,
+                documents: [
+                  {
+                    document_type: "cpf",
+                    document: "123.123.123-12",
+                  },
+                  {
+                    document_type: "cnpj",
+                    document: "12.345.678/0001-12",
+                  },
+                ],
+              }}
               validationErrors={errors}
               onSubmit={handleSubmit}
             >
@@ -124,7 +142,14 @@ export default function Profile() {
                   autoCapitalize="words"
                   type="name"
                 />
-                <InputGroup label="Documento" prefix="documents" list modal>
+                {/* TODO: internationalize here */}
+                <InputGroup
+                  label="Documento"
+                  prefix="documents"
+                  max={2}
+                  list
+                  modal
+                >
                   <InputGroupDisplay>
                     <InputGroupItem name="document_type" label="Tipo">
                       {(val: string) => val?.toUpperCase()}
@@ -151,12 +176,33 @@ export default function Profile() {
                       className="text-gray-700 dark:text-gray-200"
                       label="Documento"
                       placeholder="CPF ou CNPJ"
-                      type="text"
-                      format={(val) => maskFormat(val, ["(##) ####-####","(##) # ####-####", "*## (##) # ####-####"])}
-                      variant="bordered"
+                      format={(val, { form, group }) => {
+                        if (form && group) {
+                          const inputType = group.getFieldName(
+                            "document_type",
+                            group.edit ?? group.index
+                          );
+                          const inputTypeValue = form.values[inputType];
+                          return formatDocument(val, inputTypeValue);
+                        }
+                        return val;
+                      }}
                     />
                   </InputGroupContent>
                 </InputGroup>
+                {/* <InputGroup label="Documento" prefix="bank" modal>
+                  <InputGroupDisplay>
+                    <InputGroupItem name="card" label="Tipo" />
+                  </InputGroupDisplay>
+                  <InputGroupContent>
+                    <Input
+                      name="card"
+                      label="Cartão"
+                      placeholder="Cartão"
+                      type="text"
+                    />
+                  </InputGroupContent>
+                </InputGroup> */}
                 <Input
                   name="number"
                   label={t("UI.labels.number")}

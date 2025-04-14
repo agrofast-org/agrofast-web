@@ -3,6 +3,7 @@ import React, { JSX } from "react";
 import Link, { LinkProps } from "../link";
 import { IconSvgObject } from "@/types/hugeicons";
 import Icon from "../icon";
+import { usePopoverContext } from "@heroui/react";
 
 export type LinkOptionIcon = IconSvgObject;
 
@@ -20,9 +21,19 @@ const LinkOption = ({
   onClick,
   ...props
 }: LinkOptionProps) => {
+  const usePopoverSafeContext = () => {
+    try {
+      return usePopoverContext();
+    } catch {
+      return { onClose: () => {} };
+    }
+  };
+  const popover = usePopoverSafeContext();
+
   const onClickProp = onClick
     ? {
         onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+          popover?.onClose();
           if (noRedirect) {
             e.preventDefault();
             onClick?.(e);
@@ -46,9 +57,11 @@ const LinkOption = ({
     >
       {icon && (
         <span className="flex justify-center items-center w-4 h-4 font-medium text-gray-700 dark:text-gray-200">
-          {React.isValidElement(icon)
-            ? icon
-            : <Icon icon={icon as IconSvgObject}/>}
+          {React.isValidElement(icon) ? (
+            icon
+          ) : (
+            <Icon icon={icon as IconSvgObject} />
+          )}
         </span>
       )}
       {children}
