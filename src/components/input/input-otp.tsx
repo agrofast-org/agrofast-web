@@ -3,7 +3,9 @@ import {
   InputOtp as HeroUIInputOtp,
 } from "@heroui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useGroup } from "@/components/input/group/input-group";
+import { useForm } from "../form";
 
 export interface InputOtpProps extends HeroUIInputOptProps {
   length: number;
@@ -11,17 +13,34 @@ export interface InputOtpProps extends HeroUIInputOptProps {
 }
 
 const InputOtp: React.FC<InputOtpProps> = ({
+  name: inputName,
   length,
-  name,
   value,
   onValueChange,
   queryCollectable = false,
   ...props
 }) => {
   const router = useRouter();
+  const form = useForm();
+  const group = useGroup();
+
+  const name = inputName && group ? group.getFieldName(inputName) : inputName;
 
   const [hasFirstRender, setHasFirstRender] = useState(false);
-  const [inputValue, setInputValue] = useState(value ?? "");
+  const [inputValue, setInputValue] = useState(
+    value ?? form?.values[name] ?? ""
+  );
+
+  const changeValue = useCallback(
+    (newValue?: string) => {
+      if (name && form) {
+        form.setValue(name, newValue);
+      }
+      setInputValue(newValue);
+      onValueChange?.(newValue ?? "");
+    },
+    [name, form, onValueChange]
+  );
 
   useEffect(() => {
     if (value) {
@@ -35,19 +54,33 @@ const InputOtp: React.FC<InputOtpProps> = ({
       const queryValue = router.query[name];
       if (queryValue) {
         const val = queryValue as string;
-        setInputValue(val);
-        onValueChange?.(val);
+        changeValue(val);
         setHasFirstRender(true);
       }
     }
-  }, [queryCollectable, name, onValueChange, router.query, hasFirstRender]);
+  }, [queryCollectable, name, changeValue, router.query, hasFirstRender]);
+
+  useEffect(() => {
+    if (name && form && form.values[name]) {
+      setInputValue(form.values[name]);
+    }
+  }, [name, form, inputValue]);
+
+  useEffect(() => {
+    if (group && inputName) {
+      group.declaredField(inputName, {
+        type: props.type ?? "text",
+        required: props.isRequired ?? false,
+      });
+    }
+  }, [group, inputName, props.type, props.isRequired]);
 
   return (
     <HeroUIInputOtp
       name={name}
       length={length}
       value={inputValue}
-      onValueChange={setInputValue}
+      onValueChange={changeValue}
       classNames={{
         input: "w-12 h-12 text-center text-2xl",
         helperWrapper:

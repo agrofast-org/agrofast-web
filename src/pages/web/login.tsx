@@ -1,5 +1,4 @@
 import Body from "@/components/body";
-import { ArrowUpRight01Icon } from "@hugeicons/react-pro";
 import {
   Button,
 } from "@heroui/react";
@@ -10,6 +9,8 @@ import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import LoginForm from "@/forms/login-form";
+import Icon from "@/components/icon";
+import { ArrowUpRight01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 
 export default function Login() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function Login() {
               }}
             >
               {t("UI.redirects.see_more")}
-              <ArrowUpRight01Icon />
+              <Icon icon={ArrowUpRight01StrokeRounded} />
             </Button>
           </section>
         </div>

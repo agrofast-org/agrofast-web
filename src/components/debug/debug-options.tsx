@@ -10,9 +10,10 @@ import {
 import { useRouter } from "next/router";
 import { LazyThemeSwitcher } from "../ui/theme-switcher";
 import dynamic from "next/dynamic";
-import { Bug01Icon } from "@hugeicons/react-pro";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
 import { useOverlay } from "@/contexts/overlay-provider";
+import Icon from "../icon";
+import { Bug01Icon } from "@hugeicons-pro/core-stroke-rounded";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -66,7 +67,7 @@ const RouteSelector = () => {
 const DebugOptions = () => {
   const { isLoading, setIsLoading, isPageLoading, setIsPageLoading } = useOverlay();
 
-  if (process.env.NODE_ENV !== "development" || true) {
+  if (process.env.NODE_ENV !== "development") {
     return null;
   }
 
@@ -75,9 +76,9 @@ const DebugOptions = () => {
       <Popover radius="sm" placement="top-start" offset={8}>
         <PopoverTrigger>
           <Button size="md" color="success" isIconOnly>
-            <Bug01Icon
+            <Icon
               type="rounded"
-              variant="twotone"
+              icon={Bug01Icon}
               className="p-0.5 text-white pointer-events-none"
             />
           </Button>

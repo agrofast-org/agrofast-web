@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/react": "2.7.5",
+    "@heroui/react": "^2.7.6",
+    "@hugeicons-pro/core-bulk-rounded": "^1.0.13",
+    "@hugeicons-pro/core-duotone-rounded": "^1.0.13",
+    "@hugeicons-pro/core-solid-rounded": "^1.0.13",
+    "@hugeicons-pro/core-stroke-rounded": "^1.0.13",
+    "@hugeicons-pro/core-twotone-rounded": "^1.0.13",
     "@hugeicons/react": "^1.0.5",
-    "@hugeicons/react-pro": "^0.3.2",
     "@internationalized/date": "^3.7.0",
-    "@react-aria/i18n": "^3.12.6",
     "@react-google-maps/api": "^2.20.6",
     "@tanstack/react-query": "^5.68.0",
     "axios": "^1.7.9",

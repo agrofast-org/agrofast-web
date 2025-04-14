@@ -7,9 +7,13 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import nextConfig from "../../../next.config";
-import { Globe02Icon, LanguageSkillIcon } from "@hugeicons/react-pro";
 import { languages } from "@/internationalization/languages";
 import { cn } from "@/lib/utils";
+import Icon from "../icon";
+import {
+  Globe02Icon,
+  LanguageSkillIcon,
+} from "@hugeicons-pro/core-stroke-rounded";
 
 interface LanguageSelectorProps extends Omit<HeroUISelectProps, "children"> {
   className?: string;
@@ -66,10 +70,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               visible: { opacity: 1, scale: 1 },
             }}
           >
-            <Globe02Icon
+            <Icon
+              icon={Globe02Icon}
               size={16}
-              type="rounded"
-              variant="stroke"
               className="text-default-700 text-xl pointer-events-none"
             />
           </motion.div>
@@ -82,10 +85,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               visible: { opacity: 1, scale: 1 },
             }}
           >
-            <LanguageSkillIcon
+            <Icon
+              icon={LanguageSkillIcon}
               size={16}
-              type="rounded"
-              variant="stroke"
               className="text-default-700 text-xl pointer-events-none"
             />
           </motion.div>

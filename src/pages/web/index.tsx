@@ -4,8 +4,8 @@ import { useTranslations } from "next-intl";
 import Head from "next/head";
 import Image from "next/image";
 import destinationRoute from "@public/assets/destination-route.png";
-import Input from "@/components/input";
-import DatePicker from "@/components/date-picker";
+import Input from "@/components/input/input";
+import DatePicker from "@/components/input/date-picker";
 import { Button } from "@heroui/react";
 
 export default function Index() {

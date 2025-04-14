@@ -1,14 +1,17 @@
 import {
   Button as HeroUIButton,
   ButtonProps as HeroUIButtonProps,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   useDisclosure,
 } from "@heroui/react";
 import { useTranslations } from "next-intl";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@/components/modal";
+import { cn } from "@/lib/utils";
 
 export type HrefProps = {
   pathname: string;
@@ -25,6 +28,7 @@ export interface ButtonProps extends HeroUIButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
   children,
+  className,
   type,
   confirmAction = false,
   actionConfirmTitle,
@@ -39,12 +43,12 @@ const Button: React.FC<ButtonProps> = ({
   const newProps = confirmAction
     ? {
         type: "button",
-        onClick: onOpen,
+        onPress: onOpen,
       }
     : {};
 
   return (
-    <div>
+    <>
       {confirmAction && (
         <Modal scrollBehavior="inside" isOpen={isOpen} onClose={onClose}>
           <ModalContent className="m-1 md:m-0 max-h-[calc(100vh-8px)] md:max-h-[calc(100vh-4rem)]">
@@ -79,11 +83,12 @@ const Button: React.FC<ButtonProps> = ({
       <HeroUIButton
         {...props}
         {...newProps}
+        className={cn("px-8", className)}
         type={confirmAction ? "button" : type}
       >
         {children}
       </HeroUIButton>
-    </div>
+    </>
   );
 };
 

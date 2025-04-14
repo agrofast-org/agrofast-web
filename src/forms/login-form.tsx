@@ -1,5 +1,5 @@
-import Checkbox from "@/components/checkbox";
-import Input from "@/components/input";
+import Checkbox from "@/components/input/checkbox";
+import Input from "@/components/input/input";
 import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";

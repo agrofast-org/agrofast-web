@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import Header from "./header";
-import Loading from "./loading";
+import Header from "@/components/header";
+import Loading from "@/components/loading";
 
 interface LayoutProps {
   className?: string;

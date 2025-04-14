@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import { getPortfolioStaticPropsWithMessages } from "@/lib/getStaticProps";
-import { ArrowUpRight02Icon, Link01Icon } from "@hugeicons/react-pro";
+
 // import appDownload from "@public/img/app-download.png";
 import appIcon from "@public/img/app-icon.png";
 import greenFields from "@public/assets/green-fields.png";
@@ -11,6 +11,9 @@ import { useRouter } from "next/router";
 import { getLegalUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
 import Image from "next/image";
+import Icon from "@/components/icon";
+import { ArrowUpRight02DuotoneRounded } from "@hugeicons-pro/core-duotone-rounded";
+import { Link01BulkRounded } from "@hugeicons-pro/core-bulk-rounded";
 
 export default function Home() {
   const router = useRouter();
@@ -42,7 +45,7 @@ export default function Home() {
               className="bg-green-500 !text-white dark:text-gray-700"
             >
               {t("UI.redirects.see_more")}{" "}
-              <ArrowUpRight02Icon variant="duotone" />
+              <Icon icon={ArrowUpRight02DuotoneRounded} />
             </Button>
           </div>
           <div className="flex flex-1 justify-end">
@@ -129,7 +132,7 @@ export default function Home() {
               }}
             >
               {t("Pages.Index.or_redirect_to_web_version")}
-              <Link01Icon variant="bulk" />
+              <Icon icon={Link01BulkRounded} />
             </Button>
           </div>
         </section>

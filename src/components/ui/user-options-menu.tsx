@@ -39,8 +39,7 @@ const UserOptionsMenu: React.FC<UserOptionsMenuProps> = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-0 p-1 w-full min-w-44 h-min text-gray-700 dark:text-gray-200">
-        <p className="p-1 w-full text-start">{user.name}</p>
-        <hr className="bg-black mb-1 w-full h-px" />
+        <p className="p-1 border-b border-b-neutral-200 dark:border-b-neutral-800 w-full text-start">{user.name}</p>
         {children}
       </PopoverContent>
     </Popover>
