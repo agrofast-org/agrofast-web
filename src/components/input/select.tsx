@@ -78,7 +78,7 @@ const Select: React.FC<SelectProps> = ({
 
   useEffect(() => {
     if (group && inputName) {
-      group.declaredField(inputName, {
+      group.declareField(inputName, {
         type: "select",
         required: isFieldRequired ?? false,
       });

@@ -76,7 +76,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   useEffect(() => {
     if (group && inputName) {
-      group.declaredField(inputName, {
+      group.declareField(inputName, {
         type: "date",
         required: isFieldRequired ?? false,
       });

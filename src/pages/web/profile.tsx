@@ -25,6 +25,7 @@ import Form from "@/components/form";
 import DatePicker from "@/components/input/date-picker";
 import Select from "@/components/input/select";
 import { SelectItem } from "@heroui/react";
+import InputGroupIdentity from "@/components/input/group/input-group-identity";
 
 export default function Profile() {
   const t = useTranslations();
@@ -149,6 +150,7 @@ export default function Profile() {
                     </InputGroupItem>
                   </InputGroupDisplay>
                   <InputGroupContent>
+                    <InputGroupIdentity name="uuid" type="uuid" />
                     <DatePicker name="emission_date" label="Data de emissão" />
                     <Select
                       name="document_type"

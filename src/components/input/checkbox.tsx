@@ -40,7 +40,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
   useEffect(() => {
     if (group && inputName) {
-      group.declaredField(inputName, {
+      group.declareField(inputName, {
         type: "checkbox",
         required: props.isRequired ?? false,
       });

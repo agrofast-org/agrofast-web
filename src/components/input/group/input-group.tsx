@@ -71,7 +71,7 @@ export interface InputGroupProviderProps extends InputGroupCommons {
   fields: Fields;
 
   getFieldName: (field: string, index?: ItemIndex) => string;
-  declaredField: (field: string, info?: Field) => void;
+  declareField: (field: string, info?: Field) => void;
   addNew: () => void;
   editItem: (item: ItemIndex) => void;
   handleEditCancel: () => void;
@@ -162,7 +162,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
     [prefix, list, index]
   );
 
-  const declaredField = (field: string, info?: Field) => {
+  const declareField = (field: string, info?: Field) => {
     if (fields[field]) {
       return;
     }
@@ -348,7 +348,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
         fields,
 
         getFieldName,
-        declaredField,
+        declareField,
         addNew,
         editItem,
         handleEditCancel,

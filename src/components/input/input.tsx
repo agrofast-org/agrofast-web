@@ -92,7 +92,7 @@ const Input: React.FC<InputProps> = ({
 
   useEffect(() => {
     if (group && inputName) {
-      group.declaredField(inputName, {
+      group.declareField(inputName, {
         type: props.type ?? "text",
         required: isFieldRequired ?? false,
       });

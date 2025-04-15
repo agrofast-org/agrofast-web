@@ -155,7 +155,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
 
   useEffect(() => {
     if (group && inputName) {
-      group.declaredField(inputName, {
+      group.declareField(inputName, {
         type: "text",
         required: false,
       });
