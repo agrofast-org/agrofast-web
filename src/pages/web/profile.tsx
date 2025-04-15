@@ -150,7 +150,7 @@ export default function Profile() {
                     </InputGroupItem>
                   </InputGroupDisplay>
                   <InputGroupContent>
-                    <InputGroupIdentity name="uuid" type="uuid" />
+                    <InputGroupIdentity name="uuid" />
                     <DatePicker name="emission_date" label="Data de emissão" />
                     <Select
                       name="document_type"

@@ -58,8 +58,12 @@ const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
                 confirmAction
                 confirmActionInfo={{
                   actionConfirmButtonColor: "primary",
-                  actionConfirmTitle: t("UI.input_group.insert.title"),
-                  actionConfirmText: t("UI.input_group.insert.description"),
+                  actionConfirmTitle: isEditing
+                    ? t("UI.input_group.edit.title")
+                    : t("UI.input_group.insert.title"),
+                  actionConfirmText: isEditing
+                    ? t("UI.input_group.edit.description")
+                    : t("UI.input_group.insert.description"),
                 }}
                 color="primary"
                 onPress={() => {
