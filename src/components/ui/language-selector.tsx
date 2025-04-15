@@ -28,16 +28,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   const handleRouteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLocale = event.target.value;
-    let newPath = router.asPath;
-
-    newPath = newPath.replace(/^\/(portfolio|web|legal)/, "");
-
-    if (!newPath.startsWith("/")) {
-      newPath = "/" + newPath;
-    }
-
-    router.push(newPath, undefined, { locale: selectedLocale });
+    router.push(router.asPath, undefined, { locale: event.target.value });
   };
 
   return (

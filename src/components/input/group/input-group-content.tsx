@@ -83,7 +83,6 @@ const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
           inputGroup.count - inputGroup.excluded.length <= 0)) && (
         <Button
           variant="flat"
-          className="bg-default-100 hover:bg-default-200 shadow-sm duration-100"
           onPress={() => {
             onOpen();
           }}

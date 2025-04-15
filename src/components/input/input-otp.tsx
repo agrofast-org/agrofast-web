@@ -18,6 +18,8 @@ const InputOtp: React.FC<InputOtpProps> = ({
   value,
   onValueChange,
   queryCollectable = false,
+  required,
+  isRequired,
   ...props
 }) => {
   const router = useRouter();
@@ -25,6 +27,7 @@ const InputOtp: React.FC<InputOtpProps> = ({
   const group = useGroup();
 
   const name = inputName && group ? group.getFieldName(inputName) : inputName;
+  const isFieldRequired = required ?? isRequired ?? false;
 
   const [hasFirstRender, setHasFirstRender] = useState(false);
   const [inputValue, setInputValue] = useState(
@@ -70,10 +73,10 @@ const InputOtp: React.FC<InputOtpProps> = ({
     if (group && inputName) {
       group.declaredField(inputName, {
         type: props.type ?? "text",
-        required: props.isRequired ?? false,
+        required: isFieldRequired ?? false,
       });
     }
-  }, [group, inputName, props.type, props.isRequired]);
+  }, [group, inputName, props.type, isFieldRequired]);
 
   return (
     <HeroUIInputOtp
@@ -86,6 +89,8 @@ const InputOtp: React.FC<InputOtpProps> = ({
         helperWrapper:
           "absolute min-w-max -bottom-[12px] -translate-x-1/2 left-1/2 flex justify-center text-danger text-tiny text-start truncate",
       }}
+      required={isFieldRequired}
+      isRequired={isFieldRequired}
       {...props}
     />
   );

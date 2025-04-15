@@ -33,6 +33,8 @@ const Input: React.FC<InputProps> = ({
   taggableVisibility,
   disabled,
   onChange,
+  required,
+  isRequired,
   ...props
 }) => {
   const router = useRouter();
@@ -41,6 +43,7 @@ const Input: React.FC<InputProps> = ({
   const group = useGroup();
 
   const name = inputName && group ? group.getFieldName(inputName) : inputName;
+  const isFieldRequired = required ?? isRequired ?? false;
 
   const [hasFirstRender, setHasFirstRender] = useState(false);
   const [inputValue, setInputValue] = useState(
@@ -91,17 +94,17 @@ const Input: React.FC<InputProps> = ({
     if (group && inputName) {
       group.declaredField(inputName, {
         type: props.type ?? "text",
-        required: props.isRequired ?? false,
+        required: isFieldRequired ?? false,
       });
     }
-  }, [group, inputName, props.type, props.isRequired]);
+  }, [group, inputName, props.type, isFieldRequired]);
 
   return (
     <HeroUIInput
       name={name}
       classNames={{
         base: "relative",
-        label: "top-6",
+        label: "top-6 !-translate-y-[3.25em]",
         helperWrapper: "absolute -bottom-[20px] -left-0.5 max-w-full",
         errorMessage: "truncate",
         input: "!transition-colors !duration-100",
@@ -126,7 +129,7 @@ const Input: React.FC<InputProps> = ({
         )
       }
       validate={(value) => {
-        if (props.isRequired && !value) {
+        if (isFieldRequired && !value) {
           return t("UI.messages.fill_this_field");
         }
         if (props.validate) {
@@ -134,6 +137,8 @@ const Input: React.FC<InputProps> = ({
         }
         return null;
       }}
+      required={isFieldRequired}
+      isRequired={isFieldRequired}
       {...props}
       type={isPassVisible ? "text" : props.type}
       disabled={disabled}

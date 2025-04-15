@@ -58,7 +58,7 @@ const Button: React.FC<ButtonProps> = ({
         {...newProps}
         disabled={disabled}
         className={cn(
-          "px-8",
+          "px-8 duration-75",
           className,
           disabled && "opacity-80 cursor-not-allowed"
         )}

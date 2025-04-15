@@ -1,8 +1,16 @@
-import { useForm } from "@/components/form";
+import { FormProviderProps, useForm } from "@/components/form";
 import { toNested } from "@/lib/nested";
+import { cn } from "@/lib/utils";
 import { useDisclosure } from "@heroui/react";
 import { useTranslations } from "next-intl";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { ValidationError } from "next/dist/compiled/amphtml-validator";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 export type ItemIndex = string | number | undefined;
 
@@ -39,6 +47,7 @@ export type InputGroupCommons = {
   error?: string;
   min?: number;
   max?: number;
+  required?: boolean;
   description?: string;
   list?: boolean;
   modal?: boolean;
@@ -74,11 +83,16 @@ const InputGroupProvider = createContext<InputGroupProviderProps | undefined>(
   undefined
 );
 
-export const getMessages = (
-  messages: InputGroupProviderProps["messages"],
-  slot: MessagesSlots
-): Messages => {
-  return messages[slot];
+const hiddenInputProps: React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> = {
+  hidden: true,
+  "aria-hidden": "true",
+  autoComplete: "off",
+  autoCorrect: "off",
+  spellCheck: "false",
+  readOnly: true,
 };
 
 const InputGroup: React.FC<InputGroupProps> = ({
@@ -89,11 +103,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
   min,
   max,
   description,
+  required,
   messages,
   list = false,
   modal = false,
   children,
 }) => {
+  const t = useTranslations();
   const groupTranslations = useTranslations("UI.input_group");
   const disclosure = useDisclosure();
   const { onOpen, onClose } = disclosure;
@@ -133,15 +149,18 @@ const InputGroup: React.FC<InputGroupProps> = ({
   const [excluded, setExcluded] = useState<ItemIndex[]>([]);
   const [fields, setFields] = useState<Fields>({});
 
-  const getFieldName = (field: string, forcedIndex?: ItemIndex) => {
-    if (forcedIndex !== undefined) {
-      return `${prefix}.${forcedIndex}.${field}`;
-    }
-    if (list || index === "edit") {
-      return `${prefix}.${index}.${field}`;
-    }
-    return `${prefix}.${field}`;
-  };
+  const getFieldName = useCallback(
+    (field: string, forcedIndex?: ItemIndex) => {
+      if (forcedIndex !== undefined) {
+        return `${prefix}.${forcedIndex}.${field}`;
+      }
+      if (list || index === "edit") {
+        return `${prefix}.${index}.${field}`;
+      }
+      return `${prefix}.${field}`;
+    },
+    [prefix, list, index]
+  );
 
   const declaredField = (field: string, info?: Field) => {
     if (fields[field]) {
@@ -150,7 +169,57 @@ const InputGroup: React.FC<InputGroupProps> = ({
     setFields((prev) => ({ ...prev, [field]: info || { type: "" } }));
   };
 
+  const getField = useCallback(
+    (
+      name: string
+    ): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null => {
+      const fieldName = getFieldName(name);
+
+      const selector = [
+        `input[name="${fieldName}"]`,
+        `select[name="${fieldName}"]`,
+        `textarea[name="${fieldName}"]`,
+      ].join(",");
+
+      const element = document.querySelector(selector) as
+        | HTMLInputElement
+        | HTMLSelectElement
+        | HTMLTextAreaElement
+        | null;
+
+      return element;
+    },
+    [getFieldName]
+  );
+
+  const validateGroup = () => {
+    let hasError = false;
+    Object.keys(fields).forEach((field) => {
+      const fieldName = getFieldName(field);
+      const element = getField(field);
+
+      if (!element) return;
+
+      const isValid = element.checkValidity();
+
+      if (!isValid) {
+        const error = element.validationMessage || t("UI.input.error.invalid");
+        form.setError(fieldName, error);
+        if (!hasError) element.focus();
+        hasError = true;
+      } else {
+        form.setError(fieldName, undefined);
+      }
+    });
+
+    return !hasError;
+  };
+
   const addNew = () => {
+    if (!validateGroup()) {
+      return;
+    }
+
     const newCount = count + 1;
     setCount(newCount);
 
@@ -167,6 +236,10 @@ const InputGroup: React.FC<InputGroupProps> = ({
         getFieldName(field, "edit"),
         form.values[getFieldName(field, list ? item : undefined)]
       );
+      form.setError(
+        getFieldName(field, "edit"),
+        form.errors[getFieldName(field, list ? item : undefined)]
+      );
     });
     setIndex("edit");
     onOpen();
@@ -182,6 +255,10 @@ const InputGroup: React.FC<InputGroupProps> = ({
   };
 
   const handleEditConfirm = () => {
+    if (!validateGroup()) {
+      return;
+    }
+
     Object.keys(fields).forEach((field) => {
       form.setValue(
         list
@@ -214,6 +291,40 @@ const InputGroup: React.FC<InputGroupProps> = ({
     setMounted(true);
   }, [form.values, prefix, count, index, mounted]);
 
+  useEffect(() => {
+    if (form.validations[prefix]) return;
+    form.setValidation(prefix, () => {
+      if (min && count < min) {
+        form.setError(prefix, t("UI.input.error.min_items", { min: min }));
+      }
+      if (max && count > max) {
+        form.setError(prefix, t("UI.input.error.max_items", { max: max }));
+      }
+    });
+  }, [form, prefix, min, max, count, t]);
+
+  const fieldErrors = Object.keys(form.errors).reduce<ValidationError[]>(
+    (acc, field) => {
+      if (field.startsWith(prefix)) {
+        if (Array.isArray(form.errors[field])) {
+          acc.push(...form.errors[field]);
+        } else {
+          acc.push(form.errors[field]);
+        }
+      }
+      return acc;
+    },
+    []
+  );
+
+  const groupError = form.errors[prefix]
+    ? Array.isArray(form.errors[prefix])
+      ? form.errors[prefix].join(", ")
+      : form.errors[prefix]
+    : fieldErrors.length > 0
+    ? fieldErrors.join(", ")
+    : undefined;
+
   return (
     <InputGroupProvider.Provider
       value={{
@@ -245,57 +356,125 @@ const InputGroup: React.FC<InputGroupProps> = ({
         removeItem,
       }}
     >
-      <div className="hidden holder-inputs" hidden>
-        {list &&
-          Array.from({ length: count }).map((_, i) => {
-            if (excluded.includes(i)) return null;
-            return (
-              <React.Fragment key={i}>
-                {Object.keys(fields).map((field) => {
-                  const fullFieldName = `${prefix}.${i}.${field}`;
-                  const value = form.values?.[fullFieldName] ?? "";
-                  return (
-                    <input
-                      key={`${i}-${field}`}
-                      name={fullFieldName}
-                      value={value}
-                      hidden
-                      readOnly
-                    />
-                  );
-                })}
-              </React.Fragment>
-            );
-          })}
-        {!list &&
-          Object.keys(fields).map((field) => {
-            const fullFieldName = `${prefix}.${field}`;
-            const value = form.values?.[prefix]?.[field] ?? "";
-
-            return (
-              <input
-                key={fullFieldName}
-                name={fullFieldName}
-                value={value}
-                hidden
-                readOnly
-              />
-            );
-          })}
-      </div>
-      <div className="relative flex flex-col gap-2 pt-[calc(1em+10px)] w-full">
-        {/* TODO: internationalize here */}
+      <div
+        className="group-group relative flex flex-col gap-2 pt-[calc(1em+8px)] w-full"
+        data-min-fulfilled={min ? count - excluded.length >= min : undefined}
+        data-max-fulfilled={max ? count - excluded.length <= max : undefined}
+      >
         {(list || modal) && label && (
-          <label className="top-3.5 left-0 z-20 absolute gap-2 *:pl-2 max-w-full text-gray-700 dark:text-gray-200 text-sm truncate !transition-colors -translate-y-1/2 !duration-100">
-            {typeof label === 'string' ? label : label.default}
-            {min && <span color="">min: {min}</span>}
-            {max && <span color="">max: {max}</span>}
+          <label
+            className={cn(
+              "top-3.5 left-0 z-20 absolute gap-2 *:pl-2 max-w-full text-sm truncate !transition-all -translate-y-1/2 !duration-100",
+              form.errors[prefix]
+                ? "text-danger"
+                : "text-gray-700 dark:text-gray-200"
+            )}
+          >
+            <RenderHolderInputs
+              prefix={prefix}
+              fields={fields}
+              list={list}
+              count={count}
+              excluded={excluded}
+              form={form}
+            />
+            {label && (
+              <span
+                className={cn(
+                  required &&
+                    "after:ms-0.5 !pl-0 after:text-danger after:content-['*']"
+                )}
+              >
+                {typeof label === "string" ? label : label.default}
+              </span>
+            )}
+            {min && (
+              <span className="group-group-data-[min-fulfilled=false]:font-semibold text-default-500 group-group-data-[min-fulfilled=true]:text-default-400">
+                min: {min}
+              </span>
+            )}
+            {max && (
+              <span className="group-group-data-[max-fulfilled=false]:font-semibold text-default-500 group-group-data-[max-fulfilled=true]:text-default-400">
+                max: {max}
+              </span>
+            )}
           </label>
         )}
+        {(groupError || description) && (
+          <div className="-bottom-[20px] -left-0.5 absolute flex flex-col gap-1.5 p-1 max-w-full">
+            {!groupError && description && (
+              <div className="text-foreground-400 text-tiny">{description}</div>
+            )}
+            {groupError && (
+              <div
+                className="text-danger text-tiny truncate"
+                title={groupError}
+              >
+                {groupError}
+              </div>
+            )}
+          </div>
+        )}
         {children}
-        {/* TODO: implement input group error && display if there is errors at the items */}
       </div>
     </InputGroupProvider.Provider>
+  );
+};
+
+interface RenderHolderInputsProps {
+  list: boolean;
+  count: number;
+  excluded: ItemIndex[];
+  prefix: string;
+  fields: Fields;
+  form: FormProviderProps;
+}
+
+const RenderHolderInputs: React.FC<RenderHolderInputsProps> = ({
+  list,
+  count,
+  excluded,
+  prefix,
+  fields,
+  form,
+}) => {
+  return (
+    <div className="hidden holder-inputs" hidden>
+      {list &&
+        Array.from({ length: count }).map((_, i) => {
+          if (excluded.includes(i)) return null;
+          return (
+            <React.Fragment key={i}>
+              {Object.keys(fields).map((field) => {
+                const fullFieldName = `${prefix}.${i}.${field}`;
+                const value = form.values?.[fullFieldName] ?? "";
+                return (
+                  <input
+                    key={`${i}-${field}`}
+                    name={fullFieldName}
+                    value={value}
+                    {...hiddenInputProps}
+                  />
+                );
+              })}
+            </React.Fragment>
+          );
+        })}
+      {!list &&
+        Object.keys(fields).map((field) => {
+          const fullFieldName = `${prefix}.${field}`;
+          const value = form.values?.[prefix]?.[field] ?? "";
+
+          return (
+            <input
+              key={fullFieldName}
+              name={fullFieldName}
+              value={value}
+              {...hiddenInputProps}
+            />
+          );
+        })}
+    </div>
   );
 };
 
@@ -304,3 +483,10 @@ export const useGroup = (): InputGroupProviderProps | undefined => {
 };
 
 export default InputGroup;
+
+{
+  /*
+  
+
+  */
+}

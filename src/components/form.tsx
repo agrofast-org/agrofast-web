@@ -4,7 +4,6 @@ import {
   FormProps as HeroUIFormProps,
   Form as HeroUIForm,
 } from "@heroui/react";
-import { AxiosResponse } from "axios";
 import { ValidationError } from "next/dist/compiled/amphtml-validator";
 import {
   createContext,
@@ -14,12 +13,12 @@ import {
   useState,
 } from "react";
 
+export type Validation = () => void;
+export type Validations = Record<string, ValidationError>;
+
 export interface FormProps extends HeroUIFormProps {
   children?: React.ReactNode;
   initialData?: FormValues;
-  success?: (response: AxiosResponse<FormValue, FormValue>) => void;
-  error?: (error: Error) => void;
-  finally?: () => void;
 }
 
 export interface FormProviderProps {
@@ -27,12 +26,15 @@ export interface FormProviderProps {
   errors: FormErrors;
   setValue: (address: string, value: FormValue) => void;
   setError: (address: string, error: ValidationError) => void;
+  validations: Validations;
+  setValidation: (address: string, validation: Validation) => void;
 }
 
 const FormProvider = createContext<FormProviderProps | undefined>(undefined);
 
 const Form: React.FC<FormProps> = ({
   children,
+  onSubmit,
   initialData,
   validationErrors,
   ...props
@@ -41,6 +43,7 @@ const Form: React.FC<FormProps> = ({
     parseNested(initialData ?? {})
   );
   const [errors, setErrors] = useState<FormErrors>(validationErrors ?? {});
+  const [validations, setValidations] = useState<Validations>({});
 
   const setError = useCallback((address: string, error?: ValidationError) => {
     setErrors((prevErrors: FormErrors) => {
@@ -70,6 +73,21 @@ const Form: React.FC<FormProps> = ({
     [setError]
   );
 
+  const setValidation = useCallback(
+    (address: string, validation: Validation) => {
+      setValidations((prevValidations: Record<string, Validation>) => {
+        const newValidations = { ...prevValidations };
+        if (validation === undefined) {
+          delete newValidations[address];
+        } else {
+          newValidations[address] = validation;
+        }
+        return newValidations;
+      });
+    },
+    []
+  );
+
   useEffect(() => {
     if (
       validationErrors &&
@@ -93,9 +111,27 @@ const Form: React.FC<FormProps> = ({
         values,
         setValue,
         setError,
+        validations,
+        setValidation,
       }}
     >
-      <HeroUIForm validationErrors={validationErrors} {...props}>
+      <HeroUIForm
+        onSubmit={(event) => {
+          event.preventDefault();
+          Object.keys(validations).forEach((key) => {
+            const validation = validations[key];
+            if (validation) {
+              validation();
+            }
+          });
+          const hasErrors = Object.keys(errors).length > 0;
+          if (!hasErrors) {
+            onSubmit?.(event);
+          }
+        }}
+        validationErrors={validationErrors}
+        {...props}
+      >
         {children}
       </HeroUIForm>
     </FormProvider.Provider>

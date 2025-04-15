@@ -9,7 +9,7 @@ import ConfirmActionModal, {
 
 export type OptionIcon = IconSvgObject;
 
-export interface IconOptionProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface IconOptionProps extends React.HTMLAttributes<HTMLButtonElement> {
   icon?: OptionIcon | JSX.Element;
   confirmAction?: boolean;
   confirmActionInfo?: ConfirmActionModalMessages;
@@ -49,9 +49,10 @@ const IconOption: React.FC<IconOptionProps> = ({
           {...confirmActionInfo}
         />
       )}
-      <div
+      <button
         className={cn(
           "flex flex-row items-center gap-2 bg-default-100 bg-opacity-0 hover:bg-opacity-75 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 duration-75 cursor-pointer",
+          "focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-1 -outline-offset-1",
           className
         )}
         {...props}
@@ -67,7 +68,7 @@ const IconOption: React.FC<IconOptionProps> = ({
           </span>
         )}
         {children}
-      </div>
+      </button>
     </>
   );
 };

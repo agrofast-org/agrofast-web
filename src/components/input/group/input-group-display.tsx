@@ -4,6 +4,7 @@ import { useForm } from "@/components/form";
 import { createContext, ReactNode, useContext, useState } from "react";
 import InputGroupMenu from "@/components/ux/input-group-menu";
 import { FormValue } from "@/types/form";
+import { useTranslations } from "next-intl";
 
 export interface InputGroupDisplayProps {
   className?: string;
@@ -14,6 +15,11 @@ const InputGroupDisplay: React.FC<InputGroupDisplayProps> = ({
   className,
   children,
 }) => {
+  const t = useTranslations();
+  const form = useForm();
+  if (!form) {
+    throw new Error("InputGroupDisplay must be used within a Form component");
+  }
   const group = useGroup();
   if (!group) {
     throw new Error(
@@ -30,7 +36,9 @@ const InputGroupDisplay: React.FC<InputGroupDisplayProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col shadow-sm border-2 border-default-200 rounded-xl"
+        "flex flex-col shadow-sm border-2 rounded-xl",
+        // "overflow-hidden",
+        form.errors[group.prefix] ? "border-danger" : "border-default-200"
       )}
     >
       {Array.from({ length: group.count }).map((_, i) => {
@@ -39,11 +47,20 @@ const InputGroupDisplay: React.FC<InputGroupDisplayProps> = ({
           <InputGroupIndexProvider key={i} index={i}>
             <div
               className={cn(
-                "group relative flex flex-row gap-2 p-3 py-2",
+                "group relative flex flex-row gap-2 p-2 py-1",
+                // form.errors && "bg-danger-100/20",
                 className
               )}
             >
-              {children}
+              {children ? (
+                children
+              ) : (
+                <InputGroupItem label={t("UI.input_group.item_number")} name="">
+                  {() => {
+                    return i + 1;
+                  }}
+                </InputGroupItem>
+              )}
               <InputGroupMenu index={i} />
             </div>
             <span className="last:hidden bg-default-200 w-full h-[2px]" />
@@ -125,10 +142,25 @@ export const InputGroupItem: React.FC<InputGroupItemProps> = ({
   );
 
   return (
-    <div className={cn("flex flex-row items-center gap-2", className)}>
+    <div
+      className={cn(
+        "flex flex-row items-center gap-2 px-2 py-1 rounded-lg",
+        form.errors?.[fullFieldName] && "bg-danger-100/60",
+        className
+      )}
+      title={
+        form.errors?.[fullFieldName]
+          ? Array.isArray(form.errors[fullFieldName])
+            ? form.errors[fullFieldName].join(", ")
+            : form.errors[fullFieldName]
+          : `${label}: ${children ? children(value, fields) : value ?? "-"}`
+      }
+    >
       {icon && <span>{icon}</span>}
-      {label && <p className="text-muted-foreground text-sm">{label}:</p>}
-      <span className="text-foreground text-sm">
+      {label && (
+        <p className="text-text-default-foreground text-sm">{label}:</p>
+      )}
+      <span className="text-foreground-600 text-sm">
         {children ? children(value, fields) : value ?? "-"}
       </span>
     </div>

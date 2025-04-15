@@ -35,7 +35,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
     >
       <PopoverTrigger>
         <Button
-          className="top-[2px] right-[2px] absolute opacity-0 group-focus:opacity-100 group-hover:opacity-100 duration-75"
+          className="top-[2px] right-[2px] absolute opacity-100 md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 duration-75"
           type="button"
           size="sm"
           variant="flat"

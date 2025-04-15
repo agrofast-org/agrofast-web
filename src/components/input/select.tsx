@@ -24,6 +24,8 @@ const Select: React.FC<SelectProps> = ({
   disabled,
   onChange,
   children,
+  required,
+  isRequired,
   ...props
 }) => {
   const router = useRouter();
@@ -31,6 +33,7 @@ const Select: React.FC<SelectProps> = ({
   const group = useGroup();
 
   const name = inputName && group ? group.getFieldName(inputName) : inputName;
+  const isFieldRequired = required ?? isRequired ?? false;
 
   const [inputValue, setInputValue] = useState<string | number>(
     Array.isArray(value) ? value[0] : value ?? ""
@@ -77,17 +80,28 @@ const Select: React.FC<SelectProps> = ({
     if (group && inputName) {
       group.declaredField(inputName, {
         type: "select",
-        required: props.isRequired ?? false,
+        required: isFieldRequired ?? false,
       });
     }
-  }, [inputName, props.isRequired, group]);
+  }, [inputName, isFieldRequired, group]);
+
+  useEffect(() => {
+    if (name) {
+      const element = document.querySelector(
+        `select[name="${name}"]`
+      ) as HTMLSelectElement;
+      if (element) {
+        element.setAttribute("required", String(isFieldRequired));
+      }
+    }
+  }, [name, isFieldRequired]);
 
   return (
     <HeroUISelect
       name={name}
       classNames={{
         base: "relative",
-        label: "top-6",
+        label: "top-6 !-translate-y-[3.10em]",
         helperWrapper: "absolute -bottom-[20px] -left-0.5 max-w-full",
         errorMessage: "truncate",
         listbox: "!transition-colors !duration-100 ",
@@ -107,6 +121,8 @@ const Select: React.FC<SelectProps> = ({
       onSelect={(e) => {
         changeValue(e.currentTarget.value);
       }}
+      required={isFieldRequired}
+      isRequired={isFieldRequired}
       {...props}
     >
       {children}

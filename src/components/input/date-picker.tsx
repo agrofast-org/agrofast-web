@@ -13,6 +13,7 @@ import { parseQueryDate } from "@/lib/utils";
 export type DatePickerValue = CalendarDate | null | undefined;
 
 export interface DatePickerProps extends HeroUIDatePickerPro {
+  required?: boolean;
   label?: string;
   queryCollectable?: boolean;
 }
@@ -22,6 +23,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   queryCollectable,
   onChange,
   value,
+  required,
+  isRequired,
   ...props
 }) => {
   const router = useRouter();
@@ -29,6 +32,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const group = useGroup();
 
   const name = inputName && group ? group.getFieldName(inputName) : inputName;
+  const isFieldRequired = required ?? isRequired ?? false;
 
   const [hasFirstRender, setHasFirstRender] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<DatePickerValue>();
@@ -74,10 +78,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
     if (group && inputName) {
       group.declaredField(inputName, {
         type: "date",
-        required: props.isRequired ?? false,
+        required: isFieldRequired ?? false,
       });
     }
-  }, [group, inputName, props.isRequired]);
+  }, [group, inputName, isFieldRequired]);
 
   return (
     <I18nProvider>
@@ -89,15 +93,16 @@ const DatePicker: React.FC<DatePickerProps> = ({
           changeValue(val);
         }}
         classNames={{
-          base: "relative",
-          label: "top-6",
-          helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max",
+          base: "relative gap-1 !pb-0",
+          label: "top-6 !translate-y-[0.30em] w-max pr-2",
+          helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max p-0",
           input: "!transition-colors !duration-100 ",
           inputWrapper: "!transition-colors !duration-100",
           selectorButton: "rounded-lg left-0.5",
         }}
         labelPlacement="outside"
         variant="bordered"
+        isRequired={isFieldRequired}
         {...props}
       />
     </I18nProvider>

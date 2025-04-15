@@ -32,10 +32,7 @@ export default function Profile() {
   const toast = useToast();
 
   const { translateResponse } = useLanguage();
-  const {
-    // user,
-    setUser,
-  } = useAuth();
+  const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -88,22 +85,7 @@ export default function Profile() {
             <Form
               className="flex flex-col flex-1 items-center gap-4"
               validationBehavior="native"
-              initialData={{
-                name: "Murilo Elias",
-                surname: "Santos Figueiredo",
-                email: "murilo7456@gmail.com",
-                number: null,
-                documents: [
-                  {
-                    document_type: "cpf",
-                    document: "123.123.123-12",
-                  },
-                  {
-                    document_type: "cnpj",
-                    document: "99.9999.9999/9999-99",
-                  },
-                ],
-              }}
+              initialData={user}
               validationErrors={errors}
               onSubmit={handleSubmit}
             >
@@ -133,15 +115,16 @@ export default function Profile() {
                   placeholder={t("UI.placeholders.write_name")}
                   autoCapitalize="words"
                   type="name"
+                  required
                 />
                 <Input
                   name="surname"
-                  label={t("UI.labels.surname")}  
+                  label={t("UI.labels.surname")}
                   placeholder={t("UI.placeholders.write_surname")}
                   className="text-gray-700 dark:text-gray-200"
                   autoCapitalize="words"
                   type="name"
-                  isRequired
+                  required
                 />
                 <InputGroup
                   label={{
@@ -149,7 +132,9 @@ export default function Profile() {
                     plural: "Documentos",
                   }}
                   prefix="documents"
+                  // min={3}
                   max={2}
+                  required
                   list
                   modal
                 >
@@ -167,16 +152,16 @@ export default function Profile() {
                     <DatePicker name="emission_date" label="Data de emissão" />
                     <Select
                       name="document_type"
-                      className="text-gray-700 dark:text-gray-200"
                       label="Tipo de documento"
                       placeholder="Escolha um tipo de documento"
+                      className="text-gray-700 dark:text-gray-200"
+                      required
                     >
                       <SelectItem key={"cpf"}>CPF</SelectItem>
                       <SelectItem key={"cnpj"}>CNPJ</SelectItem>
                     </Select>
                     <Input
                       name="document"
-                      className="text-gray-700 dark:text-gray-200"
                       label="Documento"
                       placeholder="CPF ou CNPJ"
                       format={(val, { form, group }) => {
@@ -190,6 +175,7 @@ export default function Profile() {
                         }
                         return val;
                       }}
+                      required
                     />
                   </InputGroupContent>
                 </InputGroup>
@@ -243,6 +229,13 @@ export default function Profile() {
                   color="primary"
                   type="submit"
                   confirmAction
+                  confirmActionInfo={{
+                    actionConfirmButtonColor: "primary",
+                    actionConfirmTitle: t("Form.update_user.title"),
+                    actionConfirmText: t("Form.update_user.description"),
+                    actionConfirmButton: t("Form.update_user.confirm"),
+                    actionCancelButton: t("Form.update_user.cancel"),
+                  }}
                 >
                   {t("UI.buttons.continue")}
                 </Button>
