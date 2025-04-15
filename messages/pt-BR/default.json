@@ -1,10 +1,49 @@
 {
+  "Form": {
+    "update_user": {
+      "title": "Atualizar conta",
+      "description": "Deseja realmente atualizar as informações da sua conta?",
+      "confirm": "Atualizar",
+      "cancel": "Cancelar"
+    }
+  },
   "UI": {
     "tooltips": {
       "write_number": {
         "title": "Digite seu número",
         "info": "Escreva seu número de telefone com DDD.",
         "example": "Seu número de telefone deve ser formatado da seguinte maneira: "
+      }
+    },
+    "input": {
+      "error": {
+        "invalid": "Campo inválido",
+        "required": "Campo obrigatório",
+        "not_match": "Os campos não coincidem",
+        "min_items": "Numero mínimo de itens: {min}",
+        "max_items": "Numero máximo de itens: {max}"
+      }
+    },
+    "input_group": {
+      "button": "{count, plural, =0 {Cadastrar um {name}} =1 {Um {name} cadastrado} other {# {name} cadastrados}}",
+      "item_number": "Item numero",
+      "insert": {
+        "title": "Adicionar item",
+        "description": "Você realmente deseja adicionar um novo item?",
+        "cancel": "Cancelar",
+        "confirm": "Adicionar"
+      },
+      "edit": {
+        "title": "Editar item",
+        "description": "Aplicar as alterações para este item?",
+        "cancel": "Cancelar",
+        "confirm": "Salvar"
+      },
+      "delete": {
+        "title": "Excluir item",
+        "description": "Tem certeza de que quer deletar este item?",
+        "cancel": "Cancelar",
+        "confirm": "Excluir"
       }
     },
     "info": {
@@ -19,6 +58,8 @@
       "enter": "Entrar",
       "continue": "Continuar",
       "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Excluir",
       "search": "Pesquisar",
       "understood": "Entendi",
       "resend_code": "Reenviar código",
@@ -59,7 +100,6 @@
       "update_account": "Atualizar conta",
       "action_confirm": "Confirmar ação",
       "action_confirm_text": "Você tem certeza que deseja realizar esta ação?"
-
     },
     "checkboxes": {
       "remember_me": "Lembrar-se de mim"

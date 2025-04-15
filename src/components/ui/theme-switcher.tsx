@@ -33,7 +33,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
 
   return (
     <Button className={cn("bg-default-100 hover:bg-default-200 shadow-sm duration-100", className)} onPress={toggleTheme} isIconOnly {...props}>
-      <ThemeUserFeedback />
+      <ThemeUserFeedback iconSize={22} />
     </Button>
   );
 };

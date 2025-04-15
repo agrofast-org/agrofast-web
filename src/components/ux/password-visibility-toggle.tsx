@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@heroui/react";
-import { ViewIcon, ViewOffIcon } from "@hugeicons/react-pro";
+import Icon from "../icon";
+import { ViewOffBulkRounded } from "@hugeicons-pro/core-bulk-rounded";
+import { ViewStrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 
 interface PasswordVisibilityToggleProps {
   isPassVisible: boolean;
@@ -29,9 +31,8 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
           visible: { opacity: 1, rotateX: 0 },
         }}
       >
-        <ViewOffIcon
-          type="rounded"
-          variant="bulk"
+        <Icon
+          icon={ViewOffBulkRounded}
           className="text-default-700 text-xl group-data-[pressed=true]:scale-y-90 transition-transform pointer-events-none"
         />
       </motion.div>
@@ -44,9 +45,8 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
           visible: { opacity: 1, rotateX: 0 },
         }}
       >
-        <ViewIcon
-          type="rounded"
-          variant="stroke"
+        <Icon
+          icon={ViewStrokeRounded}
           className="text-default-700 text-xl group-data-[pressed=true]:scale-y-85 transition-transform pointer-events-none"
         />
       </motion.div>

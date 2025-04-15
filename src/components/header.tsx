@@ -8,12 +8,13 @@ import { useTranslations } from "next-intl";
 import { LazyLanguageSelector } from "@/components/ui/language-selector";
 import { cn, getPortfolioUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
-import UserOptionsMenu from "./ui/user-options-menu";
-import { AccountSetting02Icon, Logout01Icon } from "@hugeicons/react-pro";
+import UserOptionsMenu from "@/components/ui/user-options-menu";
 import { useAuth } from "@/contexts/auth-provider";
-import LinkOption from "./ui/link-option";
-import ThemeUserFeedback from "./ux/theme-user-feedback";
+import LinkOption from "@/components/ui/link-option";
+import ThemeUserFeedback from "@/components/ux/theme-user-feedback";
 import { useTheme } from "next-themes";
+import { Logout03SolidRounded } from "@hugeicons-pro/core-solid-rounded";
+import { AccountSetting02StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -62,22 +63,22 @@ const Header: React.FC = () => {
         <div className="flex flex-row flex-1 justify-end items-center gap-4">
           <LanguageSelector className="text-2xl" />
           <ThemeSwitcher
-            className={cn("text-2xl", user ? "md:flex hidden" : "flex")}
+            className={cn( user ? "md:flex hidden" : "flex")}
           />
           {user && (
             <UserOptionsMenu>
-              <LinkOption href="/profile" icon={AccountSetting02Icon}>
+              <LinkOption href="/web/profile" icon={AccountSetting02StrokeRounded}>
                 {t("UI.redirects.profile")}
               </LinkOption>
               <LinkOption
-                href=""
+                href="/web"
                 onClick={toggleTheme}
                 className="md:hidden flex"
                 icon={<ThemeUserFeedback />}
               >
                 {t("UI.redirects.change_theme")}
               </LinkOption>
-              <LinkOption onClick={logout} href="/login" icon={Logout01Icon}>
+              <LinkOption onClick={logout} href="/web/login" icon={Logout03SolidRounded}>
                 {t("UI.redirects.logout")}
               </LinkOption>
             </UserOptionsMenu>

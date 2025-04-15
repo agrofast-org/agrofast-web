@@ -14,7 +14,7 @@ import { useToast } from "@/service/toast";
 import { useCountdown } from "@/lib/useCountdown";
 import { resendCode } from "@/http/user/resend-code";
 import { AxiosError } from "axios";
-import InputOtp from "@/components/input-otp";
+import InputOtp from "@/components/input/input-otp";
 import { useCookies } from "react-cookie";
 import { AUTHENTICATED_KEY } from "@/middleware";
 
