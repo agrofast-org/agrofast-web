@@ -1,12 +1,11 @@
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import Icon from "../icon";
-import { MoreVerticalBulkRounded } from "@hugeicons-pro/core-bulk-rounded";
-import { PencilEdit01DuotoneRounded } from "@hugeicons-pro/core-duotone-rounded";
-import { Delete02TwotoneRounded } from "@hugeicons-pro/core-twotone-rounded";
 import { ItemIndex, useGroup } from "../input/group/input-group";
 import IconOption from "../ui/icon-option";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { MoreVerticalCircle01SolidRounded } from "@hugeicons-pro/core-solid-rounded";
+import { Delete02StrokeRounded, PencilEdit01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 
 interface InputGroupMenuProps {
   index: ItemIndex;
@@ -41,7 +40,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           variant="flat"
           isIconOnly
         >
-          <Icon icon={MoreVerticalBulkRounded}></Icon>
+          <Icon icon={MoreVerticalCircle01SolidRounded}></Icon>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="px-1 w-28">
@@ -50,7 +49,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
             setIsOpen(false);
             group.editItem(index);
           }}
-          icon={PencilEdit01DuotoneRounded}
+          icon={PencilEdit01StrokeRounded}
         >
           {t("UI.buttons.edit")}
         </IconOption>
@@ -58,7 +57,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           onClick={() => {
             group.removeItem(index);
           }}
-          icon={Delete02TwotoneRounded}
+          icon={Delete02StrokeRounded}
           confirmAction
           confirmActionInfo={{
             actionConfirmTitle: t("UI.input_group.delete.title"),

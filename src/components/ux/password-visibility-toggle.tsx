@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@heroui/react";
 import Icon from "../icon";
-import { ViewOffBulkRounded } from "@hugeicons-pro/core-bulk-rounded";
-import { ViewStrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { ViewOffStrokeRounded, ViewStrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 
 interface PasswordVisibilityToggleProps {
   isPassVisible: boolean;
@@ -32,7 +31,7 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
         }}
       >
         <Icon
-          icon={ViewOffBulkRounded}
+          icon={ViewOffStrokeRounded}
           className="text-default-700 text-xl group-data-[pressed=true]:scale-y-90 transition-transform pointer-events-none"
         />
       </motion.div>
