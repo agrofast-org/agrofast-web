@@ -46,9 +46,7 @@ const Form: React.FC<FormProps> = ({
   const [errors, setErrors] = useState<FormErrors>(validationErrors ?? {});
   const [validations, setValidations] = useState<Validations>({});
 
-  const setError = useCallback((address: string, error?: ValidationError) => {
-    console.log("setError", address, error);
-    
+  const setError = useCallback((address: string, error?: ValidationError) => {    
     setErrors((prevErrors: FormErrors) => {
       const newErrors = { ...prevErrors };
       if (error === undefined) {
@@ -103,7 +101,6 @@ const Form: React.FC<FormProps> = ({
     if (!hasErrors) {
       const data = Object.fromEntries(new FormData(event.currentTarget));
       const nestedData = toNested(data);
-      console.log(data, nestedData);
 
       onSubmit?.(nestedData);
     }
@@ -113,7 +110,6 @@ const Form: React.FC<FormProps> = ({
     if (validationErrors && Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     }
-    console.log("validationErrors", validationErrors);
   }, [validationErrors]);
 
   useEffect(() => {
