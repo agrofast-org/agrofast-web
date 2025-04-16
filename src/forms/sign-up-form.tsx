@@ -19,6 +19,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { JSX, useState } from "react";
+import { FormValues } from "@/types/form";
 
 const SignInForm: React.FC = () => {
   const t = useTranslations();
@@ -44,10 +45,7 @@ const SignInForm: React.FC = () => {
     onOpen();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-
+  const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
 
     signUp(data)

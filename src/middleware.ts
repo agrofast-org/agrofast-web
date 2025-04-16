@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const PUBLIC_PATHS = [
-  "/login",
-  "/sign-up",
-  "/recover-token",
-  "/reset-password",
+export const PUBLIC_WEB_PATHS = [
+  "/web/login",
+  "/web/sign-up",
+  "/web/recover-token",
+  "/web/reset-password",
 ];
-export const PUBLIC_AUTH_PATHS = ["/auth-code", "/auth-with"];
+
+export const PUBLIC_WEB_AUTH_PATHS = [
+  "/web/auth-code",
+  "/web/auth-with",
+];
 
 export const AUTH_TOKEN_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_token`;
 export const AUTHENTICATED_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_authenticated`;
@@ -29,54 +33,56 @@ const metaMatcher = [
 ];
 
 const log = (request: NextRequest) => {
-  const { method, nextUrl, headers } = request;
   const ip = request.headers.get("x-forwarded-for") ?? "unknown IP";
-
-  const logMessage = `${ip} [${method}] ${nextUrl.pathname} - ${
-    headers.get("user-agent") ?? "unknown agent"
-  }`;
-  console.log(logMessage);
+  const method = request.method;
+  const path = request.nextUrl.pathname;
+  const agent = request.headers.get("user-agent") ?? "unknown agent";
+  console.log(`${ip} [${method}] ${path} - ${agent}`);
 };
 
 export function middleware(request: NextRequest) {
-  if (metaMatcher.some((path) => request.nextUrl.pathname.startsWith(path))) {
+  const { pathname } = request.nextUrl;
+
+  if (
+    metaMatcher.some(path => pathname.startsWith(path)) ||
+    publicMatcher.some(path => pathname.startsWith(path))
+  ) {
     return NextResponse.next();
   }
 
   log(request);
-  if (publicMatcher.some((path) => request.nextUrl.pathname.startsWith(path))) {
+
+  const isWebRoute = pathname.startsWith("/web");
+
+  if (!isWebRoute) {
     return NextResponse.next();
   }
 
-  const { pathname } = request.nextUrl;
-  const host = request.headers.get("host") || "";
+  const hasBrowserAgent = request.cookies.has(AUTH_BROWSER_AGENT_KEY);
+  const hasToken = request.cookies.has(AUTH_TOKEN_KEY);
+  const isAuthenticated = request.cookies.has(AUTHENTICATED_KEY);
 
-  if (host.startsWith("/web")) {
-    const hasBrowserAgent = request.cookies.has(AUTH_BROWSER_AGENT_KEY);
-    const hasToken = request.cookies.has(AUTH_TOKEN_KEY);
-    const isAuthenticated = request.cookies.has(AUTHENTICATED_KEY);
+  const isPublicWebPath = PUBLIC_WEB_PATHS.includes(pathname);
+  const isPublicAuthPath = PUBLIC_WEB_AUTH_PATHS.includes(pathname);
 
-    if (PUBLIC_AUTH_PATHS.includes(pathname)) {
-      if (!hasBrowserAgent || !hasToken) {
-        const redirectUrl = new URL(PUBLIC_PATHS[0], request.url);
-        return NextResponse.redirect(redirectUrl);
-      }
-      if (isAuthenticated) {
-        const redirectUrl = new URL("/web", request.url);
-        return NextResponse.redirect(redirectUrl);
-      }
-      return NextResponse.next();
+  if (!hasBrowserAgent || !hasToken) {
+    if (!isPublicWebPath && !isPublicAuthPath) {
+      return NextResponse.redirect(new URL(PUBLIC_WEB_PATHS[0], request.url));
     }
-
-    if (!hasBrowserAgent || !hasToken) {
-      const redirectUrl = new URL(PUBLIC_PATHS[0], request.url);
-      return NextResponse.redirect(redirectUrl);
-    }
-    if (!isAuthenticated) {
-      const redirectUrl = new URL(PUBLIC_AUTH_PATHS[0], request.url);
-      return NextResponse.redirect(redirectUrl);
-    }
+    return NextResponse.next();
   }
+
+  if (!isAuthenticated) {
+    if (!isPublicAuthPath) {
+      return NextResponse.redirect(new URL(PUBLIC_WEB_AUTH_PATHS[0], request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (isPublicWebPath || isPublicAuthPath) {
+    return NextResponse.redirect(new URL("/web", request.url));
+  }
+
   return NextResponse.next();
 }
 

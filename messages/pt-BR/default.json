@@ -131,6 +131,7 @@
     },
     "errors": {
       "default": "Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.",
+      "form": "Por favor, corrija os erros no formulario antes.",
       "name_required": "Nome é obrigatório",
       "surname_required": "Sobrenome é obrigatório",
       "number_required": "Número é obrigatório",
@@ -207,7 +208,10 @@
       "privacy_policy_info_3": "Para mais informações sobre como usamos seus dados, a pagina de <link>política de privacidade</link> da nossa plataforma.",
       "sign_in_terms": "Ao continuar, enviaremos um código de validação no número informado. Podem ser aplicadas taxas de dados e mensagens.",
       "login_terms": "Ao continuar, enviaremos um código de validação no número informado. Podem ser aplicadas taxas de dados e mensagens.",
-      "mailing_list": "Desejo receber e-mails promocionais da Agrofast."
+      "mailing_list": "Desejo receber e-mails promocionais da Agrofast.",
+      "cookie_use_warning_title": "Aviso de uso de cookies",
+      "cookie_use_warning_description": "Nossa aplicação faz uso de cookies para melhorar a experiência do usuário. Ao continuar navegando, você concorda com o uso de cookies.",
+      "cookie_use_warning_disclaimer": "Os cookies são pequenos arquivos de texto que são armazenados no seu dispositivo quando você visita um site. Eles ajudam a lembrar suas preferências e informações de login, tornando sua experiência mais personalizada e eficiente."
     },
     "terms_of_use_markdown": "",
     "privacy_policy_markdown": ""

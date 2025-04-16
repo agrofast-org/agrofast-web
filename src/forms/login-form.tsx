@@ -3,7 +3,6 @@ import Input from "@/components/input/input";
 import { useAuth } from "@/contexts/auth-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { Form } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
@@ -12,6 +11,8 @@ import { login } from "@/http/user/login";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { useCookies } from "react-cookie";
 import Button from "@/components/button";
+import Form from "@/components/form";
+import { FormValues } from "@/types/form";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -25,21 +26,18 @@ const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-
+  const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     login(data)
       .then(({ data }) => {
         setToken(data.token);
         setUser(data.user);
-        if (data?.auth === "authenticate") {
-          router.push("/web/auth-code");
+        if (data?.auth === "authenticate") {          
+          router.reload();
         }
         if (data?.auth === "authenticated") {
           setCookie(AUTHENTICATED_KEY, "true");
-          router.push("/web");
+          router.reload();
         }
       })
       .catch(({ response: { data: error } }) => {
