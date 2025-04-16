@@ -10,6 +10,7 @@ import { AppProps } from "next/app";
 import ToasterProvider from "./toast-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BrowserAgentProvider from "./browser-agent-provider";
+import CookieUseWarning from "@/components/ui/cookie-use-warning";
 
 interface MainProviderProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
         messages={pageProps.messages}
       >
         <HeroUIProvider>
+          <CookieUseWarning />
           <ToasterProvider>
             <NextThemesProvider attribute="class" defaultTheme="light">
               <LanguageProvider>

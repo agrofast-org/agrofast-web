@@ -15,6 +15,7 @@ import { getMe } from "@/http/user/get-me";
 import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
 import { User } from "@/types/user";
 import { useOverlay } from "./overlay-provider";
+import { cookieOptions } from "@/service/cookie";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -54,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (tokenValue) {
         setAuthTokenState(tokenValue);
         setBearerToken(tokenValue);
-        setCookie(AUTH_TOKEN_KEY, tokenValue);
+        setCookie(AUTH_TOKEN_KEY, tokenValue, cookieOptions);
       } else {
         setAuthTokenState(undefined);
         removeCookie(AUTHENTICATED_KEY);
@@ -83,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         .then(({ data }) => {
           setUser(data.user);
           if (data.authenticated) {
-            setCookie(AUTHENTICATED_KEY, data.authenticated);
+            setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
             return;
           }
           if (
