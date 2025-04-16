@@ -46,7 +46,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error) => {    
     const { status, data } = error.response;
 
     switch (status) {

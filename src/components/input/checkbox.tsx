@@ -3,7 +3,7 @@ import {
   Checkbox as HeroUICheckbox,
 } from "@heroui/react";
 import { useForm } from "../form";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useGroup } from "@/components/input/group/input-group";
 
@@ -24,6 +24,17 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const [checked, setChecked] = useState<boolean>();
   const [error, setError] = useState<string | undefined>();
 
+  const changeValue = useCallback(
+    (newValue?: boolean) => {
+      if (name && form) {
+        form.setValue(name, newValue);
+      }
+      setChecked(newValue);
+      setError(undefined);
+    },
+    [form, name]
+  );
+
   useEffect(() => {
     if (name && form?.errors[name]) {
       setError(
@@ -35,8 +46,10 @@ const Checkbox: React.FC<CheckboxProps> = ({
   }, [form?.errors, name]);
 
   useEffect(() => {
-    setError(undefined);
-  }, [checked]);
+    if (name) {
+      setChecked(form?.values[name]);
+    }
+  }, [form?.values, name]);
 
   useEffect(() => {
     if (group && inputName) {
@@ -53,7 +66,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         name={name}
         checked={checked}
         onChange={(e) => {
-          setChecked(e.target.checked);
+          changeValue(e.target.checked);
         }}
         size="sm"
         {...props}

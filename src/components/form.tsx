@@ -1,9 +1,11 @@
 import { parseNested, toNested } from "@/lib/nested";
+import { useToast } from "@/service/toast";
 import type { FormErrors, FormValue, FormValues } from "@/types/form";
 import {
   FormProps as HeroUIFormProps,
   Form as HeroUIForm,
 } from "@heroui/react";
+import { useTranslations } from "next-intl";
 import { ValidationError } from "next/dist/compiled/amphtml-validator";
 import {
   createContext,
@@ -40,13 +42,23 @@ const Form: React.FC<FormProps> = ({
   validationErrors,
   ...props
 }) => {
+  const t = useTranslations();
+  const toast = useToast();
   const [values, setValues] = useState<FormValues>(
     parseNested(initialData ?? {})
   );
   const [errors, setErrors] = useState<FormErrors>(validationErrors ?? {});
   const [validations, setValidations] = useState<Validations>({});
 
-  const setError = useCallback((address: string, error?: ValidationError) => {    
+  const notifyError = () => {
+    if (Object.keys(errors).length > 0) {
+      toast.error({
+        description: t("Messages.errors.form"),
+      });
+    }
+  };
+
+  const setError = useCallback((address: string, error?: ValidationError) => {
     setErrors((prevErrors: FormErrors) => {
       const newErrors = { ...prevErrors };
       if (error === undefined) {
@@ -64,10 +76,10 @@ const Form: React.FC<FormProps> = ({
         const newValues = { ...prevValues };
         if (value === undefined) {
           delete newValues[address];
-          setError(address, undefined);
         } else {
           newValues[address] = value;
         }
+        setError(address, undefined);
         return newValues;
       });
     },
@@ -103,7 +115,9 @@ const Form: React.FC<FormProps> = ({
       const nestedData = toNested(data);
 
       onSubmit?.(nestedData);
+      return;
     }
+    notifyError();
   };
 
   useEffect(() => {
@@ -131,6 +145,9 @@ const Form: React.FC<FormProps> = ({
     >
       <HeroUIForm
         onSubmit={onSubmitHandle}
+        onInvalid={() => {
+          notifyError();
+        }}
         validationErrors={errors}
         {...props}
       >

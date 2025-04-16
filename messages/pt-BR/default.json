@@ -131,6 +131,7 @@
     },
     "errors": {
       "default": "Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.",
+      "form": "Por favor, corrija os erros no formulario antes.",
       "name_required": "Nome é obrigatório",
       "surname_required": "Sobrenome é obrigatório",
       "number_required": "Número é obrigatório",
