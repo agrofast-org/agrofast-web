@@ -59,7 +59,7 @@ const Input: React.FC<InputProps> = ({
         ? format(newValue ?? "", { form, group })
         : newValue ?? "";
       if (name && form) {
-        form.setValue(name, finalValue);
+        form.setValue(name, finalValue);        
       }
       setInputValue(finalValue);
       onChange?.({

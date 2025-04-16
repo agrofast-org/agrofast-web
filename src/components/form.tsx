@@ -1,4 +1,4 @@
-import { parseNested } from "@/lib/nested";
+import { parseNested, toNested } from "@/lib/nested";
 import type { FormErrors, FormValue, FormValues } from "@/types/form";
 import {
   FormProps as HeroUIFormProps,
@@ -19,6 +19,7 @@ export type Validations = Record<string, ValidationError>;
 export interface FormProps extends HeroUIFormProps {
   children?: React.ReactNode;
   initialData?: FormValues;
+  onSubmit?: (values: FormValues) => void;
 }
 
 export interface FormProviderProps {
@@ -46,6 +47,8 @@ const Form: React.FC<FormProps> = ({
   const [validations, setValidations] = useState<Validations>({});
 
   const setError = useCallback((address: string, error?: ValidationError) => {
+    console.log("setError", address, error);
+    
     setErrors((prevErrors: FormErrors) => {
       const newErrors = { ...prevErrors };
       if (error === undefined) {
@@ -88,15 +91,30 @@ const Form: React.FC<FormProps> = ({
     []
   );
 
+  const onSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    Object.keys(validations).forEach((key) => {
+      const validation = validations[key];
+      if (validation) {
+        validation();
+      }
+    });
+    const hasErrors = Object.keys(errors).length > 0;
+    if (!hasErrors) {
+      const data = Object.fromEntries(new FormData(event.currentTarget));
+      const nestedData = toNested(data);
+      console.log(data, nestedData);
+
+      onSubmit?.(nestedData);
+    }
+  };
+
   useEffect(() => {
-    if (
-      validationErrors &&
-      Object.keys(validationErrors).length > 0 &&
-      validationErrors !== errors
-    ) {
+    if (validationErrors && Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     }
-  }, [validationErrors, errors]);
+    console.log("validationErrors", validationErrors);
+  }, [validationErrors]);
 
   useEffect(() => {
     if (initialData) {
@@ -116,20 +134,8 @@ const Form: React.FC<FormProps> = ({
       }}
     >
       <HeroUIForm
-        onSubmit={(event) => {
-          event.preventDefault();
-          Object.keys(validations).forEach((key) => {
-            const validation = validations[key];
-            if (validation) {
-              validation();
-            }
-          });
-          const hasErrors = Object.keys(errors).length > 0;
-          if (!hasErrors) {
-            onSubmit?.(event);
-          }
-        }}
-        validationErrors={validationErrors}
+        onSubmit={onSubmitHandle}
+        validationErrors={errors}
         {...props}
       >
         {children}

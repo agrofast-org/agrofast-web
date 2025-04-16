@@ -141,6 +141,7 @@
       "password_character": "A senha deve conter pelo menos um número, uma letra maiúscula e um caractere especial",
       "password_confirm_required": "Confirmação da senha é obrigatória",
       "password_not_coincide": "A senha e a confirmação não coincidem",
+      "documents_required": "Documentos são obrigatórios",
       "terms_and_privacy_agreement_required": "Você deve aceitar os Termos de Uso e a Política de Privacidade",
       "terms_and_privacy_agreement_not_accepted": "Os Termos de Uso ou a Política de Privacidade não foram aceitos",
       "not_implemented": "Não implementado",

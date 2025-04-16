@@ -109,6 +109,9 @@ const InputGroup: React.FC<InputGroupProps> = ({
   modal = false,
   children,
 }) => {
+  if (min && max && min > max) {
+    throw new Error("min cannot be greater than max");
+  }
   const t = useTranslations();
   const groupTranslations = useTranslations("UI.input_group");
   const disclosure = useDisclosure();
@@ -220,6 +223,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
       return;
     }
 
+    form.setError(prefix, undefined);
     const newCount = count + 1;
     setCount(newCount);
 
@@ -232,14 +236,11 @@ const InputGroup: React.FC<InputGroupProps> = ({
   const editItem = (item: ItemIndex) => {
     setEdit(item);
     Object.keys(fields).forEach((field) => {
-      form.setValue(
-        getFieldName(field, "edit"),
-        form.values[getFieldName(field, list ? item : undefined)]
-      );
-      form.setError(
-        getFieldName(field, "edit"),
-        form.errors[getFieldName(field, list ? item : undefined)]
-      );
+      const fieldName = getFieldName(field, list ? item : undefined);
+      const editName = getFieldName(field, "edit");
+
+      form.setValue(editName, form.values[fieldName]);
+      form.setError(editName, form.errors[fieldName]);
     });
     setIndex("edit");
     onOpen();
@@ -260,14 +261,18 @@ const InputGroup: React.FC<InputGroupProps> = ({
     }
 
     Object.keys(fields).forEach((field) => {
-      form.setValue(
-        list
-          ? getFieldName(field, list ? edit : undefined)
-          : `${prefix}.${field}`,
-        form.values[getFieldName(field, "edit")]
-      );
-      form.setValue(getFieldName(field, "edit"), undefined);
+      const fieldName = list
+        ? getFieldName(field, list ? edit : undefined)
+        : `${prefix}.${field}`;
+      form.setValue(fieldName, form.values[getFieldName(field, "edit")]);
+      form.setError(fieldName, undefined);
+
+      const editName = getFieldName(field, "edit");
+      form.setValue(editName, undefined);
+      form.setError(editName, undefined);
     });
+
+    form.setError(prefix, undefined);
     setEdit(undefined);
     setIndex(count);
     onClose();
@@ -278,6 +283,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
     Object.keys(fields).forEach((field) => {
       form.setValue(getFieldName(field), undefined);
     });
+    form.setError(prefix, undefined);
   };
 
   useEffect(() => {

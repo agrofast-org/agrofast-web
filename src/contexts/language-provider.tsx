@@ -43,10 +43,13 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
       Object.keys(fields).reduce<Record<string, string>>((acc, key) => {
         const value = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
         const paramsValue: Record<string, string> | undefined = params
-          ? Object.keys(params).reduce<Record<string, string>>((acc, paramKey) => {
-              acc[paramKey] = params[paramKey];
-              return acc;
-            }, {})
+          ? Object.keys(params).reduce<Record<string, string>>(
+              (acc, paramKey) => {
+                acc[paramKey] = params[paramKey];
+                return acc;
+              },
+              {}
+            )
           : undefined;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         acc[key] = t(`Messages.errors.${value}` as any, paramsValue);

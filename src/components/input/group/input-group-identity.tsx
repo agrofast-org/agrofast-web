@@ -23,15 +23,7 @@ const InputGroupIdentity: React.FC<InputGroupIdentityProps> = ({
     );
   }
   const name = group.getFieldName(inputName);
-  const [inputValue, setInputValue] = useState(
-    value ?? form?.values[name]
-  );
-
-  useEffect(() => {
-    group.declareField(inputName, {
-      type: "hidden",
-    });
-  }, [inputName, group]);
+  const [inputValue, setInputValue] = useState(value ?? form?.values[name]);
 
   useEffect(() => {
     if (name && form && form.values[name]) {
@@ -39,9 +31,17 @@ const InputGroupIdentity: React.FC<InputGroupIdentityProps> = ({
     }
   }, [name, form, inputValue]);
 
+  useEffect(() => {
+    if (!!inputValue && form.values[name]) {
+      group.declareField(inputName, {
+        type: "hidden",
+      });
+    }
+  }, [inputName, name, form.values, group, inputValue]);
+
   return (
     <>
-      {!name.includes(".edit.") && (
+      {!name.includes(".edit.") && !!inputValue && (
         <input
           name={name}
           onChange={(e) => {

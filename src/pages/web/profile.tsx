@@ -26,6 +26,7 @@ import DatePicker from "@/components/input/date-picker";
 import Select from "@/components/input/select";
 import { SelectItem } from "@heroui/react";
 import InputGroupIdentity from "@/components/input/group/input-group-identity";
+import { FormValues } from "@/types/form";
 
 export default function Profile() {
   const t = useTranslations();
@@ -38,10 +39,7 @@ export default function Profile() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-
+  const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     api
       .put("/user", data)
@@ -51,8 +49,8 @@ export default function Profile() {
           return config;
         });
       })
-      .catch(({ response: { data: error } }) => {
-        const fields = translateResponse(error.fields);
+      .catch(({ response: { data: errors } }) => {
+        const fields = translateResponse(errors.errors);
         setErrors(fields);
       })
       .finally(() => {
@@ -140,12 +138,12 @@ export default function Profile() {
                   modal
                 >
                   <InputGroupDisplay>
-                    <InputGroupItem name="document_type" label="Tipo">
+                    <InputGroupItem name="type" label="Tipo">
                       {(val: string) => val?.toUpperCase()}
                     </InputGroupItem>
-                    <InputGroupItem name="document" label="Documento">
+                    <InputGroupItem name="number" label="Número">
                       {(val: string, values) => {
-                        return formatDocument(val, values?.["document_type"]);
+                        return formatDocument(val, values?.["type"]);
                       }}
                     </InputGroupItem>
                   </InputGroupDisplay>
@@ -153,26 +151,24 @@ export default function Profile() {
                     <InputGroupIdentity name="uuid" />
                     <DatePicker name="emission_date" label="Data de emissão" />
                     <Select
-                      name="document_type"
+                      name="type"
                       label="Tipo de documento"
                       placeholder="Escolha um tipo de documento"
                       className="text-gray-700 dark:text-gray-200"
                       required
                     >
-                      <SelectItem key={"cpf"}>CPF</SelectItem>
-                      <SelectItem key={"cnpj"}>CNPJ</SelectItem>
+                      <SelectItem key="cpf">CPF</SelectItem>
+                      <SelectItem key="cnpj">CNPJ</SelectItem>
                     </Select>
                     <Input
-                      name="document"
-                      label="Documento"
-                      placeholder="CPF ou CNPJ"
+                      name="number"
+                      label="Número"
+                      placeholder="Numero do documento"
                       format={(val, { form, group }) => {
                         if (form && group) {
-                          const inputType = group.getFieldName(
-                            "document_type",
-                            group.edit ?? group.index
-                          );
+                          const inputType = group.getFieldName("type");
                           const inputTypeValue = form.values[inputType];
+
                           return formatDocument(val, inputTypeValue);
                         }
                         return val;

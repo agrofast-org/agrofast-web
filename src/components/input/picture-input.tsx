@@ -170,9 +170,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
             <ModalContent>
               {(onClose) => (
                 <>
-                  <ModalHeader>
-                    {label}
-                  </ModalHeader>
+                  <ModalHeader>{label}</ModalHeader>
                   <ModalBody>
                     <div className="relative rounded-xl w-full aspect-square overflow-hidden">
                       {!image || !imageLoaded ? (
