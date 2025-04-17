@@ -6,8 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useForm } from "../form";
 import { useTranslations } from "next-intl";
-import Icon from "../icon";
-import { Upload04StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 import {
   Modal,
   ModalContent,
@@ -17,6 +15,7 @@ import {
 } from "@/components/modal";
 import Button from "../button";
 import { useGroup } from "./group/input-group";
+import { Upload } from "@solar-icons/react";
 
 export type PictureInputMessages =
   | "modalTitle"
@@ -226,20 +225,18 @@ const PictureInput: React.FC<PictureInputProps> = ({
                             e.target.value = "";
                           }}
                         />
-                        <Icon
-                          icon={Upload04StrokeRounded}
+                        <Upload
                           className="text-gray-700 dark:text-gray-200"
                         />
                       </label>
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    {/* TODO: internationalize here */}
                     <Button color="default" onPress={onClose}>
-                      Close
+                      {t("UI.buttons.cancel")}
                     </Button>
                     <Button color="success" onPress={savePicture}>
-                      Action
+                      {t("UI.buttons.enter")}
                     </Button>
                   </ModalFooter>
                 </>

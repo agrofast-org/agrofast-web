@@ -7,7 +7,7 @@ import {
 } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Icon from "../icon";
-import { InformationCircleStrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { InfoCircle } from "@solar-icons/react";
 
 const PhoneNumberHelper: React.FC = () => {
   const t = useTranslations();
@@ -27,10 +27,9 @@ const PhoneNumberHelper: React.FC = () => {
           className="-right-[10px]"
           isIconOnly
         >
-          <Icon
-            icon={InformationCircleStrokeRounded}
-            className="text-default-700 text-xl pointer-events-none"
-          />
+          <Icon>
+            <InfoCircle weight="Linear" />
+          </Icon>
         </Button>
       </PopoverTrigger>
       <PopoverContent>

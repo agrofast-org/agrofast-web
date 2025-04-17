@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { getLegalUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
 import Image from "next/image";
-import Icon from "@/components/icon";
+import IconComponent from "@/components/icon";
 import { ArrowUpRight02StrokeRounded, Link01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 
 export default function Home() {
@@ -44,7 +44,7 @@ export default function Home() {
               className="bg-green-500 !text-white dark:text-gray-700"
             >
               {t("UI.redirects.see_more")}{" "}
-              <Icon icon={ArrowUpRight02StrokeRounded} />
+              <IconComponent icon={ArrowUpRight02StrokeRounded} />
             </Button>
           </div>
           <div className="flex flex-1 justify-end">
@@ -131,7 +131,7 @@ export default function Home() {
               }}
             >
               {t("Pages.Index.or_redirect_to_web_version")}
-              <Icon icon={Link01StrokeRounded} />
+              <IconComponent icon={Link01StrokeRounded} />
             </Button>
           </div>
         </section>

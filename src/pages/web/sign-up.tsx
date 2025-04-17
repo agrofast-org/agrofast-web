@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import SignInForm from "@/forms/sign-up-form";
 import { ArrowUpRight01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
-import Icon from "@/components/icon";
+import IconComponent from "@/components/icon";
 
 export default function SignIn() {
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function SignIn() {
               }}
             >
               {t("UI.redirects.see_more")}
-              <Icon icon={ArrowUpRight01StrokeRounded} />
+              <IconComponent icon={ArrowUpRight01StrokeRounded} />
             </Button>
           </section>
         </div>

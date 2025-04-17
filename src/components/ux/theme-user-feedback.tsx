@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import Icon from "../icon";
-import { Moon02StrokeRounded, Sun03StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
 import { cn } from "@/lib/utils";
+import { Moon, Sun } from "@solar-icons/react";
 
 interface ThemeUserFeedbackProps {
   iconSize?: number;
@@ -26,9 +25,9 @@ const ThemeUserFeedback: React.FC<ThemeUserFeedbackProps> = ({
           visible: { opacity: 1, rotate: 0 },
         }}
       >
-        <Icon
-          icon={Sun03StrokeRounded}
+        <Sun
           size={iconSize}
+          weight="LineDuotone"
           className="text-inherit"
         />
       </motion.div>
@@ -41,8 +40,7 @@ const ThemeUserFeedback: React.FC<ThemeUserFeedbackProps> = ({
           visible: { opacity: 1, rotate: 0 },
         }}
       >
-        <Icon
-          icon={Moon02StrokeRounded}
+        <Moon
           size={iconSize}
           className="text-inherit"
         />

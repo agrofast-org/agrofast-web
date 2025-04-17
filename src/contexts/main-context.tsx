@@ -11,6 +11,7 @@ import ToasterProvider from "./toast-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BrowserAgentProvider from "./browser-agent-provider";
 import CookieUseWarning from "@/components/ui/cookie-use-warning";
+import SolarIconsProvider from "./solar-icons-provider";
 
 interface MainProviderProps {
   children: React.ReactNode;
@@ -29,23 +30,25 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
         timeZone="America/Sao_Paulo"
         messages={pageProps.messages}
       >
-        <HeroUIProvider>
-          <CookieUseWarning />
-          <ToasterProvider>
-            <NextThemesProvider attribute="class" defaultTheme="light">
-              <LanguageProvider>
-                <OverlayProvider>
-                  <BrowserAgentProvider>
-                    <AuthProvider>
-                      {children}
-                      <DebugOptions />
-                    </AuthProvider>
-                  </BrowserAgentProvider>
-                </OverlayProvider>
-              </LanguageProvider>
-            </NextThemesProvider>
-          </ToasterProvider>
-        </HeroUIProvider>
+        <SolarIconsProvider>
+          <HeroUIProvider>
+            <CookieUseWarning />
+            <ToasterProvider>
+              <NextThemesProvider attribute="class" defaultTheme="light">
+                <LanguageProvider>
+                  <OverlayProvider>
+                    <BrowserAgentProvider>
+                      <AuthProvider>
+                        {children}
+                        <DebugOptions />
+                      </AuthProvider>
+                    </BrowserAgentProvider>
+                  </OverlayProvider>
+                </LanguageProvider>
+              </NextThemesProvider>
+            </ToasterProvider>
+          </HeroUIProvider>
+        </SolarIconsProvider>
       </NextIntlClientProvider>
     </QueryClientProvider>
   );

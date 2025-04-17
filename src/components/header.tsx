@@ -13,8 +13,7 @@ import { useAuth } from "@/contexts/auth-provider";
 import LinkOption from "@/components/ui/link-option";
 import ThemeUserFeedback from "@/components/ux/theme-user-feedback";
 import { useTheme } from "next-themes";
-import { Logout03SolidRounded } from "@hugeicons-pro/core-solid-rounded";
-import { AccountSetting02StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { Logout2, Settings } from "@solar-icons/react";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -62,12 +61,10 @@ const Header: React.FC = () => {
         </div>
         <div className="flex flex-row flex-1 justify-end items-center gap-4">
           <LanguageSelector className="text-2xl" />
-          <ThemeSwitcher
-            className={cn( user ? "md:flex hidden" : "flex")}
-          />
+          <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
           {user && (
             <UserOptionsMenu>
-              <LinkOption href="/web/profile" icon={AccountSetting02StrokeRounded}>
+              <LinkOption href="/web/profile" icon={<Settings />}>
                 {t("UI.redirects.profile")}
               </LinkOption>
               <LinkOption
@@ -78,7 +75,7 @@ const Header: React.FC = () => {
               >
                 {t("UI.redirects.change_theme")}
               </LinkOption>
-              <LinkOption onClick={logout} href="/web/login" icon={Logout03SolidRounded}>
+              <LinkOption onClick={logout} href="/web/login" icon={<Logout2 />}>
                 {t("UI.redirects.logout")}
               </LinkOption>
             </UserOptionsMenu>

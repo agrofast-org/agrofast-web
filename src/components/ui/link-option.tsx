@@ -1,14 +1,10 @@
 import { cn } from "@/lib/utils";
 import React, { JSX } from "react";
 import Link, { LinkProps } from "../link";
-import { IconSvgObject } from "@/types/hugeicons";
-import Icon from "../icon";
 import { usePopoverContext } from "@heroui/react";
 
-export type LinkOptionIcon = IconSvgObject;
-
 export interface LinkOptionProps extends LinkProps {
-  icon?: LinkOptionIcon | JSX.Element;
+  icon?: JSX.Element;
   noRedirect?: boolean;
 }
 
@@ -57,11 +53,7 @@ const LinkOption = ({
     >
       {icon && (
         <span className="flex justify-center items-center w-4 h-4 font-medium text-gray-700 dark:text-gray-200">
-          {React.isValidElement(icon) ? (
-            icon
-          ) : (
-            <Icon icon={icon as IconSvgObject} />
-          )}
+          {icon}
         </span>
       )}
       {children}
