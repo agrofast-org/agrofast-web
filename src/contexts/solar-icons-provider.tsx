@@ -8,7 +8,9 @@ const SolarIconsProvider: React.FC<SolarIconsProviderProps> = ({
   children,
 }) => {
   return (
-    <SolarProvider value={{ size: "24" }}>
+    <SolarProvider
+      value={{ size: "24" }}
+    >
       {children}
     </SolarProvider>
   );

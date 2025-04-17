@@ -30,8 +30,8 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
         }}
       >
         <EyeClosed
-          weight="BoldDuotone"
-          className="text-default-700 text-xl group-data-[pressed=true]:scale-y-90 transition-transform pointer-events-none"
+          weight="LineDuotone"
+          className="stroke-[0.1px] stroke-current text-default-700 text-xl group-data-[pressed=true]:scale-y-90 transition-transform translate-y-0.5 pointer-events-none"
         />
       </motion.div>
       <motion.div
