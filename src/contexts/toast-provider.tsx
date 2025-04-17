@@ -1,7 +1,6 @@
-import Icon from "@/components/icon";
 import Loading from "@/components/loading";
 import { ToastProvider } from "@heroui/react";
-import { Cancel01Icon } from "@hugeicons-pro/core-stroke-rounded";
+import { CloseSquare } from "@solar-icons/react";
 
 interface ToasterProviderProps {
   children: React.ReactNode;
@@ -23,7 +22,7 @@ const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
               "opacity-100 absolute right-3 top-1/2 -translate-y-1/2",
           },
           loadingIcon: <Loading />,
-          closeIcon: <Icon icon={Cancel01Icon} />,
+          closeIcon: <CloseSquare />,
         }}
       />
       {children}

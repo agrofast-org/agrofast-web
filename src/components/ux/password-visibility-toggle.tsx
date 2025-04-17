@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@heroui/react";
-import Icon from "../icon";
-import { ViewOffStrokeRounded, ViewStrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { Eye, EyeClosed } from "@solar-icons/react";
 
 interface PasswordVisibilityToggleProps {
   isPassVisible: boolean;
@@ -30,8 +29,8 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
           visible: { opacity: 1, rotateX: 0 },
         }}
       >
-        <Icon
-          icon={ViewOffStrokeRounded}
+        <EyeClosed
+          weight="BoldDuotone"
           className="text-default-700 text-xl group-data-[pressed=true]:scale-y-90 transition-transform pointer-events-none"
         />
       </motion.div>
@@ -44,8 +43,7 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
           visible: { opacity: 1, rotateX: 0 },
         }}
       >
-        <Icon
-          icon={ViewStrokeRounded}
+        <Eye
           className="text-default-700 text-xl group-data-[pressed=true]:scale-y-85 transition-transform pointer-events-none"
         />
       </motion.div>

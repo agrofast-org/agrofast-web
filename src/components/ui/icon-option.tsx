@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import React, { JSX } from "react";
 import { IconSvgObject } from "@/types/hugeicons";
-import Icon from "../icon";
 import { useDisclosure } from "@heroui/react";
 import ConfirmActionModal, {
   ConfirmActionModalMessages,
@@ -10,7 +9,7 @@ import ConfirmActionModal, {
 export type OptionIcon = IconSvgObject;
 
 export interface IconOptionProps extends React.HTMLAttributes<HTMLButtonElement> {
-  icon?: OptionIcon | JSX.Element;
+  icon?: JSX.Element;
   confirmAction?: boolean;
   confirmActionInfo?: ConfirmActionModalMessages;
   onClick?: () => void;
@@ -51,7 +50,7 @@ const IconOption: React.FC<IconOptionProps> = ({
       )}
       <button
         className={cn(
-          "flex flex-row items-center gap-2 bg-default-100 bg-opacity-0 hover:bg-opacity-75 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 duration-75 cursor-pointer",
+          "flex flex-row items-center gap-1.5 bg-default-100 bg-opacity-0 hover:bg-opacity-75 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 duration-75 cursor-pointer",
           "focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-1 -outline-offset-1",
           className
         )}
@@ -60,11 +59,7 @@ const IconOption: React.FC<IconOptionProps> = ({
       >
         {icon && (
           <span className="flex justify-center items-center w-4 h-4 font-medium text-gray-700 dark:text-gray-200">
-            {React.isValidElement(icon) ? (
-              icon
-            ) : (
-              <Icon icon={icon as IconSvgObject} />
-            )}
+            {icon}
           </span>
         )}
         {children}

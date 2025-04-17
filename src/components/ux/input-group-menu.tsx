@@ -1,11 +1,9 @@
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
-import Icon from "../icon";
 import { ItemIndex, useGroup } from "../input/group/input-group";
 import IconOption from "../ui/icon-option";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { MoreVerticalCircle01SolidRounded } from "@hugeicons-pro/core-solid-rounded";
-import { Delete02StrokeRounded, PencilEdit01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { MenuDots, Pen, TrashBinMinimalistic } from "@solar-icons/react";
 
 interface InputGroupMenuProps {
   index: ItemIndex;
@@ -40,7 +38,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           variant="flat"
           isIconOnly
         >
-          <Icon icon={MoreVerticalCircle01SolidRounded}></Icon>
+          <MenuDots className="rotate-90" weight="BoldDuotone" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="px-1 w-28">
@@ -49,7 +47,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
             setIsOpen(false);
             group.editItem(index);
           }}
-          icon={PencilEdit01StrokeRounded}
+          icon={<Pen />}
         >
           {t("UI.buttons.edit")}
         </IconOption>
@@ -57,7 +55,7 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           onClick={() => {
             group.removeItem(index);
           }}
-          icon={Delete02StrokeRounded}
+          icon={<TrashBinMinimalistic weight="LineDuotone" />}
           confirmAction
           confirmActionInfo={{
             actionConfirmTitle: t("UI.input_group.delete.title"),

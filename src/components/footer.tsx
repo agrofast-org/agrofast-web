@@ -2,8 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import TabItem from "./tab-item";
 import Icon from "./icon";
-import { Chatting01StrokeRounded, Home01StrokeRounded, UserStrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
-import { Chatting01SolidRounded, Home01SolidRounded, UserSolidRounded } from "@hugeicons-pro/core-solid-rounded";
+import { ChatLine, HomeAngle, User } from "@solar-icons/react";
 
 const Footer: React.FC = () => {
   return (
@@ -11,29 +10,26 @@ const Footer: React.FC = () => {
       <div className="flex justify-around items-center mx-auto p-2 px-0 container">
         <TabItem label="Chat" href="/web/chat">
           {({ active }) => (
-            <Icon
-              icon={Chatting01StrokeRounded}
-              altIcon={Chatting01SolidRounded}
-              showAlt={active}
-            />
+            <Icon showAlt={active} size={32}>
+              <ChatLine weight="LineDuotone" />
+              <ChatLine weight="Bold" />
+            </Icon>
           )}
         </TabItem>
         <TabItem label="Home" href="/web">
           {({ active }) => (
-            <Icon
-              icon={Home01StrokeRounded}
-              altIcon={Home01SolidRounded}
-              showAlt={active}
-            />
+            <Icon showAlt={active} size={32}>
+              <HomeAngle />
+              <HomeAngle weight="Bold" />
+            </Icon>
           )}
         </TabItem>
         <TabItem label="User" href="/web/profile">
           {({ active }) => (
-            <Icon
-              icon={UserStrokeRounded}
-              altIcon={UserSolidRounded}
-              showAlt={active}
-            />
+            <Icon showAlt={active} size={32}>
+              <User />
+              <User weight="Bold" />
+            </Icon>
           )}
         </TabItem>
       </div>
