@@ -26,13 +26,13 @@ const InputGroupIdentity: React.FC<InputGroupIdentityProps> = ({
   const [inputValue, setInputValue] = useState(value ?? form?.values[name]);
 
   useEffect(() => {
-    if (name && form && form.values[name]) {
-      setInputValue(form.values[name]);
+    if (name && form && form.values?.[name]) {
+      setInputValue(form.values?.[name]);
     }
   }, [name, form, inputValue]);
 
   useEffect(() => {
-    if (!!inputValue && form.values[name]) {
+    if (!!inputValue && form.values?.[name]) {
       group.declareField(inputName, {
         type: "hidden",
       });

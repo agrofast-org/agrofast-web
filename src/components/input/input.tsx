@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
 
   const [hasFirstRender, setHasFirstRender] = useState(false);
   const [inputValue, setInputValue] = useState(
-    value ?? form?.values[name] ?? ""
+    value ?? form?.values?.[name] ?? ""
   );
   const [isPassVisible, setIsPassVisible] = useState(false);
 
@@ -85,8 +85,8 @@ const Input: React.FC<InputProps> = ({
   }, [queryCollectable, name, changeValue, router.query, hasFirstRender]);
 
   useEffect(() => {
-    if (name && form && form.values[name]) {
-      setInputValue(form.values[name]);
+    if (name && form && form.values?.[name]) {
+      setInputValue(form.values?.[name]);
     }
   }, [name, form, inputValue]);
 

@@ -129,12 +129,12 @@ const AuthCodeForm: React.FC = () => {
         className="inline-block rounded-lg h-6"
         isLoaded={isDataLoading}
       >
-        <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-xl text-left">
+        {user?.name && <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-xl text-left">
           {t("UI.titles.welcome_again", { name: user?.name })}
           <span aria-label="emoji" className="ml-2" role="img">
             👋
           </span>
-        </p>
+        </p>}
       </Skeleton>
       <Form
         className="flex flex-col flex-1 md:flex-auto"

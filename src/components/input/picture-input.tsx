@@ -132,7 +132,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
 
   useEffect(() => {
     if (name && form?.values[name] && form?.values[name] !== value) {
-      setValue(form.values[name]);
+      setValue(form.values?.[name]);
     }
   }, [value, form?.values, name]);
 
@@ -147,8 +147,8 @@ const PictureInput: React.FC<PictureInputProps> = ({
   }, [form?.errors, name]);
 
   useEffect(() => {
-    if (name && form && form.values[name]) {
-      setImage(form.values[name]);
+    if (name && form && form.values?.[name]) {
+      setImage(form.values?.[name]);
     }
   }, [value, form, name, setImage]);
 

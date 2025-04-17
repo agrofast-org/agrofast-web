@@ -47,16 +47,17 @@ const Form: React.FC<FormProps> = ({
   const [values, setValues] = useState<FormValues>(
     parseNested(initialData ?? {})
   );
+
   const [errors, setErrors] = useState<FormErrors>(validationErrors ?? {});
   const [validations, setValidations] = useState<Validations>({});
 
-  const notifyError = () => {
+  const notifyError = useCallback(() => {
     if (Object.keys(errors).length > 0) {
       toast.error({
         description: t("Messages.errors.form"),
       });
     }
-  };
+  }, [errors, t, toast]);
 
   const setError = useCallback((address: string, error?: ValidationError) => {
     setErrors((prevErrors: FormErrors) => {
@@ -133,27 +134,29 @@ const Form: React.FC<FormProps> = ({
   }, [initialData]);
 
   return (
-    <FormProvider.Provider
-      value={{
-        errors,
-        values,
-        setValue,
-        setError,
-        validations,
-        setValidation,
-      }}
-    >
-      <HeroUIForm
-        onSubmit={onSubmitHandle}
-        onInvalid={() => {
-          notifyError();
+    <>
+      <FormProvider.Provider
+        value={{
+          errors,
+          values,
+          setValue,
+          setError,
+          validations,
+          setValidation,
         }}
-        validationErrors={errors}
-        {...props}
       >
-        {children}
-      </HeroUIForm>
-    </FormProvider.Provider>
+        <HeroUIForm
+          onSubmit={onSubmitHandle}
+          onInvalid={() => {
+            notifyError();
+          }}
+          validationErrors={errors}
+          {...props}
+        >
+          {children}
+        </HeroUIForm>
+      </FormProvider.Provider>
+    </>
   );
 };
 

@@ -69,8 +69,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   }, [queryCollectable, name, changeValue, router.query, hasFirstRender]);
 
   useEffect(() => {
-    if (name && form && form.values[name]) {
-      changeValue(form.values[name]);
+    if (name && form && form.values?.[name]) {
+      changeValue(form.values?.[name]);
     }
   }, [value, form, name, changeValue]);
 

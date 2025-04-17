@@ -64,8 +64,8 @@ const InputOtp: React.FC<InputOtpProps> = ({
   }, [queryCollectable, name, changeValue, router.query, hasFirstRender]);
 
   useEffect(() => {
-    if (name && form && form.values[name]) {
-      setInputValue(form.values[name]);
+    if (name && form && form.values?.[name]) {
+      setInputValue(form.values?.[name]);
     }
   }, [name, form, inputValue]);
 

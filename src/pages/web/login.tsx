@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import LoginForm from "@/forms/login-form";
+// import LoginForm from "@/forms/login-form";
 import { ArrowRightUp } from "@solar-icons/react";
 
 export default function Login() {
@@ -54,7 +54,7 @@ export default function Login() {
             <p className="flex pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
               {t("UI.redirects.enter_existing_account")}
             </p>
-            <LoginForm />
+            {/* <LoginForm /> */}
           </div>
         </div>
       </Body>

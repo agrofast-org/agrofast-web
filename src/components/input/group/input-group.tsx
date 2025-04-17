@@ -239,7 +239,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
       const fieldName = getFieldName(field, list ? item : undefined);
       const editName = getFieldName(field, "edit");
 
-      form.setValue(editName, form.values[fieldName]);
+      form.setValue(editName, form.values?.[fieldName]);
       form.setError(editName, form.errors[fieldName]);
     });
     setIndex("edit");
@@ -264,7 +264,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
       const fieldName = list
         ? getFieldName(field, list ? edit : undefined)
         : `${prefix}.${field}`;
-      form.setValue(fieldName, form.values[getFieldName(field, "edit")]);
+      form.setValue(fieldName, form.values?.[getFieldName(field, "edit")]);
       form.setError(fieldName, undefined);
 
       const editName = getFieldName(field, "edit");

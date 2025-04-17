@@ -1,6 +1,9 @@
 import Body from "@/components/body";
 import { useState } from "react";
-import { formatDocument, numberInputMask } from "@/lib/utils";
+import {
+  // formatDocument,
+  numberInputMask,
+} from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
@@ -8,33 +11,36 @@ import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useAuth } from "@/contexts/auth-provider";
 
-import userPicture from "@public/img/user-default.png";
+// import userPicture from "@public/img/user-default.png";
 import { useLanguage } from "@/contexts/language-provider";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
-import PictureInput from "@/components/input/picture-input";
-import { useToast } from "@/service/toast";
-import { uploadPicture } from "@/http/user/upload-picture";
+// import PictureInput from "@/components/input/picture-input";
+// import { useToast } from "@/service/toast";
+// import { uploadPicture } from "@/http/user/upload-picture";
 import Input from "@/components/input/input";
-import InputGroup from "@/components/input/group/input-group";
-import InputGroupDisplay, {
-  InputGroupItem,
-} from "@/components/input/group/input-group-display";
-import InputGroupContent from "@/components/input/group/input-group-content";
+// import InputGroup from "@/components/input/group/input-group";
+// import InputGroupDisplay, {
+//   InputGroupItem,
+// } from "@/components/input/group/input-group-display";
+// import InputGroupContent from "@/components/input/group/input-group-content";
 import Button from "@/components/button";
 import Form from "@/components/form";
-import DatePicker from "@/components/input/date-picker";
-import Select from "@/components/input/select";
-import { SelectItem } from "@heroui/react";
-import InputGroupIdentity from "@/components/input/group/input-group-identity";
 import { FormValues } from "@/types/form";
+// import DatePicker from "@/components/input/date-picker";
+// import Select from "@/components/input/select";
+// import { SelectItem } from "@heroui/react";
+// import InputGroupIdentity from "@/components/input/group/input-group-identity";
 
 export default function Profile() {
   const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
-  const toast = useToast();
+  // const toast = useToast();
 
   const { translateResponse } = useLanguage();
-  const { user, setUser } = useAuth();
+  const {
+    user,
+    // setUser,
+  } = useAuth();
   const { setIsLoading } = useOverlay();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -58,19 +64,19 @@ export default function Profile() {
       });
   };
 
-  const handleSubmitPicture = async (file: FormData) => {
-    setIsLoading(true);
-    uploadPicture(file)
-      .then(({ data }) => {
-        setUser(data.user);
-        toast.success({
-          description: t("Messages.success.image_uploaded_successfully"),
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+  // const handleSubmitPicture = async (file: FormData) => {
+  //   setIsLoading(true);
+  //   uploadPicture(file)
+  //     .then(({ data }) => {
+  //       setUser(data.user);
+  //       toast.success({
+  //         description: t("Messages.success.image_uploaded_successfully"),
+  //       });
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // };
 
   return (
     <>
@@ -92,7 +98,7 @@ export default function Profile() {
                 <p className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
                   {t("UI.titles.update_account")}
                 </p>
-                <PictureInput
+                {/* <PictureInput
                   name="profile_picture"
                   label="Foto de perfil"
                   fallbackSrc={userPicture.src}
@@ -107,7 +113,7 @@ export default function Profile() {
                       ),
                     });
                   }}
-                />
+                /> */}
                 <Input
                   name="name"
                   label={t("UI.labels.name")}
@@ -125,7 +131,7 @@ export default function Profile() {
                   type="name"
                   required
                 />
-                <InputGroup
+                {/* <InputGroup
                   label={{
                     default: "Documento",
                     plural: "Documentos",
@@ -167,26 +173,13 @@ export default function Profile() {
                       format={(val, { form, group }) => {
                         if (form && group) {
                           const inputType = group.getFieldName("type");
-                          const inputTypeValue = form.values[inputType];
+                          const inputTypeValue = form.values?.[inputType];
 
                           return formatDocument(val, inputTypeValue);
                         }
                         return val;
                       }}
                       required
-                    />
-                  </InputGroupContent>
-                </InputGroup>
-                {/* <InputGroup label="Documento" prefix="bank" modal>
-                  <InputGroupDisplay>
-                    <InputGroupItem name="card" label="Tipo" />
-                  </InputGroupDisplay>
-                  <InputGroupContent>
-                    <Input
-                      name="card"
-                      label="Cartão"
-                      placeholder="Cartão"
-                      type="text"
                     />
                   </InputGroupContent>
                 </InputGroup> */}
@@ -206,22 +199,6 @@ export default function Profile() {
                   type="email"
                   disabled
                 />
-                {/* <Input
-                  name="password"
-                  label={t("UI.labels.password")}
-                  placeholder={t("UI.placeholders.write_password")}
-                  className="text-gray-700 dark:text-gray-200"
-                  taggableVisibility
-                  type="password"
-                />
-                <Input
-                  name="password_confirm"
-                  label={t("UI.labels.password_confirm")}
-                  placeholder={t("UI.placeholders.write_password_confirm")}
-                  className="text-gray-700 dark:text-gray-200"
-                  taggableVisibility
-                  type="password"
-                /> */}
                 <Button
                   className="justify-self-end"
                   color="primary"
