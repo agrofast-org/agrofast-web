@@ -21,25 +21,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
+      - name: Repository checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Node.js Setup
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
 
-      - name: Instalar dependências
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        id: cache-npm-deps
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install NPM dependencies
         run: npm install
 
-      - name: Lint (opcional)
-        run: npm run lint
-
-      - name: Testes (opcional)
-        run: npm test
-
-      - name: Build da aplicação
+      - name: Build Next.js
         run: npm run build
-
-      - name: Verificar build
-        run: ls -R .next
