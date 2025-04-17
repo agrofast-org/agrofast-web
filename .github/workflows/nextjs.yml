@@ -30,14 +30,15 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: Cache NPM dependencies
+      - name: Cache NPM dependencies and Next.js build
         uses: actions/cache@v4
-        id: cache-npm-deps
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          path: |
+            ~/.npm
+            .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install NPM dependencies
         run: npm install
