@@ -11,8 +11,7 @@ import { useRouter } from "next/router";
 import { getLegalUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
 import Image from "next/image";
-import IconComponent from "@/components/icon";
-import { ArrowUpRight02StrokeRounded, Link01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { ArrowRightUp, LinkRoundAngle } from "@solar-icons/react";
 
 export default function Home() {
   const router = useRouter();
@@ -44,7 +43,7 @@ export default function Home() {
               className="bg-green-500 !text-white dark:text-gray-700"
             >
               {t("UI.redirects.see_more")}{" "}
-              <IconComponent icon={ArrowUpRight02StrokeRounded} />
+              <ArrowRightUp />
             </Button>
           </div>
           <div className="flex flex-1 justify-end">
@@ -131,7 +130,7 @@ export default function Home() {
               }}
             >
               {t("Pages.Index.or_redirect_to_web_version")}
-              <IconComponent icon={Link01StrokeRounded} />
+              <LinkRoundAngle weight="BoldDuotone" />
             </Button>
           </div>
         </section>

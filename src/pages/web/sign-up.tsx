@@ -7,8 +7,7 @@ import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import SignInForm from "@/forms/sign-up-form";
-import { ArrowUpRight01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
-import IconComponent from "@/components/icon";
+import { ArrowRightUp } from "@solar-icons/react";
 
 export default function SignIn() {
   const router = useRouter();
@@ -41,7 +40,7 @@ export default function SignIn() {
               }}
             >
               {t("UI.redirects.see_more")}
-              <IconComponent icon={ArrowUpRight01StrokeRounded} />
+              <ArrowRightUp />
             </Button>
           </section>
         </div>

@@ -9,8 +9,7 @@ import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import LoginForm from "@/forms/login-form";
-import IconComponent from "@/components/icon";
-import { ArrowUpRight01StrokeRounded } from "@hugeicons-pro/core-stroke-rounded";
+import { ArrowRightUp } from "@solar-icons/react";
 
 export default function Login() {
   const router = useRouter();
@@ -43,7 +42,7 @@ export default function Login() {
               }}
             >
               {t("UI.redirects.see_more")}
-              <IconComponent icon={ArrowUpRight01StrokeRounded} />
+              <ArrowRightUp />
             </Button>
           </section>
         </div>

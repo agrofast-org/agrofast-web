@@ -225,9 +225,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
                             e.target.value = "";
                           }}
                         />
-                        <Upload
-                          className="text-gray-700 dark:text-gray-200"
-                        />
+                        <Upload className="text-gray-700 dark:text-gray-200" />
                       </label>
                     </div>
                   </ModalBody>

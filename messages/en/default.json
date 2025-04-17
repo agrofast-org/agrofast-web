@@ -207,7 +207,10 @@
       "privacy_policy_info_3": "For more information on how we use your data, visit the <link>privacy policy</link> page on our platform.",
       "sign_in_terms": "By continuing, we will send a verification code to the provided number. Data and messaging rates may apply.",
       "login_terms": "By continuing, we will send a verification code to the provided number. Data and messaging rates may apply.",
-      "mailing_list": "I would like to receive promotional emails from Agrofast."
+      "mailing_list": "I would like to receive promotional emails from Agrofast.",
+      "cookie_use_warning_title": "Aviso de uso de cookies",
+      "cookie_use_warning_description": "Nossa aplicação faz uso de cookies para melhorar a experiência do usuário. Ao continuar navegando, você concorda com o uso de cookies.",
+      "cookie_use_warning_disclaimer": "Os cookies são pequenos arquivos de texto que são armazenados no seu dispositivo quando você visita um site. Eles ajudam a lembrar suas preferências e informações de login, tornando sua experiência mais personalizada e eficiente."
     },
     "terms_of_use_markdown": "",
     "privacy_policy_markdown": ""
