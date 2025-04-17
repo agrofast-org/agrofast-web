@@ -208,9 +208,9 @@
       "sign_in_terms": "By continuing, we will send a verification code to the provided number. Data and messaging rates may apply.",
       "login_terms": "By continuing, we will send a verification code to the provided number. Data and messaging rates may apply.",
       "mailing_list": "I would like to receive promotional emails from Agrofast.",
-      "cookie_use_warning_title": "Aviso de uso de cookies",
-      "cookie_use_warning_description": "Nossa aplicação faz uso de cookies para melhorar a experiência do usuário. Ao continuar navegando, você concorda com o uso de cookies.",
-      "cookie_use_warning_disclaimer": "Os cookies são pequenos arquivos de texto que são armazenados no seu dispositivo quando você visita um site. Eles ajudam a lembrar suas preferências e informações de login, tornando sua experiência mais personalizada e eficiente."
+      "cookie_use_warning_title": "Cookie Usage Warning",
+      "cookie_use_warning_description": "Our application uses cookies to improve user experience. By continuing to browse, you agree to the use of cookies.",
+      "cookie_use_warning_disclaimer": "Cookies are small text files stored on your device when you visit a website. They help remember your preferences and login information, making your experience more personalized and efficient."
     },
     "terms_of_use_markdown": "",
     "privacy_policy_markdown": ""
