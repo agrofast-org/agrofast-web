@@ -17,9 +17,10 @@ permissions:
 
 jobs:
   build:
-    name: Instalar e Build
+    name: Install and Build Next.js
     runs-on: ubuntu-latest
-
+    env:
+      NEXT_PUBLIC_API_BASE_URL: https://api.agrofast.tech
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
