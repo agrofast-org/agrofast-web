@@ -23,18 +23,23 @@ jobs:
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-          cache: npm
+
       - name: Instalar dependências
         run: npm install
+
       - name: Lint (opcional)
         run: npm run lint
+
       - name: Testes (opcional)
         run: npm test
+
       - name: Build da aplicação
         run: npm run build
+
       - name: Verificar build
         run: ls -R .next
