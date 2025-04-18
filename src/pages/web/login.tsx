@@ -1,7 +1,5 @@
 import Body from "@/components/body";
-import {
-  Button,
-} from "@heroui/react";
+import { Button } from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -10,6 +8,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import LoginForm from "@/forms/login-form";
 import { ArrowRightUp } from "@solar-icons/react";
+import FormWrapper from "@/components/form-wrapper";
 
 export default function Login() {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function Login() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Body className="flex flex-row" hideHeader>
+      <Body className="flex flex-row py-0" hideHeader hideFooter>
         <div className="hidden lg:flex flex-col flex-[4] justify-center items-center">
           <section className="flex flex-col items-start gap-4 p-4">
             <h1 className="font-mono font-light text-gray-700 dark:text-gray-200 text-2xl">
@@ -46,17 +45,15 @@ export default function Login() {
             </Button>
           </section>
         </div>
-        <div className="flex flex-[5] justify-center md:items-center max-h-svh overflow-hidden overflow-y-auto">
-          <div className="flex flex-col gap-4 px-8 py-6 w-full max-w-md min-h-max">
-            <div className="flex flex-col items-center gap-2">
-              <Agrofast.Logo className="w-40 h-10" />
-            </div>
-            <p className="flex pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-              {t("UI.redirects.enter_existing_account")}
-            </p>
-            <LoginForm />
+        <FormWrapper>
+          <div className="flex flex-col items-center gap-2">
+            <Agrofast.Logo className="w-40 h-10" />
           </div>
-        </div>
+          <p className="flex pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
+            {t("UI.redirects.enter_existing_account")}
+          </p>
+          <LoginForm />
+        </FormWrapper>
       </Body>
     </>
   );

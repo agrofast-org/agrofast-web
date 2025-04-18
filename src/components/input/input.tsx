@@ -2,7 +2,7 @@ import {
   InputProps as HeroUIInputProps,
   Input as HeroUIInput,
 } from "@heroui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,8 @@ const Input: React.FC<InputProps> = ({
   isRequired,
   ...props
 }) => {
+  const ref = useRef<HTMLInputElement>(null);
+
   const router = useRouter();
   const t = useTranslations();
   const form = useForm();
@@ -101,6 +103,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <HeroUIInput
+      ref={ref}
       name={name}
       classNames={{
         base: "relative",
@@ -124,7 +127,10 @@ const Input: React.FC<InputProps> = ({
         props.type === "password" && (
           <PasswordVisibilityToggle
             isPassVisible={isPassVisible}
-            togglePassVisibility={togglePassVisibility}
+            togglePassVisibility={() => {
+              ref.current?.focus();
+              togglePassVisibility()
+            }}
           />
         )
       }

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Button } from "@heroui/react";
 import { useRouter } from "next/router";
 
 interface TabItemChildrenProps {
@@ -26,22 +27,23 @@ const TabItem: React.FC<TabItemProps> = ({
   const isActive = href ? router.asPath == href : false;
 
   return (
-    <div
-      onClick={() => {
+    <Button
+      onPress={() => {
         if (href) {
           router.push(href);
         }
       }}
+      isIconOnly
       className={cn(
         className,
-        "flex flex-col items-center text-sm aspect-square max-w-[46px] w-[46px] gap-0.5"
+        "flex flex-col items-center text-sm aspect-square size-14 gap-0.5 bg-transparent"
       )}
     >
       {typeof children === "function"
         ? children({ active: isActive, className: className || "" })
         : children}
       {label}
-    </div>
+    </Button>
   );
 };
 

@@ -13,6 +13,7 @@ import { useCookies } from "react-cookie";
 import Button from "@/components/button";
 import Form from "@/components/form";
 import { FormValues } from "@/types/form";
+import { cookieOptions } from "@/service/cookie";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -32,11 +33,11 @@ const LoginForm: React.FC = () => {
       .then(({ data }) => {
         setToken(data.token);
         setUser(data.user);
-        if (data?.auth === "authenticate") {          
+        if (data?.auth === "authenticate") {
           router.reload();
         }
         if (data?.auth === "authenticated") {
-          setCookie(AUTHENTICATED_KEY, "true");
+          setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
           router.reload();
         }
       })

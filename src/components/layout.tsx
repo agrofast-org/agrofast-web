@@ -1,14 +1,16 @@
 import { cn } from "@/lib/utils";
 import Header from "@/components/header";
 import Loading from "@/components/loading";
+import Footer from "./footer";
 
 interface LayoutProps {
   className?: string;
   children?: React.ReactNode;
   hideHeader?: boolean;
+  hideFooter?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ className, children, hideHeader }) => {
+const Layout: React.FC<LayoutProps> = ({ className, children, hideHeader, hideFooter }) => {
   return (
     <>
       <Loading />
@@ -21,6 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ className, children, hideHeader }) => {
       >
         {children}
       </main>
+      {!hideFooter && <Footer />}
     </>
   );
 };

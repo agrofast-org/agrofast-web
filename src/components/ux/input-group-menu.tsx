@@ -4,6 +4,7 @@ import IconOption from "../ui/icon-option";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { MenuDots, Pen, TrashBinMinimalistic } from "@solar-icons/react";
+import { cn } from "@/lib/utils";
 
 interface InputGroupMenuProps {
   index: ItemIndex;
@@ -27,8 +28,6 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
       className="translate-x-1"
       radius="sm"
       offset={8}
-      isOpen={isOpen}
-      onOpenChange={(open) => setIsOpen(open)}
     >
       <PopoverTrigger>
         <Button
@@ -41,7 +40,12 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           <MenuDots className="rotate-90" weight="BoldDuotone" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="px-1 w-28">
+      <PopoverContent
+        className={cn(
+          "px-1 w-28 transition-all",
+          isOpen && "opacity-25 duration-100 pointer-events-none"
+        )}
+      >
         <IconOption
           onClick={() => {
             setIsOpen(false);
@@ -61,6 +65,9 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
             actionConfirmTitle: t("UI.input_group.delete.title"),
             actionConfirmText: t("UI.input_group.delete.description"),
             actionConfirmButtonColor: "danger",
+            onConfirmModalChanged(isOpen) {
+              setIsOpen(isOpen);
+            },
           }}
         >
           {t("UI.buttons.delete")}

@@ -1,15 +1,19 @@
 import { cn } from "@/lib/utils";
-import React, { JSX } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { IconSvgObject } from "@/types/hugeicons";
 import { useDisclosure } from "@heroui/react";
 import ConfirmActionModal, {
   ConfirmActionModalMessages,
 } from "../ux/confirm-action-modal";
+import { formatLink, HrefProps } from "../link";
+import { useRouter } from "next/router";
 
 export type OptionIcon = IconSvgObject;
 
-export interface IconOptionProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface IconOptionProps
+  extends React.HTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
+  href?: string | HrefProps;
   confirmAction?: boolean;
   confirmActionInfo?: ConfirmActionModalMessages;
   onClick?: () => void;
@@ -17,6 +21,7 @@ export interface IconOptionProps extends React.HTMLAttributes<HTMLButtonElement>
 
 const IconOption: React.FC<IconOptionProps> = ({
   icon,
+  href,
   className,
   children,
   confirmAction = false,
@@ -24,7 +29,11 @@ const IconOption: React.FC<IconOptionProps> = ({
   onClick,
   ...props
 }) => {
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [formattedHref, setFormattedHref] = useState<string | undefined>(
+    undefined
+  );
 
   const newProps = confirmAction
     ? {
@@ -35,8 +44,21 @@ const IconOption: React.FC<IconOptionProps> = ({
     : {
         onClick: () => {
           onClick?.();
+          if (formattedHref) {
+            router.push(formattedHref);
+          }
         },
       };
+
+  useEffect(() => {
+    if (href !== undefined) {
+      if (typeof href === "string") {
+        setFormattedHref(href);
+      } else {
+        setFormattedHref(formatLink(href));
+      }
+    }
+  }, [href]);
 
   return (
     <>

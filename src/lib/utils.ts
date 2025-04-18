@@ -1,3 +1,4 @@
+import { getCurrentOrigin, isDevelopment, isIpAddress } from "@/service/env";
 import { parseDate } from "@internationalized/date";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -21,25 +22,36 @@ export function numberInputMask(value: string | undefined): string {
 
 export const isNumeric = (key: string): boolean => /^\d+$/.test(key);
 
-export const isDev = (): boolean => {
-  return process.env.NODE_ENV === "development";
+let cachedBaseUrl: string | null = null;
+
+export const getBaseUrl = (): string => {
+  if (cachedBaseUrl) return cachedBaseUrl;
+
+  if (!isDevelopment()) {
+    return process.env.NEXT_PUBLIC_WEB_BASE_URL ?? "https://agrofast.tech"
+  }
+
+  const hostname =
+    typeof window !== "undefined" ? window.location.hostname : "localhost";
+
+  cachedBaseUrl =
+    process.env.NEXT_PUBLIC_WEB_BASE_URL && !isIpAddress(hostname)
+      ? process.env.NEXT_PUBLIC_WEB_BASE_URL
+      : getCurrentOrigin();
+
+  return cachedBaseUrl;
 };
 
 export const getPortfolioUrl = (): string => {
-  const url = process.env.NEXT_PUBLIC_WEB_BASE_URL;
-  return url ?? "https://agrofast.tech";
+  return getBaseUrl();
 };
 
 export const getWebUrl = (): string => {
-  const url = process.env.NEXT_PUBLIC_WEB_BASE_URL;
-  return url ? new URL("/web", url).toString() : "https://agrofast.tech/web";
+  return new URL("/web", getBaseUrl()).toString();
 };
 
 export const getLegalUrl = (): string => {
-  const url = process.env.NEXT_PUBLIC_WEB_BASE_URL;
-  return url
-    ? new URL("/legal", url).toString()
-    : "https://agrofast.tech/legal";
+  return new URL("/legal", getBaseUrl()).toString();
 };
 
 export const parseQueryDate = (date: string): string => {

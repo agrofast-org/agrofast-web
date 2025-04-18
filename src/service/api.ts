@@ -4,12 +4,20 @@ import {
   AUTHENTICATED_KEY,
 } from "@/middleware";
 import axios from "axios";
+import { getCurrentOrigin, isIpAddress } from "@/service/env";
 import { Cookies } from "react-cookie";
 
 const cookies = new Cookies();
 
-const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
+const localOrigin = getCurrentOrigin();
+const hostname = typeof window !== "undefined" ? window.location.hostname : "localhost";
+
+const apiBaseUrl = isIpAddress(hostname)
+  ? `${localOrigin.replace(/:3030$/, ":80")}`
+  : process.env.NEXT_PUBLIC_API_BASE_URL;
+
+export const api = axios.create({
+  baseURL: `${apiBaseUrl}/api`,
   headers: {
     "Content-Type": "application/json",
   },

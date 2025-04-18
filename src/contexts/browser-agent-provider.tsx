@@ -82,15 +82,13 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
         toast.error({
           description: t("Messages.errors.failed_to_get_browser_agent"),
         });
-        removeCookie(AUTH_BROWSER_AGENT_KEY);
+        removeCookie(AUTH_BROWSER_AGENT_KEY, cookieOptions);
       }
-    } catch (error) {
-      console.log(error);
-      
+    } catch {
       toast.error({
         description: t("Messages.errors.failed_to_get_browser_agent"),
       });
-      removeCookie(AUTH_BROWSER_AGENT_KEY);
+      removeCookie(AUTH_BROWSER_AGENT_KEY, cookieOptions);
     } finally {
       setIsLoaded(true);
     }

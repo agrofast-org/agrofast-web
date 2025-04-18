@@ -177,7 +177,7 @@ const SignInForm: React.FC = () => {
           {t("UI.buttons.continue")}
         </Button>
       </Form>
-      <p className="text-small text-center">
+      <p className="pb-4 text-small text-center">
         <Link
           href={{
             pathname: "/web/login",

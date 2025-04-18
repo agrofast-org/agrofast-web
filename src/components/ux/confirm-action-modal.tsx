@@ -8,6 +8,7 @@ import {
   ModalHeader,
 } from "../modal";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 export interface ConfirmActionModalMessages {
   actionConfirmTitle?: string;
@@ -18,6 +19,7 @@ export interface ConfirmActionModalMessages {
   actionConfirmHeaderClassName?: string;
   actionConfirmBodyClassName?: string;
   actionConfirmFooterClassName?: string;
+  onConfirmModalChanged?: (isOpen: boolean) => void;
 }
 
 export interface ConfirmActionModalProps extends ConfirmActionModalMessages {
@@ -38,17 +40,24 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
   actionConfirmHeaderClassName,
   actionConfirmBodyClassName,
   actionConfirmFooterClassName,
+  onConfirmModalChanged,
 }) => {
   const t = useTranslations();
   // const targetRef = useRef<HTMLElement>(null!);
   // const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen });
+
+  useEffect(() => {
+    onConfirmModalChanged?.(isOpen);
+  }, [isOpen, onConfirmModalChanged]);
 
   return (
     <Modal
       // ref={targetRef}
       scrollBehavior="inside"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+      }}
     >
       <ModalContent
         draggable

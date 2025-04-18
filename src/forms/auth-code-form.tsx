@@ -17,6 +17,7 @@ import { AxiosError } from "axios";
 import InputOtp from "@/components/input/input-otp";
 import { useCookies } from "react-cookie";
 import { AUTHENTICATED_KEY } from "@/middleware";
+import { cookieOptions } from "@/service/cookie";
 
 const TIMEOUT = 60;
 
@@ -79,8 +80,8 @@ const AuthCodeForm: React.FC = () => {
       .then(({ data }) => {
         setUser(data.user);
         setToken(data.token);
-        setCookie(AUTHENTICATED_KEY, "true");
-        router.push("/");
+        setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
+        router.reload();
       })
       .catch(({ response, status }: AxiosError<AuthError>) => {
         if (status === 401) {
