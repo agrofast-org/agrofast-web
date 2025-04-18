@@ -64,8 +64,8 @@ export default function Profile() {
   const handleSubmitPicture = async (file: FormData) => {
     setIsLoading(true);
     uploadPicture(file)
-      .then(({ data }) => {
-        setUser(data.user);
+      .then(({ user }) => {
+        setUser(user);
         toast.success({
           description: t("Messages.success.image_uploaded_successfully"),
         });
