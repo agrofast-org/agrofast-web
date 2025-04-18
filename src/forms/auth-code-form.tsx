@@ -93,9 +93,9 @@ const AuthCodeForm: React.FC = () => {
           logout();
           return;
         }
-        if (response?.data?.data?.attempts) {
+        if (response?.data?.attempts) {
           const params = {
-            attempts_left: response?.data?.data?.attempts?.toString() || "0",
+            attempts_left: response?.data?.attempts?.toString() || "0",
           };
           const errors = translateResponse(response?.data.errors ?? {}, params);
           toast.error({
@@ -130,12 +130,14 @@ const AuthCodeForm: React.FC = () => {
         className="inline-block rounded-lg h-6"
         isLoaded={isDataLoading}
       >
-        {user?.name && <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-xl text-left">
-          {t("UI.titles.welcome_again", { name: user?.name })}
-          <span aria-label="emoji" className="ml-2" role="img">
-            👋
-          </span>
-        </p>}
+        {user?.name && (
+          <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-xl text-left">
+            {t("UI.titles.welcome_again", { name: user?.name })}
+            <span aria-label="emoji" className="ml-2" role="img">
+              👋
+            </span>
+          </p>
+        )}
       </Skeleton>
       <Form
         className="flex flex-col flex-1 md:flex-auto"
@@ -151,7 +153,10 @@ const AuthCodeForm: React.FC = () => {
             >
               {t("UI.placeholders.write_code")}
             </label>
-            <Skeleton className="rounded-lg h-14" isLoaded={!codeLengthLoading && isDataLoading}>
+            <Skeleton
+              className="rounded-lg h-14"
+              isLoaded={!codeLengthLoading && isDataLoading}
+            >
               <InputOtp
                 name="code"
                 className="mb-2"

@@ -58,15 +58,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setCookie(AUTH_TOKEN_KEY, tokenValue, cookieOptions);
       } else {
         setAuthTokenState(undefined);
-        removeCookie(AUTHENTICATED_KEY);
-        removeCookie(AUTH_TOKEN_KEY);
+        removeCookie(AUTHENTICATED_KEY, cookieOptions);
+        removeCookie(AUTH_TOKEN_KEY, cookieOptions);
         delete api.defaults.headers["Authorization"];
       }
     },
     [setCookie, removeCookie]
   );
 
-  const logout = useCallback(() => {
+  const logout = useCallback(() => {    
     setUser(undefined);
     setToken(undefined);
     router.push("/web/login", undefined, { locale: router.locale });
@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setToken(storedToken);
       setBearerToken(storedToken);
       getMe()
-        .then(({ data }) => {
+        .then(({ data }) => {          
           setUser(data.user);
           if (data.authenticated) {
             setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);

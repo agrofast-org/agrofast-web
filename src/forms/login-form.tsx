@@ -30,13 +30,13 @@ const LoginForm: React.FC = () => {
   const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     login(data)
-      .then(({ data }) => {
-        setToken(data.token);
-        setUser(data.user);
-        if (data?.auth === "authenticate") {
+      .then(({ token, user, auth }) => {
+        setToken(token);
+        setUser(user);
+        if (auth === "authenticate") {
           router.reload();
         }
-        if (data?.auth === "authenticated") {
+        if (auth === "authenticated") {
           setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
           router.reload();
         }

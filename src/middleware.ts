@@ -7,10 +7,7 @@ export const PUBLIC_WEB_PATHS = [
   "/web/reset-password",
 ];
 
-export const PUBLIC_WEB_AUTH_PATHS = [
-  "/web/auth-code",
-  "/web/auth-with",
-];
+export const PUBLIC_WEB_AUTH_PATHS = ["/web/auth-code", "/web/auth-with"];
 
 export const AUTH_TOKEN_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_token`;
 export const AUTHENTICATED_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_authenticated`;
@@ -44,8 +41,8 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
-    metaMatcher.some(path => pathname.startsWith(path)) ||
-    publicMatcher.some(path => pathname.startsWith(path))
+    metaMatcher.some((path) => pathname.startsWith(path)) ||
+    publicMatcher.some((path) => pathname.startsWith(path))
   ) {
     return NextResponse.next();
   }
@@ -74,7 +71,9 @@ export function middleware(request: NextRequest) {
 
   if (!isAuthenticated) {
     if (!isPublicAuthPath) {
-      return NextResponse.redirect(new URL(PUBLIC_WEB_AUTH_PATHS[0], request.url));
+      return NextResponse.redirect(
+        new URL(PUBLIC_WEB_AUTH_PATHS[0], request.url)
+      );
     }
     return NextResponse.next();
   }

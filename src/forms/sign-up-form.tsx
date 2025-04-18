@@ -49,12 +49,12 @@ const SignInForm: React.FC = () => {
     setIsLoading(true);
 
     signUp(data)
-      .then(({ data }) => {
-        setUser(data.user);
-        setToken(data.token);
+      .then(({ user, token }) => {
+        setUser(user);
+        setToken(token);
         router.push(`/web/auth-code`);
       })
-      .catch(({ response: { data: error } }) => {
+      .catch(({ data: error }) => {
         const fields = translateResponse(error.errors);
         if (fields["password"]) {
           toast.error({
