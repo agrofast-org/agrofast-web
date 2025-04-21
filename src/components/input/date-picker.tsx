@@ -43,6 +43,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       if (newValue && newValue !== inputValue) {
         if (name && form) {
           form.setValue(name, newValue);
+          form.setError(name, undefined);
         }
         setInputValue(newValue);
       }

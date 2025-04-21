@@ -28,6 +28,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
     (newValue?: boolean) => {
       if (name && form) {
         form.setValue(name, newValue);
+        form.setError(name, undefined);
       }
       setChecked(newValue);
       setError(undefined);

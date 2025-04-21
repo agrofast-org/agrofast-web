@@ -61,7 +61,8 @@ const Input: React.FC<InputProps> = ({
         ? format(newValue ?? "", { form, group })
         : newValue ?? "";
       if (name && form) {
-        form.setValue(name, finalValue);        
+        form.setValue(name, finalValue);
+        form.setError(name, undefined);
       }
       setInputValue(finalValue);
       onChange?.({
@@ -121,6 +122,14 @@ const Input: React.FC<InputProps> = ({
         disabled && "opacity-50 pointer-events-none"
       )}
       value={inputValue}
+      errorMessage={(v) => {
+        console.log("clearing error");
+        if (!v && form && name) {
+          
+          form.setError(name, undefined);
+        }
+        return v.validationErrors;
+      }}
       onChange={(e) => changeValue(e.target.value)}
       endContent={
         taggableVisibility &&
@@ -129,7 +138,7 @@ const Input: React.FC<InputProps> = ({
             isPassVisible={isPassVisible}
             togglePassVisibility={() => {
               ref.current?.focus();
-              togglePassVisibility()
+              togglePassVisibility();
             }}
           />
         )
