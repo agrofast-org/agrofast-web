@@ -26,22 +26,23 @@
     },
     "input_group": {
       "button": "{count, plural, =0 {Register a {name}} =1 {One {name} registered} other {# {name} registered}}",
+      "item": "Item",
       "item_number": "Item number",
       "insert": {
-        "title": "Add item",
-        "description": "Do you really want to add a new item?",
+        "title": "Add {item}",
+        "description": "Do you really want to add a new {item}?",
         "cancel": "Cancel",
         "confirm": "Add"
       },
       "edit": {
-        "title": "Edit item",
-        "description": "Apply changes to this item?",
+        "title": "Edit {item}",
+        "description": "Apply changes to this {item}?",
         "cancel": "Cancel",
         "confirm": "Save"
       },
       "delete": {
-        "title": "Delete item",
-        "description": "Are you sure you want to delete this item?",
+        "title": "Delete {item}",
+        "description": "Are you sure you want to delete this {item}?",
         "cancel": "Cancel",
         "confirm": "Delete"
       }
@@ -75,7 +76,12 @@
       "password": "Password",
       "password_confirm": "Confirm password",
       "new_password": "New password",
-      "new_password_confirm": "Confirm new password"
+      "new_password_confirm": "Confirm new password",
+      "document": "Document",
+      "documents": "Documents",
+      "emission_date": "Emission date",
+      "document_type": "Document type",
+      "document_number": "Number"
     },
     "placeholders": {
       "write_code": "Enter the code",
@@ -86,7 +92,9 @@
       "write_password": "Enter your password",
       "write_password_confirm": "Confirm your password",
       "write_new_password": "Enter your new password",
-      "write_new_password_confirm": "Confirm your new password"
+      "write_new_password_confirm": "Confirm your new password",
+      "write_document_type": "Select the document type",
+      "write_document_number": "Document number"
     },
     "messages": {
       "required_field": "Required field",

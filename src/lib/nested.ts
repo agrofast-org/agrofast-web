@@ -102,7 +102,7 @@ export const toNested = (values: FormValues): FormValues => {
       if (isLast) {
         current[key as FormValue] = value;
       } else {
-        if (current[key as FormValue] === undefined) {
+        if (typeof current[key as FormValue] !== "object" || current[key as FormValue] === null) {
           const nextPart = parts[i + 1];
           current[key as FormValue] = isNumeric(nextPart) ? [] : {};
         }

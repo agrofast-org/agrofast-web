@@ -158,7 +158,7 @@ export const InputGroupItem: React.FC<InputGroupItemProps> = ({
     >
       {icon && <span>{icon}</span>}
       {label && (
-        <p className="text-text-default-foreground text-sm">{label}:</p>
+        <p className="text-default-foreground text-sm">{label}:</p>
       )}
       <span className="text-foreground-600 text-sm">
         {children ? children(value, fields) : value ?? "-"}

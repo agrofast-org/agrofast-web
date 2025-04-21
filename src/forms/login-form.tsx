@@ -1,7 +1,6 @@
 import Checkbox from "@/components/input/checkbox";
 import Input from "@/components/input/input";
 import { useAuth } from "@/contexts/auth-provider";
-import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
@@ -19,7 +18,6 @@ const LoginForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
   const { setIsLoading } = useOverlay();
-  const { translateResponse } = useLanguage();
   const { setUser, setToken } = useAuth();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
@@ -42,8 +40,7 @@ const LoginForm: React.FC = () => {
         }
       })
       .catch(({ response: { data: error } }) => {
-        const fields = translateResponse(error.errors);
-        setErrors(fields);
+        setErrors(error.errors);
       })
       .finally(() => {
         setIsLoading(false);

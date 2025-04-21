@@ -26,22 +26,23 @@
     },
     "input_group": {
       "button": "{count, plural, =0 {Cadastrar um {name}} =1 {Um {name} cadastrado} other {# {name} cadastrados}}",
+      "item": "Item",
       "item_number": "Item numero",
       "insert": {
-        "title": "Adicionar item",
-        "description": "Você realmente deseja adicionar um novo item?",
+        "title": "Adicionar {item}",
+        "description": "Confirmar valores e adicionar um novo {item}?",
         "cancel": "Cancelar",
         "confirm": "Adicionar"
       },
       "edit": {
-        "title": "Editar item",
-        "description": "Aplicar as alterações para este item?",
+        "title": "Editar {item}",
+        "description": "Aplicar as alterações para este {item}?",
         "cancel": "Cancelar",
         "confirm": "Salvar"
       },
       "delete": {
-        "title": "Excluir item",
-        "description": "Tem certeza de que quer deletar este item?",
+        "title": "Excluir {item}",
+        "description": "Tem certeza de que quer deletar este {item}?",
         "cancel": "Cancelar",
         "confirm": "Excluir"
       }
@@ -75,7 +76,12 @@
       "password": "Senha",
       "password_confirm": "Confirmar senha",
       "new_password": "Nova senha",
-      "new_password_confirm": "Confirmar nova senha"
+      "new_password_confirm": "Confirmar nova senha",
+      "document": "Documento",
+      "documents": "Documentos",
+      "emission_date": "Data de emissão",
+      "document_type": "Tipo de documento",
+      "document_number": "Número"
     },
     "placeholders": {
       "write_code": "Digite o código",
@@ -86,7 +92,9 @@
       "write_password": "Digite sua senha",
       "write_password_confirm": "Confirme sua senha",
       "write_new_password": "Digite sua nova senha",
-      "write_new_password_confirm": "Confirme sua nova senha"
+      "write_new_password_confirm": "Confirme sua nova senha",
+      "write_document_type": "Selecione o tipo de documento",
+      "write_document_number": "Número do documento"
     },
     "messages": {
       "required_field": "Campo obrigatório",

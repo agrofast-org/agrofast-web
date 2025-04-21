@@ -25,6 +25,7 @@ export interface FormProps extends HeroUIFormProps {
 }
 
 export interface FormProviderProps {
+  formId: string;
   values?: FormValues;
   errors: FormErrors;
   setValue: (address: string, value: FormValue) => void;
@@ -42,6 +43,10 @@ const Form: React.FC<FormProps> = ({
   validationErrors,
   ...props
 }) => {
+  const [formId, setFormId] = useState("");
+  useEffect(() => {
+    setFormId(`form-${Math.random().toString(36).substring(2, 9)}`);
+  }, []);
   const t = useTranslations();
   const toast = useToast();
   const [values, setValues] = useState<FormValues>(
@@ -80,7 +85,7 @@ const Form: React.FC<FormProps> = ({
         } else {
           newValues[address] = value;
         }
-        setError(address, undefined);
+        // setError(address, undefined);
         return newValues;
       });
     },
@@ -122,7 +127,7 @@ const Form: React.FC<FormProps> = ({
   };
 
   useEffect(() => {
-    if (validationErrors && Object.keys(validationErrors).length > 0) {
+    if (validationErrors) {
       setErrors(validationErrors);
     }
   }, [validationErrors]);
@@ -137,6 +142,7 @@ const Form: React.FC<FormProps> = ({
     <>
       <FormProvider.Provider
         value={{
+          formId,
           errors,
           values,
           setValue,
@@ -152,6 +158,7 @@ const Form: React.FC<FormProps> = ({
           }}
           validationErrors={errors}
           {...props}
+          id={formId}
         >
           {children}
         </HeroUIForm>

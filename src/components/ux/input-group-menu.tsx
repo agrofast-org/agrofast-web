@@ -22,10 +22,23 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
     );
   }
 
+  const transitionContent = {
+    item: (
+      (typeof group.label === "string" ? group.label : group.label?.default) ??
+      t("UI.input_group.item")
+    ).toLowerCase(),
+  };
+
   return (
     <Popover
       placement="bottom-end"
-      className="translate-x-1"
+      className={cn(
+        "translate-x-1",
+        isOpen && "opacity-25 duration-100 pointer-events-none",
+        group.disclosure.isOpen && "opacity-0 pointer-events-none"
+      )}
+      isOpen={group.disclosure.isOpen ? isOpen : undefined}
+      onOpenChange={(open) => setIsOpen(open)}
       radius="sm"
       offset={8}
     >
@@ -40,15 +53,10 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
           <MenuDots className="rotate-90" weight="BoldDuotone" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        className={cn(
-          "px-1 w-28 transition-all",
-          isOpen && "opacity-25 duration-100 pointer-events-none"
-        )}
-      >
+      <PopoverContent className={cn("px-1 w-28 transition-all")}>
         <IconOption
           onClick={() => {
-            setIsOpen(false);
+            setIsOpen(true);
             group.editItem(index);
           }}
           icon={<Pen />}
@@ -57,13 +65,20 @@ const InputGroupMenu: React.FC<InputGroupMenuProps> = ({ index }) => {
         </IconOption>
         <IconOption
           onClick={() => {
+            setIsOpen(false);
             group.removeItem(index);
           }}
           icon={<TrashBinMinimalistic weight="LineDuotone" />}
           confirmAction
           confirmActionInfo={{
-            actionConfirmTitle: t("UI.input_group.delete.title"),
-            actionConfirmText: t("UI.input_group.delete.description"),
+            actionConfirmTitle: t(
+              "UI.input_group.delete.title",
+              transitionContent
+            ),
+            actionConfirmText: t(
+              "UI.input_group.delete.description",
+              transitionContent
+            ),
             actionConfirmButtonColor: "danger",
             onConfirmModalChanged(isOpen) {
               setIsOpen(isOpen);

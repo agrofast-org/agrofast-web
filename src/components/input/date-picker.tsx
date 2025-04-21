@@ -3,12 +3,13 @@ import {
   DatePicker as HeroUIDatePicker,
   DatePickerProps as HeroUIDatePickerPro,
 } from "@heroui/react";
-import { I18nProvider } from "@react-aria/i18n";
 import { useGroup } from "@/components/input/group/input-group";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "../form";
 import { useRouter } from "next/router";
 import { parseQueryDate } from "@/lib/utils";
+import {parseDate} from "@internationalized/date";
+
 
 export type DatePickerValue = CalendarDate | null | undefined;
 
@@ -70,7 +71,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   useEffect(() => {
     if (name && form && form.values?.[name]) {
-      changeValue(form.values?.[name]);
+      changeValue(typeof form.values?.[name] === "string" ? parseDate(form.values?.[name]) : form.values?.[name]);
     }
   }, [value, form, name, changeValue]);
 
@@ -84,28 +85,26 @@ const DatePicker: React.FC<DatePickerProps> = ({
   }, [group, inputName, isFieldRequired]);
 
   return (
-    <I18nProvider>
-      <HeroUIDatePicker
-        name={name}
-        value={inputValue}
-        onChange={(val) => {
-          onChange?.(val);
-          changeValue(val);
-        }}
-        classNames={{
-          base: "relative gap-1 !pb-0",
-          label: "top-6 !translate-y-[0.30em] w-max pr-2",
-          helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max p-0",
-          input: "!transition-colors !duration-100 ",
-          inputWrapper: "!transition-colors !duration-100",
-          selectorButton: "rounded-lg left-0.5",
-        }}
-        labelPlacement="outside"
-        variant="bordered"
-        isRequired={isFieldRequired}
-        {...props}
-      />
-    </I18nProvider>
+    <HeroUIDatePicker
+      name={name}
+      value={inputValue}
+      onChange={(val) => {
+        onChange?.(val);
+        changeValue(val);
+      }}
+      classNames={{
+        base: "relative gap-1 !pb-0",
+        label: "top-6 !translate-y-[0.30em] w-max pr-2",
+        helperWrapper: "absolute -bottom-[20px] -left-0.5 min-w-max p-0",
+        input: "!transition-colors !duration-100 ",
+        inputWrapper: "!transition-colors !duration-100",
+        selectorButton: "rounded-lg left-0.5",
+      }}
+      labelPlacement="outside"
+      variant="bordered"
+      isRequired={isFieldRequired}
+      {...props}
+    />
   );
 };
 

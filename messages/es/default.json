@@ -26,22 +26,23 @@
     },
     "input_group": {
       "button": "{count, plural, =0 {Registrar un {name}} =1 {Un {name} registrado} other {# {name} registrados}}",
+      "item": "Ítem",
       "item_number": "Ítem número",
       "insert": {
-        "title": "Agregar ítem",
-        "description": "¿Realmente desea agregar un nuevo ítem?",
+        "title": "Agregar {item}",
+        "description": "¿Realmente desea agregar un nuevo {item}?",
         "cancel": "Cancelar",
         "confirm": "Agregar"
       },
       "edit": {
-        "title": "Editar ítem",
-        "description": "¿Aplicar los cambios para este ítem?",
+        "title": "Editar {item}",
+        "description": "¿Aplicar los cambios para este {item}?",
         "cancel": "Cancelar",
         "confirm": "Guardar"
       },
       "delete": {
-        "title": "Eliminar ítem",
-        "description": "¿Está seguro de que quiere eliminar este ítem?",
+        "title": "Eliminar {item}",
+        "description": "¿Está seguro de que quiere eliminar este {item}?",
         "cancel": "Cancelar",
         "confirm": "Eliminar"
       }
@@ -75,7 +76,12 @@
       "password": "Contraseña",
       "password_confirm": "Confirmar contraseña",
       "new_password": "Nueva contraseña",
-      "new_password_confirm": "Confirmar nueva contraseña"
+      "new_password_confirm": "Confirmar nueva contraseña",
+      "document": "Documento",
+      "documents": "Documentos",
+      "emission_date": "Fecha de emisión",
+      "document_type": "Tipo de documento",
+      "document_number": "Número"
     },
     "placeholders": {
       "write_code": "Escriba el código",
@@ -86,7 +92,9 @@
       "write_password": "Escriba su contraseña",
       "write_password_confirm": "Confirme su contraseña",
       "write_new_password": "Escriba su nueva contraseña",
-      "write_new_password_confirm": "Confirme su nueva contraseña"
+      "write_new_password_confirm": "Confirme su nueva contraseña",
+      "write_document_type": "Seleccione el tipo de documento",
+      "write_document_number": "Número del documento"
     },
     "messages": {
       "required_field": "Campo obligatorio",

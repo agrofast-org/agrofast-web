@@ -39,6 +39,15 @@ const InputGroupIdentity: React.FC<InputGroupIdentityProps> = ({
     }
   }, [inputName, name, form.values, group, inputValue]);
 
+  useEffect(() => {
+    if (group && inputName) {
+      group.declareField(inputName, {
+        type: "identity",
+        required: false,
+      });
+    }
+  }, [inputName, group]);
+
   return (
     <>
       {!name.includes(".edit.") && !!inputValue && (
@@ -49,7 +58,7 @@ const InputGroupIdentity: React.FC<InputGroupIdentityProps> = ({
           }}
           value={inputValue}
           type="hidden"
-          hidden
+          hidden={true}
           aria-hidden="true"
           {...props}
         />

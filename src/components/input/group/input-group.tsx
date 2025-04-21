@@ -69,6 +69,7 @@ export interface InputGroupProviderProps extends InputGroupCommons {
   index: ItemIndex;
   excluded: ItemIndex[];
   fields: Fields;
+  identity: string | undefined;
 
   getFieldName: (field: string, index?: ItemIndex) => string;
   declareField: (field: string, info?: Field) => void;
@@ -120,30 +121,57 @@ const InputGroup: React.FC<InputGroupProps> = ({
   if (!form) {
     throw new Error("InputGroup must be used within a Form component");
   }
+
+  const defaultLabel = (
+    (typeof label === "string" ? label : label?.default) ??
+    groupTranslations("item")
+  ).toLowerCase();
   const defaultMessages: InputGroupProps["messages"] = {
     insert: {
-      title: messages?.insert.title ?? groupTranslations("insert.title"),
+      title:
+        messages?.insert.title ??
+        groupTranslations("insert.title", {
+          item: defaultLabel,
+        }),
       description:
-        messages?.insert.description ?? groupTranslations("insert.description"),
+        messages?.insert.description ??
+        groupTranslations("insert.description", {
+          item: defaultLabel,
+        }),
       cancel: messages?.insert.cancel ?? groupTranslations("insert.cancel"),
       confirm: messages?.insert.confirm ?? groupTranslations("insert.confirm"),
     },
     edit: {
-      title: messages?.edit.title ?? groupTranslations("edit.title"),
+      title:
+        messages?.edit.title ??
+        groupTranslations("edit.title", {
+          item: defaultLabel,
+        }),
       description:
-        messages?.edit.description ?? groupTranslations("edit.description"),
+        messages?.edit.description ??
+        groupTranslations("edit.description", {
+          item: defaultLabel,
+        }),
       cancel: messages?.edit.cancel ?? groupTranslations("edit.cancel"),
       confirm: messages?.edit.confirm ?? groupTranslations("edit.confirm"),
     },
     delete: {
-      title: messages?.delete.title ?? groupTranslations("delete.title"),
+      title:
+        messages?.delete.title ??
+        groupTranslations("delete.title", {
+          item: defaultLabel,
+        }),
       description:
-        messages?.delete.description ?? groupTranslations("delete.description"),
+        messages?.delete.description ??
+        groupTranslations("delete.description", {
+          item: defaultLabel,
+        }),
       cancel: messages?.delete.cancel ?? groupTranslations("delete.cancel"),
       confirm: messages?.delete.confirm ?? groupTranslations("delete.confirm"),
     },
   };
 
+  const [processing, setProcessing] = useState<boolean>();
   const [mounted, setMounted] = useState<boolean>(false);
 
   const [count, setCount] = useState<number>(0);
@@ -151,6 +179,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   const [edit, setEdit] = useState<ItemIndex>(undefined);
   const [excluded, setExcluded] = useState<ItemIndex[]>([]);
   const [fields, setFields] = useState<Fields>({});
+  const [identity, setIdentity] = useState<string | undefined>();
 
   const getFieldName = useCallback(
     (field: string, forcedIndex?: ItemIndex) => {
@@ -165,9 +194,16 @@ const InputGroup: React.FC<InputGroupProps> = ({
     [prefix, list, index]
   );
 
-  const declareField = (field: string, info?: Field) => {
+  const declareField = (
+    field: string,
+    info?: Field,
+    identity: boolean = false
+  ) => {
     if (fields[field]) {
       return;
+    }
+    if (identity) {
+      setIdentity(field);
     }
     setFields((prev) => ({ ...prev, [field]: info || { type: "" } }));
   };
@@ -231,10 +267,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
     setEdit(undefined);
 
     onClose();
+    setProcessing(false);
   };
 
   const editItem = (item: ItemIndex) => {
     setEdit(item);
+    setProcessing(true);
+
     Object.keys(fields).forEach((field) => {
       const fieldName = getFieldName(field, list ? item : undefined);
       const editName = getFieldName(field, "edit");
@@ -253,13 +292,14 @@ const InputGroup: React.FC<InputGroupProps> = ({
     setEdit(undefined);
     setIndex(count);
     onClose();
+    setProcessing(false);
   };
 
   const handleEditConfirm = () => {
     if (!validateGroup()) {
       return;
     }
-
+    setProcessing(true);
     Object.keys(fields).forEach((field) => {
       const fieldName = list
         ? getFieldName(field, list ? edit : undefined)
@@ -276,26 +316,42 @@ const InputGroup: React.FC<InputGroupProps> = ({
     setEdit(undefined);
     setIndex(count);
     onClose();
+    setProcessing(false);
   };
 
   const removeItem = (item: ItemIndex) => {
+    setProcessing(true);
     setExcluded((prev) => [...prev, item]);
     Object.keys(fields).forEach((field) => {
       form.setValue(getFieldName(field), undefined);
+      form.setError(getFieldName(field), undefined);
     });
     form.setError(prefix, undefined);
+    setCount((prev) => prev - 1);
   };
 
   useEffect(() => {
-    if (mounted) return;
     const values = toNested(form.values);
-    const length = values[prefix]?.length;
-    setExcluded([]);
-    setEdit(undefined);
-    setCount(length ?? 0);
-    setIndex(length ?? 0);
-    setMounted(true);
-  }, [form.values, prefix, count, index, mounted]);
+    const length = values[prefix]?.length ?? 0;
+
+    if (!mounted) {
+      setExcluded([]);
+      setEdit(undefined);
+      setCount(length);
+      setIndex(length);
+      setMounted(true);
+    } else {
+      if (!processing) {
+        setCount((prevCount) => {
+          if (prevCount !== length) {
+            setIndex(length);
+            return length;
+          }
+          return prevCount;
+        });
+      }
+    }
+  }, [prefix, form.values, mounted, processing, onOpen, onClose]);
 
   useEffect(() => {
     if (form.validations[prefix]) return;
@@ -307,7 +363,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
         form.setError(prefix, t("UI.input.error.max_items", { max: max }));
       }
     });
-  }, [form, prefix, min, max, count, t]);
+  }, [prefix, min, max, form, count, t]);
 
   const fieldErrors = Object.keys(form.errors).reduce<ValidationError[]>(
     (acc, field) => {
@@ -334,7 +390,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
   return (
     <InputGroupProvider.Provider
       value={{
-        disclosure,
+        disclosure: {
+          ...disclosure,
+          onOpen: () => {
+            setProcessing(true);
+            disclosure.onOpen();
+          },
+        },
 
         prefix,
         label,
@@ -352,6 +414,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
         index,
         excluded,
         fields,
+        identity,
 
         getFieldName,
         declareField,
@@ -489,10 +552,3 @@ export const useGroup = (): InputGroupProviderProps | undefined => {
 };
 
 export default InputGroup;
-
-{
-  /*
-  
-
-  */
-}

@@ -1,5 +1,4 @@
 import { useAuth } from "@/contexts/auth-provider";
-import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
 import { Button, Form, Skeleton, Spacer } from "@heroui/react";
@@ -28,12 +27,11 @@ const AuthCodeForm: React.FC = () => {
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
-  const { translateResponse } = useLanguage();
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
   const { user, setUser, setToken, logout } = useAuth();
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string | string[]>>({});
 
   const [timer, setTimer] = useCountdown(TIMEOUT);
 
@@ -97,14 +95,13 @@ const AuthCodeForm: React.FC = () => {
           const params = {
             attempts_left: response?.data?.attempts?.toString() || "0",
           };
-          const errors = translateResponse(response?.data.errors ?? {}, params);
           toast.error({
             description: t(
               "Messages.errors.authentication_code_attempts",
               params
             ),
           });
-          setErrors(errors);
+          setErrors(response?.data?.errors ?? {});
           return;
         }
         toast.error({

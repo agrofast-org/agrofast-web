@@ -1,9 +1,6 @@
 import Body from "@/components/body";
 import { useState } from "react";
-import {
-  formatDocument,
-  numberInputMask,
-} from "@/lib/utils";
+import { formatDocument, numberInputMask } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
 import Head from "next/head";
@@ -12,7 +9,6 @@ import { useOverlay } from "@/contexts/overlay-provider";
 import { useAuth } from "@/contexts/auth-provider";
 
 import userPicture from "@public/img/user-default.png";
-import { useLanguage } from "@/contexts/language-provider";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
 import PictureInput from "@/components/input/picture-input";
 import { useToast } from "@/service/toast";
@@ -36,25 +32,26 @@ export default function Profile() {
   const pt = useTranslations("Pages.SignUp");
   const toast = useToast();
 
-  const { translateResponse } = useLanguage();
   const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (data: FormValues) => {
+  const handleSubmit = (data: FormValues) => {    
     setIsLoading(true);
     api
       .put("/user", data)
       .then(({ data }) => {
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${data.token}`;
-          return config;
+        setUser(data.user);
+        toast.success({
+          description: t("Messages.success.user_updated_successfully"),
         });
       })
       .catch(({ response: { data: errors } }) => {
-        const fields = translateResponse(errors.errors);
-        setErrors(fields);
+        setErrors(errors.errors);
+        toast.error({
+          description: t("Messages.errors.default"),
+        });
       })
       .finally(() => {
         setIsLoading(false);
@@ -130,33 +127,36 @@ export default function Profile() {
                 />
                 <InputGroup
                   label={{
-                    default: "Documento",
-                    plural: "Documentos",
+                    default: t("UI.labels.document"),
+                    plural: t("UI.labels.documents"),
                   }}
                   prefix="documents"
-                  // min={3}
                   max={2}
                   required
                   list
                   modal
                 >
                   <InputGroupDisplay>
-                    <InputGroupItem name="type" label="Tipo">
+                    <InputGroupItem name="document_type" label="Tipo">
                       {(val: string) => val?.toUpperCase()}
                     </InputGroupItem>
                     <InputGroupItem name="number" label="Número">
                       {(val: string, values) => {
-                        return formatDocument(val, values?.["type"]);
+                        return formatDocument(val, values?.["document_type"]);
                       }}
                     </InputGroupItem>
                   </InputGroupDisplay>
                   <InputGroupContent>
                     <InputGroupIdentity name="uuid" />
-                    <DatePicker name="emission_date" label="Data de emissão" />
+                    <DatePicker
+                      name="emission_date"
+                      label={t("UI.labels.emission_date")}
+                      required
+                    />
                     <Select
-                      name="type"
-                      label="Tipo de documento"
-                      placeholder="Escolha um tipo de documento"
+                      name="document_type"
+                      label={t("UI.labels.document_type")}
+                      placeholder={t("UI.placeholders.write_document_type")}
                       className="text-gray-700 dark:text-gray-200"
                       required
                     >
@@ -165,11 +165,11 @@ export default function Profile() {
                     </Select>
                     <Input
                       name="number"
-                      label="Número"
-                      placeholder="Numero do documento"
+                      label={t("UI.labels.document_number")}
+                      placeholder={t("UI.placeholders.write_document_number")}
                       format={(val, { form, group }) => {
                         if (form && group) {
-                          const inputType = group.getFieldName("type");
+                          const inputType = group.getFieldName("document_type");
                           const inputTypeValue = form.values?.[inputType];
 
                           return formatDocument(val, inputTypeValue);

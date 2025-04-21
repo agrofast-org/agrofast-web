@@ -11,7 +11,7 @@ import {
   ModalHeader,
 } from "@/components/modal";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export interface InputGroupContentProps {
   children?: React.ReactNode;
@@ -20,6 +20,16 @@ export interface InputGroupContentProps {
 const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
   const t = useTranslations();
   const inputGroup = useGroup();
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    if (!mounted) {
+      setTimeout(() => {
+        setMounted(true);
+      }, 1);
+    }
+  }, [mounted]);
+
   if (!inputGroup) {
     return null;
   }
@@ -29,6 +39,7 @@ const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
   const {
     disclosure: { isOpen, onOpen, onOpenChange, onClose: onCloseModal },
   } = inputGroup;
+
   const onClose = () => {
     if (isEditing) {
       inputGroup.handleEditCancel();
@@ -36,8 +47,17 @@ const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
     onCloseModal();
   };
 
+  const transitionContent = {
+    item: (
+      (typeof inputGroup.label === "string"
+        ? inputGroup.label
+        : inputGroup.label?.default) ?? t("UI.input_group.item")
+    ).toLowerCase(),
+  };
+
   return (
     <>
+      {!mounted && <div hidden>{children}</div>}
       {inputGroup.modal ? (
         <Modal
           isOpen={isOpen}
@@ -59,11 +79,11 @@ const InputGroupContent: React.FC<InputGroupContentProps> = ({ children }) => {
                 confirmActionInfo={{
                   actionConfirmButtonColor: "primary",
                   actionConfirmTitle: isEditing
-                    ? t("UI.input_group.edit.title")
-                    : t("UI.input_group.insert.title"),
+                    ? t("UI.input_group.edit.title", transitionContent)
+                    : t("UI.input_group.insert.title", transitionContent),
                   actionConfirmText: isEditing
-                    ? t("UI.input_group.edit.description")
-                    : t("UI.input_group.insert.description"),
+                    ? t("UI.input_group.edit.description", transitionContent)
+                    : t("UI.input_group.insert.description", transitionContent),
                 }}
                 color="primary"
                 onPress={() => {

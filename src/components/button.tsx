@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import ConfirmActionModal, {
   ConfirmActionModalMessages,
 } from "./ux/confirm-action-modal";
+import { useForm } from "./form";
 
 export type HrefProps = {
   pathname: string;
@@ -29,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   ...props
 }: ButtonProps) => {
+  const form = useForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const newProps = confirmAction
@@ -47,6 +49,13 @@ const Button: React.FC<ButtonProps> = ({
           onClick={(e) => {
             onPress?.(e);
             if (type === "submit") {
+              if (form) {
+                const formElement = document.querySelector(
+                  `#${form.formId}`
+                ) as HTMLFormElement | null;
+                formElement?.requestSubmit();
+                return;
+              }
               document.querySelector("form")?.requestSubmit();
             }
           }}

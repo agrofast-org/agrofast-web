@@ -4,7 +4,6 @@ import Input from "@/components/input/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 import { useAuth } from "@/contexts/auth-provider";
-import { useLanguage } from "@/contexts/language-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { signUp } from "@/http/user/sign-up";
 import { useToast } from "@/service/toast";
@@ -25,7 +24,6 @@ const SignInForm: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
   const { setIsLoading } = useOverlay();
-  const { translateResponse } = useLanguage();
   const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -55,13 +53,12 @@ const SignInForm: React.FC = () => {
         router.push(`/web/auth-code`);
       })
       .catch(({ data: error }) => {
-        const fields = translateResponse(error.errors);
-        if (fields["password"]) {
+        if (error.errors["password"]) {
           toast.error({
-            description: fields["password"],
+            description: error.errors["password"],
           });
         }
-        setErrors(fields);
+        setErrors(error.errors);
       })
       .finally(() => {
         setIsLoading(false);
