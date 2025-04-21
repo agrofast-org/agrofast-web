@@ -38,6 +38,7 @@ const InputOtp: React.FC<InputOtpProps> = ({
     (newValue?: string) => {
       if (name && form) {
         form.setValue(name, newValue);
+        form.setError(name, undefined);
       }
       setInputValue(newValue);
       onValueChange?.(newValue ?? "");

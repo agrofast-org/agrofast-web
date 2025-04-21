@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({
         return newValues;
       });
     },
-    [setError]
+    []
   );
 
   const setValidation = useCallback(

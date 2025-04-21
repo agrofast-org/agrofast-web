@@ -71,6 +71,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
         setValue(newValue);
         if (name && form) {
           form.setValue(name, newValue);
+          form.setError(name, undefined);
         }
       }
     },

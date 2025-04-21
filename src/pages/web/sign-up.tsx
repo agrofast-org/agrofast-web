@@ -9,6 +9,7 @@ import Head from "next/head";
 import SignInForm from "@/forms/sign-up-form";
 import { ArrowRightUp } from "@solar-icons/react";
 import FormWrapper from "@/components/form-wrapper";
+import CompactLanguageSelector from "@/components/ux/compact-language-selector";
 
 export default function SignIn() {
   const router = useRouter();
@@ -48,6 +49,7 @@ export default function SignIn() {
         <FormWrapper>
           <div className="flex flex-col items-center gap-2">
             <Agrofast.Logo className="w-40 h-10" />
+            <CompactLanguageSelector className="right-0 absolute" />
           </div>
           <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
             {t("UI.titles.create_account")}

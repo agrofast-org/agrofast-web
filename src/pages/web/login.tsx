@@ -9,6 +9,7 @@ import Head from "next/head";
 import LoginForm from "@/forms/login-form";
 import { ArrowRightUp } from "@solar-icons/react";
 import FormWrapper from "@/components/form-wrapper";
+import CompactLanguageSelector from "@/components/ux/compact-language-selector";
 
 export default function Login() {
   const router = useRouter();
@@ -46,8 +47,9 @@ export default function Login() {
           </section>
         </div>
         <FormWrapper>
-          <div className="flex flex-col items-center gap-2">
+          <div className="relative flex flex-row justify-center items-center gap-2">
             <Agrofast.Logo className="w-40 h-10" />
+            <CompactLanguageSelector className="right-0 absolute" />
           </div>
           <p className="flex pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
             {t("UI.redirects.enter_existing_account")}
