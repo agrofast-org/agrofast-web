@@ -4,11 +4,13 @@ const apiHost = new URL(process.env.NEXT_PUBLIC_API_BASE_URL as string).host;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // output: "export",
   i18n: {
     locales: ["pt-BR", "en", "es"],
     defaultLocale: "pt-BR",
   },
   images: {
+    unoptimized: true,
     domains: [apiHost],
     remotePatterns: [
       {

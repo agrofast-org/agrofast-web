@@ -6,9 +6,12 @@
     "dev": "next dev -H 0.0.0.0 -p 3030 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "static": "next build && next export"
   },
   "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
     "@heroui/react": "^2.7.6",
     "@internationalized/date": "^3.7.0",
     "@react-google-maps/api": "^2.20.6",
@@ -27,6 +30,7 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.2.0",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
