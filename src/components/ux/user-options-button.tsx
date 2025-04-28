@@ -34,11 +34,7 @@ const UserOptionsButton: React.FC = () => {
   }
 
   return (
-    <Popover
-      radius="sm"
-      placement="bottom-end"
-      offset={8}
-    >
+    <Popover radius="sm" placement="bottom-end" offset={8}>
       <PopoverTrigger>
         <Button
           radius="md"
