@@ -123,7 +123,6 @@ const Input: React.FC<InputProps> = ({
       )}
       value={inputValue}
       errorMessage={(v) => {
-        console.log("clearing error");
         if (!v && form && name) {
           
           form.setError(name, undefined);

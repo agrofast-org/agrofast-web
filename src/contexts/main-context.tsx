@@ -24,9 +24,6 @@ const queryClient = new QueryClient();
 const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
   const router = useRouter();  
 
-  console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_SERVER_KEY);
-  
-
   return (
     <QueryClientProvider client={queryClient}>
       <NextIntlClientProvider
