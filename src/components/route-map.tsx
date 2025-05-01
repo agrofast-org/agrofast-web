@@ -1,76 +1,63 @@
-import {
-  GoogleMap,
-  Marker,
-  DirectionsService,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import Map from "./maps/map";
 
-const mapContainerStyle = { width: "100%", height: "100%" };
 
 export interface RouteMapProps {
-  from: google.maps.LatLngLiteral | null;
-  to: google.maps.LatLngLiteral | null;
+  from?: google.maps.LatLngLiteral;
+  to?: google.maps.LatLngLiteral;
 }
 
 export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
-  const [map, setMap] = useState<google.maps.Map>();
-  const [currentPos, setCurrentPos] = useState<google.maps.LatLngLiteral>();
-  const [directions, setDirections] = useState<google.maps.DirectionsResult>();
+  // const map = useMap();
+  // const [currentPos, setCurrentPos] = useState<google.maps.LatLngLiteral>();
+  // const [directionsRenderer, setDirectionsRenderer] =
+  //   useState<google.maps.DirectionsRenderer>();
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      setCurrentPos({ lat: coords.latitude, lng: coords.longitude });
-      map?.panTo({ lat: coords.latitude, lng: coords.longitude });
-    });
-  }, [map]);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(({ coords }) => {
+  //     const pos = { lat: coords.latitude, lng: coords.longitude };
+  //     setCurrentPos(pos);
+  //     map?.panTo(pos);
+  //   });
+  // }, [map]);
 
-  const directionsCallback = useCallback(
-    (result: google.maps.DirectionsResult | null, status: string) => {
-      if (status === "OK" && result) setDirections(result);
-    },
-    []
-  );
+  // useEffect(() => {
+  //   if (!map) return;
+  //   const renderer = new google.maps.DirectionsRenderer();
+  //   renderer.setMap(map);
+  //   setDirectionsRenderer(renderer);
+  // }, [map]);
 
-  const directionsRequest = useMemo<google.maps.DirectionsRequest>(
-    () => ({
-      origin: from!,
-      destination: to!,
-      travelMode: google.maps.TravelMode.DRIVING,
-    }),
-    [from, to]
-  );
+  // const calculateRoute = useCallback(() => {
+  //   if (!from || !to || !directionsRenderer) return;
+  //   const service = new google.maps.DirectionsService();
+  //   service.route(
+  //     {
+  //       origin: from,
+  //       destination: to,
+  //       // travelMode: "DRIVING"
+  //     },
+  //     (result, status) => {
+  //       if (status === "OK" && result) {
+  //         directionsRenderer.setDirections(result);
+  //       }
+  //     }
+  //   );
+  // }, [from, to, directionsRenderer]);
 
-  const mapOptions = useMemo<google.maps.MapOptions>(
-    () => ({
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-      clickableIcons: false,
-      disableDefaultUI: false,
-    }),
-    []
-  );
+  // useEffect(() => {
+  //   calculateRoute();
+  // }, [calculateRoute]);
 
   return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      center={currentPos || { lat: -14.235, lng: -51.9253 }}
-      zoom={currentPos ? 12 : 4}
-      onLoad={setMap}
-      options={mapOptions}
-    >
-      {currentPos && <Marker position={currentPos} title="Você está aqui" />}
-      {!directions && from && <Marker position={from} title="Origem" />}
-      {!directions && to && <Marker position={to} title="Destino" />}
+    <Map
 
-      {from && to && (
-        <DirectionsService
-          options={directionsRequest}
-          callback={directionsCallback}
-        />
+    >
+      {/* {currentPos && (
+        <AdvancedMarker position={currentPos} title="Você está aqui" />
       )}
-      {directions && <DirectionsRenderer directions={directions} />}
-    </GoogleMap>
+      {!directionsRenderer && from && <AdvancedMarker position={from} />}
+      {!directionsRenderer && to && <AdvancedMarker position={to} />} */}
+      {/* A rota é desenhada via DirectionsRenderer imperativo */}
+    </Map>
   );
 };

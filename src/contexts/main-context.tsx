@@ -12,7 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BrowserAgentProvider from "./browser-agent-provider";
 import CookieUseWarning from "@/components/ui/cookie-use-warning";
 import SolarIconsProvider from "./solar-icons-provider";
-import { LoadScript } from "@react-google-maps/api";
+import GoogleProvider from "./google-provider";
 
 interface MainProviderProps {
   children: React.ReactNode;
@@ -31,10 +31,7 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
         timeZone="America/Sao_Paulo"
         messages={pageProps.messages}
       >
-        <LoadScript
-          googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_SERVER_KEY ?? ""}
-          libraries={["places"]}
-        >
+        <GoogleProvider>
           <SolarIconsProvider>
             <HeroUIProvider>
               <CookieUseWarning />
@@ -54,7 +51,7 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
               </ToasterProvider>
             </HeroUIProvider>
           </SolarIconsProvider>
-        </LoadScript>
+        </GoogleProvider>
       </NextIntlClientProvider>
     </QueryClientProvider>
   );
