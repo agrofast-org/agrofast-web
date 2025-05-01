@@ -1,13 +1,18 @@
 import { cn } from "@/lib/utils";
 
 const Marker: React.FC<{
-  classname?: string;
+  className?: string;
   children?: React.ReactNode;
-}> = ({ classname, children }) => {
+}> = ({ className, children }) => {
   return (
-    <div className={cn("relative size-9 scale-110 hover:scale-150 transition-transform -translate-y-1 hover:-translate-y-[10px] duration-75 marker", classname)}>
+    <div
+      className={cn(
+        "relative size-9 scale-110 hover:scale-150 transition-transform -translate-y-1 hover:-translate-y-[10px] duration-75 marker",
+        className
+      )}
+    >
       <div className="top-0 left-0 absolute m-[27.5%] mt-[18.5%] !size-4 text-white">
-        {children}
+        {children ?? <div className="bg-white m-px rounded-full size-3.5" />}
       </div>
       <svg
         width="24"

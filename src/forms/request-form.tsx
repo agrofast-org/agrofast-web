@@ -4,47 +4,11 @@ import Button from "@/components/button";
 import DatePicker from "@/components/input/date-picker";
 // import { StandaloneSearchBox } from "@react-google-maps/api";
 import { RouteMap } from "@/components/route-map";
-import PlaceModalSelector from "@/components/maps/place-modal-selector";
 import useRouteDisclosure from "@/hooks/use-route-disclosure";
 import PlaceAutocomplete from "@/components/maps/place-autocomplete";
 
 export const RequestForm: React.FC = () => {
-  const { setPlaceFrom, setPlaceTo } = useRouteDisclosure(); 
-  
-  // const fromBox = useSearchBox();
-  // const toBox = useSearchBox();
-  // const [debouncedFetchFrom] = useDebounce(() => {
-  // }, 300);
-  // const [debouncedFetchTo] = useDebounce(() => {
-  // }, 300);
-
-  // const [fromCoord, setFromCoord] = useState<google.maps.LatLngLiteral | null>(
-  //   null
-  // );
-  // const [toCoord, setToCoord] = useState<google.maps.LatLngLiteral | null>(
-  //   null
-  // );
-
-  // Quando o usuário escolhe uma place
-  // const handleSelectFrom = () => {
-  //   const place = fromBox.places[0];
-  //   if (place?.geometry?.location) {
-  //     setFromCoord({
-  //       lat: place.geometry.location.lat(),
-  //       lng: place.geometry.location.lng(),
-  //     });
-  //   }
-  // };
-
-  // const handleSelectTo = () => {
-  //   const place = toBox.places[0];
-  //   if (place?.geometry?.location) {
-  //     setToCoord({
-  //       lat: place.geometry.location.lat(),
-  //       lng: place.geometry.location.lng(),
-  //     });
-  //   }
-  // };
+  const { placeFrom, setPlaceFrom, placeTo, setPlaceTo } = useRouteDisclosure();
 
   return (
     <AnimatePresence>
@@ -65,23 +29,21 @@ export const RequestForm: React.FC = () => {
                 label="De onde"
                 placeholder="Escolha o local de partida"
                 onPlaceSelect={setPlaceFrom}
-                // required
-                selectOnMap
+                // selectOnMap
               />
 
               <PlaceAutocomplete
                 label="Para onde"
                 placeholder="Escolha o local de destino"
                 onPlaceSelect={setPlaceTo}
-                // required
-                selectOnMap
+                // selectOnMap
               />
               <DatePicker label="Escolha uma data" required />
 
               <Button
                 color="primary"
                 onPress={() => {}}
-                // disabled={!fromCoord || !toCoord}
+                isDisabled={!placeFrom || !placeTo}
                 className="mt-4 w-full"
               >
                 Lançar chamado
@@ -89,9 +51,7 @@ export const RequestForm: React.FC = () => {
             </div>
 
             <div className="flex flex-1 min-h-[400px]">
-              <RouteMap
-              // from={fromCoord} to={toCoord}
-              />
+              <RouteMap from={placeFrom} to={placeTo} />
             </div>
           </div>
         </section>

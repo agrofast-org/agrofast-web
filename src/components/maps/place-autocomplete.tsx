@@ -9,21 +9,13 @@ import { Autocomplete, AutocompleteItem, Button, Spinner } from "@heroui/react";
 import {
   useMapsLibrary,
   MapMouseEvent,
-  AdvancedMarker,
+  useMap,
 } from "@vis.gl/react-google-maps";
 import { useAutocompleteSuggestions } from "@/hooks/use-autocomplete-suggestions";
 import { useDebounce } from "@/hooks/use-debounce";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "../modal";
 import { useDisclosure } from "@heroui/react";
-import { MapPoint, MapPointSearch, PointOnMap, User } from "@solar-icons/react";
-import Map from "./map";
-import Marker from "./marker";
+import { MapPointSearch, PointOnMap } from "@solar-icons/react";
+import PlaceSelectionModal from "../ux/place-selection-modal";
 
 export interface PlaceAutocompleteProps {
   name?: string;
@@ -31,7 +23,7 @@ export interface PlaceAutocompleteProps {
   placeholder?: string;
   selectOnMap?: boolean;
   allowCoordinates?: boolean;
-  onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+  onPlaceSelect: (place: google.maps.places.Place | null) => void;
 }
 
 export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
@@ -42,18 +34,19 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
   allowCoordinates = selectOnMap,
   onPlaceSelect,
 }) => {
+  const map = useMap("place-autocomplete-modal-map");
   const placesLib = useMapsLibrary("places");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [inputValue, setInputValue] = useState("");
   const [query, setQuery] = useState("");
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [debounceQuery, , queryDebouncing] = useDebounce(
-    (v: string) => setQuery(v),
-    300
-  );
+  const [debounceQuery] = useDebounce((v: string) => setQuery(v), 300);
 
   const { suggestions, resetSession } = useAutocompleteSuggestions(query);
+
+  const [selectedPos, setSelectedPos] =
+    useState<google.maps.LatLngLiteral | null>(null);
 
   const [tempPos, setTempPos] = useState<google.maps.LatLngLiteral | null>(
     null
@@ -89,16 +82,17 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
 
   const handleSelectionChange = useCallback(
     async (key: string | null) => {
-      if (key === selectedKey) return;
-      setSelectedKey(key);
-
-      setQuery("");
-      resetSession();
-
-      if (!key || !placesLib) {
-        onPlaceSelect(null);
+      if (key === null) {
         return;
       }
+
+      if (key === selectedKey) {
+        return;
+      }
+
+      setSelectedKey(key);
+      setQuery("");
+      resetSession();
 
       const sug = suggestions.find((s) => s.placePrediction!.placeId === key)!;
       const label = sug.placePrediction!.text.text;
@@ -113,16 +107,31 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
           "iconBackgroundColor",
         ],
       });
-      onPlaceSelect(place as google.maps.places.PlaceResult);
+
+      if (place.location) {
+        const { lat, lng } = place.location.toJSON();
+        setSelectedPos({ lat, lng });
+      }
+
+      onPlaceSelect(place);
     },
-    [selectedKey, placesLib, suggestions, onPlaceSelect, resetSession]
+    [selectedKey, suggestions, resetSession, onPlaceSelect]
   );
 
-  const handleMapClick = useCallback((e: MapMouseEvent) => {
-    if (e.detail.latLng) {
-      setTempPos(e.detail.latLng);
-    }
-  }, []);
+  const handleMapClick = useCallback(
+    (e: MapMouseEvent) => {
+      if (e.detail?.latLng) {
+        setTempPos(e.detail.latLng);
+
+        map?.panToBounds(
+          new google.maps.LatLngBounds(e.detail.latLng, e.detail.latLng),
+          400
+        );
+        map?.setZoom(16);
+      }
+    },
+    [map]
+  );
 
   const handleConfirmMap = useCallback(() => {
     if (!tempPos || !serviceRef.current) {
@@ -131,8 +140,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       return;
     }
 
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ location: tempPos }, (res, status) => {
+    new google.maps.Geocoder().geocode({ location: tempPos }, (res, status) => {
       if (status === "OK" && res?.[0]?.place_id) {
         const pid = res[0].place_id;
         serviceRef.current!.getDetails(
@@ -144,7 +152,12 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
             if (st === google.maps.places.PlacesServiceStatus.OK && place) {
               setInputValue(place.formatted_address || "");
               setSelectedKey(place.place_id!);
-              onPlaceSelect(place as google.maps.places.PlaceResult);
+              const loc = place.geometry!.location;
+              if (loc) {
+                const pos = { lat: loc.lat(), lng: loc.lng() };
+                setSelectedPos(pos);
+              }
+              onPlaceSelect(place as unknown as google.maps.places.Place);
             } else {
               onPlaceSelect(null);
             }
@@ -163,7 +176,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
 
   return (
     <>
-      <div className="flex gap-2">
+      <div className="flex items-end gap-2">
         <Autocomplete
           name={name}
           label={label}
@@ -181,20 +194,15 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
           {items.length === 0 ? (
             <AutocompleteItem
               startContent={
-                <>
-                  {!queryDebouncing && (
-                    <MapPointSearch
-                      weight="LineDuotone"
-                      className="size-5 text-default-500"
-                    />
-                  )}
-                </>
+                !suggestions.length && !query ? (
+                  <MapPointSearch className="size-5 text-default-500" />
+                ) : undefined
               }
               className="!bg-transparent pointer-events-none"
               key={null}
               aria-disabled
             >
-              {queryDebouncing ? (
+              {query && !suggestions.length ? (
                 <div className="flex justify-center items-center gap-2">
                   <Spinner
                     size="sm"
@@ -205,11 +213,9 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
                   />
                   <span>Carregando...</span>
                 </div>
-              ) : inputValue === "" ? (
-                <span className="text-gray-500">Pesquisar um local</span>
               ) : (
                 <span className="text-gray-500">
-                  Nenhum resultado encontrado
+                  {query ? "Nenhum resultado" : "Pesquisar um local"}
                 </span>
               )}
             </AutocompleteItem>
@@ -217,7 +223,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
             (item) => (
               <AutocompleteItem
                 startContent={
-                  <MapPoint weight="Bold" className="size-5 text-default-500" />
+                  <MapPointSearch className="size-5 text-default-500" />
                 }
                 key={item.key}
               >
@@ -234,61 +240,20 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
             className="self-end"
             aria-label="Selecionar no mapa"
           >
-            <PointOnMap
-              className="size-6 text-default-500"
-              weight="BoldDuotone"
-            />
+            <PointOnMap className="size-6 text-default-500" />
           </Button>
         )}
       </div>
 
-      <Modal
+      <PlaceSelectionModal
         isOpen={isOpen}
-        onClose={() => {
-          setTempPos(null);
-          onClose();
-        }}
-      >
-        <ModalContent>
-          <ModalHeader>Selecione no mapa</ModalHeader>
-          <ModalBody className="p-2 px-4">
-            <div className="relative min-h-96 size-full">
-              <Map
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  overflow: "hidden",
-                }}
-                onClick={handleMapClick}
-              >
-                {tempPos && (
-                  <AdvancedMarker position={tempPos}>
-                    <Marker classname="text-red-600"><User weight="Bold" /></Marker>
-                  </AdvancedMarker>
-                )}
-              </Map>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              onPress={() => {
-                setTempPos(null);
-                onClose();
-              }}
-            >
-              Cancelar
-            </Button>
-            <Button
-              color="primary"
-              onPress={handleConfirmMap}
-              isDisabled={!tempPos}
-            >
-              Confirmar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+        tempPos={tempPos}
+        selectedPos={selectedPos}
+        onClose={onClose}
+        setTempPos={setTempPos}
+        handleMapClick={handleMapClick}
+        handleConfirmMap={handleConfirmMap}
+      />
     </>
   );
 };

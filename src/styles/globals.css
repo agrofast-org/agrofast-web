@@ -6,6 +6,11 @@
   --foreground: #394051;
   --background: #f8fafc;
 
+  --map-walking-color: #10b981;
+  --map-default-color: #2563eb;
+  --map-marker-fill: #ffffff;
+  --map-marker-border: #1f2937;
+
   color: var(--foreground);
   background: var(--background);
 }
@@ -14,6 +19,9 @@
   :root {
     --foreground: #e5e7eb;
     --background: #171717;
+
+    --map-marker-fill: #1f2937;
+    --map-marker-border: #d1d5db;
 
     color: var(--foreground);
     background: var(--background);
