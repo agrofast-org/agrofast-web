@@ -5,29 +5,26 @@ import {
 } from "@vis.gl/react-google-maps";
 import Map from "./maps/map";
 import Marker from "./maps/marker";
-import { Pin, User } from "@solar-icons/react";
+import { DangerCircle, Pin, User } from "@solar-icons/react";
 import { useEffect, useState } from "react";
 import mapsApi from "@/service/routes-api";
 import { Polyline } from "./maps/polyline";
+import { getLocation } from "@/hooks/use-route-disclosure";
 
 export interface RouteMapProps {
-  from?: google.maps.places.Place | null;
-  to?: google.maps.places.Place | null;
+  from?: google.maps.places.Place | google.maps.places.PlaceResult | null;
+  to?: google.maps.places.Place | google.maps.places.PlaceResult | null;
 }
 
-const timestamp = Math.ceil(Date.now() / 86_400_000) * 86_400_000 + 900_000;
-const departureTime = new Date(timestamp).toISOString();
-
 export const defaultAppearance = {
-  walkingPolylineColor:  "var(--map-walking-color)",
-  defaultPolylineColor:  "var(--map-default-color)",
-  stepMarkerFillColor:   "var(--map-marker-fill)",
+  walkingPolylineColor: "var(--map-walking-color)",
+  defaultPolylineColor: "var(--map-default-color)",
+  stepMarkerFillColor: "var(--map-marker-fill)",
   stepMarkerBorderColor: "var(--map-marker-border)",
 };
 
 const routeOptions = {
   travelMode: "DRIVE",
-  // departureTime,
   computeAlternativeRoutes: false,
   units: "METRIC",
 };
@@ -40,11 +37,13 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
   useEffect(() => {
     if (map && (from || to)) {
       const bounds = new google.maps.LatLngBounds();
-      if (from && from.location) {
-        bounds.extend(from.location);
+      const fromCoords = getLocation(from ?? undefined);
+      const toCoords = getLocation(to ?? undefined);
+      if (fromCoords) {
+        bounds.extend(fromCoords);
       }
-      if (to && to.location) {
-        bounds.extend(to.location);
+      if (toCoords) {
+        bounds.extend(toCoords);
       }
       map.fitBounds(bounds);
     }
@@ -53,28 +52,24 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
   useEffect(() => {
     if (!map) return;
 
-    if (from?.location && to?.location) {
-      mapsApi
-        .computeRoutes(
-          { lat: from.location.lat(), lng: from.location.lng() },
-          { lat: to.location.lat(), lng: to.location.lng() },
-          routeOptions
-        )
-        .then((res) => {
-          const [route] = res.routes;
+    const fromCoords = getLocation(from ?? undefined);
+    const toCoords = getLocation(to ?? undefined);
+    if (fromCoords && toCoords) {
+      mapsApi.computeRoutes(fromCoords, toCoords, routeOptions).then((res) => {
+        const [route] = res.routes;
 
-          setRoute(route);
+        setRoute(route);
 
-          const { high, low } = route.viewport;
-          const bounds: google.maps.LatLngBoundsLiteral = {
-            north: high.latitude,
-            south: low.latitude,
-            east: high.longitude,
-            west: low.longitude,
-          };
+        const { high, low } = route.viewport;
+        const bounds: google.maps.LatLngBoundsLiteral = {
+          north: high.latitude,
+          south: low.latitude,
+          east: high.longitude,
+          west: low.longitude,
+        };
 
-          map.fitBounds(bounds);
-        });
+        map.fitBounds(bounds);
+      });
     }
   }, [from, to, map]);
 
@@ -84,18 +79,13 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
   const appearance = { ...defaultAppearance };
 
   const polylines = routeSteps.map((step, index) => {
-    const isWalking = step.travelMode === "WALK";
-    const color = isWalking
-      ? appearance.walkingPolylineColor
-      : step?.transitDetails?.transitLine?.color ??
-        appearance.defaultPolylineColor;
 
     return (
       <Polyline
         key={`${index}-polyline`}
         encodedPath={step.polyline.encodedPolyline}
-        strokeWeight={isWalking ? 2 : 6}
-        strokeColor={color}
+        strokeWeight={5}
+        strokeColor="#3a6fe3e3"
       />
     );
   });
@@ -121,7 +111,7 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
         anchorPoint={AdvancedMarkerAnchorPoint.CENTER}
         position={position}
       >
-        <div style={stepMarkerStyle} />
+        <div style={stepMarkerStyle} className="hover:scale-150" />
       </AdvancedMarker>
     );
   });
@@ -134,14 +124,14 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
       defaultZoom={4.5}
     >
       {from && (
-        <AdvancedMarker position={from.location}>
+        <AdvancedMarker position={getLocation(from)}>
           <Marker className="text-green-600">
             <User weight="Bold" />
           </Marker>
         </AdvancedMarker>
       )}
       {to && (
-        <AdvancedMarker position={to.location}>
+        <AdvancedMarker position={getLocation(to)}>
           <Marker className="text-red-600">
             <Pin weight="Bold" />
           </Marker>

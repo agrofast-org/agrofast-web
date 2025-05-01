@@ -1,11 +1,35 @@
 import { useState, useCallback } from "react";
 import mapsApi from "@/service/routes-api";
 
+export const getLocation = (
+  place?: google.maps.places.Place | google.maps.places.PlaceResult
+): google.maps.LatLngLiteral | null => {
+  if (place) {
+    if ("location" in place && place.location) {
+      const lat = place.location.lat();
+      const lng = place.location.lng();
+      if (lat !== undefined && lng !== undefined) {
+        return { lat, lng };
+      }
+    }
+    if ("geometry" in place && place.geometry && place.geometry.location) {
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      if (lat !== undefined && lng !== undefined) {
+        return { lat, lng };
+      }
+    }
+  }
+  return null;
+};
+
 const useRouteDisclosure = () => {
-  const [placeFrom, setPlaceFrom] = useState<google.maps.places.Place | null>(
-    null
-  );
-  const [placeTo, setPlaceTo] = useState<google.maps.places.Place | null>(null);
+  const [placeFrom, setPlaceFrom] = useState<
+    google.maps.places.Place | google.maps.places.PlaceResult | null
+  >(null);
+  const [placeTo, setPlaceTo] = useState<
+    google.maps.places.Place | google.maps.places.PlaceResult | null
+  >(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [route, setRoute] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,15 +40,14 @@ const useRouteDisclosure = () => {
       if (!placeFrom || !placeTo) return;
       setIsLoading(true);
       try {
+        const fromCoords = getLocation(placeFrom);
+        const toCoords = getLocation(placeTo);
+        if (!fromCoords || !toCoords) {
+          throw new Error("Invalid coordinates for route computation.");
+        }
         const res = await mapsApi.computeRoutes(
-          {
-            lat: (placeFrom.location as google.maps.LatLng).lat(),
-            lng: (placeFrom.location as google.maps.LatLng).lng(),
-          },
-          {
-            lat: (placeTo.location as google.maps.LatLng).lat(),
-            lng: (placeTo.location as google.maps.LatLng).lng(),
-          },
+          fromCoords,
+          toCoords,
           routeOptions
         );
         const [computedRoute] = res.routes;

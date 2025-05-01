@@ -23,7 +23,9 @@ export interface PlaceAutocompleteProps {
   placeholder?: string;
   selectOnMap?: boolean;
   allowCoordinates?: boolean;
-  onPlaceSelect: (place: google.maps.places.Place | null) => void;
+  onPlaceSelect: (
+    place: google.maps.places.Place | google.maps.places.PlaceResult | null
+  ) => void;
 }
 
 export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
@@ -157,7 +159,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
                 const pos = { lat: loc.lat(), lng: loc.lng() };
                 setSelectedPos(pos);
               }
-              onPlaceSelect(place as unknown as google.maps.places.Place);
+              onPlaceSelect(place);
             } else {
               onPlaceSelect(null);
             }
@@ -240,7 +242,10 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
             className="self-end"
             aria-label="Selecionar no mapa"
           >
-            <PointOnMap className="size-6 text-default-500" />
+            <PointOnMap
+              weight="BoldDuotone"
+              className="size-6 text-default-500"
+            />
           </Button>
         )}
       </div>

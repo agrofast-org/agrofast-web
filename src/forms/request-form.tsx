@@ -29,14 +29,14 @@ export const RequestForm: React.FC = () => {
                 label="De onde"
                 placeholder="Escolha o local de partida"
                 onPlaceSelect={setPlaceFrom}
-                // selectOnMap
+                selectOnMap
               />
 
               <PlaceAutocomplete
                 label="Para onde"
                 placeholder="Escolha o local de destino"
                 onPlaceSelect={setPlaceTo}
-                // selectOnMap
+                selectOnMap
               />
               <DatePicker label="Escolha uma data" required />
 
