@@ -5,7 +5,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import Map from "./maps/map";
 import Marker from "./maps/marker";
-import { DangerCircle, Pin, User } from "@solar-icons/react";
+import { Pin, User } from "@solar-icons/react";
 import { useEffect, useState } from "react";
 import mapsApi from "@/service/routes-api";
 import { Polyline } from "./maps/polyline";
