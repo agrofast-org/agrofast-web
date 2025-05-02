@@ -1,5 +1,6 @@
 import {
   CalendarDate,
+  DateValue,
   DatePicker as HeroUIDatePicker,
   DatePickerProps as HeroUIDatePickerPro,
 } from "@heroui/react";
@@ -36,10 +37,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const isFieldRequired = required ?? isRequired ?? false;
 
   const [hasFirstRender, setHasFirstRender] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<DatePickerValue>();
+  const [inputValue, setInputValue] = useState<DateValue | null>();
 
   const changeValue = useCallback(
-    (newValue?: DatePickerValue) => {
+    (newValue?: DateValue | null) => {
       if (newValue && newValue !== inputValue) {
         if (name && form) {
           form.setValue(name, newValue);
