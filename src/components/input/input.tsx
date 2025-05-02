@@ -107,10 +107,10 @@ const Input: React.FC<InputProps> = ({
       ref={ref}
       name={name}
       classNames={{
-        base: "relative",
-        label: "top-6 !-translate-y-[3.25em]",
-        helperWrapper: "absolute -bottom-[20px] -left-0.5 max-w-full",
-        errorMessage: "truncate",
+        base: "!relative",
+        label: "!top-6 !-translate-y-[3.25em] start-0",
+        helperWrapper: "!absolute !-bottom-[20px] !-left-0.5 max-w-full",
+        errorMessage: "!truncate",
         input: "!transition-colors !duration-100",
         inputWrapper: "!transition-colors !duration-100",
       }}
@@ -123,7 +123,6 @@ const Input: React.FC<InputProps> = ({
       )}
       value={inputValue}
       errorMessage={(v) => {
-        console.log("clearing error");
         if (!v && form && name) {
           
           form.setError(name, undefined);

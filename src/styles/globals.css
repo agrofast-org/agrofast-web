@@ -6,6 +6,11 @@
   --foreground: #394051;
   --background: #f8fafc;
 
+  --map-walking-color: #10b981;
+  --map-default-color: #2563eb;
+  --map-marker-fill: #ffffff;
+  --map-marker-border: #1f2937;
+
   color: var(--foreground);
   background: var(--background);
 }
@@ -15,6 +20,9 @@
     --foreground: #e5e7eb;
     --background: #171717;
 
+    --map-marker-fill: #1f2937;
+    --map-marker-border: #d1d5db;
+
     color: var(--foreground);
     background: var(--background);
   }
@@ -23,4 +31,29 @@
 body {
   color: var(--foreground);
   background: var(--background);
+}
+
+.autocomplete * div[data-slot="input-wrapper"] label {
+  @apply !top-6 !-translate-y-[3.25em] start-0;
+}
+
+.marker {
+  filter: drop-shadow(0 1px 0.1rem #9b9b9b);
+}
+
+.marker div svg {
+  width: 100%;
+  height: 100%;
+}
+
+.marker-icon path {
+  stroke: white;
+  stroke-width: 0.1rem !important;
+  fill: white;
+}
+
+.marker-icon circle {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0.15rem;
 }
