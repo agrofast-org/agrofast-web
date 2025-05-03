@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import Link from "@/components/link";
-import { getPortfolioStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { getLegalUrl } from "@/lib/utils";
@@ -79,4 +79,4 @@ export default function About() {
   );
 }
 
-export const getStaticProps = getPortfolioStaticPropsWithMessages;
+export const getStaticProps = getStaticPropsWithMessages;

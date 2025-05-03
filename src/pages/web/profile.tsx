@@ -2,7 +2,7 @@ import Body from "@/components/body";
 import { useState } from "react";
 import { formatDocument, numberInputMask } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
@@ -220,4 +220,4 @@ export default function Profile() {
   );
 }
 
-export const getStaticProps = getWebStaticPropsWithMessages;
+export const getStaticProps = getStaticPropsWithMessages;

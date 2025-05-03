@@ -1,5 +1,5 @@
 import Layout from "@/components/layout";
-import { getPortfolioStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 
 // import appDownload from "@public/img/app-download.png";
 import appIcon from "@public/img/app-icon.png";
@@ -139,4 +139,4 @@ export default function Home() {
   );
 }
 
-export const getStaticProps = getPortfolioStaticPropsWithMessages;
+export const getStaticProps = getStaticPropsWithMessages;

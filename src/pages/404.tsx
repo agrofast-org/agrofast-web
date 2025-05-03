@@ -1,6 +1,6 @@
 import Body from "@/components/body";
 import Agrofast from "@/components/ui/agrofast";
-import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Link from "@/components/link";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -43,4 +43,4 @@ export default function NotFound() {
   );
 }
 
-export const getStaticProps = getWebStaticPropsWithMessages;
+export const getStaticProps = getStaticPropsWithMessages;

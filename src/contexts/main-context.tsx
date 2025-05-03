@@ -22,7 +22,7 @@ interface MainProviderProps {
 const queryClient = new QueryClient();
 
 const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
-  const router = useRouter();  
+  const router = useRouter();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,7 +33,11 @@ const MainProvider: React.FC<MainProviderProps> = ({ children, pageProps }) => {
       >
         <GoogleProvider>
           <SolarIconsProvider>
-            <HeroUIProvider>
+            <HeroUIProvider
+              skipFramerMotionAnimations={true}
+              reducedMotion="user"
+              locale={router.locale ?? "pt-BR"}
+            >
               <CookieUseWarning />
               <ToasterProvider>
                 <NextThemesProvider attribute="class" defaultTheme="light">

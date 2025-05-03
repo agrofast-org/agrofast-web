@@ -1,7 +1,7 @@
 import Body from "@/components/body";
 import Agrofast from "@/components/ui/agrofast";
 import { useTranslations } from "next-intl";
-import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import ResetPasswordForm from "@/forms/reset-password-form";
 import FormWrapper from "@/components/form-wrapper";
@@ -31,4 +31,4 @@ export default function ForgotPass() {
   );
 }
 
-export const getStaticProps = getWebStaticPropsWithMessages;
+export const getStaticProps = getStaticPropsWithMessages;
