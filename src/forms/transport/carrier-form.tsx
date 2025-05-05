@@ -25,7 +25,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       putUrl={(id) => `/carrier/${id}`}
     >
       <FormHeader className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-        {uuid ? t("UI.titles.editVehicle") : t("UI.titles.addVehicle")}
+        {uuid ? t("UI.titles.edit_carrier") : t("UI.titles.add_carrier")}
       </FormHeader>
 
       {/* Identificação */}

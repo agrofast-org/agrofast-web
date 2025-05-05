@@ -5,7 +5,6 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useRef,
 } from "react";
 import { useCookies } from "react-cookie";
 import { validateBrowserAgent } from "@/lib/validations";

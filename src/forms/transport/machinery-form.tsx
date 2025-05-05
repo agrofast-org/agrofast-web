@@ -24,7 +24,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       putUrl={(id) => `/machinery/${id}`}
     >
       <FormHeader className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-        Inserir ou editar maquinário
+        {uuid ? t("UI.titles.edit_machinery") : t("UI.titles.add_machinery")}
       </FormHeader>
       <FormGroup label="Identificação">
         <Input

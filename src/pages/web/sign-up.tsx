@@ -47,7 +47,7 @@ export default function SignIn() {
           </section>
         </div>
         <FormWrapper>
-          <div className="flex flex-col items-center gap-2">
+          <div className="relative flex flex-col items-center gap-2">
             <Agrofast.Logo className="w-40 h-10" />
             <CompactLanguageSelector className="right-0 absolute" />
           </div>
