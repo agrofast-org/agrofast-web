@@ -20,7 +20,7 @@ import InputGroupDisplay, {
 } from "@/components/input/group/input-group-display";
 import InputGroupContent from "@/components/input/group/input-group-content";
 import Button from "@/components/button";
-import Form from "@/components/form";
+import Form from "@/components/form/form";
 import { FormValues } from "@/types/form";
 import DatePicker from "@/components/input/date-picker";
 import Select from "@/components/input/select";

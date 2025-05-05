@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import ResetPasswordForm from "@/forms/reset-password-form";
-import FormWrapper from "@/components/form-wrapper";
+import FormWrapper from "@/components/form/form-wrapper";
 
 export default function ForgotPass() {
   const t = useTranslations();

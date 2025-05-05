@@ -3,9 +3,6 @@ import { ParsedUrlQuery } from "querystring";
 import getMessages from "./get-messages";
 
 export const getStaticPropsWithMessages = async ({
-  params,
-  preview,
-  previewData,
   locale = "pt-BR",
 }: {
   params?: ParsedUrlQuery;

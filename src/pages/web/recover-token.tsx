@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import RecoverTokenForm from "@/forms/recover-token-form";
-import FormWrapper from "@/components/form-wrapper";
+import FormWrapper from "@/components/form/form-wrapper";
 
 export default function RecoverToken() {
   const t = useTranslations();

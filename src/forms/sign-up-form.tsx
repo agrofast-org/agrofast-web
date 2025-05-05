@@ -1,5 +1,5 @@
 import Checkbox from "@/components/input/checkbox";
-import Form from "@/components/form";
+import Form from "@/components/form/form";
 import Input from "@/components/input/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
@@ -87,7 +87,7 @@ const SignInForm: React.FC = () => {
         </ModalContent>
       </Modal>
       <Form
-        className="flex flex-col gap-4"
+        className="!flex !flex-col gap-4"
         onSubmit={handleSubmit}
         validationErrors={errors}
       >

@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import SignInForm from "@/forms/sign-up-form";
 import { ArrowRightUp } from "@solar-icons/react";
-import FormWrapper from "@/components/form-wrapper";
 import CompactLanguageSelector from "@/components/ux/compact-language-selector";
+import FormWrapper from "@/components/form/form-wrapper";
 
 export default function SignIn() {
   const router = useRouter();

@@ -10,7 +10,7 @@ import { login } from "@/http/user/login";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { useCookies } from "react-cookie";
 import Button from "@/components/button";
-import Form from "@/components/form";
+import Form from "@/components/form/form";
 import { FormValues } from "@/types/form";
 import { cookieOptions } from "@/service/cookie";
 
@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
   return (
     <>
       <Form
-        className="flex flex-col flex-1 gap-4"
+        className="!flex !flex-col flex-1 gap-4"
         validationBehavior="native"
         validationErrors={errors}
         onSubmit={handleSubmit}
