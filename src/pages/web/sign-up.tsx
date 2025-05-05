@@ -3,13 +3,13 @@ import { Button } from "@heroui/react";
 import Agrofast from "@/components/ui/agrofast";
 import { getPortfolioUrl } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { getWebStaticPropsWithMessages } from "@/lib/getStaticProps";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import SignInForm from "@/forms/sign-up-form";
 import { ArrowRightUp } from "@solar-icons/react";
-import FormWrapper from "@/components/form-wrapper";
 import CompactLanguageSelector from "@/components/ux/compact-language-selector";
+import FormWrapper from "@/components/form/form-wrapper";
 
 export default function SignIn() {
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function SignIn() {
           </section>
         </div>
         <FormWrapper>
-          <div className="flex flex-col items-center gap-2">
+          <div className="relative flex flex-col items-center gap-2">
             <Agrofast.Logo className="w-40 h-10" />
             <CompactLanguageSelector className="right-0 absolute" />
           </div>
@@ -61,4 +61,4 @@ export default function SignIn() {
   );
 }
 
-export const getStaticProps = getWebStaticPropsWithMessages;
+export const getStaticProps = getStaticPropsWithMessages;
