@@ -38,6 +38,7 @@ const PlaceSelectionModal: React.FC<PlaceSelectorProps> = ({
           setTempPos(null);
           onClose();
         }}
+        placement="center"
       >
         <ModalContent>
           <ModalHeader>Selecione no mapa</ModalHeader>

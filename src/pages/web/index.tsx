@@ -25,13 +25,11 @@ export default function Index() {
         >
           <ProfileTypeForm />
         </ConditionalModal>
-
         {user?.profile_type === "requester" && (
           <>
             <RequestForm />
           </>
         )}
-
         {user?.profile_type === "transporter" && (
           <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
             <h1 className="font-bold text-2xl">Bem-vindo, Transportador!</h1>

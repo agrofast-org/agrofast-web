@@ -4,25 +4,17 @@ import Agrofast from "@/components/ui/agrofast";
 import dynamic from "next/dynamic";
 import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useTranslations } from "next-intl";
-import { LazyLanguageSelector } from "@/components/ui/language-selector";
 import { cn, getPortfolioUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
 import { useAuth } from "@/contexts/auth-provider";
 import UserOptionsButton from "./ux/user-options-button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
+import CompactLanguageSelector from "./ux/compact-language-selector";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
   loading: () => <LazyThemeSwitcher />,
 });
-
-const LanguageSelector = dynamic(
-  () => import("@/components/ui/language-selector"),
-  {
-    ssr: false,
-    loading: () => <LazyLanguageSelector />,
-  }
-);
 
 const Header: React.FC = () => {
   const t = useTranslations();
@@ -57,15 +49,15 @@ const Header: React.FC = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent
-        className="flex flex-row flex-1 items-center gap-4"
+        className="flex flex-row flex-1 items-center gap-2"
         justify="end"
       >
-        <LanguageSelector className="text-2xl" />
+        <CompactLanguageSelector className="" />
         <NavbarItem>
           <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
         </NavbarItem>
         {user && (
-          <NavbarItem>
+          <NavbarItem className="flex justify-center items-center">
             <UserOptionsButton />
           </NavbarItem>
         )}
