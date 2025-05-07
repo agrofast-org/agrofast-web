@@ -16,6 +16,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useDisclosure } from "@heroui/react";
 import { MapPointSearch, PointOnMap } from "@solar-icons/react";
 import PlaceSelectionModal from "../ux/place-selection-modal";
+import { cn } from "@/lib/utils";
 
 export interface PlaceAutocompleteProps {
   name?: string;
@@ -26,6 +27,7 @@ export interface PlaceAutocompleteProps {
   onPlaceSelect: (
     place: google.maps.places.Place | google.maps.places.PlaceResult | null
   ) => void;
+  className?: string;
 }
 
 export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
@@ -35,6 +37,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
   selectOnMap = false,
   allowCoordinates = selectOnMap,
   onPlaceSelect,
+  className,
 }) => {
   const map = useMap("place-autocomplete-modal-map");
   const placesLib = useMapsLibrary("places");
@@ -178,7 +181,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
 
   return (
     <>
-      <div className="flex items-end gap-2">
+      <div className={cn("flex items-end gap-2", className)}>
         <Autocomplete
           name={name}
           label={label}
@@ -192,6 +195,15 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
           onSelectionChange={(k) => handleSelectionChange(k as string | null)}
           labelPlacement="outside"
           variant="bordered"
+          clearButtonProps={{
+            onPress: () => {
+              setInputValue("");
+              setSelectedKey(null);
+              setQuery("");
+              resetSession();
+              onPlaceSelect(null);
+            }
+          }}
         >
           {items.length === 0 ? (
             <AutocompleteItem

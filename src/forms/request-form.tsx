@@ -20,28 +20,44 @@ export const RequestForm: React.FC = () => {
       >
         <section className="flex flex-col items-start gap-6 mx-auto md:p-4 max-w-[912px] container">
           <div className="flex md:flex-row flex-col md:bg-neutral-200/30 dark:md:bg-neutral-800/20 rounded-2xl w-full overflow-hidden">
-            <div className="top-[64px] z-50 md:static absolute flex flex-col flex-1 gap-2 bg-default-100 md:bg-none md:p-4 px-4 pb-4 w-full">
+            <div
+              className={cn(
+                "top-[65px] focus-within:top-0 z-50 md:static absolute flex flex-col flex-1 gap-2 bg-default-100 md:bg-none md:p-4 pt-2 pb-0 border-neutral-200 dark:border-neutral-700 border-b md:border-b-0 w-full transition-[top]",
+                placeFrom && "top-0"
+              )}
+            >
               <h1 className="hidden md:flex font-bold text-2xl">
                 Para onde vamos hoje?
               </h1>
-              <PlaceAutocomplete
-                label="De onde"
-                placeholder="Escolha o local de partida"
-                onPlaceSelect={setPlaceFrom}
-                selectOnMap
-              />
-              <PlaceAutocomplete
-                label="Para onde"
-                placeholder="Escolha o local de destino"
-                onPlaceSelect={setPlaceTo}
-                selectOnMap
-              />
+              <div
+                className={cn(
+                  "flex flex-col gap-2 px-4 md:px-0 overflow-hidden transition-size duration-300",
+                  placeFrom ? "h-[9.5rem] md:h-auto" : "h-20 md:h-auto"
+                )}
+              >
+                <PlaceAutocomplete
+                  label="De onde"
+                  placeholder="Escolha o local de partida"
+                  onPlaceSelect={setPlaceFrom}
+                  selectOnMap
+                />
+                <PlaceAutocomplete
+                  label="Para onde"
+                  placeholder="Escolha o local de destino"
+                  onPlaceSelect={setPlaceTo}
+                  selectOnMap
+                  className={cn(
+                    "transition-opacity",
+                    !placeFrom ? "opacity-0 md:opacity-100" : "opacity-100"
+                  )}
+                />
+              </div>
               <Button
                 color="primary"
                 onPress={() => {}}
                 isDisabled={!placeFrom || !placeTo}
                 className={cn(
-                  "top-[calc(100svh-13rem)] md:static absolute mt-4 w-[calc(100%-2rem)] md:w-full",
+                  "top-[calc(100svh-9rem)] z-50 md:static absolute mx-4 md:mx-0 mt-4 w-[calc(100%-2rem)] md:w-full",
                   (!placeFrom || !placeTo) && "md:opacity-disabled opacity-0"
                 )}
               >

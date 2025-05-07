@@ -33,6 +33,10 @@ body {
   background: var(--background);
 }
 
+.interpolate {
+  interpolate-size: allow-keywords;
+}
+
 .select label,
 .autocomplete * div[data-slot="input-wrapper"] label {
   @apply !top-6 !-translate-y-[3.25em] start-0;
