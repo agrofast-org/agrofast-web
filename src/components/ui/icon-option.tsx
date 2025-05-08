@@ -1,19 +1,20 @@
 import { cn } from "@/lib/utils";
 import React, { JSX, useEffect, useState } from "react";
 import { IconSvgObject } from "@/types/hugeicons";
-import { useDisclosure } from "@heroui/react";
+import { Button, useDisclosure } from "@heroui/react";
 import ConfirmActionModal, {
   ConfirmActionModalMessages,
 } from "../ux/confirm-action-modal";
-import { formatLink, HrefProps } from "../link";
+import Link, { formatLink, HrefProps } from "../link";
 import { useRouter } from "next/router";
 
 export type OptionIcon = IconSvgObject;
 
-export interface IconOptionProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
+export interface IconOptionProps {
   icon?: JSX.Element;
   href?: string | HrefProps;
+  className?: string;
+  children?: React.ReactNode;
   confirmAction?: boolean;
   confirmActionInfo?: ConfirmActionModalMessages;
   onClick?: () => void;
@@ -60,6 +61,8 @@ const IconOption: React.FC<IconOptionProps> = ({
     }
   }, [href]);
 
+  const linkProps = formattedHref ? { href: formattedHref, as: Link } : {};
+
   return (
     <>
       {confirmAction && (
@@ -70,22 +73,24 @@ const IconOption: React.FC<IconOptionProps> = ({
           {...confirmActionInfo}
         />
       )}
-      <button
+      <Button
         className={cn(
-          "flex flex-row items-center gap-1.5 bg-default-100 bg-opacity-0 hover:bg-opacity-75 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 duration-75 cursor-pointer",
+          "flex flex-row justify-start items-center gap-1.5 bg-default-100 bg-opacity-0 hover:bg-opacity-85 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 text-sm duration-75 cursor-pointer",
           "focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-1 -outline-offset-1",
           className
         )}
+        size="sm"
         {...props}
         {...newProps}
+        {...linkProps}
       >
         {icon && (
-          <span className="flex justify-center items-center w-4 h-4 font-medium text-gray-700 dark:text-gray-200">
+          <span className="flex justify-center items-center size-[18px] font-medium text-gray-700 dark:text-gray-200">
             {icon}
           </span>
         )}
         {children}
-      </button>
+      </Button>
     </>
   );
 };

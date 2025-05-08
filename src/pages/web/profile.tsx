@@ -26,6 +26,7 @@ import DatePicker from "@/components/input/date-picker";
 import Select from "@/components/input/select";
 import { SelectItem } from "@heroui/react";
 import InputGroupIdentity from "@/components/input/group/input-group-identity";
+import Link from "@/components/link";
 
 export default function Profile() {
   const t = useTranslations();
@@ -37,7 +38,7 @@ export default function Profile() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (data: FormValues) => {    
+  const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     api
       .put("/user", data)
@@ -180,6 +181,16 @@ export default function Profile() {
                     />
                   </InputGroupContent>
                 </InputGroup>
+                {user?.profile_type === "requester" && (
+                  <Button variant="flat" as={Link} href="/web/machinery">
+                    Maquinarios
+                  </Button>
+                )}
+                {user?.profile_type === "transporter" && (
+                  <Button variant="flat" as={Link} href="/web/carrier">
+                    Veículos de transporte
+                  </Button>
+                )}
                 <Input
                   name="number"
                   label={t("UI.labels.number")}
