@@ -5,11 +5,11 @@ import { Spinner } from "@heroui/react";
 import { useState } from "react";
 import { Calendar, Routing2 } from "@solar-icons/react";
 import { profileType } from "@/http/user/profile-type";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 import { useToast } from "@/service/toast";
 
 const ProfileTypeForm: React.FC = () => {
-  const { setUser } = useAuth();
+  const { setUser } = useUser();
   const { error } = useToast();
   const [loading, setLoading] = useState(false);
 

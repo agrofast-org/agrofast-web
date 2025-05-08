@@ -6,7 +6,7 @@ import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 
 import userPicture from "@public/img/user-default.png";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
@@ -33,7 +33,7 @@ export default function Profile() {
   const pt = useTranslations("Pages.SignUp");
   const toast = useToast();
 
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useUser();
   const { setIsLoading } = useOverlay();
 
   const [errors, setErrors] = useState<Record<string, string>>({});

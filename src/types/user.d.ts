@@ -17,3 +17,7 @@ export interface User {
   profile_picture?: string;
   documents?: Document[];
 }
+
+export interface Machinery { }
+export interface Carrier { }
+

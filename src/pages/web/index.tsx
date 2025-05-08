@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 import Button from "@/components/button";
 import ProfileTypeForm from "@/forms/profile-type-form";
 import RequestForm from "@/forms/request-form";
@@ -10,7 +10,7 @@ import ConditionalModal from "@/components/conditional-modal";
 
 export default function Index() {
   const pt = useTranslations("Pages.Index");
-  const { user } = useAuth();
+  const { user } = useUser();
 
   return (
     <>

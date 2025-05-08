@@ -1,6 +1,6 @@
 import Checkbox from "@/components/input/checkbox";
 import Input from "@/components/input/input";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
@@ -18,7 +18,7 @@ const LoginForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
   const { setIsLoading } = useOverlay();
-  const { setUser, setToken } = useAuth();
+  const { setUser, setToken } = useUser();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 

@@ -6,7 +6,7 @@ import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useTranslations } from "next-intl";
 import { cn, getPortfolioUrl, getWebUrl } from "@/lib/utils";
 import Link from "@/components/link";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 import UserOptionsButton from "./ux/user-options-button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import CompactLanguageSelector from "./ux/compact-language-selector";
@@ -18,7 +18,7 @@ const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
 
 const Header: React.FC = () => {
   const t = useTranslations();
-  const { user } = useAuth();
+  const { user } = useUser();
 
   return (
     <Navbar
