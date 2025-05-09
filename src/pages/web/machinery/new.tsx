@@ -5,7 +5,7 @@ import Head from "next/head";
 import FormBody from "@/components/form/form-body";
 import MachineryForm from "@/forms/transport/machinery-form";
 
-export default function List() {
+export default function New() {
   // const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
 

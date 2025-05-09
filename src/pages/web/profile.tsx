@@ -26,7 +26,7 @@ import DatePicker from "@/components/input/date-picker";
 import Select from "@/components/input/select";
 import { SelectItem } from "@heroui/react";
 import InputGroupIdentity from "@/components/input/group/input-group-identity";
-import Link from "@/components/link";
+import Link from "next/link";
 
 export default function Profile() {
   const t = useTranslations();
@@ -182,14 +182,14 @@ export default function Profile() {
                   </InputGroupContent>
                 </InputGroup>
                 {user?.profile_type === "requester" && (
-                  <Button variant="flat" as={Link} href="/web/machinery">
+                  <Link href="/web/machinery">
                     Maquinarios
-                  </Button>
+                  </Link>
                 )}
                 {user?.profile_type === "transporter" && (
-                  <Button variant="flat" as={Link} href="/web/carrier">
+                  <Link href="/web/carrier">
                     Veículos de transporte
-                  </Button>
+                  </Link>
                 )}
                 <Input
                   name="number"
