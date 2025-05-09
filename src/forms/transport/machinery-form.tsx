@@ -55,11 +55,13 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       </FormGroup>
       <FormGroup label="Dimensões e peso">
         <NumberInput
+          step={0.01}
           name="weight"
           label="Peso bruto (kg)"
           placeholder="Peso em quilos"
         />
         <NumberInput
+          step={0.01}
           name="lenght"
           label="Comprimento (m)"
           placeholder="Coprimento em metros"
@@ -71,6 +73,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           }
         />
         <NumberInput
+          step={0.01}
           name="width"
           label="Largura (m)"
           placeholder="Largura em metros"
@@ -82,6 +85,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           }
         />
         <NumberInput
+          step={0.01}
           name="height"
           label="Altura (m)"
           placeholder="Altura em Metros"

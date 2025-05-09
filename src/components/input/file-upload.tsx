@@ -65,13 +65,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
     setFiles(updatedFiles);
     onUpload?.(updatedFiles);
+    form?.setValue(name, updatedFiles);    
   };
 
   useEffect(() => {
     if (form && form.getters[name]) return;
     if (name && form) {
       form.setGetter(name, () => files);
-      form.setValue(name, files);
     }
   }, [form, name, files]);
 

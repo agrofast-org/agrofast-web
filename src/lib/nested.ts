@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormValue, FormValues } from "@/types/form";
 import { isNumeric } from "./utils";
 
@@ -60,6 +61,10 @@ export const parseNested = (nested: Record<string, FormValue>): FormValues => {
   return flat;
 };
 
+const isFileOrFiles = (val: any): val is File | File[] =>
+  val instanceof File ||
+  (Array.isArray(val) && val.every((item) => item instanceof File));
+
 /**
  * Converts a flattened object with dot-separated keys back into a nested object.
  *
@@ -85,28 +90,34 @@ export const parseNested = (nested: Record<string, FormValue>): FormValues => {
  * }
  * ```
  */
-export const toNested = (values: FormValues): FormValues => {
-  const result = {} as FormValues;
+export const toNested = (values: Record<string, any>): Record<string, any> => {
+  const result: Record<string, any> = {};
 
   for (const flatKey in values) {
-    if (!values.hasOwnProperty(flatKey)) continue;
+    if (!Object.prototype.hasOwnProperty.call(values, flatKey)) continue;
     const value = values[flatKey];
+
+    if (!flatKey.includes(".")) {
+      result[flatKey] = value;
+      continue;
+    }
+
     const parts = flatKey.split(".");
-    let current = result;
+    let current: any = result;
 
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
-      const key = isNumeric(part) ? Number(part) : part;
       const isLast = i === parts.length - 1;
+      const nextPart = parts[i + 1];
+      const key = /^\d+$/.test(part) ? Number(part) : part;
 
       if (isLast) {
-        current[key as FormValue] = value;
+        current[key] = value;
       } else {
-        if (typeof current[key as FormValue] !== "object" || current[key as FormValue] === null) {
-          const nextPart = parts[i + 1];
-          current[key as FormValue] = isNumeric(nextPart) ? [] : {};
+        if (current[key] === undefined || current[key] === null) {
+          current[key] = /^\d+$/.test(nextPart) ? [] : {};
         }
-        current = current[key as FormValue];
+        current = current[key];
       }
     }
   }

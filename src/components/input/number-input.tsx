@@ -128,7 +128,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
         if (typeof e === "number") {
           changeValue(e);
         } else {
-          changeValue(Number(e.target.value.replace(/[^0-9]/g, "")));
+          changeValue(Number(e.target.value.replace(",", "")));
         }
       }}
       endContent={
