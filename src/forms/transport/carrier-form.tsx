@@ -18,6 +18,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
   return (
     <CrudForm
+      id={`carrier-${!uuid ? "insert" : "update"}-form`}
       uuid={uuid}
       update={!!uuid}
       getUrl={(id) => `/carrier/${id}`}

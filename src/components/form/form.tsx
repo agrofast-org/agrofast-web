@@ -41,6 +41,7 @@ export interface FormProviderProps {
 const FormProvider = createContext<FormProviderProps | undefined>(undefined);
 
 const Form: React.FC<FormProps> = ({
+  id,
   children,
   onSubmit,
   initialData,
@@ -49,8 +50,12 @@ const Form: React.FC<FormProps> = ({
 }) => {
   const [formId, setFormId] = useState("");
   useEffect(() => {
+    if (id) {
+      setFormId(id);
+      return;
+    }
     setFormId(`form-${Math.random().toString(36).substring(2, 9)}`);
-  }, []);
+  }, [id]);
   const t = useTranslations();
   const toast = useToast();
   const [values, setValues] = useState<FormValues>(

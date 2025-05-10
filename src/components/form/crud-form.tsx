@@ -9,6 +9,7 @@ import { Spinner } from "@heroui/react";
 import NotFound from "../error/not-found";
 
 export interface CrudFormProps {
+  id?: string;
   uuid?: string;
   update?: boolean;
   getUrl?: string | ((uuid: string) => string);
@@ -19,6 +20,7 @@ export interface CrudFormProps {
 }
 
 const CrudForm: React.FC<CrudFormProps> = ({
+  id,
   uuid,
   update,
   getUrl: GetUrl,
@@ -115,6 +117,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
 
   return (
     <Form
+      id={id}
       initialData={initialData}
       validationErrors={formErrors}
       onSubmit={handleSubmit}

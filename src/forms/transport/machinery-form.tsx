@@ -17,6 +17,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
   return (
     <CrudForm
+      id={`machinery-${!uuid ? "insert" : "update"}-form`}
       uuid={uuid}
       update={!!uuid}
       getUrl={(id) => `/machinery/${id}`}
@@ -53,11 +54,11 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           label="Modelo"
           placeholder="Modelo do equipamento"
         />
-        <DatePicker
+        {/* <DatePicker
           name="manufacturer_date"
           label="Data de fabricação"
           required
-        />
+        /> */}
       </FormGroup>
       <FormGroup label="Dimensões e peso">
         <NumberInput

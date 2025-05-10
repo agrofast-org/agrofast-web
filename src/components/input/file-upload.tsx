@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Upload } from "@solar-icons/react";
 import { useToast } from "@/service/toast";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useForm } from "../form/form";
 import { useGroup } from "./group/input-group";
 import { Button, Spinner, useDisclosure } from "@heroui/react";
@@ -75,12 +75,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(storageKey);
-    if (saved) {
+    if (!form || !storageKey) return;
+    const savedFiles = sessionStorage.getItem(storageKey);
+    if (savedFiles) {
       try {
-        const parsed: UploadedFile[] = JSON.parse(saved);
-        setFiles(parsed);
-        form?.setValue(fieldName, parsed);
+        const parsedFiles: UploadedFile[] = JSON.parse(savedFiles);
+        if (Array.isArray(parsedFiles)) {
+          if (JSON.stringify(form.values?.[fieldName]) !== JSON.stringify(parsedFiles)) {
+            setFiles(parsedFiles);
+            form.setValue(fieldName, parsedFiles);
+          }
+        }
       } catch {
         sessionStorage.removeItem(storageKey);
       }
@@ -88,52 +93,53 @@ const FileUpload: React.FC<FileUploadProps> = ({
   }, [storageKey, fieldName, form]);
 
   useEffect(() => {
-    if (form?.getters[fieldName]) return;
-    form?.setGetter(fieldName, () => files);
+    if (!form?.getters[fieldName]) {
+      form?.setGetter(fieldName, () => files);
+    }
   }, [files, fieldName, form]);
-
-  const uploadSingle = useCallback(
-    async (file: File): Promise<UploadedFile> => {
-      const data = new FormData();
-      if (multiple) {
-        data.append("files[]", file);
-      } else {
-        data.append("file", file);
-      }
-      return api
-        .post("/uploads/attachment/attach", data)
-        .then(({ data }) => {
-          const entry = Array.isArray(data) ? data[0] : data;
-          return {
-            uuid: entry.uuid,
-            url: entry.url,
-            name: file.name,
-            size: file.size,
-            type: file.type,
-          };
-        })
-        .catch((error) => {
-          throw new Error(
-            `Upload falhou (${error.response?.status || "unknown"})`
-          );
-        });
-    },
-    [multiple]
-  );
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files ? Array.from(e.target.files) : [];
-    if (selected.length === 0) return;
+    if (!selected.length) return;
 
     setIsUploading(true);
     try {
-      const uploaded = await Promise.all(selected.map(uploadSingle));
+      const data = new FormData();
+      if (multiple) {
+        selected.forEach((file) => data.append("files[]", file));
+      } else {
+        data.append("file", selected[0]);
+      }
+
+      const res = await api.post("/uploads/attachment/attach", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(res.data);
+      const returned = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data.data)
+        ? res.data.data
+        : [res.data.data ?? res.data];
+
+      const uploaded: UploadedFile[] = returned.map(
+        (entry: UploadedFile, idx: number) => ({
+          uuid: entry.uuid,
+          url: entry.url,
+          name: selected[idx]?.name,
+          size: selected[idx]?.size,
+          type: selected[idx]?.type,
+        })
+      );
+
       const updated = type === "append" ? [...files, ...uploaded] : uploaded;
 
       setFiles(updated);
       form?.setValue(fieldName, updated);
       sessionStorage.setItem(storageKey, JSON.stringify(updated));
       onUpload?.(updated);
+
       toast.success({ description: "Arquivos enviados com sucesso" });
     } catch {
       toast.error({
@@ -168,6 +174,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           i
         </Button>
       </span>
+
       <Button
         as="label"
         htmlFor={fieldName}
@@ -192,6 +199,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           onChange={handleUpload}
         />
       </Button>
+
       {files.length > 0 && (
         <span className="mt-1 text-xs truncate" title={fileNames}>
           {fileNames}
