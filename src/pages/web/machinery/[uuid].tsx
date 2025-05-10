@@ -19,7 +19,7 @@ export default function Find() {
         <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row justify-center">
-        <section className="flex flex-row items-start gap-4 mx-auto p-4 container">
+        <section className="flex flex-row items-start gap-4 mx-auto container">
           <FormBody>
             <MachineryForm
               uuid={Array.isArray(query.uuid) ? query.uuid[0] : query.uuid}

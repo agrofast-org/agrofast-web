@@ -23,8 +23,14 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       postUrl="/machinery"
       putUrl={(id) => `/machinery/${id}`}
     >
-      <FormHeader className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-        {uuid ? t("UI.titles.edit_machinery") : t("UI.titles.add_machinery")}
+      <FormHeader>
+        <div className="flex flex-row justify-between items-center w-full">
+          <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
+            {uuid
+              ? t("UI.titles.edit_machinery")
+              : t("UI.titles.add_machinery")}
+          </h1>
+        </div>
       </FormHeader>
       <FormGroup label="Identificação">
         <Input
