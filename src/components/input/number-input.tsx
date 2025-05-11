@@ -85,9 +85,9 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
   useEffect(() => {
     if (name && form && form.values?.[name]) {
-      setInputValue(form.values?.[name]);
+      setInputValue(parseFloat(form.values?.[name]));
     }
-  }, [name, form, inputValue]);
+  }, [name, form]);
 
   useEffect(() => {
     if (group && inputName) {
@@ -124,12 +124,8 @@ const NumberInput: React.FC<NumberInputProps> = ({
         }
         return v.validationErrors;
       }}
-      onChange={(e) => {
-        if (typeof e === "number") {
-          changeValue(e);
-        } else {
-          changeValue(Number(e.target.value.replace(",", "")));
-        }
+      onValueChange={(value) => {
+        changeValue(value);
       }}
       endContent={
         taggableVisibility &&

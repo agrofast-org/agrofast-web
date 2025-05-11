@@ -141,7 +141,7 @@ const Form: React.FC<FormProps> = ({
       );
       const formData = Object.fromEntries(new FormData(event.currentTarget));
       const nestedData = {
-        ...toNested({ ...formData, ...getterValues }),
+        ...toNested({ ...formData, ...values, ...getterValues }),
       };
 
       onSubmit?.(nestedData);

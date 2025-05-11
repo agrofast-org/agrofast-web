@@ -7,11 +7,13 @@ import { useToast } from "@/service/toast";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@heroui/react";
 import NotFound from "../error/not-found";
+import { useRouter } from "next/router";
 
 export interface CrudFormProps {
   id?: string;
   uuid?: string;
   update?: boolean;
+  listUrl?: string;
   getUrl?: string | ((uuid: string) => string);
   postUrl?: string;
   putUrl?: string | ((uuid: string) => string);
@@ -23,6 +25,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
   id,
   uuid,
   update,
+  listUrl,
   getUrl: GetUrl,
   postUrl,
   putUrl: PutUrl,
@@ -31,8 +34,10 @@ const CrudForm: React.FC<CrudFormProps> = ({
 }) => {
   const t = useTranslations();
   const toast = useToast();
+  const router = useRouter();
 
   const [notFound, setNotFound] = useState<boolean>(false);
+  const [dataFetched, setDataFetched] = useState<boolean>(false);
   const [formLoading, setFormLoading] = useState<boolean>(false);
   const [initialData, setInitialData] = useState<FormValues>();
   const [formErrors, setFormErrors] = useState<FormErrors>();
@@ -78,6 +83,11 @@ const CrudForm: React.FC<CrudFormProps> = ({
               description: t("Messages.success.user_created_successfully"),
             });
           }
+          if (listUrl) {
+            router.push(listUrl);
+          } else {
+            router.push("/");
+          }
         })
         .catch(({ response: { data: errors } }) => {
           setFormErrors(errors.errors);
@@ -93,7 +103,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
   );
 
   useEffect(() => {
-    if (update) {
+    if (update && !dataFetched) {
       const url = getUrl();
       if (url) {
         api
@@ -106,10 +116,13 @@ const CrudForm: React.FC<CrudFormProps> = ({
             toast.error({
               description: t("Messages.errors.default"),
             });
+          })
+          .finally(() => {
+            setDataFetched(true);
           });
       }
     }
-  }, [getUrl, t, toast, update]);
+  }, [getUrl, t, toast, dataFetched, update]);
 
   if (notFound) {
     return <NotFound />;

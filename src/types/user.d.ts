@@ -18,6 +18,9 @@ export interface User {
   documents?: Document[];
 }
 
-export interface Machinery { }
-export interface Carrier { }
-
+export interface Machinery {
+  uuid: string;
+}
+export interface Carrier {
+  uuid: string;
+}

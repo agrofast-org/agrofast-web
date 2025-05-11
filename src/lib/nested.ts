@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormValue, FormValues } from "@/types/form";
-import { isNumeric } from "./utils";
+import { CalendarDate } from "@internationalized/date";
 
 /**
  * Parses a nested object and flattens it into a single-level object with dot-separated keys.
@@ -61,10 +61,6 @@ export const parseNested = (nested: Record<string, FormValue>): FormValues => {
   return flat;
 };
 
-const isFileOrFiles = (val: any): val is File | File[] =>
-  val instanceof File ||
-  (Array.isArray(val) && val.every((item) => item instanceof File));
-
 /**
  * Converts a flattened object with dot-separated keys back into a nested object.
  *
@@ -95,7 +91,11 @@ export const toNested = (values: Record<string, any>): Record<string, any> => {
 
   for (const flatKey in values) {
     if (!Object.prototype.hasOwnProperty.call(values, flatKey)) continue;
-    const value = values[flatKey];
+    let value = values[flatKey];
+
+    if (value && value.day && value.month && value.year) {
+      value = (new CalendarDate(value.year, value.month, value.day)).toString();
+    }
 
     if (!flatKey.includes(".")) {
       result[flatKey] = value;

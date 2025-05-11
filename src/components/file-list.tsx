@@ -1,3 +1,4 @@
+import { Attachment } from "@/types/attachment";
 import {
   CloseCircle,
   File,
@@ -9,14 +10,13 @@ import {
 } from "@solar-icons/react";
 import { Icon } from "@solar-icons/react/lib/types";
 import React from "react";
-import { UploadedFile } from "./input/file-upload";
 
 export interface FileListProps {
-  files?: UploadedFile[];
+  files?: Attachment[];
 }
 
 export interface FileIconProps {
-  file: UploadedFile;
+  file: Attachment;
 }
 
 const extensionIconMap: Record<
@@ -62,7 +62,7 @@ export const FileIcon: React.FC<FileIconProps> = ({ file }) => {
   return <IconComponent className="size-4" weight="LineDuotone" />;
 };
 
-const FileItem: React.FC<{ file: UploadedFile }> = ({ file }) => {
+const FileItem: React.FC<{ file: Attachment }> = ({ file }) => {
   return (
     <div className="relative flex flex-row justify-between items-center gap-2">
       <div className="flex flex-row items-center gap-1 max-w-[calc(100%-32px)]">

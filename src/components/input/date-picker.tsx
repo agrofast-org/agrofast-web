@@ -71,7 +71,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   useEffect(() => {
     if (name && form && form.values?.[name]) {
-      changeValue(typeof form.values?.[name] === "string" ? parseDate(form.values?.[name]) : form.values?.[name]);
+      const formValue = form.values?.[name];
+      changeValue(
+        typeof formValue === "string"
+          ? parseDate(formValue.includes("T") ? formValue.split("T")[0] : formValue)
+          : formValue
+      );
     }
   }, [value, form, name, changeValue]);
 
@@ -90,7 +95,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       value={inputValue}
       onChange={(val) => {
         onChange?.(val);
-        changeValue(val);
+        changeValue(val as unknown as DatePickerValue);
       }}
       classNames={{
         base: "relative gap-1 !pb-0",

@@ -2,13 +2,19 @@ import Body from "@/components/body";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
-import List, { ListColumn } from "@/components/list";
+import List, {
+  IdentifierColumn,
+  ListColumn,
+  ListOperations,
+} from "@/components/list";
 import { Button } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Index() {
   const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
+  const router = useRouter();
 
   return (
     <>
@@ -22,20 +28,35 @@ export default function Index() {
             <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
               {t("Advertizement.titles.primary")}
             </h1>
-            <Button as={Link} href="/web/machinery/new">Adicionar novo</Button>
+            <Button as={Link} href="/web/machinery/new">
+              Adicionar novo
+            </Button>
           </div>
-          <List getUrl="/machinery">
+          <List
+            getUrl="/machinery"
+            // onView={(id) => {}}
+            onEdit={(id) => {
+              router.push(`/web/machinery/${id}`);
+            }}
+            // onDelete={(id) => {}}
+          >
+            <IdentifierColumn label="Id" name="uuid" />
             <ListColumn label="Name" name="name" />
-            <ListColumn label="Model" name="model" />
-            <ListColumn label="Type" name="type" />
             <ListColumn label="Manufacturer" name="manufacturer" />
-            <ListColumn label="Manufactured Date" name="manufacturer_date" />
-            <ListColumn label="Weight" name="weight" />
-            <ListColumn label="Length" name="lenght" />
+            <ListColumn label="Type" name="type" />
+            <ListColumn label="Model" name="model" />
+            <ListColumn
+              label="Manufactured Date"
+              name="manufacturer_date"
+              date
+            />
+            {/* <ListColumn label="Weight" name="weight" />
+            <ListColumn label="Length" name="length" />
             <ListColumn label="Width" name="width" />
             <ListColumn label="Height" name="height" />
             <ListColumn label="Axles" name="axles" />
-            <ListColumn label="Tire Config" name="tire_config" />
+            <ListColumn label="Tire Config" name="tire_config" /> */}
+            <ListOperations label="Operações" />
           </List>
         </section>
       </Body>

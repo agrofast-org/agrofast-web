@@ -50,8 +50,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
 
-  const [machinery, setMachinery] = useState<Machinery | undefined>(undefined);
-  const [carriers, setCarriers] = useState<Carrier | undefined>(undefined);
+  const [machinery, setMachinery] = useState<Machinery[] | undefined>(undefined);
+  const [carriers, setCarriers] = useState<Carrier[] | undefined>(undefined);
 
   const fetchInProgress = useRef(false);
 
@@ -128,7 +128,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [fetchMe]);
 
   useEffect(() => {
-    if (user) {
+    if (user && cookies[AUTHENTICATED_KEY] === true) {
       if (user.profile_type === "requester" && !machinery) {
         getMachinery()
           .then(({ data }) => {
@@ -144,7 +144,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           .catch();
       }
     }
-  }, [user, machinery, carriers]);
+  }, [user, machinery, carriers, cookies]);
 
   return (
     <AuthContext.Provider value={{ token, setToken, user, setUser, logout }}>

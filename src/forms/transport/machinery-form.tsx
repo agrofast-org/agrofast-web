@@ -45,6 +45,11 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder="Categoria ou tipo do equipamento"
         />
         <Input
+          name="plate"
+          label="Placa/Identificação"
+          placeholder="Placa ou identificação do equipamento"
+        />
+        <Input
           name="manufacturer"
           label="Fabricante"
           placeholder="Fabricante do equipamento"
@@ -54,11 +59,11 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           label="Modelo"
           placeholder="Modelo do equipamento"
         />
-        {/* <DatePicker
+        <DatePicker
           name="manufacturer_date"
           label="Data de fabricação"
           required
-        /> */}
+        />
       </FormGroup>
       <FormGroup label="Dimensões e peso">
         <NumberInput
@@ -69,9 +74,9 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         />
         <NumberInput
           step={0.01}
-          name="lenght"
+          name="length"
           label="Comprimento (m)"
-          placeholder="Coprimento em metros"
+          placeholder="Comprimento em metros"
           endContent={
             <Suspension
               weight="LineDuotone"
@@ -104,14 +109,13 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           label="Quantidade de eixos"
           placeholder="Quantidade de eixos"
         />
-
         <Select
           name="tire_config"
           label="Configuração de pneus"
           placeholder="Selecione a configuração dos pneus"
         >
-          <SelectItem>Padrão (1 pneu por lado)</SelectItem>
-          <SelectItem>Flipada (2 pneus por lado)</SelectItem>
+          <SelectItem key="standard">Padrão (1 pneu por lado)</SelectItem>
+          <SelectItem key="flipped">Flipada (2 pneus por lado)</SelectItem>
         </Select>
         <FileUpload
           name="pictures"

@@ -8,7 +8,9 @@ import { Button, Spinner, useDisclosure } from "@heroui/react";
 import ModalDialogue from "../modal-dialogue";
 import FileList from "../file-list";
 import { useRouter } from "next/router";
-import api from "@/service/api";
+import { uploadAttachment } from "@/http/uploads/upload-attachment";
+import { Attachment } from "@/types/attachment";
+import useSessionStorage from "@/hooks/use-session-storage";
 
 export type FileAcceptedTypes =
   | "image/png"
@@ -21,14 +23,6 @@ export type FileAcceptedTypes =
   | "application/vnd.ms-excel"
   | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-export interface UploadedFile {
-  uuid: string;
-  url: string;
-  name: string;
-  size: number;
-  type: string;
-}
-
 export interface FileUploadProps {
   name: string;
   label?: string;
@@ -38,7 +32,7 @@ export interface FileUploadProps {
   type?: "append" | "replace";
   accept?: FileAcceptedTypes[];
   multiple?: boolean;
-  onUpload?: (files: UploadedFile[]) => void;
+  onUpload?: (files: Attachment[]) => void;
 }
 
 const STORAGE_KEY = (formId: string, fieldName: string) =>
@@ -65,38 +59,28 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const fieldName =
     inputName && group ? group.getFieldName(inputName) : inputName!;
 
-  const formId = form?.formId ?? router.pathname;
   const storageKey = useMemo(
-    () => STORAGE_KEY(formId, fieldName),
-    [formId, fieldName]
+    () => STORAGE_KEY(router.pathname, fieldName),
+    [router.pathname, fieldName]
   );
 
-  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [files, setFiles] = useState<Attachment[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [sessionFiles, setSessionFiles] = useSessionStorage<Attachment[]>(
+    storageKey,
+    []
+  );
 
   useEffect(() => {
-    if (!form || !storageKey) return;
-    const savedFiles = sessionStorage.getItem(storageKey);
-    if (savedFiles) {
-      try {
-        const parsedFiles: UploadedFile[] = JSON.parse(savedFiles);
-        if (Array.isArray(parsedFiles)) {
-          if (JSON.stringify(form.values?.[fieldName]) !== JSON.stringify(parsedFiles)) {
-            setFiles(parsedFiles);
-            form.setValue(fieldName, parsedFiles);
-          }
-        }
-      } catch {
-        sessionStorage.removeItem(storageKey);
+    if (!form) return;
+    if (sessionFiles && sessionFiles.length) {
+      const uuids = sessionFiles.map((entry: Attachment) => entry.uuid);
+      if (JSON.stringify(form.values?.[fieldName]) !== JSON.stringify(uuids)) {
+        setFiles(sessionFiles);
+        form?.setValue(fieldName, uuids);
       }
     }
-  }, [storageKey, fieldName, form]);
-
-  useEffect(() => {
-    if (!form?.getters[fieldName]) {
-      form?.setGetter(fieldName, () => files);
-    }
-  }, [files, fieldName, form]);
+  }, [sessionFiles, fieldName, form]);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files ? Array.from(e.target.files) : [];
@@ -104,44 +88,34 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
     setIsUploading(true);
     try {
-      const data = new FormData();
+      const attachment = new FormData();
       if (multiple) {
-        selected.forEach((file) => data.append("files[]", file));
+        selected.forEach((file) => attachment.append("files[]", file));
       } else {
-        data.append("file", selected[0]);
+        attachment.append("file", selected[0]);
       }
 
-      const res = await api.post("/uploads/attachment/attach", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      uploadAttachment(attachment).then(({ data }) => {
+        const uploaded: Attachment[] = data.map((entry: Attachment) => ({
+          ...entry,
+        }));
+        const uuids: Attachment["uuid"][] = data.map(
+          (entry: Attachment) => entry.uuid
+        );
+
+        const updated = type === "append" ? [...files, ...uploaded] : uploaded;
+
+        setFiles(updated);
+        form?.setValue(fieldName, uuids);
+
+        setSessionFiles(updated);
+        onUpload?.(updated);
+
+        toast.success({ description: "Arquivos enviados com sucesso" });
       });
-      console.log(res.data);
-      const returned = Array.isArray(res.data)
-        ? res.data
-        : Array.isArray(res.data.data)
-        ? res.data.data
-        : [res.data.data ?? res.data];
+    } catch (error) {
+      console.log(error);
 
-      const uploaded: UploadedFile[] = returned.map(
-        (entry: UploadedFile, idx: number) => ({
-          uuid: entry.uuid,
-          url: entry.url,
-          name: selected[idx]?.name,
-          size: selected[idx]?.size,
-          type: selected[idx]?.type,
-        })
-      );
-
-      const updated = type === "append" ? [...files, ...uploaded] : uploaded;
-
-      setFiles(updated);
-      form?.setValue(fieldName, updated);
-      sessionStorage.setItem(storageKey, JSON.stringify(updated));
-      onUpload?.(updated);
-
-      toast.success({ description: "Arquivos enviados com sucesso" });
-    } catch {
       toast.error({
         title: "Erro no upload",
         description: "Tente novamente",
