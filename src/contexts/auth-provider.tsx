@@ -24,6 +24,8 @@ interface AuthContextProps {
   setToken: (token: string | undefined) => void;
   user: User | undefined;
   setUser: (user: User | undefined) => void;
+  machinery: Machinery[] | undefined;
+  carriers: Carrier[] | undefined;
   logout: () => void;
 }
 
@@ -50,7 +52,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
 
-  const [machinery, setMachinery] = useState<Machinery[] | undefined>(undefined);
+  const [machinery, setMachinery] = useState<Machinery[] | undefined>(
+    undefined
+  );
   const [carriers, setCarriers] = useState<Carrier[] | undefined>(undefined);
 
   const fetchInProgress = useRef(false);
@@ -86,7 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setToken(storedToken);
       setBearerToken(storedToken);
       getMe()
-        .then(({ data }) => {
+        .then((data) => {
           setUser(data.user);
           if (data.authenticated) {
             setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
@@ -129,6 +133,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (user && cookies[AUTHENTICATED_KEY] === true) {
+      
       if (user.profile_type === "requester" && !machinery) {
         getMachinery()
           .then(({ data }) => {
@@ -139,6 +144,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (user.profile_type === "transporter" && !carriers) {
         getCarrier()
           .then(({ data }) => {
+            console.log("carriers", data);
             setCarriers(data);
           })
           .catch();
@@ -147,7 +153,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [user, machinery, carriers, cookies]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser, logout }}>
+    <AuthContext.Provider
+      value={{ token, setToken, user, setUser, machinery, carriers, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

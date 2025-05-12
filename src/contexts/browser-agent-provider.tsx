@@ -70,7 +70,7 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
     }
     try {
       const response = await validateFingerprint(storedFingerprint);
-      const newFingerprint = response.data?.fingerprint;
+      const newFingerprint = response?.fingerprint;
       if (newFingerprint) {
         updateBrowserAgent(newFingerprint);
       } else if (storedFingerprint && validateBrowserAgent(storedFingerprint)) {

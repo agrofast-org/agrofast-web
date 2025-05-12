@@ -8,5 +8,5 @@ export type ValidateFingerprintResponse = Success<{
 export const validateFingerprint = (fingerprint: string) => {
   return api.get<ValidateFingerprintResponse>("/fingerprint", {
     headers: { "Browser-Agent": fingerprint },
-  });
+  }).then(({ data }) => data);
 };

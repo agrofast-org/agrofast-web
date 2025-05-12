@@ -7,5 +7,5 @@ export type ProfileTypeResponse = Success<{
 }>;
 
 export const profileType = (type: ProfileType) => {
-  return api.put<ProfileTypeResponse>("/user/profile-type", { profile_type: type });
+  return api.put<ProfileTypeResponse>("/user/profile-type", { profile_type: type }).then(({ data }) => data);
 };

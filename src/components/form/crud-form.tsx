@@ -76,11 +76,11 @@ const CrudForm: React.FC<CrudFormProps> = ({
         .then(() => {
           if (update) {
             toast.success({
-              description: t("Messages.success.user_updated_successfully"),
+              description: t("Messages.success.updated_successfully"),
             });
           } else {
             toast.success({
-              description: t("Messages.success.user_created_successfully"),
+              description: t("Messages.success.created_successfully"),
             });
           }
           if (listUrl) {
@@ -99,7 +99,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
           setFormLoading(false);
         });
     },
-    [makeRequest, postUrl, putUrl, t, toast, update]
+    [update, listUrl, postUrl, t, toast, router, makeRequest, putUrl]
   );
 
   useEffect(() => {
@@ -122,7 +122,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
           });
       }
     }
-  }, [getUrl, t, toast, dataFetched, update]);
+  }, [update, t, toast, dataFetched, getUrl]);
 
   if (notFound) {
     return <NotFound />;

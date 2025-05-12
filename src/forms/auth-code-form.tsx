@@ -33,13 +33,13 @@ const AuthCodeForm: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string | string[]>>({});
 
-  const {time, setTime} = useCountdown(TIMEOUT);
+  const { time, setTime } = useCountdown(TIMEOUT);
 
   const { data: codeLength, isLoading: codeLengthLoading } = useQuery<number>({
     queryKey: ["auth-code-length"],
     queryFn: async () => {
       const res = await getAuthCodeLength();
-      return res.data.length ?? 6;
+      return res.length ?? 6;
     },
   });
 
@@ -75,7 +75,7 @@ const AuthCodeForm: React.FC = () => {
     const formData = Object.fromEntries(new FormData(e.currentTarget));
     setIsLoading(true);
     auth(String(formData["code"]))
-      .then(({ data }) => {
+      .then((data) => {
         setUser(data.user);
         setToken(data.token);
         setCookie(AUTHENTICATED_KEY, "true", cookieOptions);

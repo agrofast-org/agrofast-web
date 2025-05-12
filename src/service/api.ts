@@ -55,15 +55,7 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  ({ data, request,...response }) => {
-    return {
-      ...response,
-      request: {
-        ...request,
-      },
-      ...data,
-    };
-  },
+  (res) => res,
   (error) => {
     const { status, data } = error.response;
     switch (status) {

@@ -138,7 +138,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         <p>{label ?? placeholder ?? "Upload a file"}</p>
         <Button
           className={cn(
-            "!min-w-5 !max-w-5 !size-5",
+            "bg-default-200 !min-w-5 !max-w-5 !size-5 text-default-600",
             files.length ? "" : "opacity-0"
           )}
           onPress={onOpen}
@@ -152,10 +152,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
       <Button
         as="label"
         htmlFor={fieldName}
-        className="inline-flex justify-center items-center gap-2 px-4 py-2 rounded-medium w-full cursor-pointer"
+        className="inline-flex justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
         isDisabled={disabled || isUploading}
       >
-        {isUploading ? <Spinner size="sm" /> : <Upload />}
+        {isUploading ? <Spinner size="sm" /> : <Upload weight="LineDuotone" />}
         {isUploading
           ? "Enviando..."
           : files.length
@@ -175,7 +175,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </Button>
 
       {files.length > 0 && (
-        <span className="mt-1 text-xs truncate" title={fileNames}>
+        <span className="mt-1 text-default-600 text-xs truncate" title={fileNames}>
           {fileNames}
         </span>
       )}

@@ -11,10 +11,10 @@ import {
   TableColumn,
   Tooltip,
   Button,
+  TooltipPlacement,
 } from "@heroui/react";
+
 import { useAsyncList } from "@react-stately/data";
-import { Eye, Pen, TrashBinTrash } from "@solar-icons/react";
-import { useTranslations } from "next-intl";
 import React, {
   createContext,
   useContext,
@@ -24,27 +24,39 @@ import React, {
   useCallback,
 } from "react";
 
-export interface ListProps {
-  items?: any[];
-  getUrl?: string;
-  children?: ReactNode;
-  onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
-  onView?: (id: string) => void;
+interface TooltipProps {
+  placement?: TooltipPlacement;
+  color?:
+    | "default"
+    | "foreground"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "danger"
+    | undefined;
+}
+
+interface ListActionConfig {
+  label: string;
+  icon: React.ReactNode;
+  callback: (id: any, item: any) => void;
+  tooltipProps?: TooltipProps;
 }
 
 interface ListContextProps {
   items: any[];
-  columns: string[];
-  identifier: string | undefined;
+  columns: Record<string, string>;
+  identifier?: string;
+  isLoading: boolean;
   setColumn: (name: string, label: string) => void;
   setIdentifier: (name: string) => void;
   setColumnFormatter: (name: string, formatter: (value: any) => any) => void;
-  isLoading: boolean;
+  actions: Record<string, ListActionConfig>;
+  setAction: (name: string, action: ListActionConfig) => void;
 }
 
 const ListContext = createContext<ListContextProps | undefined>(undefined);
-
 export const useList = (): ListContextProps => {
   const context = useContext(ListContext);
   if (!context) {
@@ -53,41 +65,31 @@ export const useList = (): ListContextProps => {
   return context;
 };
 
-const List: React.FC<ListProps> = ({
-  items = [],
-  getUrl,
-  children,
-  onEdit,
-  onDelete,
-  onView,
-}) => {
-  const t = useTranslations();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [identifier, setIdentifier] = useState<string | undefined>();
-  const [columns, setColumns] = useState<string[]>([]);
+const List: React.FC<{
+  items?: any[];
+  getUrl?: string;
+  children?: ReactNode;
+}> = ({ items = [], getUrl, children }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [identifier, setIdentifier] = useState<string>();
+  const [columns, setColumns] = useState<Record<string, string>>({});
   const [columnFormatters, setColumnFormatters] = useState<
     Record<string, (value: any) => any>
   >({});
-  const [columnLabels, setColumnLabels] = useState<Record<string, string>>({});
 
-  const setColumn = (name: string, label: string) => {
-    setColumns((prev) => (prev.includes(name) ? prev : [...prev, name]));
-    setColumnLabels((prev) => ({ ...prev, [name]: label }));
-  };
-
-  const setColumnFormatter = (name: string, formatter: (value: any) => any) => {
-    setColumnFormatters((prev) => ({ ...prev, [name]: formatter }));
+  const [actions, setActions] = useState<Record<string, ListActionConfig>>({});
+  const setAction = (name: string, action: ListActionConfig) => {
+    setActions((prev) => ({
+      ...prev,
+      [name]: action,
+    }));
   };
 
   const list = useAsyncList<any>({
     async load({ signal }) {
       if (getUrl) {
-        const data = await api.get(getUrl, { signal }).then((res) => {
-          setIsLoading(false);
-          return res.data;
-        });
-
+        const data = await api.get(getUrl, { signal }).then((res) => res.data);
+        setIsLoading(false);
         return { items: data };
       }
       setIsLoading(false);
@@ -100,9 +102,7 @@ const List: React.FC<ListProps> = ({
           const second = b[sortDescriptor.column];
           let cmp =
             (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
-          if (sortDescriptor.direction === "descending") {
-            cmp *= -1;
-          }
+          if (sortDescriptor.direction === "descending") cmp *= -1;
           return cmp;
         }),
       };
@@ -113,68 +113,33 @@ const List: React.FC<ListProps> = ({
     (item: any, columnKey: React.Key) => {
       const key = columnKey.toString();
 
-      console.log("item", columnKey);
-      if (
-        columnKey === "operations" &&
-        identifier &&
-        (onEdit || onDelete || onView)
-      ) {
+      if (key === "operations" && identifier) {
         return (
           <TableCell>
-            <span className="flex flex-row gap-2">
-              {onView && (
+            <div className="flex flex-row gap-2">
+              {Object.entries(actions).map(([name, action]) => (
                 <Tooltip
-                  content={t("UI.buttons.view")}
-                  placement="top"
-                  className="text-default-600"
+                  key={name}
+                  delay={200}
+                  closeDelay={0}
+                  content={action.label}
+                  placement={action.tooltipProps?.placement || "top"}
+                  color={action.tooltipProps?.color || "default"}
                 >
                   <Button
                     isIconOnly
                     size="sm"
                     className="bg-default-100 text-default-600"
-                    onPress={() => onView(item[identifier])}
+                    onPress={() => action.callback(item[identifier], item)}
                   >
-                    <Eye size={22} />
+                    {action.icon}
                   </Button>
                 </Tooltip>
-              )}
-              {onEdit && (
-                <Tooltip
-                  content={t("UI.buttons.edit")}
-                  placement="top"
-                  className="text-default-600"
-                >
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    className="bg-default-100 text-default-600"
-                    onPress={() => onEdit(item[identifier])}
-                  >
-                    <Pen size={22} />
-                  </Button>
-                </Tooltip>
-              )}
-              {onDelete && (
-                <Tooltip
-                  content={t("UI.buttons.delete")}
-                  placement="top"
-                  color="danger"
-                >
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    className="bg-default-100"
-                    onPress={() => onDelete(item[identifier])}
-                  >
-                    <TrashBinTrash size={22} className="text-danger-500" />
-                  </Button>
-                </Tooltip>
-              )}
-            </span>
+              ))}
+            </div>
           </TableCell>
         );
       }
-
       return (
         <TableCell className="text-default-600 truncate">
           {columnFormatters[key]
@@ -183,7 +148,7 @@ const List: React.FC<ListProps> = ({
         </TableCell>
       );
     },
-    [columnFormatters, identifier, onDelete, onEdit, onView]
+    [actions, columnFormatters, identifier]
   );
 
   return (
@@ -192,42 +157,36 @@ const List: React.FC<ListProps> = ({
         items: list.items,
         columns,
         identifier,
-        setColumn,
-        setIdentifier,
-        setColumnFormatter,
         isLoading,
+        setColumn: (name, label) => {
+          setColumns((prev) => ({ ...prev, [name]: label }));
+        },
+        setIdentifier,
+        setColumnFormatter: (name, formatter) => {
+          setColumnFormatters((prev) => ({ ...prev, [name]: formatter }));
+        },
+        actions,
+        setAction,
       }}
     >
       {children}
       <Table sortDescriptor={list.sortDescriptor} onSortChange={list.sort}>
         <TableHeader>
-          <>
-            {columns.map((columnKey: React.Key) => {
-              const key = columnKey.toString();
-              if (key === "operation") {
-                return (
-                  <TableColumn key={key}>
-                    {columnLabels[key] || key}
-                  </TableColumn>
-                );
-              }
-              return (
-                <TableColumn allowsSorting key={key}>
-                  {columnLabels[key] || key}
-                </TableColumn>
-              );
-            })}
-          </>
+          {Object.entries(columns).map(([key, label]) => (
+            <TableColumn key={key} allowsSorting={key !== "operations"}>
+              {label}
+            </TableColumn>
+          ))}
         </TableHeader>
         <TableBody
           isLoading={isLoading}
           items={list.items}
           loadingContent={<Spinner label="Loading..." />}
-          emptyContent={"No rows to display."}
+          emptyContent="No rows to display."
         >
           {(item) => (
             <TableRow key={item.id || item.name}>
-              {(columnKey) => renderCell(item, columnKey)}
+              {(col) => renderCell(item, col)}
             </TableRow>
           )}
         </TableBody>
@@ -235,6 +194,8 @@ const List: React.FC<ListProps> = ({
     </ListContext.Provider>
   );
 };
+
+export default List;
 
 export interface ListColumnProps {
   name: string;
@@ -246,7 +207,6 @@ export interface ListColumnProps {
   number?: boolean;
   formatter?: (value: any) => any;
 }
-
 export const ListColumn: React.FC<ListColumnProps> = ({
   name,
   label,
@@ -258,8 +218,7 @@ export const ListColumn: React.FC<ListColumnProps> = ({
   formatter,
 }) => {
   const { columns, setColumn, setColumnFormatter } = useList();
-
-  const formatValue = useCallback(
+  const format = useCallback(
     (value: any) => {
       if (date) return new Date(value).toLocaleDateString();
       if (currency)
@@ -277,14 +236,14 @@ export const ListColumn: React.FC<ListColumnProps> = ({
       if (formatter) return formatter(value);
       return value;
     },
-    [boolean, currency, date, number, formatter, booleanFormatter]
+    [boolean, booleanFormatter, currency, date, formatter, number]
   );
-
   useEffect(() => {
-    if (columns.includes(name)) return;
-    setColumn(name, label);
-    setColumnFormatter(name, formatValue);
-  }, [name, label, columns, setColumn, formatValue, setColumnFormatter]);
+    if (!(name in columns)) {
+      setColumn(name, label);
+      setColumnFormatter(name, format);
+    }
+  }, [name, label, columns, setColumn, setColumnFormatter, format]);
   return null;
 };
 
@@ -293,37 +252,53 @@ export interface IdentifierColumnProps {
   label?: string;
   render?: boolean;
 }
-
 export const IdentifierColumn: React.FC<IdentifierColumnProps> = ({
   name,
   label,
   render = false,
 }) => {
-  const { columns, setColumn, identifier, setIdentifier } = useList();
-
+  const { columns, setColumn, setIdentifier, identifier } = useList();
   useEffect(() => {
-    if (!columns.includes(name) && render) {
-      setColumn(name, label ?? "Id");
-    }
-    if (!identifier) {
-      setIdentifier(name);
-    }
+    if (!(name in columns) && render) setColumn(name, label || name);
+    if (!identifier) setIdentifier(name);
   }, [name, label, render, columns, identifier, setColumn, setIdentifier]);
   return null;
 };
 
 export interface ListOperationsProps {
   label?: string;
+  children?: ReactNode;
 }
-export const ListOperations: React.FC<ListOperationsProps> = ({ label }) => {
+export const ListOperations: React.FC<ListOperationsProps> = ({
+  label,
+  children,
+}) => {
   const { columns, setColumn } = useList();
-
   useEffect(() => {
-    if (!columns.includes("operations")) {
-      setColumn("operations", label ?? "Operações");
-    }
+    if (!("operations" in columns))
+      setColumn("operations", label || "Operations");
   }, [columns, setColumn, label]);
-  return null;
+  return <>{children}</>;
 };
 
-export default List;
+export interface ListActionProps {
+  name: string;
+  label: string;
+  icon: React.ReactNode;
+  onAction: (id: any, item: any) => void;
+  tooltipProps?: TooltipProps;
+}
+export const ListAction: React.FC<ListActionProps> = ({
+  name,
+  label,
+  icon,
+  onAction,
+  tooltipProps,
+}) => {
+  const { actions, setAction } = useList();
+  useEffect(() => {
+    if (name in actions) return;
+    setAction(name, { label, icon, callback: onAction, tooltipProps });
+  }, [name, label, icon, onAction, actions, tooltipProps, setAction]);
+  return null;
+};

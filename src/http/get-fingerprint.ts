@@ -4,5 +4,5 @@ import { Success } from "@/types/api-response";
 type GetFingerprintResponse = Success<{ fingerprint: string }>;
 
 export const getFingerprint = () => {
-  return api.get<GetFingerprintResponse>("/fingerprint");
+  return api.get<GetFingerprintResponse>("/fingerprint").then(({ data }) => data);
 };

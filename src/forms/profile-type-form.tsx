@@ -16,12 +16,13 @@ const ProfileTypeForm: React.FC = () => {
   const handleSelectProfile = (type: ProfileType) => {
     setLoading(true);
     profileType(type)
-      .then(({ data }) => {
+      .then((data) => {
         setUser(data.user);
       })
       .catch(() => {
         error({
-          description: "Erro ao selecionar o tipo de perfil. Tente novamente mais tarde.",
+          description:
+            "Erro ao selecionar o tipo de perfil. Tente novamente mais tarde.",
         });
       });
   };

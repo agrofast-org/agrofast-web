@@ -10,11 +10,10 @@ import Select, { SelectItem } from "@/components/input/select";
 import FileUpload from "@/components/input/file-upload";
 import Textarea from "@/components/input/textarea";
 import { useTranslations } from "next-intl";
+import DatePicker from "@/components/input/date-picker";
 
 const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
-
-  const currentYear = new Date().getFullYear();
 
   return (
     <CrudForm
@@ -25,55 +24,62 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       postUrl="/carrier"
       putUrl={(id) => `/carrier/${id}`}
     >
-      <FormHeader className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-        {uuid ? t("UI.titles.edit_carrier") : t("UI.titles.add_carrier")}
+      <FormHeader>
+        <div className="flex flex-row justify-between items-center w-full">
+          <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
+            {uuid
+              ? t("UI.titles.edit_machinery")
+              : t("UI.titles.add_machinery")}
+          </h1>
+        </div>
       </FormHeader>
-
       {/* Identificação */}
       <FormGroup label="Identificação do veículo">
+        <Input
+          name="name"
+          label="Nome do equipamento"
+          placeholder="Nome do equipamento"
+        />
         <Input
           name="plate"
           label="Placa"
           placeholder="ABC1D23"
-          // required
+          required
         />
         <Input
           name="renavam"
           label="RENAVAM"
           placeholder="Número do RENAVAM"
-          // required
+          required
         />
         <Input
           name="chassi"
           label="Chassi"
           placeholder="Número do chassi"
-          // required
+          required
         />
         <Input
           name="manufacturer"
           label="Marca"
           placeholder="Fabricante do veículo"
-          // required
+          required
         />
         <Input
           name="model"
           label="Modelo"
           placeholder="Modelo do veículo"
-          // required
+          required
         />
-        <NumberInput
-          name="manufacture_year"
-          label="Ano de fabricação"
-          placeholder="YYYY"
-          min={1900}
-          max={currentYear}
-          // required
+        <DatePicker
+          name="manufacturer_date"
+          label="Data de fabricação"
+          required
         />
         <Select
           name="licensing_uf"
           label="UF de licenciamento"
           placeholder="Selecione a UF"
-          // required
+          required
         >
           {[
             "AC",
@@ -115,13 +121,13 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           name="vehicle_type"
           label="Tipo de veículo / Descrição"
           placeholder="Ex.: Caminhão-prancha"
-          // required
+          required
         />
         <Input
           name="body_type"
           label="Carroceria"
           placeholder="Ex.: Prancha simples"
-          // required
+          required
         />
       </FormGroup>
 
@@ -133,7 +139,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder="0.00"
           step={0.01}
           min={0}
-          // required
+          required
         />
         <NumberInput
           name="tare"
@@ -141,7 +147,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder="0.00"
           step={0.01}
           min={0}
-          // required
+          required
         />
         <NumberInput
           name="pbtc"
@@ -149,7 +155,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder="0.00"
           step={0.01}
           min={0}
-          // required
+          required
         />
       </FormGroup>
 
@@ -161,7 +167,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder="Ex.: 2"
           min={1}
           step={1}
-          // required
+          required
         />
         <NumberInput
           name="tires_per_axle"
@@ -169,13 +175,13 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder="Ex.: 2"
           min={1}
           step={1}
-          // required
+          required
         />
         <Select
           name="traction"
           label="Tração"
           placeholder="Selecione a tração"
-          // required
+          required
         >
           {["4x2", "6x2", "6x4", "8x2"].map((opt) => (
             <SelectItem key={opt}>{opt}</SelectItem>
@@ -189,13 +195,13 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           name="rntrc"
           label="RNTRC"
           placeholder="Número do RNTRC"
-          // required
+          required
         />
         <Input
           name="owner_document"
           label="Proprietário (CPF/CNPJ)"
           placeholder="CPF ou CNPJ"
-          // required
+          required
         />
         <FileUpload
           name="documents"
@@ -205,7 +211,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           multiple
         />
         <FileUpload
-          name="vehicle_photos"
+          name="pictures"
           label="Fotos do veículo"
           placeholder="Selecione imagens"
           accept={["image/jpeg", "image/png", "image/webp"]}
