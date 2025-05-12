@@ -15,16 +15,18 @@ export interface SignUpData {
 }
 
 export type SignUpResponse = Success<{
-  token: string;
-  user: User;
+  data: {
+    token: string;
+    user: User;
+  };
 }>;
 
-export const signUp = async (
+export const signUp = (
   data: SignUpData | FormValues
 ): Promise<SignUpResponse> => {
   return api.post<SignUpResponse>("/user", data).then(({ data }) => {
     api.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${data.token}`;
+      config.headers.Authorization = `Bearer ${data.data.token}`;
       return config;
     });
     return data;

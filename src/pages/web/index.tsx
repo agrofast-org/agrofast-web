@@ -9,10 +9,11 @@ import RequestForm from "@/forms/request-form";
 import ConditionalModal from "@/components/conditional-modal";
 import Link from "next/link";
 import React from "react";
+import { Spinner } from "@heroui/react";
 
 export default function Index() {
   const pt = useTranslations("Pages.Index");
-  const { user, machinery, carriers } = useUser();
+  const { user, machinery, carriers, transportLoaded } = useUser();
 
   return (
     <>
@@ -27,6 +28,11 @@ export default function Index() {
         >
           <ProfileTypeForm />
         </ConditionalModal>
+        {!transportLoaded && (
+          <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
+            <Spinner label="Carregando seu perfil..." />
+          </section>
+        )}
         {user?.profile_type === "requester" && (
           <React.Fragment key="requester">
             {machinery ? (
@@ -49,7 +55,6 @@ export default function Index() {
             )}
           </React.Fragment>
         )}
-        {carriers &&  carriers.length}
         {user?.profile_type === "transporter" && (
           <React.Fragment key="transporter">
             {carriers ? (

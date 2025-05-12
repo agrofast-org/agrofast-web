@@ -75,7 +75,7 @@ const AuthCodeForm: React.FC = () => {
     const formData = Object.fromEntries(new FormData(e.currentTarget));
     setIsLoading(true);
     auth(String(formData["code"]))
-      .then((data) => {
+      .then(({ data }) => {
         setUser(data.user);
         setToken(data.token);
         setCookie(AUTHENTICATED_KEY, "true", cookieOptions);

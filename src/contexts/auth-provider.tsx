@@ -26,6 +26,7 @@ interface AuthContextProps {
   setUser: (user: User | undefined) => void;
   machinery: Machinery[] | undefined;
   carriers: Carrier[] | undefined;
+  transportLoaded: boolean;
   logout: () => void;
 }
 
@@ -56,6 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     undefined
   );
   const [carriers, setCarriers] = useState<Carrier[] | undefined>(undefined);
+  const [transportLoaded, setTransportLoaded] = useState<boolean>(false);
 
   const fetchInProgress = useRef(false);
 
@@ -90,7 +92,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setToken(storedToken);
       setBearerToken(storedToken);
       getMe()
-        .then((data) => {
+        .then(({ data }) => {
           setUser(data.user);
           if (data.authenticated) {
             setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
@@ -133,28 +135,41 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (user && cookies[AUTHENTICATED_KEY] === true) {
-      
       if (user.profile_type === "requester" && !machinery) {
         getMachinery()
           .then(({ data }) => {
             setMachinery(data);
           })
-          .catch();
+          .catch()
+          .finally(() => {
+            setTransportLoaded(true);
+          });
       }
       if (user.profile_type === "transporter" && !carriers) {
         getCarrier()
           .then(({ data }) => {
-            console.log("carriers", data);
             setCarriers(data);
           })
-          .catch();
+          .catch()
+          .finally(() => {
+            setTransportLoaded(true);
+          });
       }
     }
   }, [user, machinery, carriers, cookies]);
 
   return (
     <AuthContext.Provider
-      value={{ token, setToken, user, setUser, machinery, carriers, logout }}
+      value={{
+        token,
+        setToken,
+        user,
+        setUser,
+        machinery,
+        carriers,
+        transportLoaded,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

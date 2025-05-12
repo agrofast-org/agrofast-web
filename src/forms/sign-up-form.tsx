@@ -47,9 +47,9 @@ const SignInForm: React.FC = () => {
     setIsLoading(true);
 
     signUp(data)
-      .then(({ user, token }) => {
-        setUser(user);
-        setToken(token);
+      .then(({ data }) => {
+        setUser(data.user);
+        setToken(data.token);
         router.push(`/web/auth-code`);
       })
       .catch(({ data: error }) => {

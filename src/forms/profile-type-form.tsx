@@ -16,7 +16,7 @@ const ProfileTypeForm: React.FC = () => {
   const handleSelectProfile = (type: ProfileType) => {
     setLoading(true);
     profileType(type)
-      .then((data) => {
+      .then(({ data }) => {
         setUser(data.user);
       })
       .catch(() => {
