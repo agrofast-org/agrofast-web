@@ -3,8 +3,10 @@ import { Error, Success } from "@/types/api-response";
 import { User } from "@/types/user";
 
 export type AuthResponse = Success<{
-  token: string;
-  user: User;
+  data: {
+    token: string;
+    user: User;
+  };
 }>;
 
 export type AuthError = Error<{
@@ -12,5 +14,7 @@ export type AuthError = Error<{
 }>;
 
 export const auth = (code: string) => {
-  return api.get<AuthResponse>("/user/auth", { params: { code } });
+  return api
+    .get<AuthResponse>("/user/auth", { params: { code } })
+    .then(({ data }) => data);
 };

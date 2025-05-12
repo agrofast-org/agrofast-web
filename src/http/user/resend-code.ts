@@ -1,5 +1,5 @@
 import api from "@/service/api";
 
 export const resendCode = () => {
-  return api.get("/user/resend-code");
+  return api.get("/user/resend-code").then(({ data }) => data);
 };

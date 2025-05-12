@@ -6,7 +6,7 @@ export interface FormHeaderProps {
 }
 
 const FormHeader: React.FC<FormHeaderProps> = ({ children, className }) => {
-  return <div className={cn("col-span-full", className)}>{children}</div>;
+  return <div className={cn("flex flex-row justify-center col-span-full min-h-10", className)}>{children}</div>;
 };
 
 export default FormHeader;

@@ -6,7 +6,7 @@ import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 
 import userPicture from "@public/img/user-default.png";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
@@ -26,18 +26,19 @@ import DatePicker from "@/components/input/date-picker";
 import Select from "@/components/input/select";
 import { SelectItem } from "@heroui/react";
 import InputGroupIdentity from "@/components/input/group/input-group-identity";
+import Link from "next/link";
 
 export default function Profile() {
   const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
   const toast = useToast();
 
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useUser();
   const { setIsLoading } = useOverlay();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (data: FormValues) => {    
+  const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     api
       .put("/user", data)
@@ -180,6 +181,16 @@ export default function Profile() {
                     />
                   </InputGroupContent>
                 </InputGroup>
+                {user?.profile_type === "requester" && (
+                  <Link href="/web/machinery">
+                    Maquinarios
+                  </Link>
+                )}
+                {user?.profile_type === "transporter" && (
+                  <Link href="/web/carrier">
+                    Veículos de transporte
+                  </Link>
+                )}
                 <Input
                   name="number"
                   label={t("UI.labels.number")}

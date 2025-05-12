@@ -1,6 +1,6 @@
 import Checkbox from "@/components/input/checkbox";
 import Input from "@/components/input/input";
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
@@ -18,7 +18,7 @@ const LoginForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
   const { setIsLoading } = useOverlay();
-  const { setUser, setToken } = useAuth();
+  const { setUser, setToken } = useUser();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
@@ -28,13 +28,13 @@ const LoginForm: React.FC = () => {
   const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     login(data)
-      .then(({ token, user, auth }) => {
-        setToken(token);
-        setUser(user);
-        if (auth === "authenticate") {
+      .then(({ data }) => {
+        setToken(data.token);
+        setUser(data.user);
+        if (data.auth === "authenticate") {
           router.reload();
         }
-        if (auth === "authenticated") {
+        if (data.auth === "authenticated") {
           setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
           router.reload();
         }

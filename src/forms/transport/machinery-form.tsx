@@ -17,14 +17,21 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
   return (
     <CrudForm
+      id={`machinery-${!uuid ? "insert" : "update"}-form`}
       uuid={uuid}
       update={!!uuid}
       getUrl={(id) => `/machinery/${id}`}
       postUrl="/machinery"
       putUrl={(id) => `/machinery/${id}`}
     >
-      <FormHeader className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-        {uuid ? t("UI.titles.edit_machinery") : t("UI.titles.add_machinery")}
+      <FormHeader>
+        <div className="flex flex-row justify-between items-center w-full">
+          <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
+            {uuid
+              ? t("UI.titles.edit_machinery")
+              : t("UI.titles.add_machinery")}
+          </h1>
+        </div>
       </FormHeader>
       <FormGroup label="Identificação">
         <Input
@@ -36,6 +43,11 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           name="type"
           label="Categoria/Tipo"
           placeholder="Categoria ou tipo do equipamento"
+        />
+        <Input
+          name="plate"
+          label="Placa/Identificação"
+          placeholder="Placa ou identificação do equipamento"
         />
         <Input
           name="manufacturer"
@@ -55,14 +67,16 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       </FormGroup>
       <FormGroup label="Dimensões e peso">
         <NumberInput
+          step={0.01}
           name="weight"
           label="Peso bruto (kg)"
           placeholder="Peso em quilos"
         />
         <NumberInput
-          name="lenght"
+          step={0.01}
+          name="length"
           label="Comprimento (m)"
-          placeholder="Coprimento em metros"
+          placeholder="Comprimento em metros"
           endContent={
             <Suspension
               weight="LineDuotone"
@@ -71,6 +85,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           }
         />
         <NumberInput
+          step={0.01}
           name="width"
           label="Largura (m)"
           placeholder="Largura em metros"
@@ -82,6 +97,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           }
         />
         <NumberInput
+          step={0.01}
           name="height"
           label="Altura (m)"
           placeholder="Altura em Metros"
@@ -93,14 +109,13 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           label="Quantidade de eixos"
           placeholder="Quantidade de eixos"
         />
-
         <Select
           name="tire_config"
           label="Configuração de pneus"
           placeholder="Selecione a configuração dos pneus"
         >
-          <SelectItem>Padrão (1 pneu por lado)</SelectItem>
-          <SelectItem>Flipada (2 pneus por lado)</SelectItem>
+          <SelectItem key="standard">Padrão (1 pneu por lado)</SelectItem>
+          <SelectItem key="flipped">Flipada (2 pneus por lado)</SelectItem>
         </Select>
         <FileUpload
           name="pictures"

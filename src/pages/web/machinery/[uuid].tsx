@@ -10,8 +10,7 @@ import { useRouter } from "next/router";
 
 export default function Find() {
   const { query } = useRouter();
-  const pt = useTranslations("Pages.SignUp");  
-  
+  const pt = useTranslations("Pages.SignUp");
 
   return (
     <>
@@ -20,9 +19,11 @@ export default function Find() {
         <meta name="description" content={pt("meta.description")} />
       </Head>
       <Body className="flex flex-row justify-center">
-        <section className="flex flex-row items-start gap-4 mx-auto p-4 container">
+        <section className="flex flex-row items-start gap-4 mx-auto container">
           <FormBody>
-            <MachineryForm uuid={Array.isArray(query.uuid) ? query.uuid[0] : query.uuid} />
+            <MachineryForm
+              uuid={Array.isArray(query.uuid) ? query.uuid[0] : query.uuid}
+            />
           </FormBody>
         </section>
       </Body>
@@ -31,9 +32,7 @@ export default function Find() {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => ({
-  paths: [
-    // { params: { uuid: "123e4567-e89b-12d3-a456-426614174000" } }
-  ],
+  paths: [],
   fallback: "blocking",
 });
 

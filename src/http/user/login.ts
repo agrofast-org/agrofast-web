@@ -10,17 +10,17 @@ export interface LoginData {
 }
 
 export type LoginResponse = Success<{
-  token: string;
-  user: User;
-  auth?: "authenticate" | "authenticated"
+  data: {
+    token: string;
+    user: User;
+    auth?: "authenticate" | "authenticated";
+  };
 }>;
 
-export const login = async (
-  data: LoginData | FormValues
-): Promise<LoginResponse> => {
-  return await api.post<LoginResponse>("/user/login", data).then(({ data }) => {
+export const login = (data: LoginData | FormValues): Promise<LoginResponse> => {
+  return api.post<LoginResponse>("/user/login", data).then(({ data }) => {
     api.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${data.token}`;
+      config.headers.Authorization = `Bearer ${data.data.token}`;
       return config;
     });
     return data;

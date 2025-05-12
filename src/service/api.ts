@@ -14,7 +14,7 @@ const localOrigin = getCurrentOrigin();
 const hostname =
   typeof window !== "undefined" ? window.location.hostname : "localhost";
 
-const apiBaseUrl = isIpAddress(hostname)
+export const apiBaseUrl = isIpAddress(hostname)
   ? `${localOrigin.replace(/:3030$/, "")}`
   : process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -55,15 +55,7 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  ({ data, request,...response }) => {
-    return {
-      ...response,
-      request: {
-        ...request,
-      },
-      ...data,
-    };
-  },
+  (res) => res,
   (error) => {
     const { status, data } = error.response;
     switch (status) {

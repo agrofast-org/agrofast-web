@@ -13,21 +13,26 @@ import { useCookies } from "react-cookie";
 import api, { setBearerToken } from "@/service/api";
 import { getMe } from "@/http/user/get-me";
 import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
-import { User } from "@/types/user";
+import { Carrier, Machinery, User } from "@/types/user";
 import { useOverlay } from "./overlay-provider";
 import { cookieOptions } from "@/service/cookie";
+import { getMachinery } from "@/http/machinerie/get-machinery";
+import { getCarrier } from "@/http/carrier/get-carriers";
 
 interface AuthContextProps {
   token: string | undefined;
   setToken: (token: string | undefined) => void;
   user: User | undefined;
   setUser: (user: User | undefined) => void;
+  machinery: Machinery[] | undefined;
+  carriers: Carrier[] | undefined;
+  transportLoaded: boolean;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const useAuth = (): AuthContextProps => {
+export const useUser = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useUser must be used within an AuthProvider");
@@ -48,6 +53,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
 
+  const [machinery, setMachinery] = useState<Machinery[] | undefined>(
+    undefined
+  );
+  const [carriers, setCarriers] = useState<Carrier[] | undefined>(undefined);
+  const [transportLoaded, setTransportLoaded] = useState<boolean>(false);
+
   const fetchInProgress = useRef(false);
 
   const setToken = useCallback(
@@ -66,7 +77,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     [setCookie, removeCookie]
   );
 
-  const logout = useCallback(() => {    
+  const logout = useCallback(() => {
     setUser(undefined);
     setToken(undefined);
     router.push("/web/login", undefined, { locale: router.locale });
@@ -81,7 +92,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setToken(storedToken);
       setBearerToken(storedToken);
       getMe()
-        .then(({ data }) => {          
+        .then(({ data }) => {
           setUser(data.user);
           if (data.authenticated) {
             setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
@@ -122,8 +133,44 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     fetchMe();
   }, [fetchMe]);
 
+  useEffect(() => {
+    if (user && cookies[AUTHENTICATED_KEY] === true) {
+      if (user.profile_type === "requester" && !machinery) {
+        getMachinery()
+          .then(({ data }) => {
+            setMachinery(data);
+          })
+          .catch()
+          .finally(() => {
+            setTransportLoaded(true);
+          });
+      }
+      if (user.profile_type === "transporter" && !carriers) {
+        getCarrier()
+          .then(({ data }) => {
+            setCarriers(data);
+          })
+          .catch()
+          .finally(() => {
+            setTransportLoaded(true);
+          });
+      }
+    }
+  }, [user, machinery, carriers, cookies]);
+
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser, logout }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        setToken,
+        user,
+        setUser,
+        machinery,
+        carriers,
+        transportLoaded,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

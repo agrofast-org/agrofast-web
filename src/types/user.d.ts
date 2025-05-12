@@ -17,3 +17,10 @@ export interface User {
   profile_picture?: string;
   documents?: Document[];
 }
+
+export interface Machinery {
+  uuid: string;
+}
+export interface Carrier {
+  uuid: string;
+}

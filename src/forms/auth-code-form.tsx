@@ -1,4 +1,4 @@
-import { useAuth } from "@/contexts/auth-provider";
+import { useUser } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
 import { Button, Form, Skeleton, Spacer } from "@heroui/react";
@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAuthCodeLength } from "@/http/get-auth-code-length";
 import { auth, AuthError } from "@/http/user/auth";
 import { useToast } from "@/service/toast";
-import { useCountdown } from "@/lib/useCountdown";
+import useCountdown from "@/hooks/use-countdown";
 import { resendCode } from "@/http/user/resend-code";
 import { AxiosError } from "axios";
 import InputOtp from "@/components/input/input-otp";
@@ -29,29 +29,29 @@ const AuthCodeForm: React.FC = () => {
 
   const { setIsLoading } = useOverlay();
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const { user, setUser, setToken, logout } = useAuth();
+  const { user, setUser, setToken, logout } = useUser();
 
   const [errors, setErrors] = useState<Record<string, string | string[]>>({});
 
-  const [timer, setTimer] = useCountdown(TIMEOUT);
+  const { time, setTime } = useCountdown(TIMEOUT);
 
   const { data: codeLength, isLoading: codeLengthLoading } = useQuery<number>({
     queryKey: ["auth-code-length"],
     queryFn: async () => {
       const res = await getAuthCodeLength();
-      return res.data.length ?? 6;
+      return res.length ?? 6;
     },
   });
 
   const handleResendCode = async () => {
-    if (timer <= 0) {
+    if (time <= 0) {
       setIsLoading(true);
       resendCode()
         .then(() => {
           toast.success({
             description: t("Messages.success.authentication_code_resent"),
           });
-          setTimer(TIMEOUT);
+          setTime(TIMEOUT);
         })
         .catch(() => {
           toast.error({
@@ -64,7 +64,7 @@ const AuthCodeForm: React.FC = () => {
     } else {
       toast.warning({
         description: t("Messages.info.wait_resend_code_timeout", {
-          seconds: timer,
+          seconds: time,
         }),
       });
     }
@@ -174,13 +174,13 @@ const AuthCodeForm: React.FC = () => {
                   <span
                     onClick={handleResendCode}
                     className={cn(
-                      timer <= 0
+                      time <= 0
                         ? "hover:underline cursor-pointer text-primary"
                         : "text-neutral-600 dark:text-neutral-400 cursor-not-allowed"
                     )}
                   >
                     {t("UI.buttons.resend_code")}
-                    {timer <= 0 ? "" : `(${timer})`}
+                    {time <= 0 ? "" : `(${time})`}
                   </span>
                 ),
               })}
