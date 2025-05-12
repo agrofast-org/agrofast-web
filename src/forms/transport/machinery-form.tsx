@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "@/components/button";
 import CrudForm from "@/components/form/crud-form";
 import FormFooter from "@/components/form/form-footer";
@@ -28,55 +29,57 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         <div className="flex flex-row justify-between items-center w-full">
           <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
             {uuid
-              ? t("UI.titles.edit_machinery")
-              : t("UI.titles.add_machinery")}
+              ? t("UI.titles.edit", { item: t("UI.labels.machinery") })
+              : t("UI.titles.add", { item: t("UI.labels.machinery") })}
           </h1>
         </div>
       </FormHeader>
-      <FormGroup label="Identificação">
+
+      <FormGroup label={t("UI.groups.identification")}>
         <Input
           name="name"
-          label="Nome do equipamento"
-          placeholder="Nome do equipamento"
+          label={t("UI.labels.machinery_name")}
+          placeholder={t("UI.placeholders.write_machinery_name")}
         />
         <Input
           name="type"
-          label="Categoria/Tipo"
-          placeholder="Categoria ou tipo do equipamento"
+          label={t("UI.labels.machinery_type")}
+          placeholder={t("UI.placeholders.write_machinery_type")}
         />
         <Input
           name="plate"
-          label="Placa/Identificação"
-          placeholder="Placa ou identificação do equipamento"
+          label={t("UI.labels.machinery_plate")}
+          placeholder={t("UI.placeholders.write_machinery_plate")}
         />
         <Input
           name="manufacturer"
-          label="Fabricante"
-          placeholder="Fabricante do equipamento"
+          label={t("UI.labels.machinery_manufacturer")}
+          placeholder={t("UI.placeholders.write_machinery_manufacturer")}
         />
         <Input
           name="model"
-          label="Modelo"
-          placeholder="Modelo do equipamento"
+          label={t("UI.labels.machinery_model")}
+          placeholder={t("UI.placeholders.write_machinery_model")}
         />
         <DatePicker
           name="manufacturer_date"
-          label="Data de fabricação"
+          label={t("UI.labels.machinery_manufacturer_date")}
           required
         />
       </FormGroup>
-      <FormGroup label="Dimensões e peso">
+
+      <FormGroup label={t("UI.groups.dimensions_and_weight")}>
         <NumberInput
-          step={0.01}
           name="weight"
-          label="Peso bruto (kg)"
-          placeholder="Peso em quilos"
+          label={t("UI.labels.machinery_weight")}
+          placeholder={t("UI.placeholders.write_machinery_weight")}
+          step={0.01}
         />
         <NumberInput
-          step={0.01}
           name="length"
-          label="Comprimento (m)"
-          placeholder="Comprimento em metros"
+          label={t("UI.labels.machinery_length")}
+          placeholder={t("UI.placeholders.write_machinery_length")}
+          step={0.01}
           endContent={
             <Suspension
               weight="LineDuotone"
@@ -85,10 +88,10 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           }
         />
         <NumberInput
-          step={0.01}
           name="width"
-          label="Largura (m)"
-          placeholder="Largura em metros"
+          label={t("UI.labels.machinery_width")}
+          placeholder={t("UI.placeholders.write_machinery_width")}
+          step={0.01}
           endContent={
             <Suspension
               weight="LineDuotone"
@@ -97,39 +100,41 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           }
         />
         <NumberInput
-          step={0.01}
           name="height"
-          label="Altura (m)"
-          placeholder="Altura em Metros"
+          label={t("UI.labels.machinery_height")}
+          placeholder={t("UI.placeholders.write_machinery_height")}
+          step={0.01}
         />
       </FormGroup>
-      <FormGroup label="Dados do veículo">
+
+      <FormGroup label={t("UI.groups.vehicle_data")}>
         <NumberInput
           name="axles"
-          label="Quantidade de eixos"
-          placeholder="Quantidade de eixos"
+          label={t("UI.labels.machinery_axles")}
+          placeholder={t("UI.placeholders.write_machinery_axles")}
         />
         <Select
           name="tire_config"
-          label="Configuração de pneus"
-          placeholder="Selecione a configuração dos pneus"
+          label={t("UI.labels.machinery_tire_config")}
+          placeholder={t("UI.placeholders.select_machinery_tire_config")}
         >
           <SelectItem key="standard">Padrão (1 pneu por lado)</SelectItem>
           <SelectItem key="flipped">Flipada (2 pneus por lado)</SelectItem>
         </Select>
         <FileUpload
           name="pictures"
-          label="Imagens do veículo"
-          placeholder="Selecione as imagens do veículo"
+          label={t("UI.labels.machinery_pictures")}
+          placeholder={t("UI.placeholders.write_machinery_pictures")}
           accept={["image/jpeg", "image/png", "image/webp"]}
           multiple
         />
         <Textarea
           name="obs"
-          label="Observações adicionais"
-          placeholder="Escreva aqui as observações adicionais"
+          label={t("UI.labels.machinery_obs")}
+          placeholder={t("UI.placeholders.write_machinery_obs")}
         />
       </FormGroup>
+
       <FormFooter>
         <Button
           className="justify-self-end px-16"
@@ -137,7 +142,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           type="submit"
           confirmAction
           confirmActionInfo={{
-            actionConfirmButtonColor: "primary",
+            actionConfirmButtonColor: "primary"
           }}
         >
           {t("UI.buttons.continue")}

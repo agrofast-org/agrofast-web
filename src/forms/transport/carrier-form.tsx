@@ -28,159 +28,130 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         <div className="flex flex-row justify-between items-center w-full">
           <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
             {uuid
-              ? t("UI.titles.edit_machinery")
-              : t("UI.titles.add_machinery")}
+              ? t("UI.titles.edit", { item: t("UI.labels.carrier") })
+              : t("UI.titles.add", { item: t("UI.labels.carrier") })}
           </h1>
         </div>
       </FormHeader>
-      {/* Identificação */}
-      <FormGroup label="Identificação do veículo">
+
+      <FormGroup label={t("UI.groups.vehicle_identification")}>
         <Input
           name="name"
-          label="Nome do equipamento"
-          placeholder="Nome do equipamento"
+          label={t("UI.labels.carrier_name")}
+          placeholder={t("UI.placeholders.write_carrier_name")}
         />
         <Input
           name="plate"
-          label="Placa"
-          placeholder="ABC1D23"
+          label={t("UI.labels.carrier_plate")}
+          placeholder={t("UI.placeholders.write_carrier_plate")}
           required
         />
         <Input
           name="renavam"
-          label="RENAVAM"
-          placeholder="Número do RENAVAM"
+          label={t("UI.labels.carrier_renavam")}
+          placeholder={t("UI.placeholders.write_carrier_renavam")}
           required
         />
         <Input
           name="chassi"
-          label="Chassi"
-          placeholder="Número do chassi"
+          label={t("UI.labels.carrier_chassi")}
+          placeholder={t("UI.placeholders.write_carrier_chassi")}
           required
         />
         <Input
           name="manufacturer"
-          label="Marca"
-          placeholder="Fabricante do veículo"
+          label={t("UI.labels.carrier_manufacturer")}
+          placeholder={t("UI.placeholders.write_carrier_manufacturer")}
           required
         />
         <Input
           name="model"
-          label="Modelo"
-          placeholder="Modelo do veículo"
+          label={t("UI.labels.carrier_model")}
+          placeholder={t("UI.placeholders.write_carrier_model")}
           required
         />
         <DatePicker
           name="manufacturer_date"
-          label="Data de fabricação"
+          label={t("UI.labels.carrier_manufacturer_date")}
           required
         />
         <Select
           name="licensing_uf"
-          label="UF de licenciamento"
-          placeholder="Selecione a UF"
+          label={t("UI.labels.carrier_licensing_uf")}
+          placeholder={t("UI.placeholders.write_select_licensing_uf")}
           required
         >
           {[
-            "AC",
-            "AL",
-            "AP",
-            "AM",
-            "BA",
-            "CE",
-            "DF",
-            "ES",
-            "GO",
-            "MA",
-            "MT",
-            "MS",
-            "MG",
-            "PA",
-            "PB",
-            "PR",
-            "PE",
-            "PI",
-            "RJ",
-            "RN",
-            "RS",
-            "RO",
-            "RR",
-            "SC",
-            "SP",
-            "SE",
-            "TO",
+            "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO",
           ].map((uf) => (
             <SelectItem key={uf}>{uf}</SelectItem>
           ))}
         </Select>
       </FormGroup>
 
-      {/* Descrição e carroceria */}
-      <FormGroup label="Tipo e carroceria">
+      <FormGroup label={t("UI.groups.type_and_body")}>
         <Input
           name="vehicle_type"
-          label="Tipo de veículo / Descrição"
-          placeholder="Ex.: Caminhão-prancha"
+          label={t("UI.labels.carrier_vehicle_type")}
+          placeholder={t("UI.placeholders.write_carrier_vehicle_type")}
           required
         />
         <Input
           name="body_type"
-          label="Carroceria"
-          placeholder="Ex.: Prancha simples"
+          label={t("UI.labels.carrier_body_type")}
+          placeholder={t("UI.placeholders.write_carrier_body_type")}
           required
         />
       </FormGroup>
 
-      {/* Dimensões e pesos */}
-      <FormGroup label="Dimensões e capacidades">
+      <FormGroup label={t("UI.groups.dimensions_and_capacities")}>
         <NumberInput
           name="plank_length"
-          label="Comprimento da prancha (m)"
-          placeholder="0.00"
+          label={t("UI.labels.carrier_plank_length")}
+          placeholder={t("UI.placeholders.write_carrier_plank_length")}
           step={0.01}
           min={0}
           required
         />
         <NumberInput
           name="tare"
-          label="Tara (t)"
-          placeholder="0.00"
+          label={t("UI.labels.carrier_tare")}
+          placeholder={t("UI.placeholders.write_carrier_tare")}
           step={0.01}
           min={0}
           required
         />
         <NumberInput
           name="pbtc"
-          label="PBTC (t)"
-          placeholder="0.00"
+          label={t("UI.labels.carrier_pbtc")}
+          placeholder={t("UI.placeholders.write_carrier_pbtc")}
           step={0.01}
           min={0}
           required
         />
       </FormGroup>
 
-      {/* Eixos, pneus e tração */}
-      <FormGroup label="Eixos e tração">
+      <FormGroup label={t("UI.groups.axles_and_traction")}>
         <NumberInput
           name="axles"
-          label="Quantidade de eixos"
-          placeholder="Ex.: 2"
+          label={t("UI.labels.carrier_axles")}
+          placeholder={t("UI.placeholders.write_carrier_axles")}
           min={1}
           step={1}
           required
         />
         <NumberInput
           name="tires_per_axle"
-          label="Pneus por eixo"
-          placeholder="Ex.: 2"
+          label={t("UI.labels.carrier_tires_per_axle")}
+          placeholder={t("UI.placeholders.write_carrier_tires_per_axle")}
           min={1}
           step={1}
           required
         />
         <Select
           name="traction"
-          label="Tração"
-          placeholder="Selecione a tração"
+          label={t("UI.labels.carrier_traction")}
+          placeholder={t("UI.placeholders.select_carrier_traction")}
           required
         >
           {["4x2", "6x2", "6x4", "8x2"].map((opt) => (
@@ -189,42 +160,40 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         </Select>
       </FormGroup>
 
-      {/* Registros e documentos */}
-      <FormGroup label="Registros e documentos">
+      <FormGroup label={t("UI.groups.records_and_documents")}>
         <Input
           name="rntrc"
-          label="RNTRC"
-          placeholder="Número do RNTRC"
+          label={t("UI.labels.carrier_rntrc")}
+          placeholder={t("UI.placeholders.write_carrier_rntrc")}
           required
         />
         <Input
           name="owner_document"
-          label="Proprietário (CPF/CNPJ)"
-          placeholder="CPF ou CNPJ"
+          label={t("UI.labels.carrier_owner_document")}
+          placeholder={t("UI.placeholders.write_carrier_owner_document")}
           required
         />
         <FileUpload
           name="documents"
-          label="Documentos (CRLV, comprovante)"
-          placeholder="Anexe arquivos (PDF, JPG, PNG)"
+          label={t("UI.labels.documents")}
+          placeholder={t("UI.placeholders.attach_carrier_documents")}
           accept={["application/pdf", "image/jpeg", "image/png"]}
           multiple
         />
         <FileUpload
           name="pictures"
-          label="Fotos do veículo"
-          placeholder="Selecione imagens"
+          label={t("UI.labels.carrier_pictures")}
+          placeholder={t("UI.placeholders.attach_carrier_pictures")}
           accept={["image/jpeg", "image/png", "image/webp"]}
           multiple
         />
       </FormGroup>
 
-      {/* Observações */}
-      <FormGroup label="Observações adicionais">
+      <FormGroup label={t("UI.groups.additional_notes")}>
         <Textarea
           name="obs"
-          label="Observações adicionais"
-          placeholder="Ex.: rampas, suportes laterais, etc."
+          label={t("UI.labels.carrier_obs")}
+          placeholder={t("UI.placeholders.write_carrier_obs")}
         />
       </FormGroup>
 
@@ -234,9 +203,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           color="primary"
           type="submit"
           confirmAction
-          confirmActionInfo={{
-            actionConfirmButtonColor: "primary",
-          }}
+          confirmActionInfo={{ actionConfirmButtonColor: "primary" }}
         >
           {t("UI.buttons.continue")}
         </Button>

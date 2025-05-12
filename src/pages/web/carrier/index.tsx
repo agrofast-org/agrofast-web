@@ -23,29 +23,29 @@ export default function Index() {
         <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
           <div className="flex flex-row justify-between items-center w-full">
             <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
-              {t("Advertisement.titles.primary")}
+              {t("UI.labels.carrier")}
             </h1>
             <Button
               as={Link}
               className="bg-default-200 text-default-700"
               href="/web/carrier/new"
             >
-              Adicionar novo <AddCircle weight="LineDuotone" />
+              {t("UI.titles.add", {item: t("UI.labels.carrier")})} <AddCircle weight="LineDuotone" />
             </Button>
           </div>
           <List getUrl="/carrier">
             <IdentifierColumn label="Id" name="uuid" />
-            <ListColumn label="Name" name="name" />
-            <ListColumn label="Manufacturer" name="manufacturer" />
-            <ListColumn label="Plate" name="plate" />
-            <ListColumn label="Vehicle Type" name="vehicle_type" />
-            <ListColumn label="Model" name="model" />
+            <ListColumn label={t('UI.labels.name')} name="name" />
+            <ListColumn label={t("UI.labels.carrier_manufacturer")} name="manufacturer" />
+            <ListColumn label={t("UI.labels.carrier_plate")} name="plate" />
+            <ListColumn label={t("UI.labels.carrier_body_type")} name="vehicle_type" />
+            <ListColumn label={t("UI.labels.carrier_model")} name="model" />
             <ListColumn
-              label="Manufactured Date"
+              label={t("UI.labels.carrier_manufacturer_date")}
               name="manufacturer_date"
               date
             />
-            <ListOperations label="Operações">
+            <ListOperations label={"Operações"}>
               {/* <ListAction
                 name="view"
                 label={t("UI.buttons.view")}

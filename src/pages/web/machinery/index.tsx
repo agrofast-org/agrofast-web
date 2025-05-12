@@ -30,18 +30,26 @@ export default function Index() {
             <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
               {t("Advertizement.titles.primary")}
             </h1>
-            <Button as={Link} className="bg-default-200 text-default-700" href="/web/machinery/new">
-              Adicionar novo <AddCircle weight="LineDuotone" />
+            <Button
+              as={Link}
+              className="bg-default-200 text-default-700"
+              href="/web/machinery/new"
+            >
+              {t("UI.titles.add", { item: t("UI.labels.machinery") })}{" "}
+              <AddCircle weight="LineDuotone" />
             </Button>
           </div>
           <List getUrl="/machinery">
             <IdentifierColumn label="Id" name="uuid" />
-            <ListColumn label="Name" name="name" />
-            <ListColumn label="Manufacturer" name="manufacturer" />
-            <ListColumn label="Type" name="type" />
-            <ListColumn label="Model" name="model" />
+            <ListColumn label={t("UI.labels.machinery_name")} name="name" />
             <ListColumn
-              label="Manufactured Date"
+              label={t("UI.labels.machinery_manufacturer")}
+              name="manufacturer"
+            />
+            <ListColumn label={t("UI.labels.machinery_type")} name="type" />
+            <ListColumn label={t("UI.labels.machinery_model")} name="model" />
+            <ListColumn
+              label={t("UI.labels.machinery_manufacturer_date")}
               name="manufacturer_date"
               date
             />

@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { uploadAttachment } from "@/http/uploads/upload-attachment";
 import { Attachment } from "@/types/attachment";
 import useSessionStorage from "@/hooks/use-session-storage";
+import { useTranslations } from "next-intl";
 
 export type FileAcceptedTypes =
   | "image/png"
@@ -51,6 +52,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const router = useRouter();
   const toast = useToast();
+  const t = useTranslations()
   const disclosure = useDisclosure();
   const { onOpen } = disclosure;
 
@@ -111,14 +113,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
         setSessionFiles(updated);
         onUpload?.(updated);
 
-        toast.success({ description: "Arquivos enviados com sucesso" });
+        toast.success({ description: t("Messages.success.files_successfully_uploaded") });
       });
     } catch (error) {
       console.log(error);
 
       toast.error({
-        title: "Erro no upload",
-        description: "Tente novamente",
+        description: t("Messages.errors.failed_on_file_upload"),
       });
     } finally {
       setIsUploading(false);
@@ -157,9 +158,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
       >
         {isUploading ? <Spinner size="sm" /> : <Upload weight="LineDuotone" />}
         {isUploading
-          ? "Enviando..."
+          ? t("UI.buttons.uploading")
           : files.length
-          ? "Adicionar mais"
+          ? t("UI.buttons.add_more")
           : placeholder ?? label ?? "Selecionar arquivo"}
         <input
           id={fieldName}

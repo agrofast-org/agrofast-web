@@ -45,7 +45,7 @@ export default function Profile() {
       .then(({ data }) => {
         setUser(data.user);
         toast.success({
-          description: t("Messages.success.user_updated_successfully"),
+          description: t("Messages.success.updated_successfully"),
         });
       })
       .catch(({ response: { data: errors } }) => {
