@@ -109,7 +109,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
         api
           .get(url)
           .then(({ data }) => {
-            setInitialData(data);
+            setInitialData(data.data);
           })
           .catch(() => {
             setNotFound(true);

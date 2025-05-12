@@ -36,6 +36,33 @@
         "description": "Enter the recovery token sent to your phone"
       }
     },
+    "Web": {
+      "Index": {
+        "meta": {
+          "title": "Agrofast - Agricultural Machinery Transport",
+          "description": "Fast and safe transportation of agricultural machinery"
+        },
+        "messages": {
+          "welcome_message": "Welcome to Agrofast!",
+          "requester": {
+            "no_machinery_title": "Nothing to transport",
+            "no_machinery_description": "You haven't registered any machinery yet. To request the transportation of a machine, you must register one first.",
+            "register_machinery": "Register Machinery"
+          },
+          "transporter": {
+            "welcome": "Welcome, Transporter!",
+            "available_requests_description": "Start by accepting new available transportation requests.",
+            "view_available_requests": "View Available Requests",
+            "no_vehicles_title": "No Registered Vehicles",
+            "no_vehicles_description": "You haven't registered any vehicles yet. To access available services, you must register one first.",
+            "register_vehicle": "Register Vehicle"
+          },
+          "loading": {
+            "profile": "Loading your profile..."
+          }
+        }
+      }
+    },
     "NotFound": {
       "meta": {
         "title": "Agrofast - Page Not Found",

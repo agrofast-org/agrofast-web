@@ -12,14 +12,14 @@ import React from "react";
 import { Spinner } from "@heroui/react";
 
 export default function Index() {
-  const pt = useTranslations("Pages.Index");
+  const t = useTranslations("Pages.Web.Index");
   const { user, machinery, carriers, transportLoaded } = useUser();
 
   return (
     <>
       <Head>
-        <title>{pt("meta.title")}</title>
-        <meta name="description" content={pt("meta.description")} />
+        <title>{t("meta.title")}</title>
+        <meta name="description" content={t("meta.description")} />
       </Head>
       <Layout className="flex flex-col gap-10 pt-20 w-full">
         <ConditionalModal
@@ -30,62 +30,56 @@ export default function Index() {
         </ConditionalModal>
         {!transportLoaded && (
           <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
-            <Spinner label="Carregando seu perfil..." />
+            <Spinner label={t("messages.loading.profile")} />
           </section>
         )}
-        {user?.profile_type === "requester" && (
-          <React.Fragment key="requester">
-            {machinery ? (
-              <RequestForm key="requestForm" />
+        {transportLoaded && user?.profile_type === "requester" && (
+          <>
+            {machinery && machinery.length > 0 ? (
+              <RequestForm />
             ) : (
-              <section
-                key="requestNoMachinery"
-                className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container"
-              >
-                <h1 className="font-bold text-2xl">Nada para transportar</h1>
-                <p className="text-neutral-600 dark:text-neutral-300 text-lg">
-                  Você ainda não possui nenhum maquinário cadastrado. Para
-                  solicitar o transporte de um maquinário, você precisa
-                  cadastrar um primeiro.
-                </p>
-                <Button color="primary" as={Link} href="/machinery/new">
-                  Cadastrar Maquinário
-                </Button>
-              </section>
-            )}
-          </React.Fragment>
-        )}
-        {user?.profile_type === "transporter" && (
-          <React.Fragment key="transporter">
-            {carriers ? (
-              <section
-                key="transporterHasCarriers"
-                className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container"
-              >
+              <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
                 <h1 className="font-bold text-2xl">
-                  Bem-vindo, Transportador!
+                  {t("messages.requester.no_machinery_title")}
                 </h1>
                 <p className="text-neutral-600 dark:text-neutral-300 text-lg">
-                  Comece aceitando novas solicitações de transporte disponíveis.
+                  {t("messages.requester.no_machinery_description")}
                 </p>
-                <Button color="primary">Ver Chamados Disponíveis</Button>
-              </section>
-            ) : (
-              <section
-                key="transporterNoCarriers"
-                className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container"
-              >
-                <h1 className="font-bold text-2xl">Sem veículos cadastrados</h1>
-                <p className="text-neutral-600 dark:text-neutral-300 text-lg">
-                  Você ainda não possui nenhum veículo cadastrado. Para buscar
-                  serviços disponíveis, você precisa cadastrar um primeiro.
-                </p>
-                <Button color="primary" as={Link} href="/carrier/new">
-                  Cadastrar Veículo
+                <Button color="primary" as={Link} href="/web/machinery/new">
+                  {t("messages.requester.register_machinery")}
                 </Button>
               </section>
             )}
-          </React.Fragment>
+          </>
+        )}
+        {transportLoaded && user?.profile_type === "transporter" && (
+          <>
+            {carriers && carriers.length > 0 ? (
+              <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
+                <h1 className="font-bold text-2xl">
+                  {t("messages.transporter.welcome")}
+                </h1>
+                <p className="text-neutral-600 dark:text-neutral-300 text-lg">
+                  {t("messages.transporter.available_requests_description")}
+                </p>
+                <Button color="primary">
+                  {t("messages.transporter.view_available_requests")}
+                </Button>
+              </section>
+            ) : (
+              <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
+                <h1 className="font-bold text-2xl">
+                  {t("messages.transporter.no_vehicles_title")}
+                </h1>
+                <p className="text-neutral-600 dark:text-neutral-300 text-lg">
+                  {t("messages.transporter.no_vehicles_description")}
+                </p>
+                <Button color="primary" as={Link} href="/web/carrier/new">
+                  {t("messages.transporter.register_vehicle")}
+                </Button>
+              </section>
+            )}
+          </>
         )}
       </Layout>
     </>

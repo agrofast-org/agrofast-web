@@ -88,7 +88,9 @@ const List: React.FC<{
   const list = useAsyncList<any>({
     async load({ signal }) {
       if (getUrl) {
-        const data = await api.get(getUrl, { signal }).then((res) => res.data);
+        const { data } = await api
+          .get(getUrl, { signal })
+          .then((res) => res.data);
         setIsLoading(false);
         return { items: data };
       }

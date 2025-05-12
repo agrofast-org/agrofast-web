@@ -6,13 +6,15 @@ export type UploadAttachmentResponse = Success<{
   data: Attachment[];
 }>;
 
-export const uploadAttachment = async (
+export const uploadAttachment = (
   attachment: FormData
 ): Promise<UploadAttachmentResponse> => {
-  return api.post("/uploads/attachments", attachment, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    baseURL: apiBaseUrl,
-  });
+  return api
+    .post("/uploads/attachments", attachment, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      baseURL: apiBaseUrl,
+    })
+    .then(({ data }) => data);
 };

@@ -52,7 +52,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const router = useRouter();
   const toast = useToast();
-  const t = useTranslations()
+  const t = useTranslations();
   const disclosure = useDisclosure();
   const { onOpen } = disclosure;
 
@@ -113,7 +113,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
         setSessionFiles(updated);
         onUpload?.(updated);
 
-        toast.success({ description: t("Messages.success.files_successfully_uploaded") });
+        toast.success({
+          description: t("Messages.success.files_successfully_uploaded"),
+        });
       });
     } catch (error) {
       console.log(error);
@@ -176,7 +178,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </Button>
 
       {files.length > 0 && (
-        <span className="mt-1 text-default-600 text-xs truncate" title={fileNames}>
+        <span
+          className="mt-1 text-default-600 text-xs truncate"
+          title={fileNames}
+        >
           {fileNames}
         </span>
       )}

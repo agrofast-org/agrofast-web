@@ -36,6 +36,33 @@
         "description": "Digite o token de recuperação enviado para seu telefone"
       }
     },
+    "Web": {
+      "Index": {
+        "meta": {
+          "title": "Agrofast - Transporte de Maquinário Agrícola",
+          "description": "Transporte de maquinário agrícola de forma rápida e segura"
+        },
+        "messages": {
+          "welcome_message": "Bem-vindo ao Agrofast!",
+          "requester": {
+            "no_machinery_title": "Nada para transportar",
+            "no_machinery_description": "Você ainda não possui nenhum maquinário cadastrado. Para solicitar o transporte de um maquinário, você precisa cadastrar um primeiro.",
+            "register_machinery": "Cadastrar Maquinário"
+          },
+          "transporter": {
+            "welcome": "Bem-vindo, Transportador!",
+            "available_requests_description": "Comece aceitando novas solicitações de transporte disponíveis.",
+            "view_available_requests": "Ver Chamados Disponíveis",
+            "no_vehicles_title": "Sem veículos cadastrados",
+            "no_vehicles_description": "Você ainda não possui nenhum veículo cadastrado. Para buscar serviços disponíveis, você precisa cadastrar um primeiro.",
+            "register_vehicle": "Cadastrar Veículo"
+          },
+          "loading": {
+            "profile": "Carregando seu perfil..."
+          }
+        }
+      }
+    },
     "NotFound": {
       "meta": {
         "title": "Agrofast - Página não encontrada",
