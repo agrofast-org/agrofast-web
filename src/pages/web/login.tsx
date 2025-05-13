@@ -1,6 +1,6 @@
 import Body from "@/components/body";
 import { Button } from "@heroui/react";
-import Agrofast from "@/components/ui/agrofast";
+import TerraMov from "@/components/ui/agrofast";
 import { getPortfolioUrl } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
@@ -48,7 +48,7 @@ export default function Login() {
         </div>
         <FormWrapper>
           <div className="relative flex flex-row justify-center items-center gap-2">
-            <Agrofast.Logo className="w-40 h-10" />
+            <TerraMov.Logo className="w-40 h-10" />
             <CompactLanguageSelector className="right-0 absolute" />
           </div>
           <p className="flex pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">

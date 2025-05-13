@@ -16,7 +16,7 @@ const Loading = () => {
           isPageLoading ? "opacity-100 duration-0" : "opacity-0 duration-250",
           "transition-all fixed inset-0 z-[150]",
           "flex flex-col gap-8 items-center justify-center",
-          "text-slate-800 dark:text-slate-50 bg-slate-50/90 dark:dark:bg-neutral-900/90 backdrop-blur-md"
+          "text-default-800 bg-default-100 backdrop-blur-md"
         )}
       >
         <Spinner
@@ -46,7 +46,7 @@ const Loading = () => {
             isLoading ? "pointer-events-auto" : "pointer-events-none",
             "transition-all fixed inset-0 z-[150]",
             "flex flex-col gap-8 items-center justify-center",
-            "text-slate-800 dark:text-slate-50 bg-zinc-400/35 dark:bg-zinc-800/35 backdrop-blur-[1px]"
+            "text-default-800 bg-default-100 backdrop-blur-[1px]"
           )}
           >
           <Spinner

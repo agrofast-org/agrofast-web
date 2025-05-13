@@ -67,7 +67,7 @@ export default function Home() {
             />
             <div>
               <h1 className="font-mono font-light text-gray-800 dark:text-gray-200 text-2xl">
-                Agrofast
+                TerraMov
               </h1>
               <span className="flex gap-2 text-base">
                 By

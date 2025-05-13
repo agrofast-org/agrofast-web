@@ -2,48 +2,48 @@
   "Pages": {
     "Index": {
       "meta": {
-        "title": "Agrofast - Transporte de Maquinário Agrícola",
+        "title": "TerraMov - Transporte de Maquinário Agrícola",
         "description": "Transporte de maquinário agrícola de forma rápida e segura"
       }
     },
     "Login": {
       "meta": {
-        "title": "Agrofast - Transporte de Maquinário Agrícola",
-        "description": "Faça login para acessar sua conta Agrofast"
+        "title": "TerraMov - Transporte de Maquinário Agrícola",
+        "description": "Faça login para acessar sua conta TerraMov"
       }
     },
     "SignUp": {
       "meta": {
-        "title": "Agrofast - Cadastro",
-        "description": "Crie uma nova conta no Agrofast"
+        "title": "TerraMov - Cadastro",
+        "description": "Crie uma nova conta no TerraMov"
       }
     },
     "AuthCode": {
       "meta": {
-        "title": "Agrofast - Código de Autenticação",
+        "title": "TerraMov - Código de Autenticação",
         "description": "Digite o código de autenticação enviado para seu telefone"
       }
     },
     "ForgotPass": {
       "meta": {
-        "title": "Agrofast - Esqueci Minha Senha",
-        "description": "Recupere sua senha do Agrofast"
+        "title": "TerraMov - Esqueci Minha Senha",
+        "description": "Recupere sua senha do TerraMov"
       }
     },
     "RecoverToken": {
       "meta": {
-        "title": "Agrofast - Recuperar senha",
+        "title": "TerraMov - Recuperar senha",
         "description": "Digite o token de recuperação enviado para seu telefone"
       }
     },
     "Web": {
       "Index": {
         "meta": {
-          "title": "Agrofast - Transporte de Maquinário Agrícola",
+          "title": "TerraMov - Transporte de Maquinário Agrícola",
           "description": "Transporte de maquinário agrícola de forma rápida e segura"
         },
         "messages": {
-          "welcome_message": "Bem-vindo ao Agrofast!",
+          "welcome_message": "Bem-vindo ao TerraMov!",
           "requester": {
             "no_machinery_title": "Nada para transportar",
             "no_machinery_description": "Você ainda não possui nenhum maquinário cadastrado. Para solicitar o transporte de um maquinário, você precisa cadastrar um primeiro.",
@@ -65,7 +65,7 @@
     },
     "NotFound": {
       "meta": {
-        "title": "Agrofast - Página não encontrada",
+        "title": "TerraMov - Página não encontrada",
         "description": "Página não encontrada"
       },
       "messages": {
@@ -76,7 +76,7 @@
     },
     "InternalError": {
       "meta": {
-        "title": "Agrofast - Erro interno",
+        "title": "TerraMov - Erro interno",
         "description": "Ocorreu um erro"
       },
       "messages": {

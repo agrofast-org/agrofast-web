@@ -33,7 +33,7 @@ const PhoneNumberHelper: React.FC = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-gray-700 dark:text-gray-200">
+        <div className="flex flex-col gap-1 px-1 py-2 max-w-xs text-default-700">
           <div className="font-bold text-small">
             {t("UI.tooltips.write_number.title")}
           </div>

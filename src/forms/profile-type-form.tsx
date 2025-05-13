@@ -37,7 +37,7 @@ const ProfileTypeForm: React.FC = () => {
       >
         <h1 className="font-bold text-2xl">Antes de começar...</h1>
         <p className="text-neutral-600 dark:text-neutral-300 text-lg">
-          Selecione como deseja utilizar o Agrofast.
+          Selecione como deseja utilizar o TerraMov.
         </p>
         <div className="flex flex-row justify-center gap-4 mt-2 w-full">
           <Button

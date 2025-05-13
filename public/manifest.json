@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Agrofast App",
-  "short_name": "Agrofast",
-  "description": "Versão portátil do Agrofast com suporte PWA avançado",
+  "name": "TerraMov App",
+  "short_name": "TerraMov",
+  "description": "Versão portátil do TerraMov com suporte PWA avançado",
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": "/?source=pwa",

@@ -1,5 +1,5 @@
 import React from "react";
-import Agrofast from "@/components/ui/agrofast";
+import TerraMov from "@/components/ui/agrofast";
 
 import dynamic from "next/dynamic";
 import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
@@ -22,12 +22,12 @@ const Header: React.FC = () => {
 
   return (
     <Navbar
-      className="top-0 left-0 z-50 fixed bg-slate-50/60 dark:bg-stone-900/60 shadow-sm backdrop-blur-sm border-b dark:border-b-stone-950/50 w-full transition-colors"
+      className="top-0 left-0 z-50 fixed bg-default-50 shadow-sm backdrop-blur-sm border-default-300 light:border-b w-full transition-colors"
       shouldHideOnScroll
     >
       <NavbarBrand className="flex flex-row flex-1 justify-start items-center gap-4">
         <Link href="/">
-          <Agrofast.Logo className="w-36 h-9 translate-y-1" />
+          <TerraMov.Logo className="w-36 h-9 translate-y-1" />
         </Link>
       </NavbarBrand>
       <NavbarContent className="hidden md:flex space-x-4" justify="center">
