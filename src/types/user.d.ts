@@ -20,7 +20,9 @@ export interface User {
 
 export interface Machinery {
   uuid: string;
+  name: string;
 }
 export interface Carrier {
   uuid: string;
+  name: string;
 }

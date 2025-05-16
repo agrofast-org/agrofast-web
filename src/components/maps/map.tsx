@@ -8,8 +8,8 @@ export interface MapProps extends GoogleMapProps {
   children?: React.ReactNode;
 }
 
-const containerStyle = { width: "100%", height: "100%" };
-const initialCenter = { lat: -14.235, lng: -51.9253 };
+export const containerStyle = { width: "100%", height: "100%" };
+export const initialCenter = { lat: -15.7213, lng: -48.0197 };
 
 const Map: React.FC<MapProps> = ({ children, ...props }) => {
   const {theme} = useTheme();
