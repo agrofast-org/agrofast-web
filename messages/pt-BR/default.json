@@ -121,7 +121,9 @@
       "machinery_axles": "Quantidade de eixos",
       "machinery_tire_config": "Configuração de pneus",
       "machinery_pictures": "Imagens do veículo",
-      "machinery_obs": "Observações adicionais"
+      "machinery_obs": "Observações adicionais",
+      "request": "Chamado",
+      "requests": "Chamados"
     },
     "placeholders": {
       "write_code": "Digite o código",
@@ -214,6 +216,15 @@
       "download_app": "Fazer Download",
       "change_theme": "Alterar tema",
       "logout": "Sair da conta"
+    },
+    "state": {
+      "pending": "Pendente",
+      "payment_pending": "Pendente de Pagamento",
+      "approved": "Aprovado",
+      "rejected": "Rejeitado",
+      "in_progress": "Em andamento",
+      "canceled": "Cancelado",
+      "completed": "Concluído"
     }
   },
   "Messages": {

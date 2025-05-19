@@ -177,3 +177,48 @@ export const formatDocument = (document: string, type?: string) => {
   }
   return document;
 };
+
+export const formatDistance = (distance: number | string): string => {
+  if (typeof distance === "string") {
+    distance = parseFloat(distance);
+  }
+  if (isNaN(distance)) return "0 km";
+  if (distance < 1000) {
+    return `${distance} m`;
+  }
+  const km = (distance / 1000).toFixed(2);
+  return `${km} km`;
+};
+
+export const formatDuration = (duration: number | string): string => {
+  if (typeof duration === "string") {
+    duration = parseFloat(duration);
+  }
+  if (isNaN(duration)) return "0 s";
+
+  const hours = Math.floor(duration / 3600);
+  const minutes = Math.floor((duration % 3600) / 60);
+  const seconds = Math.floor(duration % 60);
+
+  let result = "";
+  if (hours > 0) {
+    result += `${hours} h `;
+  }
+  if (minutes > 0 || hours > 0) {
+    result += `${minutes} min `;
+  }
+  result += `${seconds} s`;
+
+  return result.trim();
+}
+
+export const formatCurrency = (value: number | string): string => {
+  if (typeof value === "string") {
+    value = parseFloat(value);
+  }
+  if (isNaN(value)) return "$0.00";
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+};

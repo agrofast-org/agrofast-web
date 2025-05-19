@@ -5,32 +5,51 @@ import { RouteMap } from "@/components/route-map";
 import useRouteDisclosure, { getPlaceId } from "@/hooks/use-route-disclosure";
 import PlaceAutocomplete from "@/components/maps/place-autocomplete";
 import { cn } from "@/lib/utils";
-import { Autocomplete, AutocompleteItem } from "@heroui/react";
+import { Autocomplete, AutocompleteItem, Spinner } from "@heroui/react";
 import { useUser } from "@/contexts/auth-provider";
 import Form from "@/components/form/form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { postRequest } from "@/http/request/make-request";
+import { useRouter } from "next/router";
+import { useToast } from "@/service/toast";
 
 export const RequestForm: React.FC = () => {
+  const router = useRouter();
+  const toast = useToast();
+  
+  const [requestLoading, setRequestLoading] = useState<boolean>(false);
+
   const { placeFrom, setPlaceFrom, placeTo, setPlaceTo } = useRouteDisclosure();
   const { machinery } = useUser();
-  const [machineId, setMachineId] = useState<string | undefined>();
+  const [machineUuid, setMachineUuid] = useState<string | undefined>();
 
   const handleRequest = () => {
+    setRequestLoading(true);
     const fromPlaceId = getPlaceId(placeFrom ?? undefined);
     const toPlaceId = getPlaceId(placeTo ?? undefined);
-    if (fromPlaceId && toPlaceId && machineId) {
+    if (fromPlaceId && toPlaceId && machineUuid) {
       postRequest({
         origin_place_id: fromPlaceId,
         destination_place_id: toPlaceId,
-        machine_id: machineId,
+        machine_uuid: machineUuid,
       })
+        .then(({ data }) => {
+          if (data?.request_uuid) {
+            router.push(`/web/request/${data.request_uuid}`);
+            return;
+          }
+          router.push("/web/request");
+        })
+        .catch(({ data }) => {
+          toast.error({
+            description: data?.data?.machine_uuid || "Erro ao lançar chamado",
+          });
+        })
+        .finally(() => {
+          setRequestLoading(false);
+        });
     }
   };
-
-  useEffect(() => {
-    console.log(machineId);
-  }, [machineId]);
 
   return (
     <AnimatePresence>
@@ -55,8 +74,12 @@ export const RequestForm: React.FC = () => {
               </h1>
               <div
                 className={cn(
-                  "flex flex-col gap-2 px-4 md:px-0 w-full overflow-hidden transition-size duration-300",
-                  placeFrom ? "h-[9.5rem] md:h-auto" : "h-20 md:h-auto"
+                  "flex flex-col gap-2 px-4 md:px-0 w-full overflow-hidden md:overflow-visible transition-size duration-300",
+                  placeFrom
+                    ? placeTo
+                      ? "h-56 md:h-auto"
+                      : "h-[9.5rem] md:h-auto"
+                    : "h-20 md:h-auto"
                 )}
               >
                 <PlaceAutocomplete
@@ -77,12 +100,15 @@ export const RequestForm: React.FC = () => {
                 />
                 {machinery && machinery.length > 0 && (
                   <Autocomplete
+                    name="machine_uuid"
                     label="Maquinário"
                     placeholder="Escolha a máquina a ser transportada"
                     className="w-full autocomplete"
                     labelPlacement="outside"
                     variant="bordered"
-                    onSelectionChange={(key) => setMachineId(key as string | undefined)}
+                    onSelectionChange={(key) =>
+                      setMachineUuid(key as string | undefined)
+                    }
                     isRequired
                   >
                     {machinery.map((machine) => (
@@ -95,15 +121,24 @@ export const RequestForm: React.FC = () => {
               </div>
               <Button
                 color="primary"
-                onPress={() => {}}
-                isDisabled={!placeFrom || !placeTo || !machineId}
+                isDisabled={
+                  !placeFrom || !placeTo || !machineUuid || requestLoading
+                }
                 type="submit"
                 className={cn(
                   "top-[calc(100svh-9rem)] z-50 md:static absolute mx-4 md:mx-0 mt-4 w-[calc(100%-2rem)] md:w-full",
-                  (!placeFrom || !placeTo || !machineId) && "md:opacity-disabled opacity-0"
+                  (!placeFrom || !placeTo || !machineUuid) &&
+                    "md:opacity-disabled opacity-0"
                 )}
               >
-                Lançar chamado
+                {requestLoading ? (
+                  <>
+                    <Spinner color="default" size="sm" />
+                    Carregando...
+                  </>
+                ) : (
+                  "Lançar chamado"
+                )}
               </Button>
             </Form>
             <div className="md:static absolute inset-0 flex flex-1 min-h-[400px]">

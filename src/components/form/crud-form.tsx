@@ -17,6 +17,7 @@ export interface CrudFormProps {
   getUrl?: string | ((uuid: string) => string);
   postUrl?: string;
   putUrl?: string | ((uuid: string) => string);
+  setFetchedData?: (data: FormValues) => void;
   children?: React.ReactNode;
   className?: string;
 }
@@ -29,6 +30,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
   getUrl: GetUrl,
   postUrl,
   putUrl: PutUrl,
+  setFetchedData,
   children,
   className,
 }) => {
@@ -110,6 +112,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
           .get(url)
           .then(({ data }) => {
             setInitialData(data.data);
+            setFetchedData?.(data.data);
           })
           .catch(() => {
             setNotFound(true);
@@ -122,7 +125,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
           });
       }
     }
-  }, [update, t, toast, dataFetched, getUrl]);
+  }, [update, t, toast, dataFetched, getUrl, setFetchedData]);
 
   if (notFound) {
     return <NotFound />;

@@ -1,4 +1,4 @@
-import { Logout2, Settings, Wheel } from "@solar-icons/react";
+import { Logout2, Routing2, Settings, Wheel } from "@solar-icons/react";
 import IconOption from "../ui/icon-option";
 import { useTheme } from "next-themes";
 import ThemeUserFeedback from "./theme-user-feedback";
@@ -70,9 +70,14 @@ const UserOptionsButton: React.FC = () => {
           {t("UI.redirects.change_theme")}
         </IconOption>
         {user?.profile_type === "requester" && (
-          <IconOption icon={<Wheel />} href="/web/machinery">
-            Maquinarios
-          </IconOption>
+          <>
+            <IconOption icon={<Wheel />} href="/web/machinery">
+              Maquinarios
+            </IconOption>
+            <IconOption icon={<Routing2 />} href="/web/request">
+              Chamados
+            </IconOption>
+          </>
         )}
         {user?.profile_type === "transporter" && (
           <IconOption icon={<Wheel />} href="/web/carrier">
