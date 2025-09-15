@@ -1,4 +1,4 @@
-import Layout from "@/components/layout";
+import { Layout } from "@/components/layout";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -18,7 +18,7 @@ export default function TermsOfUse() {
           content={t("Pages.TermsOfUse.meta.description")}
         />
       </Head>
-      <Layout className="flex flex-col gap-8 pt-20 w-full">
+      <Layout>
         <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
           <MainTitle>{tou("main_title")}</MainTitle>
           <section id="section_1" className="mt-8 w-full">

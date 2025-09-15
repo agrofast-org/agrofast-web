@@ -1,11 +1,10 @@
-import { Image as HeroUIImage, useDisclosure } from "@heroui/react";
+import { cn, Image as HeroUIImage, useDisclosure } from "@heroui/react";
 // import Img from "./image";
 import imageDefault from "@public/img/image-default.png";
 import Cropper, { Area } from "react-easy-crop";
 import { useCallback, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+
 import { useForm } from "../form/form";
-import { useTranslations } from "next-intl";
 import {
   Modal,
   ModalContent,
@@ -13,9 +12,8 @@ import {
   ModalBody,
   ModalFooter,
 } from "@/components/modal";
-import Button from "../button";
-import { useGroup } from "./group/input-group";
 import { Upload } from "@solar-icons/react";
+import { Button } from "../button";
 
 export type PictureInputMessages =
   | "modalTitle"
@@ -36,7 +34,7 @@ interface PictureInputProps {
   onFinally?: (options: ReturnType<typeof useDisclosure>) => void;
 }
 
-const PictureInput: React.FC<PictureInputProps> = ({
+export const PictureInput: React.FC<PictureInputProps> = ({
   imageSrc,
   fallbackSrc,
   name: inputName,
@@ -47,13 +45,11 @@ const PictureInput: React.FC<PictureInputProps> = ({
   onError,
   onFinally,
 }) => {
-  const t = useTranslations();
   const form = useForm();
-  const group = useGroup();
   const disclosure = useDisclosure();
   const { isOpen, onOpen, onOpenChange } = disclosure;
 
-  const name = inputName && group ? group.getFieldName(inputName) : inputName;
+  const name = inputName || "picture-input";
 
   const [value, setValue] = useState<string | undefined>(imageSrc);
   const [error, setError] = useState<string | undefined>();
@@ -153,15 +149,6 @@ const PictureInput: React.FC<PictureInputProps> = ({
     }
   }, [value, form, name, setImage]);
 
-  useEffect(() => {
-    if (group && inputName) {
-      group.declareField(inputName, {
-        type: "text",
-        required: false,
-      });
-    }
-  }, [inputName, group]);
-
   return (
     <div className="flex flex-row flex-1 justify-center gap-4 w-full">
       <div className="flex flex-col flex-1 items-center gap-4 max-w-md">
@@ -202,9 +189,7 @@ const PictureInput: React.FC<PictureInputProps> = ({
                           "select-none overflow-hidden tap-highlight-transparent active:scale-[0.97] outline-none focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 transition-transform-colors-opacity bg-default text-default-foreground hover:opacity-hover"
                         )}
                       >
-                        {image
-                          ? t("UI.buttons.choose_another_photo")
-                          : t("UI.buttons.choose_a_photo")}
+                        {image ? "Escolher outra foto" : "Escolher uma foto"}
                         <input
                           id="upload-picture"
                           type="file"
@@ -232,10 +217,10 @@ const PictureInput: React.FC<PictureInputProps> = ({
                   </ModalBody>
                   <ModalFooter>
                     <Button color="default" onPress={onClose}>
-                      {t("UI.buttons.cancel")}
+                      Cancelar
                     </Button>
                     <Button color="success" onPress={savePicture}>
-                      {t("UI.buttons.enter")}
+                      Salvar
                     </Button>
                   </ModalFooter>
                 </>
@@ -284,5 +269,3 @@ const PictureInput: React.FC<PictureInputProps> = ({
     </div>
   );
 };
-
-export default PictureInput;

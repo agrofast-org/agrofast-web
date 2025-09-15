@@ -1,102 +1,73 @@
+"use client";
+import React, { useCallback, useEffect, useId, useState } from "react";
 import {
-  CalendarDate,
+  cn,
   DatePicker as HeroUIDatePicker,
-  DatePickerProps as HeroUIDatePickerPro,
+  DatePickerProps as HeroUIDatePickerProps,
 } from "@heroui/react";
-import { useGroup } from "@/components/input/group/input-group";
-import { useCallback, useEffect, useState } from "react";
 import { useForm } from "../form/form";
-import { useRouter } from "next/router";
-import { parseQueryDate } from "@/lib/utils";
+import { ValidationError } from "next/dist/compiled/amphtml-validator";
 import { parseDate } from "@internationalized/date";
+export type DatePickerValue = HeroUIDatePickerProps["value"];
 
-export type DatePickerValue = CalendarDate | null | undefined;
-
-export interface DatePickerProps extends HeroUIDatePickerPro {
-  required?: boolean;
+export interface DatePickerProps extends HeroUIDatePickerProps {
   label?: string;
-  queryCollectable?: boolean;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
-  name: inputName,
-  queryCollectable,
-  onChange,
+export const DatePicker: React.FC<DatePickerProps> = ({
+  name,
   value,
-  required,
-  isRequired,
+  errorMessage,
+  onChange,
+  className,
   ...props
 }) => {
-  const router = useRouter();
+  const reactId = useId();
+
   const form = useForm();
-  const group = useGroup();
+  const [inputValue, setInputValue] = useState(value);
+  const [inputError, setInputError] = useState<ValidationError | undefined>(
+    errorMessage
+  );
 
-  const name = inputName && group ? group.getFieldName(inputName) : inputName;
-  const isFieldRequired = required ?? isRequired ?? false;
-
-  const [hasFirstRender, setHasFirstRender] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<DatePickerValue>();
-
-  const changeValue = useCallback(
-    (newValue?: DatePickerValue) => {
-      if (newValue && newValue !== inputValue) {
-        if (name && form) {
-          form.setValue(name, newValue);
-          form.setError(name, undefined);
-        }
-        setInputValue(newValue);
+  const handleChange = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (newValue: any) => {
+      setInputValue(newValue);
+      setInputError(undefined);
+      onChange?.(newValue ?? null);
+      if (name && form) {
+        form.setValue(name, newValue);
       }
     },
-    [name, form, inputValue]
+    [name, form, onChange]
   );
 
   useEffect(() => {
-    setInputValue(value as unknown as DatePickerValue);
-  }, [value]);
-
-  useEffect(() => {
-    if (queryCollectable && name && router.query[name] && !hasFirstRender) {
-      const queryValue = router.query[name];
-      if (queryValue) {
-        try {
-          const val = parseQueryDate(queryValue as string);
-          changeValue(val as unknown as DatePickerValue);
-          setHasFirstRender(true);
-        } catch {}
+    if (form) {
+      const formValue = form.values[name || reactId];
+      if (typeof formValue === "string") {
+        setInputValue(parseDate(formValue));
+      } else {
+        setInputValue(formValue);
       }
     }
-  }, [queryCollectable, name, changeValue, router.query, hasFirstRender]);
+  }, [name, form, reactId, form?.values]);
 
   useEffect(() => {
-    if (name && form && form.values?.[name]) {
-      const formValue = form.values?.[name];
-      changeValue(
-        typeof formValue === "string"
-          ? parseDate(
-              formValue.includes("T") ? formValue.split("T")[0] : formValue
-            )
-          : formValue
-      );
+    if (form) {
+      const formError = form.errors[name || reactId];
+      if (formError !== undefined && formError !== inputError) {
+        setInputError(formError);
+      }
     }
-  }, [value, form, name, changeValue]);
-
-  useEffect(() => {
-    if (group && inputName) {
-      group.declareField(inputName, {
-        type: "date",
-        required: isFieldRequired ?? false,
-      });
-    }
-  }, [group, inputName, isFieldRequired]);
+  }, [name, form, reactId, inputError]);
 
   return (
     <HeroUIDatePicker
-      name={name}
-      value={inputValue}
-      onChange={(val) => {
-        onChange?.(val);
-        changeValue(val as unknown as DatePickerValue);
-      }}
+      id={props.id || reactId}
+      name={name || reactId}
+      className={cn("w-full", className)}
       classNames={{
         base: "relative gap-1 !pb-0",
         label: "top-6 !translate-y-[0.30em] w-max pr-2",
@@ -107,10 +78,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
       }}
       labelPlacement="outside"
       variant="bordered"
-      isRequired={isFieldRequired}
       {...props}
+      value={inputValue}
+      onChange={handleChange}
+      errorMessage={inputError}
     />
   );
 };
-
-export default DatePicker;

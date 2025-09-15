@@ -1,12 +1,12 @@
-import MainProvider from "@/contexts/main-context";
+import { AppProviders } from "@/contexts/app-providers";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <MainProvider pageProps={pageProps}>
+    <AppProviders pageProps={pageProps}>
       <Component {...pageProps} />
-    </MainProvider>
+    </AppProviders>
   );
 };
 
