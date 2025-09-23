@@ -1,17 +1,14 @@
 import api from "@/service/api";
-import { Error, Success } from "@/types/api-response";
 import { User } from "@/types/user";
 
-export type AuthResponse = Success<{
-  data: {
-    token: string;
-    user: User;
-  };
-}>;
+export type AuthResponse = {
+  token: string;
+  user: User;
+};
 
-export type AuthError = Error<{
+export type AuthError = {
   attempts: number;
-}>;
+};
 
 export const auth = (code: string) => {
   return api

@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
-import api, { setBearerToken } from "@/service/api";
+import api from "@/service/api";
 import { getMe } from "@/http/user/get-me";
 import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
 import { Carrier, Machinery, User } from "@/types/user";
@@ -65,7 +65,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     (tokenValue: string | undefined) => {
       if (tokenValue) {
         setAuthTokenState(tokenValue);
-        setBearerToken(tokenValue);
         setCookie(AUTH_TOKEN_KEY, tokenValue, cookieOptions);
       } else {
         setAuthTokenState(undefined);
@@ -90,7 +89,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const storedToken = cookies[AUTH_TOKEN_KEY];
     if (storedToken) {
       setToken(storedToken);
-      setBearerToken(storedToken);
       getMe()
         .then(({ data }) => {
           setUser(data.user);

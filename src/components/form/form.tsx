@@ -40,7 +40,7 @@ export interface FormProviderProps {
 
 const FormProvider = createContext<FormProviderProps | undefined>(undefined);
 
-const Form: React.FC<FormProps> = ({
+export const Form: React.FC<FormProps> = ({
   id,
   children,
   onSubmit,
@@ -196,5 +196,3 @@ const Form: React.FC<FormProps> = ({
 export const useForm = (): FormProviderProps | undefined => {
   return useContext(FormProvider);
 };
-
-export default Form;

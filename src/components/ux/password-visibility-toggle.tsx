@@ -7,7 +7,7 @@ interface PasswordVisibilityToggleProps {
   togglePassVisibility: () => void;
 }
 
-const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
+export const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
   isPassVisible,
   togglePassVisibility,
 }) => {
@@ -50,5 +50,3 @@ const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({
     </Button>
   );
 };
-
-export default PasswordVisibilityToggle;

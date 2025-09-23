@@ -1,11 +1,10 @@
 import api from "@/service/api";
-import { Success } from "@/types/api-response";
 import { User } from "@/types/user";
 
-export type UploadPictureResponse = Success<{
+export type UploadPictureResponse = {
   token: string;
   user: User;
-}>;
+};
 
 export const uploadPicture = async (
   picture: FormData

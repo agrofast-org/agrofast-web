@@ -1,6 +1,6 @@
-import Checkbox from "@/components/input/checkbox";
-import Form from "@/components/form/form";
-import Input from "@/components/input/input";
+import { Checkbox } from "@/components/input/checkbox";
+import { Form } from "@/components/form/form";
+import { Input } from "@/components/input/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 import { useUser } from "@/contexts/auth-provider";
@@ -90,6 +90,7 @@ const SignInForm: React.FC = () => {
         className="!flex !flex-col gap-4"
         onSubmit={handleSubmit}
         validationErrors={errors}
+        initialData={router.query}
       >
         <Input
           name="name"
@@ -114,7 +115,6 @@ const SignInForm: React.FC = () => {
           placeholder={t("UI.placeholders.write_email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          queryCollectable
           type="email"
           isRequired
         />

@@ -1,10 +1,7 @@
 import api, { apiBaseUrl } from "@/service/api";
-import { Success } from "@/types/api-response";
 import { Attachment } from "@/types/attachment";
 
-export type UploadAttachmentResponse = Success<{
-  data: Attachment[];
-}>;
+export type UploadAttachmentResponse = Attachment[];
 
 export const uploadAttachment = (
   attachment: FormData

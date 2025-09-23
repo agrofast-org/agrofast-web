@@ -4,7 +4,7 @@ import { ProfileType } from "@/types/user";
 import { Spinner } from "@heroui/react";
 import { useState } from "react";
 import { Calendar, Routing2 } from "@solar-icons/react";
-import { profileType } from "@/http/user/profile-type";
+import { setProfileType } from "@/http/user/set-profile-type";
 import { useUser } from "@/contexts/auth-provider";
 import { useToast } from "@/service/toast";
 
@@ -15,8 +15,8 @@ const ProfileTypeForm: React.FC = () => {
 
   const handleSelectProfile = (type: ProfileType) => {
     setLoading(true);
-    profileType(type)
-      .then(({ data }) => {
+    setProfileType(type)
+      .then((data) => {
         setUser(data.user);
       })
       .catch(() => {

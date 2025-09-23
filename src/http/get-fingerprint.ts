@@ -1,7 +1,6 @@
 import api from "@/service/api";
-import { Success } from "@/types/api-response";
 
-type GetFingerprintResponse = Success<{ data: { fingerprint: string } }>;
+type GetFingerprintResponse = string;
 
 export const getFingerprint = () => {
   return api

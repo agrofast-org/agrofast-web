@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { useCookies } from "react-cookie";
 import { validateBrowserAgent } from "@/lib/validations";
-import { setBrowserAgent as setBrowserFingerprint } from "@/service/api";
 import { validateFingerprint } from "@/http/validate-fingerprint";
 import { AUTH_BROWSER_AGENT_KEY } from "@/middleware";
 import { useToast } from "@/service/toast";
@@ -51,7 +50,6 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
   const updateBrowserAgent = useCallback(
     (fingerprint: string) => {
       setBrowserAgent(fingerprint);
-      setBrowserFingerprint(fingerprint);
       setCookie(AUTH_BROWSER_AGENT_KEY, fingerprint, cookieOptions);
     },
     [setCookie]

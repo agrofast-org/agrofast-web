@@ -1,5 +1,5 @@
-import Checkbox from "@/components/input/checkbox";
-import Input from "@/components/input/input";
+import { Checkbox } from "@/components/input/checkbox";
+import { Input } from "@/components/input/input";
 import { useUser } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useTranslations } from "next-intl";
@@ -10,7 +10,7 @@ import { login } from "@/http/user/login";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { useCookies } from "react-cookie";
 import Button from "@/components/button";
-import Form from "@/components/form/form";
+import { Form } from "@/components/form/form";
 import { FormValues } from "@/types/form";
 import { cookieOptions } from "@/service/cookie";
 

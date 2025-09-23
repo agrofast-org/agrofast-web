@@ -1,7 +1,6 @@
 import api from "@/service/api";
-import { Success } from "@/types/api-response";
 
-type PostRequestResponse = Success<{ data: { request_uuid: string } }>;
+type PostRequestResponse = { request_uuid: string };
 type PostRequestData = {
   origin_place_id: string;
   destination_place_id: string;
