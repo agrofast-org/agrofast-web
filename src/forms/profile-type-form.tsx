@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import { Button } from "@/components/button";
 import { cn } from "@/lib/utils";
 import { ProfileType } from "@/types/user";
 import { Spinner } from "@heroui/react";
@@ -16,7 +16,7 @@ const ProfileTypeForm: React.FC = () => {
   const handleSelectProfile = (type: ProfileType) => {
     setLoading(true);
     setProfileType(type)
-      .then((data) => {
+      .then(({ data }) => {
         setUser(data.user);
       })
       .catch(() => {

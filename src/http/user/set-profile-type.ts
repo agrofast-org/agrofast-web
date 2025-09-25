@@ -1,4 +1,4 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { ProfileType, User } from "@/types/user";
 
 export type ProfileTypeResponse = {
@@ -6,7 +6,7 @@ export type ProfileTypeResponse = {
 };
 
 export const setProfileType = (type: ProfileType) => {
-  return api
-    .put<ProfileTypeResponse>("/user/profile-type", { profile_type: type })
-    .then(({ data }) => data);
+  return api.put<ProfileTypeResponse>("/user/profile-type", {
+    profile_type: type,
+  });
 };

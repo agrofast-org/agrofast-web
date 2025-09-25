@@ -1,9 +1,9 @@
-import Layout from "@/components/layout";
+import { Layout } from "@/components/layout";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useUser } from "@/contexts/auth-provider";
-import Button from "@/components/button";
+import { Button } from "@/components/button";
 import ProfileTypeForm from "@/forms/profile-type-form";
 import RequestForm from "@/forms/request-form";
 import ConditionalModal from "@/components/conditional-modal";
@@ -21,7 +21,7 @@ export default function Index() {
         <title>{t("meta.title")}</title>
         <meta name="description" content={t("meta.description")} />
       </Head>
-      <Layout className="flex flex-col gap-10 pt-20 w-full">
+      <Layout>
         <ConditionalModal
           isOpen={!!user && !user?.profile_type}
           canClose={false}

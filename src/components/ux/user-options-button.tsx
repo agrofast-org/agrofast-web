@@ -4,9 +4,7 @@ import { useTheme } from "next-themes";
 import ThemeUserFeedback from "./theme-user-feedback";
 import { useUser } from "@/contexts/auth-provider";
 import { useTranslations } from "next-intl";
-import userPicture from "@public/img/user-default.png";
 import {
-  Avatar,
   Button,
   Divider,
   Popover,
@@ -17,6 +15,7 @@ import {
 } from "@heroui/react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Avatar } from "../avatar";
 
 const UserOptionsButton: React.FC = () => {
   const t = useTranslations();
@@ -41,12 +40,7 @@ const UserOptionsButton: React.FC = () => {
           className="data-[aria-expanded=true]:blur-md"
           isIconOnly
         >
-          <Avatar
-            radius="none"
-            src={user?.profile_picture}
-            fallback={<Avatar src={userPicture.src} radius="md" />}
-            className="pointer-events-none"
-          />
+          <Avatar src={user?.profile_picture} />
         </Button>
       </PopoverTrigger>
       <PopoverContent

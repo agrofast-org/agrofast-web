@@ -9,15 +9,17 @@ import {
   ModalFooter,
   ModalHeader,
 } from "../modal";
-import Button from "../button";
+import { Button } from "../button";
 import { useDisclosure } from "@heroui/react";
-import Input from "../input/input";
+import { Input } from "../input/input";
 
 interface PlaceSelectorProps {
   onPlaceSelect: (place: google.maps.places.Place | null) => void;
 }
 
-const PlaceModalSelector: React.FC<PlaceSelectorProps> = ({ onPlaceSelect }) => {
+const PlaceModalSelector: React.FC<PlaceSelectorProps> = ({
+  onPlaceSelect,
+}) => {
   const { isOpen, onOpen, onClose: closeModal } = useDisclosure();
 
   const places = useMapsLibrary("places");
@@ -25,12 +27,9 @@ const PlaceModalSelector: React.FC<PlaceSelectorProps> = ({ onPlaceSelect }) => 
   const [inputValue, setInputValue] = useState("");
   const [query, setQuery] = useState("");
 
-  const [debounceQuery, cancelDebounce] = useDebounce(
-    (val: string) => {
-      setQuery(val);
-    },
-    300
-  );
+  const [debounceQuery, cancelDebounce] = useDebounce((val: string) => {
+    setQuery(val);
+  }, 300);
 
   const { suggestions, resetSession } = useAutocompleteSuggestions(query);
 

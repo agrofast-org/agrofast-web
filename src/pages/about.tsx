@@ -1,4 +1,4 @@
-import Layout from "@/components/layout";
+import { Layout } from "@/components/layout";
 import Link from "@/components/link";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useTranslations } from "next-intl";
@@ -17,7 +17,7 @@ export default function About() {
         <title>{t("Pages.About.meta.title")}</title>
         <meta name="description" content={t("Pages.About.meta.description")} />
       </Head>
-      <Layout className="flex flex-col gap-10 pt-20 w-full">
+      <Layout>
         <section className="flex flex-col items-start gap-6 mx-auto p-4 max-w-[912px] container">
           <div className="flex md:flex-row flex-col-reverse items-start gap-2 md:gap-6 mx-auto">
             <div className="flex flex-col justify-center md:bg-neutral-200/30 dark:md:bg-neutral-800/20 p-2 rounded-lg h-full md:h-44 transition-all">

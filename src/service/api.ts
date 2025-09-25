@@ -25,13 +25,6 @@ const api = axios.create({
   },
 });
 
-const upload = axios.create({
-  baseURL: `${apiBaseUrl}/uploads`,
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
-
 const interceptors: {
   RequestSuccess: Parameters<typeof axios.interceptors.request.use>[0];
   RequestError: Parameters<typeof axios.interceptors.request.use>[1];
@@ -83,14 +76,4 @@ api.interceptors.response.use(
   interceptors.ResponseError
 );
 
-upload.interceptors.request.use(
-  interceptors.RequestSuccess,
-  interceptors.RequestError
-);
-
-upload.interceptors.response.use(
-  interceptors.ResponseSuccess,
-  interceptors.ResponseError
-);
-
-export { api, upload };
+export { api };

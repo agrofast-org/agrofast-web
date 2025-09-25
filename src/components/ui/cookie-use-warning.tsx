@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "../modal";
-import Button from "../button";
+import { Button } from "../button";
 import { useLocalStorage } from "ilias-use-storage";
 
 const COOKIE_NOTICE_KEY = "cookie_notice_accepted";

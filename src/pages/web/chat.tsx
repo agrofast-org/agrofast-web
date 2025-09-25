@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import Layout from "@/components/layout";
+import { Layout } from "@/components/layout";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 
 type Message = {
@@ -37,8 +37,7 @@ export default function WebChat() {
         <title>{t("meta.title")}</title>
         <meta name="description" content={t("meta.description")} />
       </Head> */}
-      <Layout className="flex flex-col gap-4 mx-auto pt-20 w-full max-w-2xl h-screen">
-
+      <Layout>
         <div
           ref={scrollRef}
           className="flex-1 space-y-4 bg-gray-50 p-4 overflow-y-auto"

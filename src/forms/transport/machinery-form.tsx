@@ -1,15 +1,15 @@
 import React from "react";
-import Button from "@/components/button";
+import { Button } from "@/components/button";
 import CrudForm from "@/components/form/crud-form";
 import FormFooter from "@/components/form/form-footer";
 import FormGroup from "@/components/form/form-group";
 import FormHeader from "@/components/form/form-header";
-import DatePicker from "@/components/input/date-picker";
-import FileUpload from "@/components/input/file-upload";
-import Input from "@/components/input/input";
-import NumberInput from "@/components/input/number-input";
-import Select, { SelectItem } from "@/components/input/select";
-import Textarea from "@/components/input/textarea";
+import { DatePicker } from "@/components/input/date-picker";
+import { FileUpload } from "@/components/input/file-upload";
+import { Input } from "@/components/input/input";
+import { NumberInput } from "@/components/input/number-input";
+import { Select, SelectItem } from "@/components/input/select";
+import { Textarea } from "@/components/input/textarea";
 import { Suspension } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 
@@ -64,7 +64,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         <DatePicker
           name="manufacturer_date"
           label={t("UI.labels.machinery_manufacturer_date")}
-          required
+          isRequired
         />
       </FormGroup>
 
@@ -142,7 +142,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           type="submit"
           confirmAction
           confirmActionInfo={{
-            actionConfirmButtonColor: "primary"
+            actionConfirmButtonColor: "primary",
           }}
         >
           {t("UI.buttons.continue")}

@@ -1,4 +1,4 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { FormValues } from "@/types/form";
 import { User } from "@/types/user";
 
@@ -12,14 +12,8 @@ export type LoginResponse = {
   token: string;
   user: User;
   auth?: "authenticate" | "authenticated";
-}
+};
 
-export const login = (data: LoginData | FormValues): Promise<LoginResponse> => {
-  return api.post<LoginResponse>("/user/login", data).then(({ data }) => {
-    api.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${data.token}`;
-      return config;
-    });
-    return data;
-  });
+export const login = (data: LoginData | FormValues) => {
+  return api.post<LoginResponse>("/user/login", data);
 };

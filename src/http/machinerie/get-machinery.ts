@@ -1,11 +1,8 @@
-import api from "@/service/api";
-import { Success } from "@/types/api-response";
+import { api } from "@/service/api";
 import { Machinery } from "@/types/user";
 
-type GetMachineryResponse = Success<{
-  data: Machinery[];
-}>;
+type GetMachineryResponse = Machinery[];
 
 export const getMachinery = () => {
-  return api.get<GetMachineryResponse>("/machinery").then(({ data }) => data);
+  return api.get<GetMachineryResponse>("/machinery");
 };

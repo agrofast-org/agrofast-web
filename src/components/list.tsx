@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import api from "@/service/api";
+import { api } from "@/service/api";
 import {
   getKeyValue,
   Spinner,

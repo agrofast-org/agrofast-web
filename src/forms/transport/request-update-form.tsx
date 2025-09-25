@@ -5,8 +5,8 @@ import RequestStateChip from "@/components/ux/request-state-chip";
 import Image from "next/image";
 import { formatCurrency, formatDistance, formatDuration } from "@/lib/utils";
 import { Button } from "@heroui/react";
-import api from "@/service/api";
 import { useRouter } from "next/router";
+import { updateRequest } from "@/http/request/update-request";
 
 const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const router = useRouter();
@@ -15,10 +15,9 @@ const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const [paymentUpdating, setPaymentUpdating] = useState(false);
 
   const handlePaymentUpdate = () => {
-    if (paymentUpdating) return;
+    if (paymentUpdating || !uuid) return;
     setPaymentUpdating(true);
-    api
-      .get(`/request/${uuid}/update`)
+    updateRequest(uuid)
       .then(() => router.reload())
       .finally(() => setPaymentUpdating(false));
   };
@@ -81,7 +80,9 @@ const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
             <div className="flex-1 bg-white shadow p-6 rounded-lg">
               <h3 className="mb-2 font-medium text-lg">⏱️ Tempo Estimado</h3>
               <p className="text-xl">
-                {data?.estimated_time ? formatDuration(data?.estimated_time) : "--"}
+                {data?.estimated_time
+                  ? formatDuration(data?.estimated_time)
+                  : "--"}
               </p>
             </div>
           </div>

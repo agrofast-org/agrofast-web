@@ -1,7 +1,7 @@
 import { FormErrors, FormValues } from "@/types/form";
-import Form from "./form";
+import { Form } from "./form";
 import { useCallback, useEffect, useState } from "react";
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/service/toast";
 import { cn } from "@/lib/utils";

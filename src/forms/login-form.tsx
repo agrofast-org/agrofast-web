@@ -9,7 +9,7 @@ import { useState } from "react";
 import { login } from "@/http/user/login";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { useCookies } from "react-cookie";
-import Button from "@/components/button";
+import { Button } from "@/components/button";
 import { Form } from "@/components/form/form";
 import { FormValues } from "@/types/form";
 import { cookieOptions } from "@/service/cookie";
@@ -63,7 +63,6 @@ const LoginForm: React.FC = () => {
             placeholder={t("UI.placeholders.write_email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            queryCollectable
             type="email"
             isRequired
           />

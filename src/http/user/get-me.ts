@@ -1,4 +1,4 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { User } from "@/types/user";
 
 export type GetMeResponse = {
@@ -7,5 +7,5 @@ export type GetMeResponse = {
 };
 
 export const getMe = () => {
-  return api.get<GetMeResponse>("/user/info/me").then(({ data }) => data);
+  return api.get<GetMeResponse>("/user/info/me");
 };

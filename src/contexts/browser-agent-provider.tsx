@@ -66,27 +66,31 @@ export const BrowserAgentProvider: React.FC<{ children: ReactNode }> = ({
       updateBrowserAgent(storedFingerprint);
       return;
     }
-    try {
-      const { data } = await validateFingerprint(storedFingerprint);
-      const newFingerprint = data?.fingerprint;
-      if (newFingerprint) {
-        updateBrowserAgent(newFingerprint);
-      } else if (storedFingerprint && validateBrowserAgent(storedFingerprint)) {
-        updateBrowserAgent(storedFingerprint);
-      } else {
+    validateFingerprint(storedFingerprint)
+      .then(({ data }) => {
+        if (data) {
+          updateBrowserAgent(data);
+        } else if (
+          storedFingerprint &&
+          validateBrowserAgent(storedFingerprint)
+        ) {
+          updateBrowserAgent(storedFingerprint);
+        } else {
+          toast.error({
+            description: t("Messages.errors.failed_to_get_browser_agent"),
+          });
+          removeCookie(AUTH_BROWSER_AGENT_KEY, cookieOptions);
+        }
+      })
+      .catch(() => {
         toast.error({
           description: t("Messages.errors.failed_to_get_browser_agent"),
         });
         removeCookie(AUTH_BROWSER_AGENT_KEY, cookieOptions);
-      }
-    } catch {
-      toast.error({
-        description: t("Messages.errors.failed_to_get_browser_agent"),
+      })
+      .finally(() => {
+        setIsLoaded(true);
       });
-      removeCookie(AUTH_BROWSER_AGENT_KEY, cookieOptions);
-    } finally {
-      setIsLoaded(true);
-    }
   }, [cookies, toast, t, updateBrowserAgent, removeCookie]);
 
   useEffect(() => {

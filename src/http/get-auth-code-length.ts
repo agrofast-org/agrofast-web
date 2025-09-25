@@ -1,10 +1,7 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 
-export interface AuthCodeLengthResponse {
-  message?: string;
-  length: number;
-}
+export type AuthCodeLengthResponse = number;
 
 export const getAuthCodeLength = () => {
-  return api.get<AuthCodeLengthResponse>("/auth/code-length").then(({ data }) => data);
-}
+  return api.get<AuthCodeLengthResponse>("/auth/code-length");
+};

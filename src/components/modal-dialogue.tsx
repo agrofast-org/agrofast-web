@@ -6,7 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "./modal";
-import Button from "./button";
+import { Button } from "./button";
 
 export interface ModalDialogueProps extends ModalProps {
   title?: string;
@@ -15,7 +15,7 @@ export interface ModalDialogueProps extends ModalProps {
   dismissMessage?: string;
 }
 
-const ModalDialogue: React.FC<ModalDialogueProps> = ({
+export const ModalDialogue: React.FC<ModalDialogueProps> = ({
   title,
   action,
   actionMessage,
@@ -39,5 +39,3 @@ const ModalDialogue: React.FC<ModalDialogueProps> = ({
     </Modal>
   );
 };
-
-export default ModalDialogue;

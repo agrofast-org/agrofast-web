@@ -1,4 +1,4 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { User } from "@/types/user";
 
 export type UploadPictureResponse = {
@@ -6,10 +6,8 @@ export type UploadPictureResponse = {
   user: User;
 };
 
-export const uploadPicture = async (
-  picture: FormData
-): Promise<UploadPictureResponse> => {
-  return api.post("/user/picture/upload", picture, {
+export const uploadPicture = async (picture: FormData) => {
+  return api.post<UploadPictureResponse>("/user/picture/upload", picture, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

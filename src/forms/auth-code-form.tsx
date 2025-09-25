@@ -13,7 +13,7 @@ import { useToast } from "@/service/toast";
 import useCountdown from "@/hooks/use-countdown";
 import { resendCode } from "@/http/user/resend-code";
 import { AxiosError } from "axios";
-import InputOtp from "@/components/input/input-otp";
+import { InputOtp } from "@/components/input/input-otp";
 import { useCookies } from "react-cookie";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { cookieOptions } from "@/service/cookie";
@@ -31,7 +31,7 @@ const AuthCodeForm: React.FC = () => {
   const [isDataLoading, setIsDataLoading] = useState(false);
   const { user, setUser, setToken, logout } = useUser();
 
-  const [errors, setErrors] = useState<Record<string, string | string[]>>({});
+  const [errors, ] = useState<Record<string, string | string[]>>({});
 
   const { time, setTime } = useCountdown(TIMEOUT);
 
@@ -39,7 +39,7 @@ const AuthCodeForm: React.FC = () => {
     queryKey: ["auth-code-length"],
     queryFn: async () => {
       const res = await getAuthCodeLength();
-      return res.length ?? 6;
+      return res.data ?? 6;
     },
   });
 
@@ -101,7 +101,7 @@ const AuthCodeForm: React.FC = () => {
               params
             ),
           });
-          setErrors(response?.data?.errors ?? {});
+          // setErrors(response?.data?.errors ?? {});
           return;
         }
         toast.error({
@@ -159,7 +159,6 @@ const AuthCodeForm: React.FC = () => {
                 className="mb-2"
                 variant="bordered"
                 length={codeLength || 6}
-                queryCollectable
               />
             </Skeleton>
           </div>

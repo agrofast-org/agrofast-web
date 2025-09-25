@@ -9,7 +9,7 @@ import {
 } from "../modal";
 import Marker from "../maps/marker";
 import { User } from "@solar-icons/react";
-import Button from "../button";
+import { Button } from "../button";
 
 export interface PlaceSelectorProps {
   isOpen: boolean;

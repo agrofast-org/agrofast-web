@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 import Loading from "@/components/loading";
-import Footer from "./footer";
+import { Footer } from "./footer";
 
 interface BodyProps {
   className?: string;
@@ -10,7 +10,12 @@ interface BodyProps {
   hideFooter?: boolean;
 }
 
-const Body: React.FC<BodyProps> = ({ className, children, hideHeader, hideFooter }) => {
+const Body: React.FC<BodyProps> = ({
+  className,
+  children,
+  hideHeader,
+  hideFooter,
+}) => {
   return (
     <>
       <Loading />

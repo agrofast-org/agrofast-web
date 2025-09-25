@@ -1,4 +1,4 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 
 type PostRequestResponse = { request_uuid: string };
 type PostRequestData = {
@@ -8,7 +8,5 @@ type PostRequestData = {
 };
 
 export const postRequest = (data: PostRequestData) => {
-  return api
-    .post<PostRequestResponse>("/request", data)
-    .then((res) => res.data);
+  return api.post<PostRequestResponse>("/request", data);
 };

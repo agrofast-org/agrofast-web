@@ -1,4 +1,4 @@
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { User } from "@/types/user";
 
 export type AuthResponse = {
@@ -11,7 +11,5 @@ export type AuthError = {
 };
 
 export const auth = (code: string) => {
-  return api
-    .get<AuthResponse>("/user/auth", { params: { code } })
-    .then(({ data }) => data);
+  return api.get<AuthResponse>("/user/auth", { params: { code } });
 };

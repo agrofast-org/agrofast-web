@@ -1,32 +1,21 @@
 import Body from "@/components/body";
 import { useState } from "react";
-import { formatDocument, numberInputMask } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
-import api from "@/service/api";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { useUser } from "@/contexts/auth-provider";
 
 import userPicture from "@public/img/user-default.png";
-import PhoneNumberHelper from "@/components/ux/phone-number-helper";
-import PictureInput from "@/components/input/picture-input";
+import { PictureInput } from "@/components/input/picture-input";
 import { useToast } from "@/service/toast";
 import { uploadPicture } from "@/http/user/upload-picture";
-import Input from "@/components/input/input";
-import InputGroup from "@/components/input/group/input-group";
-import InputGroupDisplay, {
-  InputGroupItem,
-} from "@/components/input/group/input-group-display";
-import InputGroupContent from "@/components/input/group/input-group-content";
-import Button from "@/components/button";
-import Form from "@/components/form/form";
+import { Input } from "@/components/input/input";
+import { Button } from "@/components/button";
+import { Form } from "@/components/form/form";
 import { FormValues } from "@/types/form";
-import DatePicker from "@/components/input/date-picker";
-import Select from "@/components/input/select";
-import { SelectItem } from "@heroui/react";
-import InputGroupIdentity from "@/components/input/group/input-group-identity";
 import Link from "next/link";
+import { updateUser } from "@/http/user/update-user";
 
 export default function Profile() {
   const t = useTranslations();
@@ -40,8 +29,7 @@ export default function Profile() {
 
   const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
-    api
-      .put("/user", data)
+    updateUser(data)
       .then(({ data }) => {
         setUser(data.user);
         toast.success({
@@ -62,8 +50,8 @@ export default function Profile() {
   const handleSubmitPicture = async (file: FormData) => {
     setIsLoading(true);
     uploadPicture(file)
-      .then(({ user }) => {
-        setUser(user);
+      .then(({ data }) => {
+        setUser(data.user);
         toast.success({
           description: t("Messages.success.image_uploaded_successfully"),
         });
@@ -126,79 +114,20 @@ export default function Profile() {
                   type="name"
                   required
                 />
-                <InputGroup
-                  label={{
-                    default: t("UI.labels.document"),
-                    plural: t("UI.labels.documents"),
-                  }}
-                  prefix="documents"
-                  max={2}
-                  required
-                  list
-                  modal
-                >
-                  <InputGroupDisplay>
-                    <InputGroupItem name="document_type" label="Tipo">
-                      {(val: string) => val?.toUpperCase()}
-                    </InputGroupItem>
-                    <InputGroupItem name="number" label="Número">
-                      {(val: string, values) => {
-                        return formatDocument(val, values?.["document_type"]);
-                      }}
-                    </InputGroupItem>
-                  </InputGroupDisplay>
-                  <InputGroupContent>
-                    <InputGroupIdentity name="uuid" />
-                    <DatePicker
-                      name="emission_date"
-                      label={t("UI.labels.emission_date")}
-                      required
-                    />
-                    <Select
-                      name="document_type"
-                      label={t("UI.labels.document_type")}
-                      placeholder={t("UI.placeholders.write_document_type")}
-                      className="text-gray-700 dark:text-gray-200"
-                      required
-                    >
-                      <SelectItem key="cpf">CPF</SelectItem>
-                      <SelectItem key="cnpj">CNPJ</SelectItem>
-                    </Select>
-                    <Input
-                      name="number"
-                      label={t("UI.labels.document_number")}
-                      placeholder={t("UI.placeholders.write_document_number")}
-                      format={(val, { form, group }) => {
-                        if (form && group) {
-                          const inputType = group.getFieldName("document_type");
-                          const inputTypeValue = form.values?.[inputType];
-
-                          return formatDocument(val, inputTypeValue);
-                        }
-                        return val;
-                      }}
-                      required
-                    />
-                  </InputGroupContent>
-                </InputGroup>
                 {user?.profile_type === "requester" && (
-                  <Link href="/web/machinery">
-                    Maquinarios
-                  </Link>
+                  <Link href="/web/machinery">Maquinarios</Link>
                 )}
                 {user?.profile_type === "transporter" && (
-                  <Link href="/web/carrier">
-                    Veículos de transporte
-                  </Link>
+                  <Link href="/web/carrier">Veículos de transporte</Link>
                 )}
-                <Input
+                {/* <Input
                   name="number"
                   label={t("UI.labels.number")}
                   placeholder={t("UI.placeholders.write_number")}
                   format={numberInputMask}
                   endContent={<PhoneNumberHelper />}
                   disabled
-                />
+                /> */}
                 <Input
                   name="email"
                   label={t("UI.labels.email")}
