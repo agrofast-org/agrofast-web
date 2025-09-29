@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
     <Navbar
       id={id}
       isBordered
-      className="bg-default-50 shadow-sm backdrop-blur-sm border-default-300 light:border-b w-full transition-colors"
+      className="bg-default-50 shadow-sm backdrop-blur-sm border-default-300 dark:border-default-100 w-full transition-colors"
       onScrollPositionChange={debounce}
       shouldHideOnScroll={shouldHideOnScroll}
     >

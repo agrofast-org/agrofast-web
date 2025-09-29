@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 3030 --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0 -p 3030",
     "lint": "next lint"
   },
   "dependencies": {
@@ -18,7 +18,7 @@
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.21",
-    "ilias-use-storage": "^1.0.0",
+    "ilias-use-storage": "^1.1.1",
     "next": "^15.2.4",
     "next-intl": "^4.0.2",
     "next-themes": "^0.4.4",

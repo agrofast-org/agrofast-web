@@ -6,7 +6,6 @@ import { OverlayProvider } from "./overlay-provider";
 import { LanguageProvider } from "./language-provider";
 import { AuthProvider } from "./auth-provider";
 import { NextIntlClientProvider } from "next-intl";
-import { useRouter } from "next/router";
 import ToasterProvider from "./toast-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BrowserAgentProvider from "./browser-agent-provider";
@@ -27,13 +26,14 @@ export const ClientSideProviders: React.FC<ClientSideProvidersProps> = ({
   children,
   pageProps,
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <NextIntlClientProvider
-          locale={router.locale ?? "pt-BR"}
+          // locale={router.locale ?? "pt-BR"}
+          locale="pt-BR"
           timeZone="America/Sao_Paulo"
           messages={pageProps.messages}
         >
@@ -42,7 +42,8 @@ export const ClientSideProviders: React.FC<ClientSideProvidersProps> = ({
               <HeroUIProvider
                 skipFramerMotionAnimations={true}
                 reducedMotion="user"
-                locale={router.locale ?? "pt-BR"}
+                // locale={router.locale ?? "pt-BR"}
+                locale="pt-BR"
               >
                 <AppProvider>
                   <CookieUseWarning />

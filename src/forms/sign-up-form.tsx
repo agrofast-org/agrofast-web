@@ -6,7 +6,6 @@ import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 import { useUser } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { signUp } from "@/http/user/sign-up";
-import { useToast } from "@/service/toast";
 import {
   Button,
   Modal,
@@ -19,6 +18,8 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { JSX, useState } from "react";
 import { FormValues } from "@/types/form";
+import { Error } from "@/types/api-response";
+import { ValidationError } from "next/dist/compiled/amphtml-validator";
 
 const SignInForm: React.FC = () => {
   const t = useTranslations();
@@ -26,11 +27,10 @@ const SignInForm: React.FC = () => {
   const { setIsLoading } = useOverlay();
   const { setUser, setToken } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
 
   const [email, setEmail] = useState<string>("");
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<ValidationError>({});
   const [modalContent, setModalContent] = useState<JSX.Element | undefined>();
 
   const openTermsOfUse = () => {
@@ -52,13 +52,8 @@ const SignInForm: React.FC = () => {
         setToken(data.token);
         router.push(`/web/auth-code`);
       })
-      .catch(({ data: error }) => {
-        if (error.errors["password"]) {
-          toast.error({
-            description: error.errors["password"],
-          });
-        }
-        setErrors(error.errors);
+      .catch(({ response }: Error<ValidationError>) => {
+        setErrors(response?.data.errors);
       })
       .finally(() => {
         setIsLoading(false);
@@ -139,7 +134,7 @@ const SignInForm: React.FC = () => {
             {t("UI.checkboxes.remember_me")}
           </Checkbox>
           <Checkbox name="terms_and_privacy_agreement" value="true" size="sm">
-            <>
+            <p>
               {t.rich("Legal.agreements.accept_policy_and_terms", {
                 use: (chunks) => (
                   <span
@@ -162,7 +157,7 @@ const SignInForm: React.FC = () => {
                   </span>
                 ),
               })}
-            </>
+            </p>
           </Checkbox>
         </div>
         <input type="hidden" name="language" value={router.locale} />
