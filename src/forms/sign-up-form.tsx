@@ -1,10 +1,8 @@
 import { Checkbox } from "@/components/input/checkbox";
-import { Form } from "@/components/form/form";
 import { Input } from "@/components/input/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 import { useUser } from "@/contexts/auth-provider";
-import { useOverlay } from "@/contexts/overlay-provider";
 import { signUp } from "@/http/user/sign-up";
 import {
   Button,
@@ -17,20 +15,16 @@ import {
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { JSX, useState } from "react";
-import { FormValues } from "@/types/form";
-import { Error } from "@/types/api-response";
-import { ValidationError } from "next/dist/compiled/amphtml-validator";
+import { RequestForm } from "@/components/request-form";
 
 const SignInForm: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
-  const { setIsLoading } = useOverlay();
   const { setUser, setToken } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [email, setEmail] = useState<string>("");
 
-  const [errors, setErrors] = useState<ValidationError>({});
   const [modalContent, setModalContent] = useState<JSX.Element | undefined>();
 
   const openTermsOfUse = () => {
@@ -41,23 +35,6 @@ const SignInForm: React.FC = () => {
   const openPrivacyPolicy = () => {
     setModalContent(<PrivacyPolicy />);
     onOpen();
-  };
-
-  const handleSubmit = (data: FormValues) => {
-    setIsLoading(true);
-
-    signUp(data)
-      .then(({ data }) => {
-        setUser(data.user);
-        setToken(data.token);
-        router.push(`/web/auth-code`);
-      })
-      .catch(({ response }: Error<ValidationError>) => {
-        setErrors(response?.data.errors);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   return (
@@ -81,11 +58,15 @@ const SignInForm: React.FC = () => {
           )}
         </ModalContent>
       </Modal>
-      <Form
+      <RequestForm
         className="!flex !flex-col gap-4"
-        onSubmit={handleSubmit}
-        validationErrors={errors}
         initialData={router.query}
+        onSubmit={signUp}
+        onSuccess={({ data }) => {
+          setUser(data.user);
+          setToken(data.token);
+          router.push(`/web/auth-code`);
+        }}
       >
         <Input
           name="name"
@@ -168,7 +149,7 @@ const SignInForm: React.FC = () => {
         <Button className="w-full" color="primary" type="submit">
           {t("UI.buttons.continue")}
         </Button>
-      </Form>
+      </RequestForm>
       <p className="pb-4 text-small text-center">
         <Link
           href={{

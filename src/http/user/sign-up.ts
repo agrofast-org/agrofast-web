@@ -19,5 +19,5 @@ export type SignUpResponse = {
 };
 
 export const signUp = (data: SignUpData | FormValues) => {
-  return api.post<SignUpResponse>("/user", data);
+  return api.post<SignUpResponse>("/auth/sign-up", data);
 };

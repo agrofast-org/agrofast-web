@@ -62,7 +62,7 @@ export const RequestForm: React.FC = () => {
       >
         <section className="flex flex-col items-start gap-6 mx-auto md:p-4 max-w-[912px] container">
           <div className="flex md:flex-row flex-col md:border border-default-200 rounded-2xl w-full overflow-hidden">
-            <Form
+            <RequestForm
               onSubmit={handleRequest}
               className={cn(
                 "top-16 focus-within:top-0 z-50 md:static absolute flex flex-col flex-1 gap-2 bg-default-100 md:p-4 pt-2 pb-0 border-neutral-200 dark:border-neutral-700 border-b md:border-b-0 w-full transition-[top]",
@@ -140,7 +140,7 @@ export const RequestForm: React.FC = () => {
                   "Lançar chamado"
                 )}
               </Button>
-            </Form>
+            </RequestForm>
             <div className="md:static absolute inset-0 flex flex-1 min-h-[400px]">
               <RouteMap from={placeFrom} to={placeTo} />
             </div>

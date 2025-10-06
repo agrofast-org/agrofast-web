@@ -16,6 +16,8 @@ import { Form } from "@/components/form/form";
 import { FormValues } from "@/types/form";
 import Link from "next/link";
 import { updateUser } from "@/http/user/update-user";
+import { useApp } from "@/contexts/app-context";
+import { LinkIcon } from "@heroui/react";
 
 export default function Profile() {
   const t = useTranslations();
@@ -24,6 +26,7 @@ export default function Profile() {
 
   const { user, setUser } = useUser();
   const { setIsLoading } = useOverlay();
+  const { mounted } = useApp();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -114,11 +117,21 @@ export default function Profile() {
                   type="name"
                   required
                 />
-                {user?.profile_type === "requester" && (
-                  <Link href="/web/machinery">Maquinarios</Link>
-                )}
-                {user?.profile_type === "transporter" && (
-                  <Link href="/web/carrier">Veículos de transporte</Link>
+                {mounted && (
+                  <Link
+                    className="flex justify-start items-center text-foreground text-sm"
+                    href={`/web/${
+                      user?.profile_type === "requester"
+                        ? "machinery"
+                        : "carrier"
+                    }`}
+                  >
+                    Meus{" "}
+                    {user?.profile_type === "requester"
+                      ? "maquinários"
+                      : "veículos"}
+                    <LinkIcon />
+                  </Link>
                 )}
                 {/* <Input
                   name="number"

@@ -29,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const t = useTranslations();
   const { user } = useUser();
+  const { mounted } = useApp();
 
   const { setHeaderVisible } = useApp();
 
@@ -79,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
         <NavbarItem>
           <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
         </NavbarItem>
-        {user && (
+        {mounted && user && (
           <NavbarItem className="flex justify-center items-center">
             <UserOptionsButton />
           </NavbarItem>

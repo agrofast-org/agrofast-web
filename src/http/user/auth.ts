@@ -1,4 +1,5 @@
 import { api } from "@/service/api";
+import { FormValues } from "@/types/form";
 import { User } from "@/types/user";
 
 export type AuthResponse = {
@@ -8,8 +9,9 @@ export type AuthResponse = {
 
 export type AuthError = {
   attempts: number;
+  error?: string;
 };
 
-export const auth = (code: string) => {
-  return api.get<AuthResponse>("/user/auth", { params: { code } });
+export const auth = (data: FormValues) => {
+  return api.get<AuthResponse>("/auth", { params: { code: data.code } });
 };

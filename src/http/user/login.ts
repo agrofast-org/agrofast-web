@@ -15,5 +15,5 @@ export type LoginResponse = {
 };
 
 export const login = (data: LoginData | FormValues) => {
-  return api.post<LoginResponse>("/user/login", data);
+  return api.post<LoginResponse>("/auth/sign-in", data);
 };
