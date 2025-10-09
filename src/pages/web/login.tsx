@@ -22,7 +22,7 @@ export default function Login() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Body className="flex flex-row py-0" hideHeader hideFooter>
+      <Body className="flex flex-row py-0 min-h-screen" hideHeader hideFooter>
         <div className="hidden lg:flex flex-col flex-[4] justify-center items-center">
           <section className="flex flex-col items-start gap-4 p-4">
             <h1 className="font-mono font-light text-gray-700 dark:text-gray-200 text-2xl">
