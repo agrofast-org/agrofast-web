@@ -3,7 +3,7 @@ import { api } from "@/service/api";
 export type ValidateFingerprintResponse = string;
 
 export const validateFingerprint = (fingerprint: string) => {
-  return api.get<ValidateFingerprintResponse>("/fingerprint", {
+  return api.get<ValidateFingerprintResponse>("/auth/fingerprint", {
     headers: { "Browser-Agent": fingerprint },
   });
 };

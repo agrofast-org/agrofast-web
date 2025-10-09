@@ -225,7 +225,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormFooter>
         <Button
-          className="justify-self-end px-16"
+          className="justify-self-end px-16 flex-1 md:flex-none"
           color="primary"
           type="submit"
           confirmAction

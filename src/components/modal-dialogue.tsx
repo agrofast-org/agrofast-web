@@ -33,7 +33,7 @@ export const ModalDialogue: React.FC<ModalDialogueProps> = ({
           {action && (
             <Button onPress={action}>{actionMessage ?? "Action"}</Button>
           )}
-          <Button>{dismissMessage ?? "Dismiss"}</Button>
+          <Button onPress={props.onClose}>{dismissMessage ?? "Dismiss"}</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

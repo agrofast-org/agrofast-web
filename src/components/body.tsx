@@ -22,8 +22,7 @@ const Body: React.FC<BodyProps> = ({
       {!hideHeader && <Header />}
       <main
         className={cn(
-          "bg-default-100 w-full h-min min-h-svh transition-colors",
-          !hideHeader && "pt-16",
+          "bg-default-100 w-full h-min transition-colors",
           !hideFooter && "pb-16 sm:pb-4",
           className
         )}

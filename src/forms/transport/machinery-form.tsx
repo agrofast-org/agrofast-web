@@ -12,6 +12,7 @@ import { Select, SelectItem } from "@/components/input/select";
 import { Textarea } from "@/components/input/textarea";
 import { Suspension } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
+import { FileUploadModal } from "@/components/input/file-upload-modal";
 
 const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
@@ -121,7 +122,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           <SelectItem key="standard">Padrão (1 pneu por lado)</SelectItem>
           <SelectItem key="flipped">Flipada (2 pneus por lado)</SelectItem>
         </Select>
-        <FileUpload
+        <FileUploadModal
           name="pictures"
           label={t("UI.labels.machinery_pictures")}
           placeholder={t("UI.placeholders.write_machinery_pictures")}
@@ -137,7 +138,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormFooter>
         <Button
-          className="justify-self-end px-16"
+          className="justify-self-end px-16 flex-1 md:flex-none"
           color="primary"
           type="submit"
           confirmAction
