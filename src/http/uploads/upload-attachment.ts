@@ -1,4 +1,4 @@
-import { api, apiBaseUrl } from "@/service/api";
+import { api } from "@/service/api";
 import { Attachment } from "@/types/attachment";
 
 export type UploadAttachmentResponse = Attachment[];
@@ -11,7 +11,6 @@ export const uploadAttachment = (attachment: FormData) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-      baseURL: apiBaseUrl,
     }
   );
 };

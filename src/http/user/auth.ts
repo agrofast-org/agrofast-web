@@ -9,7 +9,7 @@ export type AuthResponse = {
 
 export type AuthError = {
   attempts: number;
-  error?: string;
+  message?: string;
 };
 
 export const auth = (data: FormValues) => {

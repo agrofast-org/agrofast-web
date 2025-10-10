@@ -1,20 +1,14 @@
-import { Upload } from "@solar-icons/react";
-import { Button, cn, Spinner, useDisclosure } from "@heroui/react";
+import { DocumentText, Upload } from "@solar-icons/react";
+import { Button, cn, Spinner, Tooltip, useDisclosure } from "@heroui/react";
 import { Attachment } from "@/types/attachment";
 import { ModalDialogue } from "../modal-dialogue";
 import { useState } from "react";
-import { FileUpload } from "./file-upload";
-
-export type FileAcceptedTypes =
-  | "image/png"
-  | "image/jpeg"
-  | "image/webp"
-  | "image/gif"
-  | "application/pdf"
-  | "application/msword"
-  | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  | "application/vnd.ms-excel"
-  | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getRecentAttachments } from "@/http/uploads/recent-attachments";
+import { uploadAttachment } from "@/http/uploads/upload-attachment";
+import ScrollShadow from "../scroll-shadow";
+import Image from "../image";
+import Link from "../link";
 
 export interface FileUploadModalProps {
   name: string;
@@ -23,13 +17,10 @@ export interface FileUploadModalProps {
   disabled?: boolean;
   required?: boolean;
   type?: "append" | "replace";
-  accept?: FileAcceptedTypes[];
+  accept?: string | undefined;
   multiple?: boolean;
   onUpload?: (files: Attachment[]) => void;
 }
-
-const STORAGE_KEY = (formId: string, fieldName: string) =>
-  `file-upload:${formId}:${fieldName}`;
 
 export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   name: inputName,
@@ -44,7 +35,38 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
 
   const fieldName = inputName || "file-upload";
 
-  const [isUploading] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  const {
+    data: storedFiles,
+    isLoading: storedFilesLoading,
+    refetch: refetchStoredFiles,
+  } = useQuery<Attachment[]>({
+    queryKey: ["auth-code-length"],
+    queryFn: async () => {
+      const res = await getRecentAttachments();
+      return res.data ?? [];
+    },
+  });
+
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files ? Array.from(e.target.files) : [];
+    if (!selected.length) return;
+
+    setIsUploading(true);
+    const attachment = new FormData();
+    if (multiple) {
+      selected.forEach((file) => attachment.append("files[]", file));
+    } else {
+      attachment.append("file", selected[0]);
+    }
+
+    uploadAttachment(attachment).finally(() => {
+      setIsUploading(false);
+      e.target.value = "";
+      refetchStoredFiles();
+    });
+  };
 
   return (
     <div className="relative flex flex-col pt-6">
@@ -52,35 +74,39 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
         title={`Selecionar arquivo${multiple ? "s" : ""}`}
         {...selectionDisclosure}
       >
-        <FileUpload
-          // accept={accept?.join(",")
-          className="hidden"
-          multiple={multiple}
-          disabled={disabled || isUploading}
-          required={required}
-        />
-        <div className="">
-          <p className="mb-4 text-gray-600 dark:text-gray-300">
+        <Button
+          as="label"
+          htmlFor={`${fieldName}-input`}
+          className="inline-flex justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
+          isDisabled={disabled || isUploading}
+        >
+          {isUploading ? (
+            <Spinner size="sm" />
+          ) : (
+            <Upload weight="LineDuotone" />
+          )}
+          Enviar arquivo{multiple ? "s" : ""}
+          <input
+            id={`${fieldName}-input`}
+            name={`${fieldName}-input`}
+            type="file"
+            accept={accept}
+            className="hidden"
+            multiple={multiple}
+            disabled={disabled || isUploading}
+            required={required}
+            onChange={handleUpload}
+          />
+        </Button>
+        <div>
+          <p className="text-small text-gray-600 dark:text-gray-300">
             Arquivos anexados anteriormente:
           </p>
-          <div>
-            {/* List of uploaded files */}
-          </div>
+          <HorizontalFileList files={storedFiles} />
         </div>
       </ModalDialogue>
       <span className="top-0 z-20 absolute flex justify-between w-full text-foreground text-small">
         <p>{label ?? placeholder ?? "Upload a file"}</p>
-        {/* <Button
-          className={cn(
-            "bg-default-200 !min-w-5 !max-w-5 !size-5 text-default-600",
-            files.length ? "" : "opacity-0"
-          )}
-          onPress={onOpen}
-          isDisabled={!files.length}
-          isIconOnly
-        >
-          i
-        </Button> */}
       </span>
       <Button
         className="inline-flex justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
@@ -90,12 +116,58 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
         {isUploading ? <Spinner size="sm" /> : <Upload weight="LineDuotone" />}
         {isUploading
           ? "Carregando..."
-          : 0
-          ? // : files.length
-            "Adicionar mais"
+          : 0 // : files.length
+          ? "Adicionar mais"
           : placeholder ?? label ?? "Selecionar arquivo"}
         <input id={fieldName} name={fieldName} type="hidden" />
       </Button>
     </div>
+  );
+};
+
+export interface HorizontalFileListProps {
+  files?: Attachment[];
+  emptyState?: React.ReactNode;
+  onFileClick?: (file: Attachment) => void;
+}
+
+export const HorizontalFileList: React.FC<HorizontalFileListProps> = ({
+  files,
+  emptyState = "Sem arquivos",
+}) => {
+  return (
+    <ScrollShadow
+      className={cn(
+        "flex p-1 gap-1 cus border border-default-300 rounded-medium w-full overflow-x-auto"
+      )}
+    >
+      {!files
+        ? emptyState
+        : files.map((file, idx) => <File key={idx} file={file} />)}
+    </ScrollShadow>
+  );
+};
+
+export interface FileProps {
+  file: Attachment;
+}
+
+export const File: React.FC<FileProps> = ({ file }) => {
+  const type = file.mime_type.split("/")[0];
+
+  return (
+    <Tooltip content={file.name} placement="top" delay={250} color="foreground" showArrow>
+      <div className="size-10 overflow-hidden border border-default-300 rounded-small">
+        {type === "image" ? (
+          <Image
+            src={`${file.path}/miniature`}
+            fallbackSrc="https://via.placeholder.com/40"
+            alt=""
+          />
+        ) : (
+          <DocumentText className="text-default-400 size-full p-1.5" />
+        )}
+      </div>
+    </Tooltip>
   );
 };

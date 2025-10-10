@@ -103,7 +103,7 @@ const AuthCodeForm: React.FC = () => {
             });
             return;
           }
-          if (error?.response?.data?.error === "authentication_code_attempts_exceeded") {
+          if (error?.response?.data?.message === "authentication_code_attempts_exceeded") {
             toast.error({
               description: t(
                 "Messages.errors.authentication_code_attempts_exceeded"
