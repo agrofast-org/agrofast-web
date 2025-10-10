@@ -1,14 +1,16 @@
-import { DocumentText, Upload } from "@solar-icons/react";
-import { Button, cn, Spinner, Tooltip, useDisclosure } from "@heroui/react";
+import {
+  CheckCircle,
+  DocumentText,
+  InfoCircle,
+  Upload,
+} from "@solar-icons/react";
+import { Button, cn, Image, Spinner, Tooltip, useDisclosure } from "@heroui/react";
 import { Attachment } from "@/types/attachment";
 import { ModalDialogue } from "../modal-dialogue";
 import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getRecentAttachments } from "@/http/uploads/recent-attachments";
 import { uploadAttachment } from "@/http/uploads/upload-attachment";
-import ScrollShadow from "../scroll-shadow";
-import Image from "../image";
-import Link from "../link";
 
 export interface FileUploadModalProps {
   name: string;
@@ -99,7 +101,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
           />
         </Button>
         <div>
-          <p className="text-small text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 dark:text-gray-300 text-small">
             Arquivos anexados anteriormente:
           </p>
           <HorizontalFileList files={storedFiles} />
@@ -136,15 +138,15 @@ export const HorizontalFileList: React.FC<HorizontalFileListProps> = ({
   emptyState = "Sem arquivos",
 }) => {
   return (
-    <ScrollShadow
+    <div
       className={cn(
-        "flex p-1 gap-1 cus border border-default-300 rounded-medium w-full overflow-x-auto"
+        "flex gap-1 p-1 border border-default-300 rounded-medium w-full overflow-x-auto overflow-y-hidden"
       )}
     >
       {!files
         ? emptyState
         : files.map((file, idx) => <File key={idx} file={file} />)}
-    </ScrollShadow>
+    </div>
   );
 };
 
@@ -155,17 +157,59 @@ export interface FileProps {
 export const File: React.FC<FileProps> = ({ file }) => {
   const type = file.mime_type.split("/")[0];
 
+  const [onFocus, setOnFocus] = useState<boolean>(false);
+
   return (
-    <Tooltip content={file.name} placement="top" delay={250} color="foreground" showArrow>
-      <div className="size-10 overflow-hidden border border-default-300 rounded-small">
+    <Tooltip
+      content={file.name}
+      placement="top"
+      delay={250}
+      color="foreground"
+      isOpen={onFocus ? false : undefined}
+      showArrow
+    >
+      <div
+        onFocusCapture={() => {
+          setOnFocus(true);
+        }}
+        onBlurCapture={() => {
+          setOnFocus(false);
+        }}
+        className="relative border border-default-300 rounded-small overflow-hidden size-12 min-w-12"
+      >
+        <div
+          className={cn(
+            "z-10 absolute flex flex-col rounded-small size-full transition-[backdrop-filter,opacity] duration-75",
+            onFocus
+              ? "opacity-100 backdrop-blur-[2px]"
+              : "backdrop-blur-0 opacity-0 pointer-events-none"
+          )}
+        >
+          <Button
+            size="sm"
+            color="success"
+            isIconOnly
+            className="flex flex-1 justify-center bg-success/75 rounded-none rounded-t-small w-full"
+          >
+            <CheckCircle className="p-1 size-6 text-default-50" />
+          </Button>
+          <Button
+            size="sm"
+            isIconOnly
+            className="flex flex-1 justify-center bg-primary-400/75 rounded-none rounded-b-small w-full"
+          >
+            <InfoCircle className="p-1 size-6 text-default-50" />
+          </Button>
+        </div>
         {type === "image" ? (
           <Image
+            className="rounded-small overflow-hidden size-full object-cover"
             src={`${file.path}/miniature`}
-            fallbackSrc="https://via.placeholder.com/40"
+            fallbackSrc=""
             alt=""
           />
         ) : (
-          <DocumentText className="text-default-400 size-full p-1.5" />
+          <DocumentText className="p-1.5 size-full text-default-400" />
         )}
       </div>
     </Tooltip>
