@@ -8,11 +8,13 @@ import { useForm } from "../form/form";
 
 export interface CheckboxProps extends HeroUICheckboxProps {
   children?: React.ReactNode;
+  className?: string;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   name: inputName,
   children,
+  className,
   ...props
 }) => {
   const form = useForm();
@@ -52,7 +54,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
 
   return (
-    <div className="relative flex flex-row justify-start items-center gap-2 px-1 py-2 w-full">
+    <div className={cn(className, "relative flex flex-row justify-start items-center gap-2 px-1 py-2 w-full")}>
       <HeroUICheckbox
         name={name}
         checked={checked}

@@ -4,10 +4,12 @@ import {
   cn,
   DatePicker as HeroUIDatePicker,
   DatePickerProps as HeroUIDatePickerProps,
+  Skeleton,
 } from "@heroui/react";
 import { useForm } from "../form/form";
 import { ValidationError } from "next/dist/compiled/amphtml-validator";
-import { parseDate } from "@internationalized/date";
+import { parseDate } from "@internationalized/date"
+import { useApp } from "@/contexts/app-context";
 export type DatePickerValue = HeroUIDatePickerProps["value"];
 
 export interface DatePickerProps extends HeroUIDatePickerProps {
@@ -24,6 +26,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
   const reactId = useId();
 
+  const { mounted } = useApp();
   const form = useForm();
   const [inputValue, setInputValue] = useState(value);
   const [inputError, setInputError] = useState<ValidationError | undefined>(
@@ -47,7 +50,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     if (form) {
       const formValue = form.values[name || reactId];
       if (typeof formValue === "string") {
-        setInputValue(parseDate(formValue));
+        setInputValue(parseDate(formValue) as unknown as undefined);
       } else {
         setInputValue(formValue);
       }
@@ -62,6 +65,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       }
     }
   }, [name, form, reactId, inputError]);
+
+  if (!mounted) {
+    return <Skeleton className={cn("h-12 w-full rounded-lg bg-gray-200", className)} />;
+  }
 
   return (
     <HeroUIDatePicker

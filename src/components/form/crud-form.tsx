@@ -110,7 +110,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
       if (url) {
         api
           .get(url)
-          .then(({ data }) => {
+          .then(( data ) => {
             setInitialData(data.data);
             setFetchedData?.(data.data);
           })

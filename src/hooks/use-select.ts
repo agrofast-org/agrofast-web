@@ -8,6 +8,7 @@ export interface UseSelectProps {
   id?: string;
   name?: string;
   value?: SelectProps["selectedKeys"];
+  multiple?: boolean;
   onChange?: SelectProps["onSelectionChange"];
   ignoreForm?: boolean;
   error?: ValidationError | undefined;
@@ -17,6 +18,7 @@ export const useSelect = ({
   id,
   name,
   value,
+  multiple,
   onChange,
   ignoreForm = false,
   error,
@@ -37,11 +39,15 @@ export const useSelect = ({
       setInputError(undefined);
       onChange?.(new Set(newValue));
       if (name && form && !ignoreForm) {
+        if (!multiple) {
+          form.setValue(name, Array.from(newValue || []).join(","));
+          return;
+        }
         const valueToSet = newValue === "all" ? newValue : Array.from(newValue || []);
         form.setValue(name, valueToSet);
       }
     },
-    [name, ignoreForm, form, onChange]
+    [name, multiple, ignoreForm, form, onChange]
   );
 
   useEffect(() => {

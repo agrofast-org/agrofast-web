@@ -28,6 +28,7 @@ export const Select: React.FC<SelectProps> = ({
     id: props.id,
     name,
     value: props.selectedKeys,
+    multiple,
     onChange: onSelectionChange,
     ignoreForm: !name,
     error: props.errorMessage,

@@ -3,6 +3,7 @@ import { Form, FormProps } from "./form/form";
 import { cn, Spinner } from "@heroui/react";
 import { AxiosError, AxiosResponse } from "axios";
 import { FormErrors } from "@/types/form";
+import { useLoadingDisclosure } from "@/hooks/use-loading-disclosure";
 
 export type RequestFormProps<
   TSuccess extends AxiosResponse = AxiosResponse,
@@ -14,6 +15,7 @@ export type RequestFormProps<
   onSubmit?: (data?: FormData) => Promise<TSuccess | void>;
   onSuccess?: (data: TSuccess) => void;
   onError?: (error: TError) => void;
+  loadingDisclosure?: ReturnType<typeof useLoadingDisclosure>;
 } & Omit<FormProps, "onSubmit" | "children" | "className">;
 
 export function RequestForm<
@@ -26,6 +28,7 @@ export function RequestForm<
   onSubmit,
   onSuccess,
   onError,
+  loadingDisclosure,
   ...props
 }: RequestFormProps<TSuccess, TError>) {
   const [formLoading, setFormLoading] = useState<boolean>(false);
@@ -42,6 +45,7 @@ export function RequestForm<
       validationErrors={formErrors}
       onSubmit={(formData) => {
         setFormLoading(true);
+        loadingDisclosure?.loading();
         onSubmit?.(formData)
           .then((response) => {
             if (response) {
@@ -55,6 +59,7 @@ export function RequestForm<
           })
           .finally(() => {
             setFormLoading(false);
+            loadingDisclosure?.complete();
           });
       }}
       {...props}

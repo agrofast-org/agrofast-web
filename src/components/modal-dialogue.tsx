@@ -12,6 +12,7 @@ export interface ModalDialogueProps extends ModalProps {
   title?: string;
   action?: () => void;
   actionMessage?: string;
+  dismiss?: () => void;
   dismissMessage?: string;
 }
 
@@ -19,6 +20,7 @@ export const ModalDialogue: React.FC<ModalDialogueProps> = ({
   title,
   action,
   actionMessage,
+  dismiss,
   dismissMessage,
   children,
   className,
@@ -31,9 +33,18 @@ export const ModalDialogue: React.FC<ModalDialogueProps> = ({
         <ModalBody className={className}>{children}</ModalBody>
         <ModalFooter className="flex-row-reverse">
           {action && (
-            <Button onPress={action}>{actionMessage ?? "Action"}</Button>
+            <Button color="primary" onPress={action}>
+              {actionMessage ?? "Action"}
+            </Button>
           )}
-          <Button onPress={props.onClose}>{dismissMessage ?? "Dismiss"}</Button>
+          <Button
+            onPress={() => {
+              props?.onClose?.();
+              dismiss?.();
+            }}
+          >
+            {dismissMessage ?? "Dismiss"}
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

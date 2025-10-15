@@ -178,7 +178,8 @@ export const formatDocument = (document: string, type?: string) => {
   return document;
 };
 
-export const formatDistance = (distance: number | string): string => {
+export const formatDistance = (distance?: number | string): string => {
+  if (distance === undefined || distance === null) return "-";
   if (typeof distance === "string") {
     distance = parseFloat(distance);
   }
@@ -190,7 +191,8 @@ export const formatDistance = (distance: number | string): string => {
   return `${km} km`;
 };
 
-export const formatDuration = (duration: number | string): string => {
+export const formatDuration = (duration?: number | string): string => {
+  if (duration === undefined || duration === null) return "-";
   if (typeof duration === "string") {
     duration = parseFloat(duration);
   }
@@ -212,7 +214,8 @@ export const formatDuration = (duration: number | string): string => {
   return result.trim();
 }
 
-export const formatCurrency = (value: number | string): string => {
+export const formatCurrency = (value?: number | string): string => {
+  if (value === undefined || value === null) return "-";
   if (typeof value === "string") {
     value = parseFloat(value);
   }

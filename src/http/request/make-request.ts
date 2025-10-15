@@ -2,9 +2,9 @@ import { api } from "@/service/api";
 
 type PostRequestResponse = { request_uuid: string };
 type PostRequestData = {
-  origin_place_id: string;
-  destination_place_id: string;
-  machine_uuid: string;
+  origin_place_id?: string | null;
+  destination_place_id?: string | null;
+  machine_uuid?: string | null;
 };
 
 export const postRequest = (data: PostRequestData) => {

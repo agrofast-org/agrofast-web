@@ -4,9 +4,10 @@ import FormHeader from "@/components/form/form-header";
 import RequestStateChip from "@/components/ux/request-state-chip";
 import Image from "next/image";
 import { formatCurrency, formatDistance, formatDuration } from "@/lib/utils";
-import { Button } from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
 import { useRouter } from "next/router";
 import { updateRequest } from "@/http/request/update-request";
+import { ArrowRight } from "@solar-icons/react";
 
 const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const router = useRouter();
@@ -35,10 +36,19 @@ const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       <div className="space-y-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <FormHeader>
           <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-4">
-            <h1 className="font-semibold text-gray-800 text-xl">
-              {data?.origin_place_name || "--"} →{" "}
-              {data?.destination_place_name || "--"}
-            </h1>
+            <div className="flex font-medium text-gray-800 text-large">
+              <Tooltip showArrow content={data?.origin_place_name || "--"}>
+                <div className="truncate max-w-52">
+                  {`${data?.origin_place_name}` || "--"}
+                </div>
+              </Tooltip>
+              <ArrowRight className="mx-2" />
+              <Tooltip showArrow content={data?.destination_place_name || "--"}>
+                <div className="truncate max-w-52">
+                  {`${data?.destination_place_name}` || "--"}
+                </div>
+              </Tooltip>
+            </div>
             {data && <RequestStateChip state={data.state} size="md" />}
           </div>
         </FormHeader>
@@ -46,7 +56,7 @@ const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           <div className="gap-8 grid grid-cols-1 md:grid-cols-2">
             <div className="bg-white shadow p-6 rounded-lg w-full">
               <h2 className="mb-4 font-medium text-xl">🗺️ Origem</h2>
-              <p className="text-base">
+              <p className="text-base truncate">
                 <strong>Local:</strong> {data?.origin_place_name || "--"}
               </p>
               <p className="text-base">
@@ -58,7 +68,7 @@ const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
             </div>
             <div className="bg-white shadow p-6 rounded-lg w-full">
               <h2 className="mb-4 font-medium text-xl">🎯 Destino</h2>
-              <p className="text-base">
+              <p className="text-base truncate">
                 <strong>Local:</strong> {data?.destination_place_name || "--"}
               </p>
               <p className="text-base">
