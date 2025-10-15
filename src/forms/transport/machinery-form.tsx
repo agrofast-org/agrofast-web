@@ -5,7 +5,6 @@ import FormFooter from "@/components/form/form-footer";
 import FormGroup from "@/components/form/form-group";
 import FormHeader from "@/components/form/form-header";
 import { DatePicker } from "@/components/input/date-picker";
-import { FileUpload } from "@/components/input/file-upload";
 import { Input } from "@/components/input/input";
 import { NumberInput } from "@/components/input/number-input";
 import { Select, SelectItem } from "@/components/input/select";
