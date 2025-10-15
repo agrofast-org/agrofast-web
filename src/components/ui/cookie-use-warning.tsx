@@ -1,4 +1,3 @@
-import useLocalStorage from "@/hooks/use-local-storage";
 import { useDisclosure } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import {
@@ -8,7 +7,8 @@ import {
   ModalFooter,
   ModalHeader,
 } from "../modal";
-import Button from "../button";
+import { Button } from "../button";
+import { useLocalStorage } from "ilias-use-storage";
 
 const COOKIE_NOTICE_KEY = "cookie_notice_accepted";
 

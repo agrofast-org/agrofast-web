@@ -45,7 +45,8 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
       if (toCoords) {
         bounds.extend(toCoords);
       }
-      map.fitBounds(bounds);
+      map.fitBounds(bounds, 1000);
+      map.setZoom(14);
     }
   }, [from, to, map]);
 
@@ -120,8 +121,7 @@ export const RouteMap: React.FC<RouteMapProps> = ({ from, to }) => {
     <Map
       id="route-map"
       style={{ width: "100%", height: "100%" }}
-      defaultCenter={{ lat: -14.235, lng: -51.9253 }}
-      defaultZoom={4.5}
+      defaultZoom={4}
     >
       {from && (
         <AdvancedMarker position={getLocation(from)}>

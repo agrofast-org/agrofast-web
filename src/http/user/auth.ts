@@ -1,20 +1,17 @@
-import api from "@/service/api";
-import { Error, Success } from "@/types/api-response";
+import { api } from "@/service/api";
+import { FormValues } from "@/types/form";
 import { User } from "@/types/user";
 
-export type AuthResponse = Success<{
-  data: {
-    token: string;
-    user: User;
-  };
-}>;
+export type AuthResponse = {
+  token: string;
+  user: User;
+};
 
-export type AuthError = Error<{
+export type AuthError = {
   attempts: number;
-}>;
+  message?: string;
+};
 
-export const auth = (code: string) => {
-  return api
-    .get<AuthResponse>("/user/auth", { params: { code } })
-    .then(({ data }) => data);
+export const auth = (data: FormValues) => {
+  return api.get<AuthResponse>("/auth", { params: { code: data.code } });
 };

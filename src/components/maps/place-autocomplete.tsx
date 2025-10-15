@@ -132,7 +132,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
           new google.maps.LatLngBounds(e.detail.latLng, e.detail.latLng),
           400
         );
-        map?.setZoom(16);
+        map?.setZoom(14);
       }
     },
     [map]

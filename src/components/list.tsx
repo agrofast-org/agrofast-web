@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import api from "@/service/api";
+import { api } from "@/service/api";
 import {
   getKeyValue,
   Spinner,
@@ -88,7 +88,7 @@ const List: React.FC<{
   const list = useAsyncList<any>({
     async load({ signal }) {
       if (getUrl) {
-        const { data } = await api
+        const data = await api
           .get(getUrl, { signal })
           .then((res) => res.data);
         setIsLoading(false);
@@ -143,7 +143,7 @@ const List: React.FC<{
         );
       }
       return (
-        <TableCell className="text-default-600 truncate">
+        <TableCell className="text-default-600">
           {columnFormatters[key]
             ? columnFormatters[key](getKeyValue(item, key))
             : getKeyValue(item, key)}

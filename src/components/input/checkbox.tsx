@@ -1,25 +1,25 @@
+import React, { useCallback, useEffect, useState } from "react";
 import {
   CheckboxProps as HeroUICheckboxProps,
   Checkbox as HeroUICheckbox,
+  cn,
 } from "@heroui/react";
 import { useForm } from "../form/form";
-import { useCallback, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
-import { useGroup } from "@/components/input/group/input-group";
 
 export interface CheckboxProps extends HeroUICheckboxProps {
   children?: React.ReactNode;
+  className?: string;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({
+export const Checkbox: React.FC<CheckboxProps> = ({
   name: inputName,
   children,
+  className,
   ...props
 }) => {
   const form = useForm();
-  const group = useGroup();
 
-  const name = inputName && group ? group.getFieldName(inputName) : inputName;
+  const name = inputName;
 
   const [checked, setChecked] = useState<boolean>();
   const [error, setError] = useState<string | undefined>();
@@ -52,17 +52,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
     }
   }, [form?.values, name]);
 
-  useEffect(() => {
-    if (group && inputName) {
-      group.declareField(inputName, {
-        type: "checkbox",
-        required: props.isRequired ?? false,
-      });
-    }
-  }, [group, inputName, props.type, props.isRequired]);
 
   return (
-    <div className="relative flex flex-row justify-start items-center gap-2 px-1 py-2 w-full">
+    <div className={cn(className, "relative flex flex-row justify-start items-center gap-2 px-1 py-2 w-full")}>
       <HeroUICheckbox
         name={name}
         checked={checked}
@@ -72,24 +64,22 @@ const Checkbox: React.FC<CheckboxProps> = ({
         size="sm"
         {...props}
       />
-      <p
+      <span
         className={cn(
           "text-sm text-start",
           error ? "text-danger" : "text-gray-700 dark:text-gray-200"
         )}
       >
         {children}
-      </p>
+      </span>
       {error && (
-        <p
+        <span
           className="-bottom-2 absolute p-1 max-w-full text-danger text-tiny text-start truncate"
           title={error}
         >
           {error}
-        </p>
+        </span>
       )}
     </div>
   );
 };
-
-export default Checkbox;

@@ -1,31 +1,31 @@
-import { cn } from "@/lib/utils";
-import Header from "@/components/header";
-import Loading from "@/components/loading";
-import Footer from "./footer";
+import { Header } from "./header";
+import { Footer } from "./ui/footer";
+import { Footer as AppFooter } from "./footer";
 
-interface LayoutProps {
-  className?: string;
+export interface LayoutProps {
   children?: React.ReactNode;
   hideHeader?: boolean;
+  headerShouldHideOnScroll?: boolean;
   hideFooter?: boolean;
+  footerShouldHideOnScroll?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ className, children, hideHeader, hideFooter }) => {
+export const Layout: React.FC<LayoutProps> = ({
+  children,
+  hideHeader = false,
+  headerShouldHideOnScroll,
+  hideFooter = false,
+  footerShouldHideOnScroll,
+}) => {
   return (
     <>
-      <Loading />
-      {!hideHeader && <Header />}
-      <main
-        className={cn(
-          "bg-default-100 pb-16 sm:pb-4 w-full min-h-svh overflow-hidden overflow-y-auto transition-colors",
-          className
-        )}
-      >
-        {children}
-      </main>
-      {!hideFooter && <Footer />}
+      {!hideHeader && <Header shouldHideOnScroll={headerShouldHideOnScroll} />}
+      {children}
+      {!hideFooter && (
+        <Footer shouldHideOnScroll={footerShouldHideOnScroll}>
+          <AppFooter />
+        </Footer>
+      )}
     </>
   );
 };
-
-export default Layout;

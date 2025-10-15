@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import TerraMov from "@/components/ui/agrofast";
 
 import dynamic from "next/dynamic";
@@ -10,25 +10,49 @@ import { useUser } from "@/contexts/auth-provider";
 import UserOptionsButton from "./ux/user-options-button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import CompactLanguageSelector from "./ux/compact-language-selector";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useApp } from "@/contexts/app-context";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
   loading: () => <LazyThemeSwitcher />,
 });
 
-const Header: React.FC = () => {
+export interface HeaderProps {
+  shouldHideOnScroll?: boolean;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+  shouldHideOnScroll = true,
+}) => {
+  const id = useId();
+
   const t = useTranslations();
   const { user } = useUser();
+  const { mounted } = useApp();
+
+  const { setHeaderVisible } = useApp();
+
+  const [debounce] = useDebounce(() => {
+    setHeaderVisible(
+      document?.getElementById(id)?.getAttribute("data-hidden") !== "true"
+    );
+  }, 1);
 
   return (
     <Navbar
-      className="top-0 left-0 z-50 fixed bg-default-50 shadow-sm backdrop-blur-sm border-default-300 light:border-b w-full transition-colors"
-      shouldHideOnScroll
+      id={id}
+      isBordered
+      className="bg-default-50 shadow-sm backdrop-blur-sm border-default-300 dark:border-default-100 w-full transition-colors"
+      onScrollPositionChange={debounce}
+      shouldHideOnScroll={shouldHideOnScroll}
     >
       <NavbarBrand className="flex flex-row flex-1 justify-start items-center gap-4">
-        <Link href="/">
-          <TerraMov.Logo className="w-36 h-9 translate-y-1" />
-        </Link>
+        <NavbarBrand>
+          <Link href="/">
+            <TerraMov.Logo className="w-36 h-9" />
+          </Link>
+        </NavbarBrand>
       </NavbarBrand>
       <NavbarContent className="hidden md:flex space-x-4" justify="center">
         <NavbarItem>
@@ -56,7 +80,7 @@ const Header: React.FC = () => {
         <NavbarItem>
           <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
         </NavbarItem>
-        {user && (
+        {mounted && user && (
           <NavbarItem className="flex justify-center items-center">
             <UserOptionsButton />
           </NavbarItem>

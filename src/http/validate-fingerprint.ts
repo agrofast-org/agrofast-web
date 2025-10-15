@@ -1,16 +1,9 @@
-import api from "@/service/api";
-import { Success } from "@/types/api-response";
+import { api } from "@/service/api";
 
-export type ValidateFingerprintResponse = Success<{
-  data: {
-    fingerprint?: string;
-  };
-}>;
+export type ValidateFingerprintResponse = string;
 
 export const validateFingerprint = (fingerprint: string) => {
-  return api
-    .get<ValidateFingerprintResponse>("/fingerprint", {
-      headers: { "Browser-Agent": fingerprint },
-    })
-    .then(({ data }) => data);
+  return api.get<ValidateFingerprintResponse>("/auth/fingerprint", {
+    headers: { "Browser-Agent": fingerprint },
+  });
 };

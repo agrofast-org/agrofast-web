@@ -1,5 +1,5 @@
 import { AdvancedMarker, MapMouseEvent } from "@vis.gl/react-google-maps";
-import Map from "../maps/map";
+import Map, { initialCenter } from "../maps/map";
 import {
   Modal,
   ModalBody,
@@ -9,7 +9,7 @@ import {
 } from "../modal";
 import Marker from "../maps/marker";
 import { User } from "@solar-icons/react";
-import Button from "../button";
+import { Button } from "../button";
 
 export interface PlaceSelectorProps {
   isOpen: boolean;
@@ -52,6 +52,8 @@ const PlaceSelectionModal: React.FC<PlaceSelectorProps> = ({
                   height: "100%",
                 }}
                 onClick={handleMapClick}
+                defaultZoom={selectedPos ? 14 : 5}
+                defaultCenter={selectedPos ?? initialCenter}
               >
                 {tempPos && (
                   <AdvancedMarker position={tempPos}>

@@ -6,11 +6,10 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useRef,
 } from "react";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
-import api, { setBearerToken } from "@/service/api";
+import { api } from "@/service/api";
 import { getMe } from "@/http/user/get-me";
 import { AUTH_TOKEN_KEY, AUTHENTICATED_KEY } from "@/middleware";
 import { Carrier, Machinery, User } from "@/types/user";
@@ -18,6 +17,7 @@ import { useOverlay } from "./overlay-provider";
 import { cookieOptions } from "@/service/cookie";
 import { getMachinery } from "@/http/machinerie/get-machinery";
 import { getCarrier } from "@/http/carrier/get-carriers";
+import { useLocalStorage } from "ilias-use-storage";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     AUTHENTICATED_KEY,
   ]);
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useLocalStorage<User | undefined>("user", undefined);
 
   const [machinery, setMachinery] = useState<Machinery[] | undefined>(
     undefined
@@ -59,13 +59,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [carriers, setCarriers] = useState<Carrier[] | undefined>(undefined);
   const [transportLoaded, setTransportLoaded] = useState<boolean>(false);
 
-  const fetchInProgress = useRef(false);
-
   const setToken = useCallback(
     (tokenValue: string | undefined) => {
       if (tokenValue) {
         setAuthTokenState(tokenValue);
-        setBearerToken(tokenValue);
         setCookie(AUTH_TOKEN_KEY, tokenValue, cookieOptions);
       } else {
         setAuthTokenState(undefined);
@@ -81,16 +78,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setUser(undefined);
     setToken(undefined);
     router.push("/web/login", undefined, { locale: router.locale });
-  }, [router, setToken]);
+  }, [router, setUser, setToken]);
 
   const fetchMe = useCallback(async () => {
-    if (fetchInProgress.current || user) return;
-    fetchInProgress.current = true;
-
     const storedToken = cookies[AUTH_TOKEN_KEY];
     if (storedToken) {
       setToken(storedToken);
-      setBearerToken(storedToken);
       getMe()
         .then(({ data }) => {
           setUser(data.user);
@@ -113,16 +106,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         })
         .finally(() => {
           setIsPageLoading(false);
-          fetchInProgress.current = false;
         });
     } else {
       setIsPageLoading(false);
-      fetchInProgress.current = false;
     }
   }, [
-    user,
     cookies,
     logout,
+    setUser,
     setToken,
     setCookie,
     removeCookie,

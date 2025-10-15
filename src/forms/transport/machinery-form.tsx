@@ -1,17 +1,17 @@
 import React from "react";
-import Button from "@/components/button";
+import { Button } from "@/components/button";
 import CrudForm from "@/components/form/crud-form";
 import FormFooter from "@/components/form/form-footer";
 import FormGroup from "@/components/form/form-group";
 import FormHeader from "@/components/form/form-header";
-import DatePicker from "@/components/input/date-picker";
-import FileUpload from "@/components/input/file-upload";
-import Input from "@/components/input/input";
-import NumberInput from "@/components/input/number-input";
-import Select, { SelectItem } from "@/components/input/select";
-import Textarea from "@/components/input/textarea";
+import { DatePicker } from "@/components/input/date-picker";
+import { Input } from "@/components/input/input";
+import { NumberInput } from "@/components/input/number-input";
+import { Select, SelectItem } from "@/components/input/select";
+import { Textarea } from "@/components/input/textarea";
 import { Suspension } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
+import { FileUploadModal } from "@/components/input/file-upload-modal";
 
 const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
@@ -64,7 +64,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         <DatePicker
           name="manufacturer_date"
           label={t("UI.labels.machinery_manufacturer_date")}
-          required
+          isRequired
         />
       </FormGroup>
 
@@ -121,11 +121,11 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           <SelectItem key="standard">Padrão (1 pneu por lado)</SelectItem>
           <SelectItem key="flipped">Flipada (2 pneus por lado)</SelectItem>
         </Select>
-        <FileUpload
+        <FileUploadModal
           name="pictures"
           label={t("UI.labels.machinery_pictures")}
           placeholder={t("UI.placeholders.write_machinery_pictures")}
-          accept={["image/jpeg", "image/png", "image/webp"]}
+          accept="image/*,application/pdf"
           multiple
         />
         <Textarea
@@ -137,12 +137,12 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormFooter>
         <Button
-          className="justify-self-end px-16"
+          className="justify-self-end px-16 flex-1 md:flex-none"
           color="primary"
           type="submit"
           confirmAction
           confirmActionInfo={{
-            actionConfirmButtonColor: "primary"
+            actionConfirmButtonColor: "primary",
           }}
         >
           {t("UI.buttons.continue")}

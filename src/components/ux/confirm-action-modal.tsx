@@ -1,5 +1,5 @@
 import { PressEvent } from "@heroui/react";
-import Button, { ButtonProps } from "../button";
+import { Button, ButtonProps } from "../button";
 import {
   Modal,
   ModalBody,

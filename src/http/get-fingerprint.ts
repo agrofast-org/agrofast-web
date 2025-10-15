@@ -1,10 +1,7 @@
-import api from "@/service/api";
-import { Success } from "@/types/api-response";
+import { api } from "@/service/api";
 
-type GetFingerprintResponse = Success<{ data: { fingerprint: string } }>;
+type GetFingerprintResponse = string;
 
 export const getFingerprint = () => {
-  return api
-    .get<GetFingerprintResponse>("/fingerprint")
-    .then(({ data }) => data);
+  return api.get<GetFingerprintResponse>("/fingerprint");
 };

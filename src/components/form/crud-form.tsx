@@ -1,7 +1,7 @@
 import { FormErrors, FormValues } from "@/types/form";
-import Form from "./form";
+import { Form } from "./form";
 import { useCallback, useEffect, useState } from "react";
-import api from "@/service/api";
+import { api } from "@/service/api";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/service/toast";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,7 @@ export interface CrudFormProps {
   getUrl?: string | ((uuid: string) => string);
   postUrl?: string;
   putUrl?: string | ((uuid: string) => string);
+  setFetchedData?: (data: FormValues) => void;
   children?: React.ReactNode;
   className?: string;
 }
@@ -29,6 +30,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
   getUrl: GetUrl,
   postUrl,
   putUrl: PutUrl,
+  setFetchedData,
   children,
   className,
 }) => {
@@ -108,8 +110,9 @@ const CrudForm: React.FC<CrudFormProps> = ({
       if (url) {
         api
           .get(url)
-          .then(({ data }) => {
+          .then(( data ) => {
             setInitialData(data.data);
+            setFetchedData?.(data.data);
           })
           .catch(() => {
             setNotFound(true);
@@ -122,7 +125,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
           });
       }
     }
-  }, [update, t, toast, dataFetched, getUrl]);
+  }, [update, t, toast, dataFetched, getUrl, setFetchedData]);
 
   if (notFound) {
     return <NotFound />;

@@ -4,7 +4,7 @@ import TabItem from "./tab-item";
 import Icon from "./icon";
 import { ChatLine, HomeAngle, User } from "@solar-icons/react";
 
-const Footer: React.FC = () => {
+export const Footer: React.FC = () => {
   return (
     <motion.footer className="sm:hidden bottom-0 left-0 z-50 fixed flex bg-default-50 shadow-sm backdrop-blur-sm border-default-300 light:border-t w-full transition-colors">
       <div className="flex justify-around items-center mx-auto p-2 px-0 container">
@@ -36,5 +36,3 @@ const Footer: React.FC = () => {
     </motion.footer>
   );
 };
-
-export default Footer;

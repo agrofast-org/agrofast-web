@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 3030 --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0 -p 3030",
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/react": "^2.7.6",
+    "@heroui/react": "2.7.6",
     "@internationalized/date": "^3.7.0",
     "@react-stately/data": "^3.12.3",
     "@solar-icons/react": "^1.0.1",
@@ -17,7 +17,8 @@
     "@vis.gl/react-google-maps": "^1.5.2",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.15.0",
+    "framer-motion": "^12.23.21",
+    "ilias-use-storage": "^1.1.1",
     "next": "^15.2.4",
     "next-intl": "^4.0.2",
     "next-themes": "^0.4.4",
@@ -25,6 +26,7 @@
     "react-cookie": "^7.2.2",
     "react-dom": "^19.0.0",
     "react-easy-crop": "^5.4.1",
+    "react-photo-view": "^1.2.7",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {

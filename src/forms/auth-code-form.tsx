@@ -1,11 +1,10 @@
 import { useUser } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
-import { Button, Form, Skeleton, Spacer } from "@heroui/react";
+import { Button, Skeleton, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAuthCodeLength } from "@/http/get-auth-code-length";
 import { auth, AuthError } from "@/http/user/auth";
@@ -13,10 +12,12 @@ import { useToast } from "@/service/toast";
 import useCountdown from "@/hooks/use-countdown";
 import { resendCode } from "@/http/user/resend-code";
 import { AxiosError } from "axios";
-import InputOtp from "@/components/input/input-otp";
+import { InputOtp } from "@/components/input/input-otp";
 import { useCookies } from "react-cookie";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { cookieOptions } from "@/service/cookie";
+import { RequestForm } from "@/components/request-form";
+import { useApp } from "@/contexts/app-context";
 
 const TIMEOUT = 60;
 
@@ -24,14 +25,12 @@ const AuthCodeForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
   const toast = useToast();
+  const { mounted } = useApp();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
   const { setIsLoading } = useOverlay();
-  const [isDataLoading, setIsDataLoading] = useState(false);
   const { user, setUser, setToken, logout } = useUser();
-
-  const [errors, setErrors] = useState<Record<string, string | string[]>>({});
 
   const { time, setTime } = useCountdown(TIMEOUT);
 
@@ -39,7 +38,7 @@ const AuthCodeForm: React.FC = () => {
     queryKey: ["auth-code-length"],
     queryFn: async () => {
       const res = await getAuthCodeLength();
-      return res.length ?? 6;
+      return res.data ?? 6;
     },
   });
 
@@ -70,64 +69,10 @@ const AuthCodeForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.currentTarget));
-    setIsLoading(true);
-    auth(String(formData["code"]))
-      .then(({ data }) => {
-        setUser(data.user);
-        setToken(data.token);
-        setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-        router.reload();
-      })
-      .catch(({ response, status }: AxiosError<AuthError>) => {
-        if (status === 401) {
-          toast.error({
-            description: t(
-              "Messages.errors.authentication_code_attempts_exceeded"
-            ),
-          });
-          logout();
-          return;
-        }
-        if (response?.data?.attempts) {
-          const params = {
-            attempts_left: response?.data?.attempts?.toString() || "0",
-          };
-          toast.error({
-            description: t(
-              "Messages.errors.authentication_code_attempts",
-              params
-            ),
-          });
-          setErrors(response?.data?.errors ?? {});
-          return;
-        }
-        toast.error({
-          description: t("Messages.errors.default"),
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    if (user) {
-      setIsDataLoading(true);
-      return;
-    }
-    setIsDataLoading(false);
-  }, [user]);
-
   return (
     <>
-      <Skeleton
-        className="inline-block rounded-lg h-6"
-        isLoaded={isDataLoading}
-      >
-        {user?.name && (
+      <Skeleton className="inline-block rounded-lg h-6" isLoaded={mounted}>
+        {mounted && user?.name && (
           <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-xl text-left">
             {t("UI.titles.welcome_again", { name: user?.name })}
             <span aria-label="emoji" className="ml-2" role="img">
@@ -136,11 +81,41 @@ const AuthCodeForm: React.FC = () => {
           </p>
         )}
       </Skeleton>
-      <Form
+      <RequestForm
         className="flex flex-col flex-1 md:flex-auto"
-        validationBehavior="native"
-        validationErrors={errors}
-        onSubmit={handleSubmit}
+        onSubmit={auth}
+        onSuccess={({ data }) => {
+          setUser(data.user);
+          setToken(data.token);
+          setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
+          router.reload();
+        }}
+        onError={(error: AxiosError<AuthError>) => {          
+          if (error?.response?.data?.attempts) {
+            const params = {
+              attempts_left: error?.response?.data?.attempts?.toString() || "0",
+            };
+            toast.error({
+              description: t(
+                "Messages.errors.authentication_code_attempts",
+                params
+              ),
+            });
+            return;
+          }
+          if (error?.response?.data?.message === "authentication_code_attempts_exceeded") {
+            toast.error({
+              description: t(
+                "Messages.errors.authentication_code_attempts_exceeded"
+              ),
+            });
+            logout();
+            return;
+          }
+          toast.error({
+            description: t("Messages.errors.default"),
+          });
+        }}
       >
         <div className="flex flex-col flex-1 gap-4">
           <div className="flex flex-col items-center gap-1 rounded-lg w-full text-gray-700 dark:text-gray-200">
@@ -152,39 +127,37 @@ const AuthCodeForm: React.FC = () => {
             </label>
             <Skeleton
               className="rounded-lg h-14"
-              isLoaded={!codeLengthLoading && isDataLoading}
+              isLoaded={!codeLengthLoading && mounted}
             >
               <InputOtp
                 name="code"
                 className="mb-2"
                 variant="bordered"
                 length={codeLength || 6}
-                queryCollectable
               />
             </Skeleton>
           </div>
-          <Skeleton
-            className="inline-block rounded-lg"
-            isLoaded={isDataLoading}
-          >
-            <p className="font-normal text-gray-700 dark:text-gray-200 text-small text-center">
-              {t.rich("UI.info.email_verification_code_sent", {
-                email: () => <span className="font-bold">{user?.email}</span>,
-                action: () => (
-                  <span
-                    onClick={handleResendCode}
-                    className={cn(
-                      time <= 0
-                        ? "hover:underline cursor-pointer text-primary"
-                        : "text-neutral-600 dark:text-neutral-400 cursor-not-allowed"
-                    )}
-                  >
-                    {t("UI.buttons.resend_code")}
-                    {time <= 0 ? "" : `(${time})`}
-                  </span>
-                ),
-              })}
-            </p>
+          <Skeleton className="inline-block rounded-lg" isLoaded={mounted}>
+            {mounted && (
+              <p className="font-normal text-gray-700 dark:text-gray-200 text-small text-center">
+                {t.rich("UI.info.email_verification_code_sent", {
+                  email: () => <span className="font-bold">{user?.email}</span>,
+                  action: () => (
+                    <span
+                      onClick={handleResendCode}
+                      className={cn(
+                        time <= 0
+                          ? "hover:underline cursor-pointer text-primary"
+                          : "text-neutral-600 dark:text-neutral-400 cursor-not-allowed"
+                      )}
+                    >
+                      {t("UI.buttons.resend_code")}
+                      {time <= 0 ? "" : `(${time})`}
+                    </span>
+                  ),
+                })}
+              </p>
+            )}
           </Skeleton>
           <Spacer y={16} />
         </div>
@@ -198,7 +171,7 @@ const AuthCodeForm: React.FC = () => {
             </Link>
           </p>
         </div>
-      </Form>
+      </RequestForm>
     </>
   );
 };

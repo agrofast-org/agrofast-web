@@ -1,4 +1,3 @@
-import Loading from "@/components/loading";
 import { ToastProvider } from "@heroui/react";
 import { CloseSquare } from "@solar-icons/react";
 
@@ -21,7 +20,6 @@ const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
             closeButton:
               "opacity-100 absolute right-3 top-1/2 size-8 -translate-y-1/2",
           },
-          loadingIcon: <Loading />,
           closeIcon: <CloseSquare size={40} />,
         }}
       />

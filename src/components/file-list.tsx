@@ -76,7 +76,7 @@ const FileItem: React.FC<{ file: Attachment }> = ({ file }) => {
   );
 };
 
-const FileList: React.FC<FileListProps> = ({ files }) => {
+export const FileList: React.FC<FileListProps> = ({ files }) => {
   return (
     <div className="flex flex-col gap-1">
       {files?.map((file, index) => (
@@ -85,5 +85,3 @@ const FileList: React.FC<FileListProps> = ({ files }) => {
     </div>
   );
 };
-
-export default FileList;

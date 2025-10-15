@@ -1,16 +1,16 @@
 import React from "react";
-import Button from "@/components/button";
+import { Button } from "@/components/button";
 import CrudForm from "@/components/form/crud-form";
 import FormHeader from "@/components/form/form-header";
 import FormGroup from "@/components/form/form-group";
 import FormFooter from "@/components/form/form-footer";
-import Input from "@/components/input/input";
-import NumberInput from "@/components/input/number-input";
-import Select, { SelectItem } from "@/components/input/select";
-import FileUpload from "@/components/input/file-upload";
-import Textarea from "@/components/input/textarea";
+import { Input } from "@/components/input/input";
+import { NumberInput } from "@/components/input/number-input";
+import { Select, SelectItem } from "@/components/input/select";
+import { FileUpload } from "@/components/input/file-upload";
+import { Textarea } from "@/components/input/textarea";
 import { useTranslations } from "next-intl";
-import DatePicker from "@/components/input/date-picker";
+import { DatePicker } from "@/components/input/date-picker";
 
 const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
@@ -73,7 +73,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
         <DatePicker
           name="manufacturer_date"
           label={t("UI.labels.carrier_manufacturer_date")}
-          required
+          isRequired
         />
         <Select
           name="licensing_uf"
@@ -82,7 +82,33 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           required
         >
           {[
-            "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO",
+            "AC",
+            "AL",
+            "AP",
+            "AM",
+            "BA",
+            "CE",
+            "DF",
+            "ES",
+            "GO",
+            "MA",
+            "MT",
+            "MS",
+            "MG",
+            "PA",
+            "PB",
+            "PR",
+            "PE",
+            "PI",
+            "RJ",
+            "RN",
+            "RS",
+            "RO",
+            "RR",
+            "SC",
+            "SP",
+            "SE",
+            "TO",
           ].map((uf) => (
             <SelectItem key={uf}>{uf}</SelectItem>
           ))}
@@ -199,7 +225,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormFooter>
         <Button
-          className="justify-self-end px-16"
+          className="justify-self-end px-16 flex-1 md:flex-none"
           color="primary"
           type="submit"
           confirmAction

@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 import Loading from "@/components/loading";
-import Footer from "./footer";
+import { Footer } from "./footer";
 
 interface BodyProps {
   className?: string;
@@ -10,15 +10,19 @@ interface BodyProps {
   hideFooter?: boolean;
 }
 
-const Body: React.FC<BodyProps> = ({ className, children, hideHeader, hideFooter }) => {
+const Body: React.FC<BodyProps> = ({
+  className,
+  children,
+  hideHeader,
+  hideFooter,
+}) => {
   return (
     <>
       <Loading />
       {!hideHeader && <Header />}
       <main
         className={cn(
-          "bg-default-100 w-full h-min min-h-svh transition-colors",
-          !hideHeader && "pt-16",
+          "bg-default-100 w-full h-min transition-colors",
           !hideFooter && "pb-16 sm:pb-4",
           className
         )}

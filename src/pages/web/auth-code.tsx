@@ -15,7 +15,7 @@ export default function AuthCode() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Body className="flex flex-row" hideHeader hideFooter>
+      <Body className="flex flex-row min-h-screen" hideHeader hideFooter>
         <FormWrapper>
           <div className="flex flex-col items-center gap-2">
             <TerraMov.Logo className="w-40 h-10" />

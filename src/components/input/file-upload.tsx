@@ -1,17 +1,13 @@
-import { cn } from "@/lib/utils";
 import { Upload } from "@solar-icons/react";
-import { useToast } from "@/service/toast";
 import { useEffect, useState, useMemo } from "react";
 import { useForm } from "../form/form";
-import { useGroup } from "./group/input-group";
-import { Button, Spinner, useDisclosure } from "@heroui/react";
-import ModalDialogue from "../modal-dialogue";
-import FileList from "../file-list";
+import { Button, cn, Spinner, useDisclosure } from "@heroui/react";
+import { ModalDialogue } from "../modal-dialogue";
 import { useRouter } from "next/router";
 import { uploadAttachment } from "@/http/uploads/upload-attachment";
 import { Attachment } from "@/types/attachment";
-import useSessionStorage from "@/hooks/use-session-storage";
-import { useTranslations } from "next-intl";
+import { FileList } from "../file-list";
+import { useSessionStorage } from "ilias-use-storage";
 
 export type FileAcceptedTypes =
   | "image/png"
@@ -39,7 +35,7 @@ export interface FileUploadProps {
 const STORAGE_KEY = (formId: string, fieldName: string) =>
   `file-upload:${formId}:${fieldName}`;
 
-const FileUpload: React.FC<FileUploadProps> = ({
+export const FileUpload: React.FC<FileUploadProps> = ({
   name: inputName,
   label,
   placeholder,
@@ -51,15 +47,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
   onUpload,
 }) => {
   const router = useRouter();
-  const toast = useToast();
-  const t = useTranslations();
   const disclosure = useDisclosure();
   const { onOpen } = disclosure;
 
   const form = useForm();
-  const group = useGroup();
-  const fieldName =
-    inputName && group ? group.getFieldName(inputName) : inputName!;
+  const fieldName = inputName || "file-upload";
 
   const storageKey = useMemo(
     () => STORAGE_KEY(router.pathname, fieldName),
@@ -112,17 +104,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
         setSessionFiles(updated);
         onUpload?.(updated);
-
-        toast.success({
-          description: t("Messages.success.files_successfully_uploaded"),
-        });
       });
     } catch (error) {
       console.log(error);
-
-      toast.error({
-        description: t("Messages.errors.failed_on_file_upload"),
-      });
     } finally {
       setIsUploading(false);
       e.target.value = "";
@@ -160,9 +144,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
       >
         {isUploading ? <Spinner size="sm" /> : <Upload weight="LineDuotone" />}
         {isUploading
-          ? t("UI.buttons.uploading")
+          ? "Carregando..."
           : files.length
-          ? t("UI.buttons.add_more")
+          ? "Adicionar mais"
           : placeholder ?? label ?? "Selecionar arquivo"}
         <input
           id={fieldName}
@@ -188,5 +172,3 @@ const FileUpload: React.FC<FileUploadProps> = ({
     </div>
   );
 };
-
-export default FileUpload;

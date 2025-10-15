@@ -10,9 +10,6 @@
   --map-default-color: #2563eb;
   --map-marker-fill: #ffffff;
   --map-marker-border: #1f2937;
-
-  color: var(--foreground);
-  background: var(--background);
 }
 
 @media (color-scheme: dark) {
@@ -22,15 +19,11 @@
 
     --map-marker-fill: #1f2937;
     --map-marker-border: #d1d5db;
-
-    color: var(--foreground);
-    background: var(--background);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+html, body {
+  @apply bg-default-100 dark:bg-default-50 min-h-svh transition-background scroll-smooth;
 }
 
 .interpolate {

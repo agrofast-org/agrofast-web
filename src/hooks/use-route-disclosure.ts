@@ -23,6 +23,20 @@ export const getLocation = (
   return null;
 };
 
+export const getPlaceId = (
+  place?: google.maps.places.Place | google.maps.places.PlaceResult
+): string | null => {  
+  if (place) {
+    if ("place_id" in place && place.place_id) {
+      return place.place_id;
+    }
+    if ("id" in place && place.id) {
+      return place.id;
+    }
+  }
+  return null;
+};
+
 const useRouteDisclosure = () => {
   const [placeFrom, setPlaceFrom] = useState<
     google.maps.places.Place | google.maps.places.PlaceResult | null

@@ -1,12 +1,9 @@
-import Checkbox from "@/components/input/checkbox";
-import Form from "@/components/form/form";
-import Input from "@/components/input/input";
+import { Checkbox } from "@/components/input/checkbox";
+import { Input } from "@/components/input/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
 import { useUser } from "@/contexts/auth-provider";
-import { useOverlay } from "@/contexts/overlay-provider";
 import { signUp } from "@/http/user/sign-up";
-import { useToast } from "@/service/toast";
 import {
   Button,
   Modal,
@@ -18,19 +15,16 @@ import {
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { JSX, useState } from "react";
-import { FormValues } from "@/types/form";
+import { RequestForm } from "@/components/request-form";
 
 const SignInForm: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
-  const { setIsLoading } = useOverlay();
   const { setUser, setToken } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
 
   const [email, setEmail] = useState<string>("");
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [modalContent, setModalContent] = useState<JSX.Element | undefined>();
 
   const openTermsOfUse = () => {
@@ -41,28 +35,6 @@ const SignInForm: React.FC = () => {
   const openPrivacyPolicy = () => {
     setModalContent(<PrivacyPolicy />);
     onOpen();
-  };
-
-  const handleSubmit = (data: FormValues) => {
-    setIsLoading(true);
-
-    signUp(data)
-      .then(({ data }) => {
-        setUser(data.user);
-        setToken(data.token);
-        router.push(`/web/auth-code`);
-      })
-      .catch(({ data: error }) => {
-        if (error.errors["password"]) {
-          toast.error({
-            description: error.errors["password"],
-          });
-        }
-        setErrors(error.errors);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   return (
@@ -86,10 +58,15 @@ const SignInForm: React.FC = () => {
           )}
         </ModalContent>
       </Modal>
-      <Form
+      <RequestForm
         className="!flex !flex-col gap-4"
-        onSubmit={handleSubmit}
-        validationErrors={errors}
+        initialData={router.query}
+        onSubmit={signUp}
+        onSuccess={({ data }) => {
+          setUser(data.user);
+          setToken(data.token);
+          router.push(`/web/auth-code`);
+        }}
       >
         <Input
           name="name"
@@ -114,7 +91,6 @@ const SignInForm: React.FC = () => {
           placeholder={t("UI.placeholders.write_email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          queryCollectable
           type="email"
           isRequired
         />
@@ -139,7 +115,7 @@ const SignInForm: React.FC = () => {
             {t("UI.checkboxes.remember_me")}
           </Checkbox>
           <Checkbox name="terms_and_privacy_agreement" value="true" size="sm">
-            <>
+            <p>
               {t.rich("Legal.agreements.accept_policy_and_terms", {
                 use: (chunks) => (
                   <span
@@ -162,7 +138,7 @@ const SignInForm: React.FC = () => {
                   </span>
                 ),
               })}
-            </>
+            </p>
           </Checkbox>
         </div>
         <input type="hidden" name="language" value={router.locale} />
@@ -173,7 +149,7 @@ const SignInForm: React.FC = () => {
         <Button className="w-full" color="primary" type="submit">
           {t("UI.buttons.continue")}
         </Button>
-      </Form>
+      </RequestForm>
       <p className="pb-4 text-small text-center">
         <Link
           href={{

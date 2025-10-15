@@ -19,7 +19,7 @@ export interface ButtonProps extends HeroUIButtonProps {
   confirmActionInfo?: ConfirmActionModalMessages;
 }
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   children,
   className,
   type,
@@ -80,5 +80,3 @@ const Button: React.FC<ButtonProps> = ({
     </>
   );
 };
-
-export default Button;
