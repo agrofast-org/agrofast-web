@@ -7,8 +7,6 @@ const GoogleProvider: React.FC<{
 }> = ({ children }) => {
   const router = useRouter();
 
-  console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_SERVER_KEY);
-
   return (
     <APIProvider
       region="BR"
