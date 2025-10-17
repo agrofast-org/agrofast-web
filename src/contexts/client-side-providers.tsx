@@ -14,6 +14,7 @@ import SolarIconsProvider from "./solar-icons-provider";
 import GoogleProvider from "./google-provider";
 import { AppProps } from "next/app";
 import { AppProvider } from "./app-context";
+import { AlertProvider } from "./alert-provider";
 
 export interface ClientSideProvidersProps {
   children: React.ReactNode;
@@ -46,21 +47,26 @@ export const ClientSideProviders: React.FC<ClientSideProvidersProps> = ({
                 locale="pt-BR"
               >
                 <AppProvider>
-                  <CookieUseWarning />
-                  <ToasterProvider>
-                    <NextThemesProvider attribute="class" defaultTheme="light">
-                      <LanguageProvider>
-                        <OverlayProvider>
-                          <BrowserAgentProvider>
-                            <AuthProvider>
-                              {children}
-                              <DebugOptions />
-                            </AuthProvider>
-                          </BrowserAgentProvider>
-                        </OverlayProvider>
-                      </LanguageProvider>
-                    </NextThemesProvider>
-                  </ToasterProvider>
+                  <AlertProvider>
+                    <CookieUseWarning />
+                    <ToasterProvider>
+                      <NextThemesProvider
+                        attribute="class"
+                        defaultTheme="light"
+                      >
+                        <LanguageProvider>
+                          <OverlayProvider>
+                            <BrowserAgentProvider>
+                              <AuthProvider>
+                                {children}
+                                <DebugOptions />
+                              </AuthProvider>
+                            </BrowserAgentProvider>
+                          </OverlayProvider>
+                        </LanguageProvider>
+                      </NextThemesProvider>
+                    </ToasterProvider>
+                  </AlertProvider>
                 </AppProvider>
               </HeroUIProvider>
             </SolarIconsProvider>

@@ -172,7 +172,7 @@ const List: React.FC<{
       }}
     >
       {children}
-      <Table sortDescriptor={list.sortDescriptor} onSortChange={list.sort}>
+      <Table aria-label="Componente de listagem" sortDescriptor={list.sortDescriptor} onSortChange={list.sort}>
         <TableHeader>
           {Object.entries(columns).map(([key, label]) => (
             <TableColumn key={key} allowsSorting={key !== "operations"}>

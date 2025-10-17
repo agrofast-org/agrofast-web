@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 interface RequestStateChipProps extends ChipProps {
   state:
     | "pending"
+    | "waiting_for_offer"
     | "payment_pending"
     | "approved"
     | "rejected"
@@ -22,6 +23,8 @@ const RequestStateChip: React.FC<RequestStateChipProps> = ({
     switch (state) {
       case "pending":
         return "bg-yellow-500 text-white";
+      case "waiting_for_offer":
+        return "bg-indigo-500 text-white";
       case "payment_pending":
         return "bg-orange-500 text-white";
       case "approved":

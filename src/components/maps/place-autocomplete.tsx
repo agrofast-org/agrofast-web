@@ -187,6 +187,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
           label={label}
           placeholder={placeholder}
           className="w-full autocomplete"
+          aria-label={label || "Place Autocomplete"}
           inputValue={inputValue}
           selectedKey={selectedKey}
           items={items}
@@ -202,7 +203,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
               setQuery("");
               resetSession();
               onPlaceSelect(null);
-            }
+            },
           }}
         >
           {items.length === 0 ? (
@@ -213,6 +214,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
                 ) : undefined
               }
               className="!bg-transparent pointer-events-none"
+              textValue={query ? "Nenhum resultado" : "Pesquisar um local"}
               key={null}
               aria-disabled
             >
@@ -240,6 +242,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
                   <MapPointSearch className="size-5 text-default-500" />
                 }
                 key={item.key}
+                textValue={item.label}
               >
                 {item.label}
               </AutocompleteItem>

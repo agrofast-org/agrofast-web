@@ -219,7 +219,8 @@
     },
     "state": {
       "pending": "Pendente",
-      "payment_pending": "Pendente de Pagamento",
+      "waiting_for_offer": "Aguardando oferta",
+      "payment_pending": "Pagamento pendente",
       "approved": "Aprovado",
       "rejected": "Rejeitado",
       "in_progress": "Em andamento",
