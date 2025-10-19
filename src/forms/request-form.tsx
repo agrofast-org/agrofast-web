@@ -6,7 +6,7 @@ import PlaceAutocomplete from "@/components/maps/place-autocomplete";
 import { cn } from "@/lib/utils";
 import { Autocomplete, AutocompleteItem } from "@heroui/react";
 import { useUser } from "@/contexts/auth-provider";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { postRequest } from "@/http/request/make-request";
 import { useRouter } from "next/router";
 import { useToast } from "@/service/toast";
@@ -17,6 +17,9 @@ export const RequestForm: React.FC = () => {
   const router = useRouter();
   const toast = useToast();
   const loadingDisclosure = useLoadingDisclosure();
+  const placeFromRef = useRef<HTMLInputElement | null>(null);
+  const placeToRef = useRef<HTMLInputElement | null>(null);
+  const machineryRef = useRef<HTMLInputElement | null>(null);
 
   const { placeFrom, setPlaceFrom, placeTo, setPlaceTo } = useRouteDisclosure();
   const { machinery } = useUser();
@@ -75,15 +78,23 @@ export const RequestForm: React.FC = () => {
                 )}
               >
                 <PlaceAutocomplete
+                  ref={placeFromRef}
                   label="De onde"
                   placeholder="Escolha o local de partida"
-                  onPlaceSelect={setPlaceFrom}
+                  onPlaceSelect={(val) => {
+                    setPlaceFrom(val);
+                    placeToRef.current?.focus();
+                  }}
                   selectOnMap
                 />
                 <PlaceAutocomplete
+                  ref={placeToRef}
                   label="Para onde"
                   placeholder="Escolha o local de destino"
-                  onPlaceSelect={setPlaceTo}
+                  onPlaceSelect={(val) => {
+                    setPlaceTo(val);
+                    machineryRef.current?.focus();
+                  }}
                   selectOnMap
                   className={cn(
                     "transition-opacity",
@@ -92,15 +103,17 @@ export const RequestForm: React.FC = () => {
                 />
                 {machinery && machinery.length > 0 && (
                   <Autocomplete
+                    ref={machineryRef}
                     name="machine_uuid"
                     label="Maquinário"
                     placeholder="Escolha a máquina a ser transportada"
                     className="w-full autocomplete"
                     labelPlacement="outside"
                     variant="bordered"
-                    onSelectionChange={(key) =>
-                      setMachineUuid(key as string | undefined)
-                    }
+                    onSelectionChange={(key) => {
+                      setMachineUuid(key as string | undefined);
+                      machineryRef.current?.blur();
+                    }}
                     isRequired
                   >
                     {machinery.map((machine) => (

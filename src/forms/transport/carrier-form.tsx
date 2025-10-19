@@ -7,10 +7,10 @@ import FormFooter from "@/components/form/form-footer";
 import { Input } from "@/components/input/input";
 import { NumberInput } from "@/components/input/number-input";
 import { Select, SelectItem } from "@/components/input/select";
-import { FileUpload } from "@/components/input/file-upload";
 import { Textarea } from "@/components/input/textarea";
 import { useTranslations } from "next-intl";
 import { DatePicker } from "@/components/input/date-picker";
+import { FileUploadModal } from "@/components/input/file-upload-modal";
 
 const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
@@ -23,6 +23,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       getUrl={(id) => `/carrier/${id}`}
       postUrl="/carrier"
       putUrl={(id) => `/carrier/${id}`}
+      listUrl="/web/carrier"
     >
       <FormHeader>
         <div className="flex flex-row justify-between items-center w-full">
@@ -199,18 +200,18 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           placeholder={t("UI.placeholders.write_carrier_owner_document")}
           required
         />
-        <FileUpload
+        <FileUploadModal
           name="documents"
           label={t("UI.labels.documents")}
           placeholder={t("UI.placeholders.attach_carrier_documents")}
-          accept={["application/pdf", "image/jpeg", "image/png"]}
+          accept={"application/pdf,image/jpeg,image/png"}
           multiple
         />
-        <FileUpload
+        <FileUploadModal
           name="pictures"
           label={t("UI.labels.carrier_pictures")}
           placeholder={t("UI.placeholders.attach_carrier_pictures")}
-          accept={["image/jpeg", "image/png", "image/webp"]}
+          accept={"image/jpeg,image/png,image/webp"}
           multiple
         />
       </FormGroup>
@@ -225,7 +226,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormFooter>
         <Button
-          className="justify-self-end px-16 flex-1 md:flex-none"
+          className="flex-1 md:flex-none justify-self-end px-16"
           color="primary"
           type="submit"
           confirmAction

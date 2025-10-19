@@ -24,6 +24,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       getUrl={(id) => `/machinery/${id}`}
       postUrl="/machinery"
       putUrl={(id) => `/machinery/${id}`}
+      listUrl="/web/machinery"
     >
       <FormHeader>
         <div className="flex flex-row justify-between items-center w-full">

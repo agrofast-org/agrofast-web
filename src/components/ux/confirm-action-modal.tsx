@@ -58,6 +58,8 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
       onClose={() => {
         onClose();
       }}
+      placement="center"
+      size="sm"
     >
       <ModalContent
         draggable

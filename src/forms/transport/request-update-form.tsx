@@ -32,6 +32,7 @@ const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       postUrl="/request"
       putUrl={(id) => `/request/${id}`}
       setFetchedData={(d) => setData(d)}
+      listUrl="/web/carrier"
     >
       <div className="space-y-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <FormHeader>

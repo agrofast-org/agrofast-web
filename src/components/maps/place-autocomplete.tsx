@@ -5,7 +5,7 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { Autocomplete, AutocompleteItem, Button, Spinner } from "@heroui/react";
+import { Autocomplete, AutocompleteItem, AutocompleteProps, Button, Spinner } from "@heroui/react";
 import {
   useMapsLibrary,
   MapMouseEvent,
@@ -19,6 +19,7 @@ import PlaceSelectionModal from "../ux/place-selection-modal";
 import { cn } from "@/lib/utils";
 
 export interface PlaceAutocompleteProps {
+  ref?: AutocompleteProps["ref"];
   name?: string;
   label?: string;
   placeholder?: string;
@@ -31,6 +32,7 @@ export interface PlaceAutocompleteProps {
 }
 
 export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
+  ref,
   name,
   label,
   placeholder,
@@ -183,6 +185,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
     <>
       <div className={cn("flex items-end gap-2", className)}>
         <Autocomplete
+          ref={ref}
           name={name}
           label={label}
           placeholder={placeholder}

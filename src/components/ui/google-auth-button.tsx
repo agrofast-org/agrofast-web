@@ -31,51 +31,52 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 
   const [focused, setFocused] = useState<boolean>(false);
 
-  if (!mounted || user) {    
-    return null;
-  }
+  const component = (
+    <GoogleLogin
+      useOneTap
+      theme="outline"
+      locale={router.locale ?? "pt-BR"}
+      onSuccess={(credentials) => {
+        googleAuth(credentials).then(({ data }) => {
+          setToken(data.token);
+          setUser(data.user);
+          if (data.auth === "authenticate") {
+            router.push("/web/auth-code");
+          }
+          if (data.auth === "authenticated") {
+            setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
+            router.push("/web");
+          }
+        });
+      }}
+      onError={() => {
+        toast.error({
+          title: "Erro ao conectar",
+          description: "Não foi possível conectar com o Google.",
+        });
+      }}
+      containerProps={{
+        onFocus: () => setFocused(true),
+        onBlur: () => setFocused(false),
+      }}
+    />
+  );
 
   return (
     <Button
       className={cn(
         "bg-default-300/65 p-0 w-full !duration-75 google-login-button",
-        hidden && "!hidden",
+        hidden && "!hidden"
       )}
       tabIndex={-1}
       color="default"
       data-focus={focused}
       data-focus-visible={focused}
       hidden={hidden}
+      isLoading={!mounted || !!user}
     >
-      <GoogleLogin
-        useOneTap
-        theme="outline"
-        locale={router.locale ?? "pt-BR"}
-        onSuccess={(credentials) => {
-          googleAuth(credentials).then(({ data }) => {
-            setToken(data.token);
-            setUser(data.user);
-            if (data.auth === "authenticate") {
-              router.push("/web/auth-code");
-            }
-            if (data.auth === "authenticated") {
-              setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-              router.push("/web");
-            }
-          });
-        }}
-        onError={() => {
-          toast.error({
-            title: "Erro ao conectar",
-            description: "Não foi possível conectar com o Google.",
-          });
-        }}
-        containerProps={{
-          onFocus: () => setFocused(true),
-          onBlur: () => setFocused(false),
-        }}
-      />
-      {showIcon && <GoogleIcon width={24} />} {children}
+      {!user && component}
+      {showIcon && <GoogleIcon width={24} />}{children}
     </Button>
   );
 };

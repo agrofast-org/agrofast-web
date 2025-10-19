@@ -1,9 +1,4 @@
-import {
-  FileText,
-  Gallery,
-  MaximizeSquare2,
-  Upload,
-} from "@solar-icons/react";
+import { FileText, Gallery, MaximizeSquare2, Upload } from "@solar-icons/react";
 import {
   Button,
   cn,
@@ -147,6 +142,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
         actionMessage="Selecionar"
         dismiss={discardChanges}
         dismissMessage="Cancelar"
+        placement="center"
       >
         <div className="flex flex-col gap-3">
           <p className="text-gray-600 dark:text-gray-300 text-small">
@@ -172,11 +168,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             isDisabled={disabled || isUploading}
             isLoading={isUploading}
           >
-            {isUploading ? (
-              <Spinner size="sm" />
-            ) : (
-              <Upload weight="LineDuotone" />
-            )}
+            {!isUploading && <Upload weight="LineDuotone" />}
             Enviar arquivo{multiple ? "s" : ""}
             <input
               id={`${name}-input`}
@@ -265,15 +257,28 @@ const FileItem: React.FC<FileItemProps> = ({ file, isSelected, onToggle }) => {
               onError={() => setIsImageLoaded(false)}
             />
           ) : (
-            <Gallery className="w-8 h-6 text-default-400" weight="LineDuotone" />
+            <Gallery
+              className="w-8 h-6 text-default-400"
+              weight="LineDuotone"
+            />
           )}
         </>
       ) : (
         <FileText className="w-8 h-6 text-default-400" weight="LineDuotone" />
       )}
       <span className="flex-1 text-small truncate">{file.name}</span>
-      <Button as={Link} href={file.path} target="_blank" className="bg-default-200/45" size="sm" isIconOnly>
-        <MaximizeSquare2 className="w-8 h-6 text-default-600" weight="LineDuotone"/>
+      <Button
+        as={Link}
+        href={file.path}
+        target="_blank"
+        className="bg-default-200/45"
+        size="sm"
+        isIconOnly
+      >
+        <MaximizeSquare2
+          className="w-8 h-6 text-default-600"
+          weight="LineDuotone"
+        />
       </Button>
     </div>
   );
