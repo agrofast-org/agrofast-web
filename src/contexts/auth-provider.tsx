@@ -18,6 +18,7 @@ import { cookieOptions } from "@/service/cookie";
 import { getMachinery } from "@/http/machinerie/get-machinery";
 import { getCarrier } from "@/http/carrier/get-carriers";
 import { useLocalStorage } from "ilias-use-storage";
+import { googleLogout } from "@react-oauth/google";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -77,6 +78,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = useCallback(() => {
     setUser(undefined);
     setToken(undefined);
+    googleLogout();
     router.push("/web/login");
   }, [router, setUser, setToken]);
 

@@ -11,6 +11,7 @@ import { useCookies } from "react-cookie";
 import { Button } from "@/components/button";
 import { cookieOptions } from "@/service/cookie";
 import { RequestForm } from "@/components/request-form";
+import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -30,11 +31,11 @@ const LoginForm: React.FC = () => {
         setToken(data.token);
         setUser(data.user);
         if (data.auth === "authenticate") {
-          router.reload();
+          router.push("/web/auth-code");
         }
         if (data.auth === "authenticated") {
           setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-          router.reload();
+          router.push("/web");
         }
       }}
     >
@@ -76,6 +77,7 @@ const LoginForm: React.FC = () => {
         <Button className="w-full" color="primary" type="submit">
           {t("UI.buttons.enter")}
         </Button>
+        <GoogleAuthButton>Entrar com Google</GoogleAuthButton>
         <p className="text-small text-center">
           <Link
             href={{

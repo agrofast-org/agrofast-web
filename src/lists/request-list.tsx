@@ -54,20 +54,25 @@ const RequestList: React.FC = () => {
           label={t("UI.buttons.delete")}
           icon={<TrashBinTrash size={22} className="text-danger" />}
           tooltipProps={{ color: "danger" }}
-          onAction={(uuid) => {
-            addAlert("test-alert",{
+          onAction={(uuid, item) => {
+            addAlert("test-alert", {
               title: "Atenção",
-              type: "warning",
-              message:
-                "Tem certeza que deseja cancelar esta solicitação? Esta ação não pode ser desfeita.",
+              type: item?.active ? "warning" : "info",
+              message: item?.active
+                ? "Tem certeza que deseja cancelar esta solicitação ativa? Esta ação não pode ser desfeita."
+                : "A solicitação já está inativa.",
               actions: {
                 confirm: {
-                  label: "Sim, cancelar",
+                  label: item?.active ? "Sim, cancelar" : "Ok",
                   callback: (onClose) => {
-                    cancelRequest(uuid);
+                    if (item?.active) {
+                      cancelRequest(uuid).then(() => {
+                        router.replace(router.asPath);
+                      });
+                    }
                     onClose();
                   },
-                  buttonProps: { color: "primary" },
+                  buttonProps: { color: item?.active ? "primary" : "default" },
                 },
               },
             });

@@ -14,6 +14,7 @@ import { ArrowRightUp, LinkRoundAngle } from "@solar-icons/react";
 import { Layout } from "@/components/layout";
 import { Section } from "@/components/section";
 import { Main } from "@/components/main";
+import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 
 export default function Home() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Home() {
         <title>{t("Pages.Index.meta.title")}</title>
         <meta name="description" content={t("Pages.Index.meta.description")} />
       </Head>
-
+      <GoogleAuthButton hidden />
       <Layout>
         <Main>
           <Section className="flex flex-row items-start gap-4 mx-auto container">

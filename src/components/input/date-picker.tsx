@@ -50,7 +50,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     if (form) {
       const formValue = form.values[name || reactId];
       if (typeof formValue === "string") {
-        setInputValue(parseDate(formValue) as unknown as undefined);
+        setInputValue(parseDate((new Date(formValue)).toISOString().split("T")[0]) as unknown as undefined);
       } else {
         setInputValue(formValue);
       }

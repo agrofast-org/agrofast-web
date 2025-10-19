@@ -88,9 +88,9 @@ const AuthCodeForm: React.FC = () => {
           setUser(data.user);
           setToken(data.token);
           setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-          router.reload();
+          router.push("/web");
         }}
-        onError={(error: AxiosError<AuthError>) => {          
+        onError={(error: AxiosError<AuthError>) => {
           if (error?.response?.data?.attempts) {
             const params = {
               attempts_left: error?.response?.data?.attempts?.toString() || "0",
@@ -103,7 +103,10 @@ const AuthCodeForm: React.FC = () => {
             });
             return;
           }
-          if (error?.response?.data?.message === "authentication_code_attempts_exceeded") {
+          if (
+            error?.response?.data?.message ===
+            "authentication_code_attempts_exceeded"
+          ) {
             toast.error({
               description: t(
                 "Messages.errors.authentication_code_attempts_exceeded"

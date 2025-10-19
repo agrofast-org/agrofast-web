@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Accessible without token but not accessible with token
 export const PUBLIC_WEB_PATHS = [
   "/web/login",
   "/web/sign-up",
@@ -7,6 +8,7 @@ export const PUBLIC_WEB_PATHS = [
   "/web/reset-password",
 ];
 
+// Accessible with token but not accessible with authenticated(AUTHENTICATED_KEY)
 export const PUBLIC_WEB_AUTH_PATHS = ["/web/auth-code", "/web/auth-with"];
 
 export const AUTH_TOKEN_KEY = `${process.env.NEXT_PUBLIC_SERVICE_ID}_auth_token`;
@@ -63,7 +65,7 @@ export function middleware(request: NextRequest) {
   const isPublicAuthPath = PUBLIC_WEB_AUTH_PATHS.includes(pathname);
 
   if (!hasBrowserAgent || !hasToken) {
-    if (!isPublicWebPath && !isPublicAuthPath) {
+    if (!isPublicWebPath) {
       return NextResponse.redirect(new URL(PUBLIC_WEB_PATHS[0], request.url));
     }
     return NextResponse.next();

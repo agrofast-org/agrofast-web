@@ -7,6 +7,7 @@ import { getLegalUrl } from "@/lib/utils";
 import Image from "next/image";
 import goodDeals from "@public/assets/good-deals.png";
 import productionAndAgility from "@public/assets/production-and-agility.png";
+import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 
 export default function About() {
   const t = useTranslations();
@@ -17,6 +18,7 @@ export default function About() {
         <title>{t("Pages.About.meta.title")}</title>
         <meta name="description" content={t("Pages.About.meta.description")} />
       </Head>
+      <GoogleAuthButton hidden />
       <Layout>
         <section className="flex flex-col items-start gap-6 mx-auto p-4 max-w-[912px] container">
           <div className="flex md:flex-row flex-col-reverse items-start gap-2 md:gap-6 mx-auto">

@@ -7,6 +7,7 @@ import axios from "axios";
 import { getCurrentOrigin, isIpAddress } from "@/service/env";
 import { Cookies } from "react-cookie";
 import { cookieOptions } from "./cookie";
+import { googleLogout } from "@react-oauth/google";
 
 const cookies = new Cookies();
 
@@ -57,6 +58,7 @@ const interceptors: {
           }
           cookies.remove(AUTHENTICATED_KEY, cookieOptions);
           cookies.remove(AUTH_TOKEN_KEY, cookieOptions);
+          googleLogout();
           window.location.reload();
         }
         return Promise.reject(error);

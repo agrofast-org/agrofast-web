@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Head from "next/head";
 
 import { MainTitle, SectionTitle, BodyText } from "@/components/typography";
+import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 
 export default function TermsOfUse() {
   const t = useTranslations();
@@ -18,6 +19,7 @@ export default function TermsOfUse() {
           content={t("Pages.TermsOfUse.meta.description")}
         />
       </Head>
+      <GoogleAuthButton hidden />
       <Layout>
         <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
           <MainTitle>{tou("main_title")}</MainTitle>

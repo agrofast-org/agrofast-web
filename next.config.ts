@@ -27,6 +27,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/web/login",
+        headers: [
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "unsafe-none",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

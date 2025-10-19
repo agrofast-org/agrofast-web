@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { JSX, useState } from "react";
 import { RequestForm } from "@/components/request-form";
+import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 
 const SignInForm: React.FC = () => {
   const t = useTranslations();
@@ -149,6 +150,7 @@ const SignInForm: React.FC = () => {
         <Button className="w-full" color="primary" type="submit">
           {t("UI.buttons.continue")}
         </Button>
+        <GoogleAuthButton>Entrar com Google</GoogleAuthButton>
       </RequestForm>
       <p className="pb-4 text-small text-center">
         <Link
