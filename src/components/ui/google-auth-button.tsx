@@ -1,4 +1,4 @@
-import { Button } from "@heroui/react";
+import { Button, cn } from "@heroui/react";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleIcon } from "../icon/google-icon";
 import { useRouter } from "next/router";
@@ -9,6 +9,7 @@ import { cookieOptions } from "@/service/cookie";
 import { useUser } from "@/contexts/auth-provider";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
+import { useApp } from "@/contexts/app-context";
 
 export interface GoogleAuthButtonProps {
   children?: React.ReactNode;
@@ -19,19 +20,27 @@ export interface GoogleAuthButtonProps {
 export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
   children,
   showIcon = true,
-  hidden,
+  hidden = false,
 }) => {
   const router = useRouter();
   const toast = useToast();
-  const { setUser, setToken } = useUser();
+  const { mounted } = useApp();
+  const { setUser, setToken, user } = useUser();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
   const [focused, setFocused] = useState<boolean>(false);
 
+  if (!mounted || user) {    
+    return null;
+  }
+
   return (
     <Button
-      className="bg-default-300/65 p-0 w-full !duration-75 google-login-button"
+      className={cn(
+        "bg-default-300/65 p-0 w-full !duration-75 google-login-button",
+        hidden && "!hidden",
+      )}
       tabIndex={-1}
       color="default"
       data-focus={focused}
