@@ -83,7 +83,7 @@ export const RequestForm: React.FC = () => {
                   placeholder="Escolha o local de partida"
                   onPlaceSelect={(val) => {
                     setPlaceFrom(val);
-                    placeToRef.current?.focus();
+                    // placeToRef.current?.focus();
                   }}
                   selectOnMap
                 />
@@ -93,7 +93,7 @@ export const RequestForm: React.FC = () => {
                   placeholder="Escolha o local de destino"
                   onPlaceSelect={(val) => {
                     setPlaceTo(val);
-                    machineryRef.current?.focus();
+                    // machineryRef.current?.focus();
                   }}
                   selectOnMap
                   className={cn(
