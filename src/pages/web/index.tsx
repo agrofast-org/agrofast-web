@@ -10,10 +10,18 @@ import ConditionalModal from "@/components/conditional-modal";
 import Link from "next/link";
 import React from "react";
 import { Spinner } from "@heroui/react";
+import { useQuery } from "@tanstack/react-query";
+import { getAvailableRequests } from "@/http/request/get-available-requests";
 
 export default function Index() {
   const t = useTranslations("Pages.Web.Index");
   const { user, machinery, carriers, transportLoaded } = useUser();
+
+  const { data } = useQuery({
+    queryKey: ["requests-query"],
+    queryFn: async () => getAvailableRequests().then((res) => res.data),
+    enabled: user?.profile_type === "transporter",
+  });
 
   return (
     <>
@@ -62,9 +70,17 @@ export default function Index() {
                 <p className="text-neutral-600 dark:text-neutral-300 text-lg">
                   {t("messages.transporter.available_requests_description")}
                 </p>
-                <Button color="primary">
-                  {t("messages.transporter.view_available_requests")}
-                </Button>
+                <div>
+                  {data && data.length > 0 ? (
+                    <ul>
+                      {data.map((request) => (
+                        <li key={request.id}>{request.name}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{t("messages.transporter.no_available_requests")}</p>
+                  )}
+                </div>
               </section>
             ) : (
               <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">
