@@ -62,6 +62,9 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
     />
   );
 
+  console.log(!mounted || !!user);
+  
+
   return (
     <Button
       className={cn(
@@ -75,7 +78,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
       hidden={hidden}
       isLoading={!mounted || !!user}
     >
-      {!user && component}
+      {(!user && mounted) && component}
       {showIcon && <GoogleIcon width={24} />}{children}
     </Button>
   );
