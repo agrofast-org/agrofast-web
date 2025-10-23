@@ -12,15 +12,17 @@ import React from "react";
 import { Spinner } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getAvailableRequests } from "@/http/request/get-available-requests";
+import { RequestCard } from "@/components/ux/transport/request-card";
 
 export default function Index() {
   const t = useTranslations("Pages.Web.Index");
   const { user, machinery, carriers, transportLoaded } = useUser();
 
-  const { data } = useQuery({
+  const { data: requests } = useQuery({
     queryKey: ["requests-query"],
     queryFn: async () => getAvailableRequests().then((res) => res.data),
     enabled: user?.profile_type === "transporter",
+    retry: false,
   });
 
   return (
@@ -71,14 +73,14 @@ export default function Index() {
                   {t("messages.transporter.available_requests_description")}
                 </p>
                 <div>
-                  {data && data.length > 0 ? (
+                  {requests && requests.length > 0 ? (
                     <ul>
-                      {data.map((request) => (
-                        <li key={request.id}>{request.name}</li>
+                      {requests.map((request) => (
+                        <RequestCard key={request.uuid} request={request} />
                       ))}
                     </ul>
                   ) : (
-                    <p>{t("messages.transporter.no_available_requests")}</p>
+                    <p>Sem solicitações disponíveis</p>
                   )}
                 </div>
               </section>

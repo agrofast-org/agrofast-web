@@ -25,7 +25,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
   const router = useRouter();
   const toast = useToast();
   const { mounted } = useApp();
-  const { setUser, setToken, user } = useUser();
+  const { setUser, setToken, token } = useUser();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
@@ -62,9 +62,6 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
     />
   );
 
-  console.log(!mounted || !!user);
-  
-
   return (
     <Button
       className={cn(
@@ -76,10 +73,11 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
       data-focus={focused}
       data-focus-visible={focused}
       hidden={hidden}
-      isLoading={!mounted || !!user}
+      isLoading={!mounted || !!token}
     >
-      {(!user && mounted) && component}
-      {showIcon && <GoogleIcon width={24} />}{children}
+      {!token && mounted && component}
+      {showIcon && <GoogleIcon width={24} />}
+      {children}
     </Button>
   );
 };

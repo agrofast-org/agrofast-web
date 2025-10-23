@@ -19,6 +19,7 @@ import { getMachinery } from "@/http/machinerie/get-machinery";
 import { getCarrier } from "@/http/carrier/get-carriers";
 import { useLocalStorage } from "ilias-use-storage";
 import { googleLogout } from "@react-oauth/google";
+import { useQuery } from "@tanstack/react-query";
 
 interface AuthContextProps {
   token: string | undefined;
@@ -28,6 +29,7 @@ interface AuthContextProps {
   machinery: Machinery[] | undefined;
   carriers: Carrier[] | undefined;
   transportLoaded: boolean;
+  refetchTransportData: () => void;
   logout: () => void;
 }
 
@@ -52,13 +54,60 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     AUTHENTICATED_KEY,
   ]);
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
-  const [user, setUser] = useLocalStorage<User | undefined>("user", undefined);
+  const [localStoredUser, setLocalStoredUser] = useLocalStorage<
+    User | undefined
+  >("user", undefined);
+  const {
+    data: user,
+    isFetched: userFetched,
+    refetch: refetchUser,
+  } = useQuery({
+    queryKey: ["me"],
+    queryFn: () =>
+      getMe()
+        .then(({ data }) => {
+          setLocalStoredUser(data.user);
+          if (data.authenticated) {
+            setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
+          }
+          return data.user;
+        })
+        .catch(() => {
+          return undefined;
+        }),
+    enabled: !!token,
+    initialData: localStoredUser,
+  });
 
-  const [machinery, setMachinery] = useState<Machinery[] | undefined>(
-    undefined
-  );
-  const [carriers, setCarriers] = useState<Carrier[] | undefined>(undefined);
+  const canLoadTransport = !!token && userFetched;
   const [transportLoaded, setTransportLoaded] = useState<boolean>(false);
+  const { data: machinery, refetch: refetchMachinery } = useQuery<Machinery[]>({
+    queryKey: ["machinery"],
+    queryFn: () =>
+      getMachinery().then(({ data }) => {
+        setTransportLoaded(true);
+        return data;
+      }),
+    enabled: canLoadTransport && user?.profile_type === "requester",
+  });
+  const { data: carriers, refetch: refetchCarriers } = useQuery<Carrier[]>({
+    queryKey: ["carriers"],
+    queryFn: () =>
+      getCarrier().then(({ data }) => {
+        setTransportLoaded(true);
+        return data;
+      }),
+    enabled: canLoadTransport && user?.profile_type === "transporter",
+  });
+
+  const refetchTransportData = useCallback(() => {
+    if (user?.profile_type === "requester") {
+      refetchMachinery();
+    }
+    if (user?.profile_type === "transporter") {
+      refetchCarriers();
+    }
+  }, [user, refetchMachinery, refetchCarriers]);
 
   const setToken = useCallback(
     (tokenValue: string | undefined) => {
@@ -76,11 +125,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const logout = useCallback(() => {
-    setUser(undefined);
+    setLocalStoredUser(undefined);
     setToken(undefined);
     googleLogout();
+    refetchUser();
     router.push("/web/login");
-  }, [router, setUser, setToken]);
+  }, [router, setLocalStoredUser, setToken, refetchUser]);
 
   const fetchMe = useCallback(async () => {
     const storedToken = cookies[AUTH_TOKEN_KEY];
@@ -88,7 +138,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setToken(storedToken);
       getMe()
         .then(({ data }) => {
-          setUser(data.user);
+          setLocalStoredUser(data.user);
           if (data.authenticated) {
             setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
             return;
@@ -115,7 +165,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [
     cookies,
     logout,
-    setUser,
+    setLocalStoredUser,
     setToken,
     setCookie,
     removeCookie,
@@ -126,30 +176,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     fetchMe();
   }, [fetchMe]);
 
-  useEffect(() => {
-    if (user && cookies[AUTHENTICATED_KEY] === true) {
-      if (user.profile_type === "requester" && !machinery) {
-        getMachinery()
-          .then(({ data }) => {
-            setMachinery(data);
-          })
-          .catch()
-          .finally(() => {
-            setTransportLoaded(true);
-          });
-      }
-      if (user.profile_type === "transporter" && !carriers) {
-        getCarrier()
-          .then(({ data }) => {
-            setCarriers(data);
-          })
-          .catch()
-          .finally(() => {
-            setTransportLoaded(true);
-          });
-      }
-    }
-  }, [user, machinery, carriers, cookies]);
+  const setUser = useCallback(() => {
+    refetchUser();
+  }, [refetchUser]);
 
   return (
     <AuthContext.Provider
@@ -161,6 +190,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         machinery,
         carriers,
         transportLoaded,
+        refetchTransportData,
         logout,
       }}
     >

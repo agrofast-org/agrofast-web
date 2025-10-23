@@ -18,6 +18,8 @@ export interface CrudFormProps {
   postUrl?: string;
   putUrl?: string | ((uuid: string) => string);
   setFetchedData?: (data: FormValues) => void;
+  onSuccess?: () => void;
+  onError?: () => void;
   children?: React.ReactNode;
   className?: string;
 }
@@ -31,6 +33,8 @@ const CrudForm: React.FC<CrudFormProps> = ({
   postUrl,
   putUrl: PutUrl,
   setFetchedData,
+  onSuccess,
+  onError,
   children,
   className,
 }) => {
@@ -76,6 +80,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
       const url = update ? putUrl() : postUrl;
       makeRequest(url ?? "", data)
         .then(() => {
+          onSuccess?.();
           if (update) {
             toast.success({
               description: t("Messages.success.updated_successfully"),
@@ -92,6 +97,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
           }
         })
         .catch(({ response: { data: errors } }) => {
+          onError?.();
           setFormErrors(errors.errors);
           toast.error({
             description: t("Messages.errors.default"),
@@ -101,7 +107,18 @@ const CrudForm: React.FC<CrudFormProps> = ({
           setFormLoading(false);
         });
     },
-    [update, listUrl, postUrl, t, toast, router, makeRequest, putUrl]
+    [
+      update,
+      listUrl,
+      postUrl,
+      t,
+      toast,
+      router,
+      makeRequest,
+      putUrl,
+      onSuccess,
+      onError,
+    ]
   );
 
   useEffect(() => {
@@ -110,7 +127,7 @@ const CrudForm: React.FC<CrudFormProps> = ({
       if (url) {
         api
           .get(url)
-          .then(( data ) => {
+          .then((data) => {
             setInitialData(data.data);
             setFetchedData?.(data.data);
           })
