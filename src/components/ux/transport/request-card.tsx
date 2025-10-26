@@ -3,27 +3,35 @@ import Map from "@/components/maps/map";
 import Marker from "@/components/maps/marker";
 import { formatCurrency, formatDistance, formatDuration } from "@/lib/utils";
 import { Request } from "@/types/transport";
-import { Button, Card, CardBody, CardHeader } from "@heroui/react";
+import { Card, CardBody, CardHeader, cn } from "@heroui/react";
 import { ArrowRight, Pin, User } from "@solar-icons/react";
 import { AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useId, useMemo } from "react";
+import { MakeOfferButton } from "./make-offer-button";
 
 export interface RequestCardProps {
   request: Request;
+  offerButton?: boolean;
 }
 
 export const ItemWithLabel: React.FC<{
   label: string;
+  lableClassName?: string;
   children: React.ReactNode;
-}> = ({ label, children }) => {
+  className?: string;
+}> = ({ label, lableClassName, children, className }) => {
   return (
-    <p className="text-start">
-      <span className="font-semibold">{label}</span>: {children}
+    <p className={cn("text-start", className)}>
+      <span className={cn("font-semibold", lableClassName)}>{label}</span>:{" "}
+      {children}
     </p>
   );
 };
 
-export const RequestCard: React.FC<RequestCardProps> = ({ request }) => {
+export const RequestCard: React.FC<RequestCardProps> = ({
+  request,
+  offerButton = true,
+}) => {
   const id = useId();
   const map = useMap(id);
 
@@ -120,9 +128,11 @@ export const RequestCard: React.FC<RequestCardProps> = ({ request }) => {
             {formatCurrency(request.estimated_cost)}
           </ItemWithLabel>
         </div>
-        <div className="flex items-end">
-          <Button color="primary">Fazer proposta</Button>
-        </div>
+        {offerButton && (
+          <div className="flex items-end">
+            <MakeOfferButton uuid={request.uuid} />
+          </div>
+        )}
       </CardBody>
     </Card>
   );

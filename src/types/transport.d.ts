@@ -16,9 +16,36 @@ export interface Request {
   final_cost?: string;
   payment_id?: number;
   desired_date?: string;
-  state: string;
+  state:
+    | "pending"
+    | "waiting_for_offer"
+    | "payment_pending"
+    | "approved"
+    | "rejected"
+    | "in_progress"
+    | "canceled"
+    | "completed";
   active: boolean;
   created_at: string;
   updated_at: string;
   inactivated_at?: string;
+}
+
+export interface Offer {
+  uuid: string;
+  request_uuid: string;
+  transporter: Transporter;
+  proposed_cost: string;
+  message?: string;
+  state:
+    | "pending"
+    | "waiting_for_offer"
+    | "payment_pending"
+    | "approved"
+    | "rejected"
+    | "in_progress"
+    | "canceled"
+    | "completed";
+  created_at: string;
+  updated_at: string;
 }

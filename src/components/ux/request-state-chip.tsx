@@ -1,16 +1,9 @@
+import { Request } from "@/types/transport";
 import { Chip, ChipProps } from "@heroui/react";
 import { useTranslations } from "next-intl";
 
 interface RequestStateChipProps extends ChipProps {
-  state:
-    | "pending"
-    | "waiting_for_offer"
-    | "payment_pending"
-    | "approved"
-    | "rejected"
-    | "in_progress"
-    | "canceled"
-    | "completed";
+  state: Request["state"];
 }
 
 const RequestStateChip: React.FC<RequestStateChipProps> = ({

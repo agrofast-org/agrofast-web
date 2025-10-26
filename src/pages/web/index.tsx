@@ -11,8 +11,8 @@ import Link from "next/link";
 import React from "react";
 import { Spinner } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
-import { getAvailableRequests } from "@/http/request/get-available-requests";
 import { RequestCard } from "@/components/ux/transport/request-card";
+import { getAvailableRequests } from "@/http/request/get-available-requests";
 
 export default function Index() {
   const t = useTranslations("Pages.Web.Index");
