@@ -1,4 +1,4 @@
-import { Logout2, Routing2, Settings, Wheel } from "@solar-icons/react";
+import { ChatLine, Logout2, Routing2, Settings, Wheel } from "@solar-icons/react";
 import IconOption from "../ui/icon-option";
 import { useTheme } from "next-themes";
 import ThemeUserFeedback from "./theme-user-feedback";
@@ -62,6 +62,9 @@ const UserOptionsButton: React.FC = () => {
           icon={<ThemeUserFeedback />}
         >
           {t("UI.redirects.change_theme")}
+        </IconOption>
+        <IconOption icon={<ChatLine />} href="/web/chat">
+          Chat
         </IconOption>
         {user?.profile_type === "requester" && (
           <>

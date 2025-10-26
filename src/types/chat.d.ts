@@ -19,7 +19,7 @@ export interface Message {
   user_id: number;
   chat_id: number;
   message: string;
-  answer_to?: null;
+  answer_to?: Omit<Message, "answer_to">;
   active: boolean;
   created_at: string;
   updated_at: string;

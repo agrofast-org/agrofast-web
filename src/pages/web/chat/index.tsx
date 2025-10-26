@@ -54,7 +54,7 @@ export default function Index() {
                     {receiver?.name || "Unknown User"}
                   </h2>
                   <p className="bottom-0 absolute max-w-xs text-default-600 text-xs truncate">
-                    {chat.last_message && <span className="font-medium">{chat.last_message?.user_id === user?.id ? "Você: " : <>{receiver?.name}: </>}</span>}
+                    {chat.last_message && <span className="font-medium">{chat.last_message?.user_id === user?.id ? "Você: " : <>{receiver?.name.split(" ")[0]}: </>}</span>}
                     {chat.last_message
                       ? `"${chat.last_message.message}"`
                       : "No messages yet."}

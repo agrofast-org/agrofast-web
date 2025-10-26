@@ -76,7 +76,7 @@ const IconOption: React.FC<IconOptionProps> = ({
       <Button
         className={cn(
           "flex flex-row justify-start items-center gap-1.5 bg-default-100 bg-opacity-0 hover:bg-opacity-85 p-1 rounded-md w-full text-gray-700 dark:text-gray-200 text-sm duration-75 cursor-pointer",
-          "focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-1 -outline-offset-1",
+          "focus-visible:z-10 focus-visible:outline-2 !no-underline focus-visible:outline-focus focus-visible:outline-offset-1 -outline-offset-1",
           className
         )}
         size="sm"

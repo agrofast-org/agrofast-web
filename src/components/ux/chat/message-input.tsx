@@ -16,7 +16,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       helperWrapper: "!absolute !-bottom-[20px] !-left-0.5 max-w-full",
       errorMessage: "!truncate",
       input: "!transition-colors !duration-100",
-      inputWrapper: "!transition-colors !duration-100",
+      inputWrapper: "!transition-colors !duration-100 bg-default-100",
     }}
     labelPlacement="outside"
     variant="bordered"
