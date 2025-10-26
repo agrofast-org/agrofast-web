@@ -20,10 +20,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   const field = useField<number>({
     id: props.id,
     name,
-    value: props.value,
+    value: Number(props.value),
     onChange: (newValue) => {
       if (onValueChange) {
-        onValueChange(newValue);
+        onValueChange(Number(newValue));
       }
     },
     ignoreForm: !name,
@@ -50,7 +50,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       {...props}
       id={field.id}
       name={field.name}
-      value={field.value}
+      value={Number(field.value)}
       onValueChange={field.onChange}
       onBlur={field.onBlur}
       errorMessage={field.error}

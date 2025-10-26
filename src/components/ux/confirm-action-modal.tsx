@@ -15,7 +15,7 @@ export interface ConfirmActionModalMessages {
   actionConfirmButton?: string;
   actionCancelButton?: string;
   actionConfirmButtonColor?: ButtonProps["color"];
-  actionConfirmText?: string;
+  actionConfirmText?: string | string[];
   actionConfirmHeaderClassName?: string;
   actionConfirmBodyClassName?: string;
   actionConfirmFooterClassName?: string;
@@ -74,7 +74,11 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
               {actionConfirmTitle ?? t("UI.titles.action_confirm")}
             </ModalHeader>
             <ModalBody className={actionConfirmBodyClassName}>
-              {actionConfirmText ?? t("UI.titles.action_confirm_text")}
+              {Array.isArray(actionConfirmText)
+                ? actionConfirmText.map((text, index) => (
+                    <p key={index}>{text}</p>
+                  ))
+                : actionConfirmText ?? t("UI.titles.action_confirm_text")}
             </ModalBody>
             <ModalFooter className={actionConfirmFooterClassName}>
               <Button onPress={onClose}>

@@ -1,15 +1,15 @@
 import { Button, cn } from "@heroui/react";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleOAuth } from "@react-oauth/google";
 import { GoogleIcon } from "../icon/google-icon";
 import { useRouter } from "next/router";
 import { googleAuth } from "@/http/user/google-auth";
-import { useToast } from "@/service/toast";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { cookieOptions } from "@/service/cookie";
 import { useUser } from "@/contexts/auth-provider";
 import { useCookies } from "react-cookie";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useApp } from "@/contexts/app-context";
+import { useAlert } from "@/contexts/alert-provider";
 
 export interface GoogleAuthButtonProps {
   children?: React.ReactNode;
@@ -23,13 +23,23 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
   hidden = false,
 }) => {
   const router = useRouter();
-  const toast = useToast();
   const { mounted } = useApp();
-  const { setUser, setToken, user } = useUser();
+  const { setUser, setToken, token } = useUser();
+  const { addAlert } = useAlert();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
   const [focused, setFocused] = useState<boolean>(false);
+
+  const { scriptLoadedSuccessfully } = useGoogleOAuth();
+
+  const showGoogleOAuthError = useCallback(() => {
+    addAlert("google-auth-unavailable", {
+      type: "error",
+      title: "Login com google indisponível",
+      message: "Não será possível conectar com o Google no momento.",
+    });
+  }, [addAlert]);
 
   const component = (
     <GoogleLogin
@@ -49,12 +59,9 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
           }
         });
       }}
-      onError={() => {
-        toast.error({
-          title: "Erro ao conectar",
-          description: "Não foi possível conectar com o Google.",
-        });
-      }}
+      onError={showGoogleOAuthError}
+      auto_select
+      cancel_on_tap_outside
       containerProps={{
         onFocus: () => setFocused(true),
         onBlur: () => setFocused(false),
@@ -73,10 +80,17 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
       data-focus={focused}
       data-focus-visible={focused}
       hidden={hidden}
-      isLoading={!mounted || !!user}
+      isLoading={!mounted || !!token}
+      isDisabled={!scriptLoadedSuccessfully}
+      onPress={() => {
+        if (!scriptLoadedSuccessfully) {
+          showGoogleOAuthError();
+        }
+      }}
     >
-      {!user && component}
-      {showIcon && <GoogleIcon width={24} />}{children}
+      {!token && mounted && component}
+      {showIcon && <GoogleIcon width={24} />}
+      {children}
     </Button>
   );
 };

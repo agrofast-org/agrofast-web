@@ -8,17 +8,21 @@ export interface CompactLanguageSelectorProps {
 }
 
 const CompactLanguageSelector: React.FC<CompactLanguageSelectorProps> = ({
-  className
+  className,
 }) => {
+  return null;
   return (
     <Popover placement="bottom-end">
       <PopoverTrigger>
         <Button
           isIconOnly
-          className={cn("bg-default-100 hover:bg-default-200 shadow-sm border border-default-300 text-default-700 text-xl duration-100", className)}
+          className={cn(
+            "bg-default-100 hover:bg-default-200 shadow-sm border border-default-300 text-default-700 text-xl duration-100",
+            className
+          )}
           size="sm"
         >
-          <Global size={18}  />
+          <Global size={18} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-1 rounded-xl w-40">

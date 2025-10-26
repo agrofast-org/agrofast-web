@@ -4,7 +4,7 @@ import TerraMov from "@/components/ui/agrofast";
 import dynamic from "next/dynamic";
 import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useTranslations } from "next-intl";
-import { cn, getPortfolioUrl, getWebUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Link from "@/components/link";
 import { useUser } from "@/contexts/auth-provider";
 import UserOptionsButton from "./ux/user-options-button";
@@ -54,23 +54,49 @@ export const Header: React.FC<HeaderProps> = ({
           </Link>
         </NavbarBrand>
       </NavbarBrand>
-      <NavbarContent className="hidden md:flex space-x-4" justify="center">
-        <NavbarItem>
-          <Link
-            href={`${getPortfolioUrl()}/about`}
-            className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
-          >
-            {t("UI.redirects.about") as string}
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            href={`${getWebUrl()}`}
-            className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
-          >
-            {t("UI.redirects.application") as string}
-          </Link>
-        </NavbarItem>
+      <NavbarContent className="hidden md:flex" justify="center">
+        {mounted && user && (
+          <>
+            <NavbarItem>
+              <Link
+                href="/web"
+                className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
+              >
+                {t("UI.redirects.application") as string}
+              </Link>
+            </NavbarItem>
+            {user?.profile_type === "requester" && (
+              <>
+                <NavbarItem>
+                  <Link
+                    href="/web/machinery"
+                    className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
+                  >
+                    {t("UI.labels.machinery") as string}
+                  </Link>
+                </NavbarItem>
+                <NavbarItem>
+                  <Link
+                    href="/web/request"
+                    className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
+                  >
+                    {t("UI.labels.requests") as string}
+                  </Link>
+                </NavbarItem>
+              </>
+            )}
+            {user?.profile_type === "transporter" && (
+              <NavbarItem>
+                <Link
+                  href="/web/carrier"
+                  className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
+                >
+                  {t("UI.labels.carrier") as string}
+                </Link>
+              </NavbarItem>
+            )}
+          </>
+        )}
       </NavbarContent>
       <NavbarContent
         className="flex flex-row flex-1 items-center gap-2"

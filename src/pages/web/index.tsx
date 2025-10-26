@@ -10,10 +10,20 @@ import ConditionalModal from "@/components/conditional-modal";
 import Link from "next/link";
 import React from "react";
 import { Spinner } from "@heroui/react";
+import { useQuery } from "@tanstack/react-query";
+import { RequestCard } from "@/components/ux/transport/request-card";
+import { getAvailableRequests } from "@/http/request/get-available-requests";
 
 export default function Index() {
   const t = useTranslations("Pages.Web.Index");
   const { user, machinery, carriers, transportLoaded } = useUser();
+
+  const { data: requests } = useQuery({
+    queryKey: ["requests-query"],
+    queryFn: async () => getAvailableRequests().then((res) => res.data),
+    enabled: user?.profile_type === "transporter",
+    retry: false,
+  });
 
   return (
     <>
@@ -62,9 +72,17 @@ export default function Index() {
                 <p className="text-neutral-600 dark:text-neutral-300 text-lg">
                   {t("messages.transporter.available_requests_description")}
                 </p>
-                <Button color="primary">
-                  {t("messages.transporter.view_available_requests")}
-                </Button>
+                <div>
+                  {requests && requests.length > 0 ? (
+                    <ul>
+                      {requests.map((request) => (
+                        <RequestCard key={request.uuid} request={request} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>Sem solicitações disponíveis</p>
+                  )}
+                </div>
               </section>
             ) : (
               <section className="flex flex-col justify-center items-center gap-6 mx-auto p-4 max-w-[912px] text-center container">

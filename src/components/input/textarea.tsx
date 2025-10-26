@@ -35,6 +35,7 @@ export const Textarea: React.FC<TextAreaProps> = ({
         errorMessage: "!truncate",
         input: "!transition-colors !duration-100",
         inputWrapper: "!transition-colors !duration-100",
+        clearButton: "!right-2",
       }}
       labelPlacement="outside"
       variant="bordered"

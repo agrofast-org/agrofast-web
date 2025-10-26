@@ -12,9 +12,12 @@ import { Textarea } from "@/components/input/textarea";
 import { Suspension } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 import { FileUploadModal } from "@/components/input/file-upload-modal";
+import { useUser } from "@/contexts/auth-provider";
 
 const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
+
+  const { refetchTransportData } = useUser();
 
   return (
     <CrudForm
@@ -25,6 +28,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       postUrl="/machinery"
       putUrl={(id) => `/machinery/${id}`}
       listUrl="/web/machinery"
+      onSuccess={refetchTransportData}
     >
       <FormHeader>
         <div className="flex flex-row justify-between items-center w-full">
@@ -138,7 +142,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormFooter>
         <Button
-          className="justify-self-end px-16 flex-1 md:flex-none"
+          className="flex-1 md:flex-none justify-self-end px-16"
           color="primary"
           type="submit"
           confirmAction

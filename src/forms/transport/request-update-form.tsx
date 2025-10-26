@@ -12,7 +12,7 @@ import { ArrowRight } from "@solar-icons/react";
 const RequestUpdateForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [data, setData] = useState<any>(undefined);
+  const [data, setData] = useState<any | undefined>(undefined);
   const [paymentUpdating, setPaymentUpdating] = useState(false);
 
   const handlePaymentUpdate = () => {

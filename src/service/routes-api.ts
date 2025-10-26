@@ -1,5 +1,6 @@
 const fields = ['routes.viewport', 'routes.legs', 'routes.polylineDetails'];
 
+// TODO: Turn this into a request on agrofast API
 const ROUTES_API_ENDPOINT =
   'https://routes.googleapis.com/directions/v2:computeRoutes';
 

@@ -35,6 +35,10 @@ html, body {
   @apply !top-6 !-translate-y-[3.25em] start-0;
 }
 
+.autocomplete div[data-slot="helper-wrapper"] {
+  @apply p-0;
+}
+
 .form-body > form,
 .form-group > div {
   @apply items-start gap-4 grid grid-cols-[repeat(auto-fit,minmax(270px,1fr))] col-span-full;
