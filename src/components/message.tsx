@@ -1,6 +1,6 @@
 import { Message as MessageType } from "@/types/chat";
-import { cn, Spinner, Tooltip } from "@heroui/react";
-import { DangerCircle } from "@solar-icons/react";
+import { Button, cn, Spinner, Tooltip } from "@heroui/react";
+import { DangerCircle, Reply } from "@solar-icons/react";
 
 export interface MessageProps {
   className?: string;
@@ -17,6 +17,8 @@ export interface MessageProps {
 
   errorSending?: boolean;
   retrySending?: () => void;
+
+  answerMessage?: (message: MessageType) => void;
 }
 
 export const Message: React.FC<MessageProps> = ({
@@ -31,19 +33,38 @@ export const Message: React.FC<MessageProps> = ({
   isLoading,
   errorSending = false,
   retrySending,
+  answerMessage,
 }) => {
+  const answer = () => {
+    if (!isLoading) {
+      answerMessage?.(message);
+    }
+  };
+
   return (
     <div
       className={cn(
-        "flex w-full",
+        "group flex w-full",
         owner ? "justify-end" : "justify-start",
         messageAfter?.user_id === message.user_id || !isLast
           ? "mb-0.5"
           : "mb-2",
         className
       )}
+      onDoubleClick={answer}
     >
       <div className="flex items-center p-1">
+        {!isLoading && (
+          <Button
+            tabIndex={-1}
+            className="bg-transparent opacity-0 group-hover:opacity-100 text-default-600"
+            size="sm"
+            isIconOnly
+            onPress={answer}
+          >
+            <Reply weight="LineDuotone" />
+          </Button>
+        )}
         {isLast && errorSending && (
           <Tooltip
             content="Erro ao enviar. Tente novamente"
@@ -77,10 +98,15 @@ export const Message: React.FC<MessageProps> = ({
           bubbleClassName
         )}
       >
+        {/* {message?.answer_to && (
+          <div>
+            {message?.answer_to.message && <>{message?.answer_to.message}</>}
+          </div>
+        )} */}
         <p className="px-4 py-2 pb-0">{message.message}</p>
         <span
           className={cn(
-            "block opacity-70 text-[10px] max-h-3 -translate-y-[6px] px-4 select-none"
+            "block opacity-70 px-4 max-h-3 text-[10px] -translate-y-[6px] select-none"
           )}
         >
           {message.created_at &&

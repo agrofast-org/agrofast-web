@@ -7,7 +7,7 @@ import { useUser } from "@/contexts/auth-provider";
 import { Avatar } from "@/components/avatar";
 import { useRef, useState } from "react";
 import { Button, cn, Form } from "@heroui/react";
-import { ArrowDown, ArrowLeft, Plain2 } from "@solar-icons/react";
+import { ArrowDown, ArrowLeft, CloseCircle, Plain2 } from "@solar-icons/react";
 import { MessageInput } from "@/components/ux/chat/message-input";
 import { useDebounce } from "@/hooks/use-debounce";
 import { MessagesRenderer } from "./messages-renderer";
@@ -20,9 +20,12 @@ export const ChatForm: React.FC = () => {
   const { user } = useUser();
 
   const [message, setMessage] = useState<string>("");
+  const [answerMessage, setAnswerMessage] = useState<MessageType | undefined>(
+    undefined
+  );
 
-  const [messagesStash, setMessagesStash] = useState<StackedMessage[]>([]);
-  const [sentMessagesStash, setSentMessagesStash] = useState<MessageType[]>([]);
+  const [messagesStack, setMessagesStack] = useState<StackedMessage[]>([]);
+  const [sentMessagesStack, setSentMessagesStack] = useState<MessageType[]>([]);
 
   const [errorSending, setErrorSending] = useState<boolean>(false);
 
@@ -30,7 +33,7 @@ export const ChatForm: React.FC = () => {
     queryKey: ["chat", router.query.uuid],
     queryFn: async () =>
       api.get(`/chat/${router.query.uuid}`).then(({ data }) => {
-        setSentMessagesStash([]);
+        setSentMessagesStack([]);
         return data;
       }),
     enabled: !!router.query.uuid,
@@ -39,10 +42,13 @@ export const ChatForm: React.FC = () => {
 
   const { mutate: sendMessages, isPending: isSending } = useMutation({
     mutationFn: async (messages: StackedMessage[]) =>
-      api.post(`/chat/message`, { chat_uuid: router.query.uuid, messages }),
+      api.post(`/chat/message`, {
+        chat_uuid: router.query.uuid,
+        messages,
+      }),
     onSuccess: ({ data }) => {
-      setSentMessagesStash(data);
-      setMessagesStash([]);
+      setMessagesStack([]);
+      setSentMessagesStack(data);
       setErrorSending(false);
       refetchChat();
     },
@@ -52,7 +58,7 @@ export const ChatForm: React.FC = () => {
   });
 
   const [debouncedMessage] = useDebounce((message: StackedMessage) => {
-    sendMessages([...messagesStash, message]);
+    sendMessages([...messagesStack, message]);
   }, 2500);
 
   const receiver = chat?.users?.find((u) => u.id !== user?.id);
@@ -66,13 +72,17 @@ export const ChatForm: React.FC = () => {
 
     if (!retry) {
       setMessage("");
-      setMessagesStash((prev) => [...prev, { message: text }]);
-      debouncedMessage({ message: text });
+      setMessagesStack((prev) => [
+        ...prev,
+        { message: text, answer_to: answerMessage?.uuid },
+      ]);
+      setAnswerMessage(undefined);
+      debouncedMessage({ message: text, answer_to: answerMessage?.uuid });
       return;
     }
 
-    if (messagesStash.length === 0) return;
-    sendMessages(messagesStash);
+    if (messagesStack.length === 0) return;
+    sendMessages(messagesStack);
   };
 
   const [isNotAtBottom, setIsNotAtBottom] = useState<boolean>(false);
@@ -107,33 +117,58 @@ export const ChatForm: React.FC = () => {
       </Button>
       <Section className="bottom-0 z-10 sticky flex-row gap-2 bg-default-100 mx-auto p-2 px-2 !pt-0 max-w-[912px] container">
         <Form
-          className="w-full"
+          className="gap-0 w-full"
           onSubmit={(e) => {
             e.preventDefault();
             sendMessage();
           }}
         >
-          <MessageInput message={message} setMessage={setMessage} />
+          {answerMessage && (
+            <div className="relative bg-primary-500 pl-2 rounded-[20px] rounded-r-3xl rounded-bl-xl translate-x-2">
+              <div className="bg-default-200 p-2 rounded-[14px] max-h-16 overflow-y-auto">
+                <p className="text-tiny">
+                  <strong>
+                    {answerMessage?.user_id === user?.id
+                      ? "Você"
+                      : receiver?.name.split(" ")[0]}
+                  </strong>
+                  : {answerMessage.message}
+                </p>
+              </div>
+              <Button
+                className="top-0 -right-9 absolute bg-transparent text-default-600"
+                onPress={() => setAnswerMessage(undefined)}
+                size="sm"
+                isIconOnly
+              >
+                <CloseCircle weight="BoldDuotone" />
+              </Button>
+            </div>
+          )}
+          <div className="flex gap-2 w-full">
+            <MessageInput message={message} setMessage={setMessage} />
+            <Button
+              color="primary"
+              className="text-white"
+              size="md"
+              isDisabled={message?.trim() === ""}
+              type="submit"
+              onPress={() => sendMessage()}
+              isIconOnly
+            >
+              <Plain2 weight="LineDuotone" />
+            </Button>
+          </div>
         </Form>
-        <Button
-          color="primary"
-          className="text-white"
-          size="md"
-          isDisabled={message?.trim() === ""}
-          type="submit"
-          onPress={() => sendMessage()}
-          isIconOnly
-        >
-          <Plain2 weight="LineDuotone" />
-        </Button>
       </Section>
       <MessagesRenderer
         user={user!}
         chat={chat!}
-        messagesStash={messagesStash}
-        sentMessagesStash={sentMessagesStash}
+        messagesStash={messagesStack}
+        sentMessagesStack={sentMessagesStack}
         errorSending={errorSending}
         sendMessage={() => sendMessage(true)}
+        answerMessage={setAnswerMessage}
       />
       <Section className="top-0 z-10 sticky flex-row justify-start gap-2 bg-default-100 mx-auto p-2 px-4 border-divider border-b w-full max-w-[912px] min-h-[58px] container">
         <Link

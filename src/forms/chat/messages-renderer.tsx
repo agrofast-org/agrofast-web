@@ -2,12 +2,14 @@ import { Message } from "@/components/message";
 import { Section } from "@/components/section";
 import { Chat, Message as MessageType, StackedMessage } from "@/types/chat";
 import { User } from "@/types/user";
+import { useMemo } from "react";
 
 export interface MessagesRendererProps {
   user: User;
   chat: Chat;
   messagesStash: StackedMessage[];
-  sentMessagesStash: MessageType[];
+  sentMessagesStack: MessageType[];
+  answerMessage?: (message: MessageType) => void;
   errorSending: boolean;
   sendMessage?: () => void;
 }
@@ -16,7 +18,8 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
   user,
   chat,
   messagesStash,
-  sentMessagesStash,
+  sentMessagesStack,
+  answerMessage,
   errorSending,
   sendMessage,
 }) => {
@@ -24,21 +27,31 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
     return (messagesStash[index] as MessageType) || undefined;
   };
 
-  const finalMessages = [...(chat?.messages ?? []), ...sentMessagesStash];
+  const finalMessages = useMemo(
+    () =>
+      [
+        ...[
+          ...(Array.isArray(sentMessagesStack) ? sentMessagesStack : []),
+          ...(chat?.messages ?? []),
+        ],
+      ].reverse(),
+    [chat?.messages, sentMessagesStack]
+  );
 
   return (
-    <Section className="flex-1 justify-end gap-0 mx-auto p-2 px-2 pb-0 max-w-[912px] container">
-      {finalMessages?.map((message, index) => (
+    <Section className="flex-col flex-1 justify-end gap-0 mx-auto p-2 px-2 pb-0 max-w-[912px] container">
+      {finalMessages.map((message, index, arr) => (
         <Message
           key={message.uuid}
-          messageBefore={finalMessages[index - 1]}
+          messageBefore={arr[index - 1]}
           message={message}
-          messageAfter={finalMessages[index + 1]}
+          messageAfter={arr[index + 1]}
           isLast={messagesStash.length === 0}
           owner={message.user_id === user?.id}
+          answerMessage={answerMessage}
         />
       ))}
-      {messagesStash.map((msg, index) => (
+      {[...(messagesStash ?? [])].reverse().map((_, index, arr) => (
         <Message
           key={`stash-${index}`}
           bubbleClassName="opacity-75 !pb-2"
@@ -46,8 +59,8 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
           message={getStackedMessage(index)}
           messageAfter={getStackedMessage(index + 1)}
           owner={true}
-          isLast={index === messagesStash.length - 1}
-          hideLoading={index === messagesStash.length - 1}
+          isLast={index === arr.length - 1}
+          hideLoading={index === arr.length - 1}
           errorSending={errorSending}
           retrySending={sendMessage}
           isLoading
