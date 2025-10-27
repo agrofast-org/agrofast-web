@@ -8,7 +8,7 @@ import RequestStateChip from "@/components/ux/request-state-chip";
 import { useAlert } from "@/contexts/alert-provider";
 import { cancelRequest } from "@/http/request/cancel-request";
 import { formatCurrency, formatDistance, formatDuration } from "@/lib/utils";
-import { MagniferZoomIn, TrashBinTrash } from "@solar-icons/react";
+import { MagniferZoomIn, NotificationUnreadLines, TrashBinTrash } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
@@ -48,6 +48,14 @@ const RequestList: React.FC = () => {
           label={t("UI.buttons.view")}
           icon={<MagniferZoomIn size={22} />}
           onAction={(uuid) => router.push(`/web/request/${uuid}`)}
+        />
+        <ListAction
+          name="view-offers"
+          label="Ver Ofertas"
+          icon={<NotificationUnreadLines size={22} />}
+          onAction={(uuid) => {
+            router.push(`/web/request/${uuid}/offers`);
+          }}
         />
         <ListAction
           name="delete"

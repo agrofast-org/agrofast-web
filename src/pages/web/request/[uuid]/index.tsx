@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/http/request/get-request";
 import { RequestCard } from "@/components/ux/transport/request-card";
 import { Offer, Request } from "@/types/transport";
-import { getRequestOffers } from "@/http/offer/get-request-offers";
+import { getRequestOffers } from "@/http/request/get-request-offers";
 import { Divider } from "@heroui/react";
 import { Section } from "@/components/section";
 

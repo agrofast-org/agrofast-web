@@ -64,7 +64,7 @@ export const RequestCard: React.FC<RequestCardProps> = ({
   }, [origin, destination, map]);
 
   return (
-    <Card className="flex-col gap-4 shadow-sm mb-4 p-4 w-[812px] h-[304px]">
+    <Card className="flex-col gap-4 shadow-sm mb-4 p-4 sm:w-[812px] max-w-full sm:h-[304px]">
       <CardHeader className="flex justify-center items-center gap-2 bg-default-200/40 shadow-sm p-1 rounded-lg max-h-min">
         <p
           className="flex-1 text-end truncate"
@@ -80,8 +80,8 @@ export const RequestCard: React.FC<RequestCardProps> = ({
           {request.destination_place_name}
         </p>
       </CardHeader>
-      <CardBody className="flex flex-row gap-4 p-0 w-full h-64">
-        <div className="w-56 h-full">
+      <CardBody className="flex sm:flex-row flex-col gap-4 p-0 w-full h-full">
+        <div className="w-56 h-56 sm:h-full">
           <Map
             id={id}
             style={{
@@ -127,6 +127,11 @@ export const RequestCard: React.FC<RequestCardProps> = ({
           <ItemWithLabel label="Valor Estimado">
             {formatCurrency(request.estimated_cost)}
           </ItemWithLabel>
+          {request.desired_date && (
+            <ItemWithLabel label="Data desejada">
+              {new Date(request.desired_date).toLocaleDateString()}
+            </ItemWithLabel>
+          )}
         </div>
         {offerButton && (
           <div className="flex items-end">
