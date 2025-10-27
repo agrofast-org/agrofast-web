@@ -43,7 +43,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 
   const component = (
     <GoogleLogin
-      useOneTap
+      // useOneTap
       theme="outline"
       locale={router.locale ?? "pt-BR"}
       onSuccess={(credentials) => {
@@ -60,8 +60,8 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
         });
       }}
       onError={showGoogleOAuthError}
-      auto_select
-      cancel_on_tap_outside
+      // auto_select
+      // cancel_on_tap_outside
       containerProps={{
         onFocus: () => setFocused(true),
         onBlur: () => setFocused(false),

@@ -9,6 +9,7 @@ import {
   Alert,
   Button,
   ButtonProps,
+  cn,
   ModalBodyProps,
   ModalContentProps,
   ModalFooterProps,
@@ -103,8 +104,9 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AlertContext.Provider value={{ addAlert, removeAlert }}>
-      {Object.values(alertList).length > 0 &&
-        Object.entries(alertList).map(([id, alert]) => (
+      {Object.entries(alertList).map(([id, alert]) => {
+        const actions = Object.entries(alert?.actions ?? []);
+        return (
           <Modal
             placement="center"
             {...alert.modalConfig?.modalProps}
@@ -122,13 +124,15 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({
                     {alert.title}
                   </ModalHeader>
                   <ModalBody
-                    className="gap-2"
                     {...alert.modalConfig?.modalBodyProps}
+                    className={cn("gap-4 py-4", {
+                      "!pb-2": Boolean(actions.length),
+                    })}
                   >
                     {alert.type && (
                       <div className="flex justify-center w-full">
                         <Alert
-                          className="bg-transparent p-0 -translate-y-2"
+                          className="bg-transparent p-0"
                           classNames={{
                             base: "flex justify-center",
                             alertIcon: "size-[56px]",
@@ -155,9 +159,9 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({
                       <p className="text-small text-center">{alert.message}</p>
                     )}
                   </ModalBody>
-                  <ModalFooter {...alert.modalConfig?.modalFooterProps}>
-                    {alert.actions &&
-                      Object.entries(alert.actions).map(([key, action]) => (
+                  {!!actions.length && (
+                    <ModalFooter {...alert.modalConfig?.modalFooterProps}>
+                      {actions.map(([key, action]) => (
                         <Button
                           key={key}
                           className="flex-1"
@@ -167,12 +171,14 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({
                           {action.label}
                         </Button>
                       ))}
-                  </ModalFooter>
+                    </ModalFooter>
+                  )}
                 </>
               )}
             </ModalContent>
           </Modal>
-        ))}
+        );
+      })}
       {children}
     </AlertContext.Provider>
   );

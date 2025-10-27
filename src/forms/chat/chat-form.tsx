@@ -61,7 +61,7 @@ export const ChatForm: React.FC = () => {
     sendMessages([...messagesStack, message]);
   }, 2500);
 
-  const receiver = chat?.users?.find((u) => u.id !== user?.id);
+  const receiver = chat?.users?.find((u) => u.id !== user?.id) || user;
 
   const sendMessage = (retry: boolean = false) => {
     if (isSending) return;
@@ -124,8 +124,8 @@ export const ChatForm: React.FC = () => {
           }}
         >
           {answerMessage && (
-            <div className="relative bg-primary-500 pl-2 rounded-[20px] rounded-r-3xl rounded-bl-xl translate-x-2">
-              <div className="bg-default-200 p-2 rounded-[14px] max-h-16 overflow-y-auto">
+            <div className="relative mb-1 w-full">
+              <div className="bg-default-200 p-2 border-4 pr-10 border-default-300 rounded-xl max-h-16 overflow-y-auto">
                 <p className="text-tiny">
                   <strong>
                     {answerMessage?.user_id === user?.id
@@ -136,7 +136,7 @@ export const ChatForm: React.FC = () => {
                 </p>
               </div>
               <Button
-                className="top-0 -right-9 absolute bg-transparent text-default-600"
+                className="absolute right-0 top-0 bg-transparent m-1 text-default-600"
                 onPress={() => setAnswerMessage(undefined)}
                 size="sm"
                 isIconOnly
@@ -162,7 +162,7 @@ export const ChatForm: React.FC = () => {
         </Form>
       </Section>
       <MessagesRenderer
-        user={user!}
+        users={chat?.users || []}
         chat={chat!}
         messagesStash={messagesStack}
         sentMessagesStack={sentMessagesStack}

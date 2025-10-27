@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import { useToast } from "@/service/toast";
 import { RequestForm as CrudRequestForm } from "@/components/request-form";
 import { useLoadingDisclosure } from "@/hooks/use-loading-disclosure";
+import { DatePicker } from "@/components/input/date-picker";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 export const RequestForm: React.FC = () => {
   const router = useRouter();
@@ -69,11 +71,13 @@ export const RequestForm: React.FC = () => {
               </h1>
               <div
                 className={cn(
-                  "flex flex-col gap-2 px-4 md:px-0 w-full overflow-hidden md:overflow-visible transition-size duration-300",
+                  "flex flex-col gap-1 px-4 md:px-0 w-full overflow-hidden md:overflow-visible transition-size duration-300",
                   placeFrom
                     ? placeTo
-                      ? "h-56 md:h-auto"
-                      : "h-[9.5rem] md:h-auto"
+                      ? machineUuid
+                        ? "h-72 md:h-auto"
+                        : "h-[216px] md:h-auto"
+                      : "h-36 md:h-auto"
                     : "h-20 md:h-auto"
                 )}
               >
@@ -123,6 +127,11 @@ export const RequestForm: React.FC = () => {
                     ))}
                   </Autocomplete>
                 )}
+                <DatePicker
+                  name="desired_date"
+                  label="Data desejada"
+                  minValue={today(getLocalTimeZone())}
+                />
               </div>
               <Button
                 color="primary"
