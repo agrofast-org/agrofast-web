@@ -5,7 +5,7 @@ import useRouteDisclosure, { getPlaceId } from "@/hooks/use-route-disclosure";
 import PlaceAutocomplete from "@/components/maps/place-autocomplete";
 import { cn } from "@/lib/utils";
 import { Autocomplete, AutocompleteItem } from "@heroui/react";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useRef, useState } from "react";
 import { postRequest } from "@/http/request/make-request";
 import { useRouter } from "next/router";
@@ -24,7 +24,7 @@ export const RequestForm: React.FC = () => {
   const machineryRef = useRef<HTMLInputElement | null>(null);
 
   const { placeFrom, setPlaceFrom, placeTo, setPlaceTo } = useRouteDisclosure();
-  const { machinery } = useUser();
+  const { machinery } = useAuth();
   const [machineUuid, setMachineUuid] = useState<string | undefined>();
 
   return (

@@ -6,7 +6,7 @@ import { LazyThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import Link from "@/components/link";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import UserOptionsButton from "./ux/user-options-button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import CompactLanguageSelector from "./ux/compact-language-selector";
@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   const id = useId();
 
   const t = useTranslations();
-  const { user } = useUser();
+  const { user } = useAuth();
   const { mounted } = useApp();
 
   const { setHeaderVisible } = useApp();

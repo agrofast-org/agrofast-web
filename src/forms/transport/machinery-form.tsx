@@ -12,12 +12,12 @@ import { Textarea } from "@/components/input/textarea";
 import { Suspension } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 import { FileUploadModal } from "@/components/input/file-upload-modal";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 
 const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
 
-  const { refetchTransportData } = useUser();
+  const { refetchTransportData } = useAuth();
 
   return (
     <CrudForm

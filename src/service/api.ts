@@ -58,6 +58,7 @@ const interceptors: {
           }
           cookies.remove(AUTHENTICATED_KEY, cookieOptions);
           cookies.remove(AUTH_TOKEN_KEY, cookieOptions);
+          sessionStorage?.removeItem("user");
           googleLogout();
           window.location.reload();
         }

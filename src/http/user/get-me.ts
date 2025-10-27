@@ -3,6 +3,7 @@ import { User } from "@/types/user";
 
 export type GetMeResponse = {
   user: User;
+  has_password: boolean;
   authenticated: boolean;
 };
 

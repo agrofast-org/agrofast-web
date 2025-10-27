@@ -9,7 +9,7 @@ import {
 import IconOption from "../ui/icon-option";
 import { useTheme } from "next-themes";
 import ThemeUserFeedback from "./theme-user-feedback";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useTranslations } from "next-intl";
 import {
   Button,
@@ -27,7 +27,7 @@ import { Avatar } from "../avatar";
 const UserOptionsButton: React.FC = () => {
   const t = useTranslations();
   const { theme, setTheme } = useTheme();
-  const { user, logout } = useUser();
+  const { user, logout } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

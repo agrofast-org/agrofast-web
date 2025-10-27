@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { I18nProvider } from "@react-aria/i18n";
 import React, { createContext, useContext, ReactNode, useEffect } from "react";
-import { useRouter } from "next/router";
 import { useLocalStorage } from "ilias-use-storage";
 
 type Language = "pt-BR" | "en" | "es";
@@ -31,7 +30,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const t = useTranslations();
-  const router = useRouter();
+  // const router = useRouter();
   const [language, setLanguage] = useLocalStorage<Language>(
     "language",
     "pt-BR"
@@ -66,7 +65,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
   }, [language]);
 
   return (
-    <I18nProvider locale={router.locale}>
+    <I18nProvider
+      locale={language}
+      // locale={router.locale}
+      >
       <LanguageContext.Provider
         value={{ language, setLanguage, translateResponse }}
       >

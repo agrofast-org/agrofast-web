@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/input/checkbox";
 import { Input } from "@/components/input/input";
 import Link from "@/components/link";
 import { PrivacyPolicy, TermsOfUse } from "@/components/ui/platform-agreements";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { signUp } from "@/http/user/sign-up";
 import {
   Button,
@@ -21,7 +21,7 @@ import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 const SignInForm: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [email, setEmail] = useState<string>("");
@@ -64,7 +64,7 @@ const SignInForm: React.FC = () => {
         initialData={router.query}
         onSubmit={signUp}
         onSuccess={({ data }) => {
-          setUser(data.user);
+          setUser();
           setToken(data.token);
           router.push(`/web/auth-code`);
         }}
@@ -144,7 +144,7 @@ const SignInForm: React.FC = () => {
         </div>
         <input type="hidden" name="language" value={router.locale} />
         <Spacer y={4} />
-        <p className="text-gray-700 dark:text-gray-200 text-small text-start">
+        <p className="text-gray-700 text-small dark:text-gray-200 text-start">
           {t("Legal.agreements.sign_in_terms")}
         </p>
         <Button className="w-full" color="primary" type="submit">

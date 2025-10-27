@@ -3,7 +3,7 @@ import { api } from "@/service/api";
 import { useRouter } from "next/router";
 import { Chat, Message as MessageType, StackedMessage } from "@/types/chat";
 import { Section } from "@/components/section";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { Avatar } from "@/components/avatar";
 import { useRef, useState } from "react";
 import { Button, cn, Form } from "@heroui/react";
@@ -17,7 +17,7 @@ export const ChatForm: React.FC = () => {
   const router = useRouter();
   const chatWrapperRef = useRef<HTMLDivElement>(null);
 
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const [message, setMessage] = useState<string>("");
   const [answerMessage, setAnswerMessage] = useState<MessageType | undefined>(
@@ -125,7 +125,7 @@ export const ChatForm: React.FC = () => {
         >
           {answerMessage && (
             <div className="relative mb-1 w-full">
-              <div className="bg-default-200 p-2 border-4 pr-10 border-default-300 rounded-xl max-h-16 overflow-y-auto">
+              <div className="bg-default-200 p-2 pr-10 border-4 border-default-300 rounded-xl max-h-16 overflow-y-auto">
                 <p className="text-tiny">
                   <strong>
                     {answerMessage?.user_id === user?.id
@@ -136,7 +136,7 @@ export const ChatForm: React.FC = () => {
                 </p>
               </div>
               <Button
-                className="absolute right-0 top-0 bg-transparent m-1 text-default-600"
+                className="top-0 right-0 absolute bg-transparent m-1 text-default-600"
                 onPress={() => setAnswerMessage(undefined)}
                 size="sm"
                 isIconOnly

@@ -2,12 +2,12 @@ import {
   Autocomplete,
   AutocompleteProps,
 } from "@/components/input/autocomplete";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 
 export const CarrierAutocomplete: React.FC<AutocompleteProps> = ({
   ...props
 }) => {
-  const { carriers } = useUser();
+  const { carriers } = useAuth();
 
   if (!carriers) {
     return null;

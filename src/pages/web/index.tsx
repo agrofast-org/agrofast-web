@@ -2,7 +2,7 @@ import { Layout } from "@/components/layout";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { Button } from "@/components/button";
 import ProfileTypeForm from "@/forms/profile-type-form";
 import RequestForm from "@/forms/request-form";
@@ -16,7 +16,7 @@ import { getAvailableRequests } from "@/http/request/get-available-requests";
 
 export default function Index() {
   const t = useTranslations("Pages.Web.Index");
-  const { user, machinery, carriers, transportLoaded } = useUser();
+  const { user, machinery, carriers, transportLoaded } = useAuth();
 
   const { data: requests } = useQuery({
     queryKey: ["requests-query"],

@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
 import { useOverlay } from "@/contexts/overlay-provider";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 
 import userPicture from "@public/img/user-default.png";
 import { PictureInput } from "@/components/input/picture-input";
@@ -24,7 +24,7 @@ export default function Profile() {
   const pt = useTranslations("Pages.SignUp");
   const toast = useToast();
 
-  const { user, setUser } = useUser();
+  const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
   const { mounted } = useApp();
 

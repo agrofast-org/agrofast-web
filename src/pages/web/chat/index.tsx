@@ -1,7 +1,7 @@
 import { Avatar } from "@/components/avatar";
 import Body from "@/components/body";
 import { FetchAutocomplete } from "@/components/input/fetch-autocomplete";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { api } from "@/service/api";
 import { Chat, ChatWithLastMessage } from "@/types/chat";
@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 export default function Index() {
   const router = useRouter();
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const { data: chats } = useQuery<ChatWithLastMessage[]>({
     queryKey: ["user-chats"],
@@ -27,7 +27,7 @@ export default function Index() {
       </Head>
       <Body className="flex flex-col items-center !pb-0 h-[calc(100vh-calc(65px+73px))]">
         <div className="relative flex flex-col px-0 border-divider border-x w-full max-w-xl h-full overflow-y-auto">
-          <div className="px-4 py-2 max-h-14 border-divider border-b">
+          <div className="px-4 py-2 border-divider border-b max-h-14">
             <FetchAutocomplete
               name="chat-search"
               localLabel="Seus chats"
@@ -69,7 +69,7 @@ export default function Index() {
                 onClick={() => {
                   router.push(`/web/chat/${chat.uuid}`);
                 }}
-                className="flex gap-4 px-4 py-2 border-divider border-b cursor-pointer hover:bg-default-200/40 transition-colors"
+                className="flex gap-4 hover:bg-default-200/40 px-4 py-2 border-divider border-b transition-colors cursor-pointer"
               >
                 <Avatar src={receiver?.profile_picture} />
                 <div className="relative flex-1">
