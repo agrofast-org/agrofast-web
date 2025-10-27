@@ -33,8 +33,8 @@ export default function Profile() {
   const handleSubmit = (data: FormValues) => {
     setIsLoading(true);
     updateUser(data)
-      .then(({ data }) => {
-        setUser(data.user);
+      .then(() => {
+        setUser();
         toast.success({
           description: t("Messages.success.updated_successfully"),
         });
@@ -53,8 +53,8 @@ export default function Profile() {
   const handleSubmitPicture = async (file: FormData) => {
     setIsLoading(true);
     uploadPicture(file)
-      .then(({ data }) => {
-        setUser(data.user);
+      .then(() => {
+        setUser();
         toast.success({
           description: t("Messages.success.image_uploaded_successfully"),
         });
