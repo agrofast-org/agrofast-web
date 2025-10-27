@@ -81,8 +81,15 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
       data-focus-visible={focused}
       hidden={hidden}
       isLoading={!mounted || !!token}
-      isDisabled={!scriptLoadedSuccessfully}
+
+      // isDisabled={!scriptLoadedSuccessfully}
+      isDisabled={true}
       onPress={() => {
+        addAlert("google-auth-unavailable", {
+          type: "info",
+          title: "Login com google indisponível",
+          message: "Não será possível conectar com o Google no momento.",
+        });
         if (!scriptLoadedSuccessfully) {
           showGoogleOAuthError();
         }
