@@ -1,6 +1,6 @@
 import { Message } from "@/components/message";
 import { Section } from "@/components/section";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { Chat, Message as MessageType, StackedMessage } from "@/types/chat";
 import { User } from "@/types/user";
 import { useMemo } from "react";
@@ -24,7 +24,7 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
   errorSending,
   sendMessage,
 }) => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const getStackedMessage = (index: number) => {
     return (messagesStash[index] as MessageType) || undefined;
   };

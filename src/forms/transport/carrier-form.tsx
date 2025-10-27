@@ -11,12 +11,12 @@ import { Textarea } from "@/components/input/textarea";
 import { useTranslations } from "next-intl";
 import { DatePicker } from "@/components/input/date-picker";
 import { FileUploadModal } from "@/components/input/file-upload-modal";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 
 const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
   const t = useTranslations();
 
-  const { refetchTransportData } = useUser();
+  const { refetchTransportData } = useAuth();
 
   return (
     <CrudForm

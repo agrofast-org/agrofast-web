@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Modal, ModalContent } from "./modal";
+import { ModalProps } from "@heroui/react";
 
-export interface ConditionalModalProps {
+export interface ConditionalModalProps extends ModalProps {
   isOpen: boolean;
   onClose?: () => void;
   canClose?: boolean;
-  children: React.ReactNode | ((onClose: () => void) => React.ReactNode);
 }
 
 const ConditionalModal: React.FC<ConditionalModalProps> = ({
@@ -13,6 +13,7 @@ const ConditionalModal: React.FC<ConditionalModalProps> = ({
   onClose,
   canClose = true,
   children,
+  ...props
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(isOpen);
 
@@ -27,9 +28,15 @@ const ConditionalModal: React.FC<ConditionalModalProps> = ({
   }, [isOpen]);
 
   return (
-    <Modal isOpen={isModalOpen} onClose={handleClose} hideCloseButton={!canClose} placement="center">
+    <Modal
+      isOpen={isModalOpen}
+      onClose={handleClose}
+      hideCloseButton={!canClose}
+      placement="center"
+      {...props}
+    >
       <ModalContent>
-        {typeof children === "function" ? children(handleClose) : children}
+        {children}
       </ModalContent>
     </Modal>
   );

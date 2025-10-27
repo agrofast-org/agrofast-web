@@ -1,4 +1,4 @@
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { Message as MessageType } from "@/types/chat";
 import { User } from "@/types/user";
 import { Button, cn, Spinner, Tooltip } from "@heroui/react";
@@ -39,7 +39,7 @@ export const Message: React.FC<MessageProps> = ({
   retrySending,
   answerMessage,
 }) => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const answer = () => {
     if (!isLoading) {
       answerMessage?.(message);

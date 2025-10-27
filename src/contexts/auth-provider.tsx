@@ -20,12 +20,14 @@ import { getCarrier } from "@/http/carrier/get-carriers";
 import { useLocalStorage } from "ilias-use-storage";
 import { googleLogout } from "@react-oauth/google";
 import { useQuery } from "@tanstack/react-query";
+import { DefinePassword } from "@/components/ui/setup-password";
 
 interface AuthContextProps {
   token: string | undefined;
   setToken: (token: string | undefined) => void;
   user: User | undefined;
-  setUser: (user: User | undefined) => void;
+  setUser: () => void;
+  hasPassword: boolean;
   machinery: Machinery[] | undefined;
   carriers: Carrier[] | undefined;
   transportLoaded: boolean;
@@ -35,10 +37,10 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const useUser = (): AuthContextProps => {
+export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useUser must be used within an AuthProvider");
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -54,9 +56,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     AUTHENTICATED_KEY,
   ]);
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
-  const [localStoredUser, setLocalStoredUser] = useLocalStorage<
+  const [localStoredUser, setLocalStoredUser, removeLocalStoredUser] = useLocalStorage<
     User | undefined
   >("user", undefined);
+  const [hasPassword, setHasPassword] = useState<boolean>(true);
   const {
     data: user,
     isFetched: userFetched,
@@ -70,6 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           if (data.authenticated) {
             setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
           }
+          setHasPassword(data.has_password);
           return data.user;
         })
         .catch(() => {
@@ -88,7 +92,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setTransportLoaded(true);
         return data;
       }),
-    enabled: canLoadTransport && user?.profile_type === "requester" && cookies[AUTHENTICATED_KEY] === true,
+    enabled:
+      canLoadTransport &&
+      user?.profile_type === "requester" &&
+      cookies[AUTHENTICATED_KEY] === true,
   });
   const { data: carriers, refetch: refetchCarriers } = useQuery<Carrier[]>({
     queryKey: ["carriers"],
@@ -97,7 +104,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setTransportLoaded(true);
         return data;
       }),
-    enabled: canLoadTransport && user?.profile_type === "transporter" && cookies[AUTHENTICATED_KEY] === true,
+    enabled:
+      canLoadTransport &&
+      user?.profile_type === "transporter" &&
+      cookies[AUTHENTICATED_KEY] === true,
   });
 
   const refetchTransportData = useCallback(() => {
@@ -125,12 +135,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const logout = useCallback(() => {
-    setLocalStoredUser(undefined);
+    removeLocalStoredUser();
     setToken(undefined);
     googleLogout();
     refetchUser();
     router.push("/web/login");
-  }, [router, setLocalStoredUser, setToken, refetchUser]);
+  }, [router, removeLocalStoredUser, setToken, refetchUser]);
 
   const fetchMe = useCallback(async () => {
     const storedToken = cookies[AUTH_TOKEN_KEY];
@@ -186,6 +196,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         token,
         setToken,
         user,
+        hasPassword,
         setUser,
         machinery,
         carriers,
@@ -194,6 +205,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         logout,
       }}
     >
+      <DefinePassword />
       {children}
     </AuthContext.Provider>
   );

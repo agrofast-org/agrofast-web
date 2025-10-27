@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/input/checkbox";
 import { Input } from "@/components/input/input";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useRouter } from "next/router";
@@ -16,7 +16,7 @@ import { GoogleAuthButton } from "@/components/ui/google-auth-button";
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken } = useAuth();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
       onSubmit={login}
       onSuccess={({ data }) => {
         setToken(data.token);
-        setUser(data.user);
+        setUser();
         if (data.auth === "authenticate") {
           router.push("/web/auth-code");
         }

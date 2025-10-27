@@ -1,4 +1,4 @@
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useOverlay } from "@/contexts/overlay-provider";
 import { cn } from "@/lib/utils";
 import { Button, Skeleton, Spacer } from "@heroui/react";
@@ -30,7 +30,7 @@ const AuthCodeForm: React.FC = () => {
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
   const { setIsLoading } = useOverlay();
-  const { user, setUser, setToken, logout } = useUser();
+  const { user, setUser, setToken, logout } = useAuth();
 
   const { time, setTime } = useCountdown(TIMEOUT);
 
@@ -85,7 +85,7 @@ const AuthCodeForm: React.FC = () => {
         className="flex flex-col flex-1 md:flex-auto"
         onSubmit={auth}
         onSuccess={({ data }) => {
-          setUser(data.user);
+          setUser();
           setToken(data.token);
           setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
           router.push("/web");
@@ -142,7 +142,7 @@ const AuthCodeForm: React.FC = () => {
           </div>
           <Skeleton className="inline-block rounded-lg" isLoaded={mounted}>
             {mounted && (
-              <p className="font-normal text-gray-700 dark:text-gray-200 text-small text-center">
+              <p className="font-normal text-gray-700 text-small dark:text-gray-200 text-center">
                 {t.rich("UI.info.email_verification_code_sent", {
                   email: () => <span className="font-bold">{user?.email}</span>,
                   action: () => (

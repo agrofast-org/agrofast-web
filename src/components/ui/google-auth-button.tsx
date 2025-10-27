@@ -1,15 +1,24 @@
 import { Button, cn } from "@heroui/react";
-import { GoogleLogin, useGoogleOAuth } from "@react-oauth/google";
+import {
+  useGoogleLogin,
+  useGoogleOAuth,
+  useGoogleOneTapLogin,
+} from "@react-oauth/google";
 import { GoogleIcon } from "../icon/google-icon";
 import { useRouter } from "next/router";
-import { googleAuth } from "@/http/user/google-auth";
+import {
+  AuthResponse,
+  googleAuth,
+  googleAuthV2,
+} from "@/http/user/google-auth";
 import { AUTHENTICATED_KEY } from "@/middleware";
 import { cookieOptions } from "@/service/cookie";
-import { useUser } from "@/contexts/auth-provider";
+import { useAuth } from "@/contexts/auth-provider";
 import { useCookies } from "react-cookie";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useApp } from "@/contexts/app-context";
 import { useAlert } from "@/contexts/alert-provider";
+import { AxiosResponse } from "axios";
 
 export interface GoogleAuthButtonProps {
   children?: React.ReactNode;
@@ -24,12 +33,10 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 }) => {
   const router = useRouter();
   const { mounted } = useApp();
-  const { setUser, setToken, token } = useUser();
+  const { setUser, setToken, token } = useAuth();
   const { addAlert } = useAlert();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
-
-  const [focused, setFocused] = useState<boolean>(false);
 
   const { scriptLoadedSuccessfully } = useGoogleOAuth();
 
@@ -37,37 +44,59 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
     addAlert("google-auth-unavailable", {
       type: "error",
       title: "Login com google indisponível",
-      message: "Não será possível conectar com o Google no momento.",
+      message: "Não foi possível conectar com o Google no momento.",
     });
   }, [addAlert]);
 
-  const component = (
-    <GoogleLogin
-      // useOneTap
-      theme="outline"
-      locale={router.locale ?? "pt-BR"}
-      onSuccess={(credentials) => {
-        googleAuth(credentials).then(({ data }) => {
-          setToken(data.token);
-          setUser(data.user);
-          if (data.auth === "authenticate") {
-            router.push("/web/auth-code");
-          }
-          if (data.auth === "authenticated") {
-            setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-            router.push("/web");
-          }
-        });
-      }}
-      onError={showGoogleOAuthError}
-      // auto_select
-      // cancel_on_tap_outside
-      containerProps={{
-        onFocus: () => setFocused(true),
-        onBlur: () => setFocused(false),
-      }}
-    />
+  const googleLoginCallback = useCallback(
+    (callback: Promise<AxiosResponse<AuthResponse>>) => {
+      callback.then(({ data }) => {
+        setToken(data.token);
+        setUser();
+        if (data.auth === "authenticate") {
+          router.push("/web/auth-code");
+        }
+        if (data.auth === "authenticated") {
+          setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
+          router.push("/web");
+        }
+      });
+    },
+    [setToken, setUser, router, setCookie]
   );
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (credentials) => {
+      googleLoginCallback(googleAuthV2(credentials));
+    },
+  });
+
+  useGoogleOneTapLogin({
+    onSuccess: (credentials) => {
+      googleLoginCallback(googleAuth(credentials));
+    },
+    onError: showGoogleOAuthError,
+    disabled: !!token,
+  });
+
+  useGoogleOneTapLogin({
+    onSuccess: (credentials) => {
+      googleAuth(credentials).then(({ data }) => {
+        setToken(data.token);
+        setUser();
+        if (data.auth === "authenticate") {
+          router.push("/web/auth-code");
+        }
+        if (data.auth === "authenticated") {
+          setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
+          router.push("/web");
+        }
+      });
+    },
+    onError: showGoogleOAuthError,
+    cancel_on_tap_outside: false,
+    disabled: !!token,
+  });
 
   return (
     <Button
@@ -77,25 +106,16 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
       )}
       tabIndex={-1}
       color="default"
-      data-focus={focused}
-      data-focus-visible={focused}
       hidden={hidden}
       isLoading={!mounted || !!token}
-
-      // isDisabled={!scriptLoadedSuccessfully}
-      isDisabled={true}
+      isDisabled={!scriptLoadedSuccessfully}
       onPress={() => {
-        addAlert("google-auth-unavailable", {
-          type: "info",
-          title: "Login com google indisponível",
-          message: "Não será possível conectar com o Google no momento.",
-        });
+        googleLogin();
         if (!scriptLoadedSuccessfully) {
           showGoogleOAuthError();
         }
       }}
     >
-      {!token && mounted && component}
       {showIcon && <GoogleIcon width={24} />}
       {children}
     </Button>
