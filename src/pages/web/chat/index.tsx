@@ -4,7 +4,7 @@ import { FetchAutocomplete } from "@/components/input/fetch-autocomplete";
 import { useUser } from "@/contexts/auth-provider";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { api } from "@/service/api";
-import { ChatWithLastMessage } from "@/types/chat";
+import { Chat, ChatWithLastMessage } from "@/types/chat";
 import { Magnifer } from "@solar-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import Head from "next/head";
@@ -27,12 +27,20 @@ export default function Index() {
       </Head>
       <Body className="flex flex-col items-center !pb-0 h-[calc(100vh-calc(65px+73px))]">
         <div className="relative flex flex-col px-0 border-divider border-x w-full max-w-xl h-full overflow-y-auto">
-          <div className="px-4 py-2 border-divider border-b">
+          <div className="px-4 py-2 max-h-14 border-divider border-b">
             <FetchAutocomplete
               name="chat-search"
               localLabel="Seus chats"
               asyncLabel="Usuarios"
+              src="/user/search"
               className="w-full"
+              onAsyncSelect={(key) => {
+                api.post<Chat>("/chat/with", {
+                  user_uuid: key?.value,
+                }).then(({data}) => {
+                  router.push(`/web/chat/${data.uuid}`);
+                });
+              }}
               startContent={
                 <Magnifer
                   weight="LineDuotone"

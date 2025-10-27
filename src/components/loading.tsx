@@ -46,7 +46,7 @@ const Loading = () => {
             isLoading ? "pointer-events-auto" : "pointer-events-none",
             "transition-all fixed inset-0 z-[150]",
             "flex flex-col gap-8 items-center justify-center",
-            "text-default-800 bg-default-100 backdrop-blur-[1px]"
+            "text-default-800 bg-default-100p backdrop-blur-[1px]"
           )}
           >
           <Spinner

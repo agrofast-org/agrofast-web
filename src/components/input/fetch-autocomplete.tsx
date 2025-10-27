@@ -14,6 +14,7 @@ import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/service/api";
 import { Avatar } from "../avatar";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export type FetchAutocompleteProps = {
   localLabel: string;
@@ -57,19 +58,30 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
     },
   });
 
-  const { data: asyncList, isFetching: isAsyncListLoading } = useQuery({
+  const {
+    data: asyncList,
+    isFetching: isAsyncListLoading,
+    refetch: reloadAsyncList,
+  } = useQuery({
     queryKey: ["async-options", name],
     queryFn: async () => {
       return await api
         .get<Options>(props.src || "", {
           params: {
-            query: list.filterText,
+            q: list.filterText,
           },
         })
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch(() => null);
     },
-    enabled: !!props.src && list.filterText.trim() !== "" && !list.isLoading,
+    enabled: false, // !!props.src && list.filterText.trim() !== "" && !list.isLoading,
   });
+
+  const [debounce] = useDebounce(() => {
+    if (list.filterText.trim() !== "") {
+      reloadAsyncList();
+    }
+  }, 1500);
 
   const updateInput = useCallback(
     (key: React.Key | null) => {
@@ -92,11 +104,15 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
     name,
     value: props.selectedKey,
     onChange: (key) => {
-      const asyncOption = asyncList?.find((item) => item.value === key);
+      const asyncOption = (Array.isArray(asyncList) ? asyncList : [])?.find(
+        (item) => item.value === key?.toString()
+      );
+      console.log('Async option selected', asyncList);
       if (asyncOption) {
         onAsyncSelect?.(asyncOption);
       }
-      return onSelectionChange;
+      onSelectionChange?.(key);
+      return onSelectionChange?.(key);
     },
     ignoreForm: !name,
     error: props.errorMessage,
@@ -107,11 +123,17 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
 
   return (
     <HeroUIAutocomplete
+      aria-label="Autocomplete"
       labelPlacement="outside"
       variant="bordered"
       isLoading={list.isLoading}
       inputValue={list.filterText}
-      onInputChange={list.setFilterText}
+      onInputChange={(val) => {
+        if (val.trim() !== "") {
+          debounce();
+        }
+        list.setFilterText(val);
+      }}
       items={list.items}
       classNames={{
         base: "relative max-h-10 mb-6",
@@ -136,17 +158,31 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
         }}
         title={localLabel || "Opções"}
       >
-        {(item) => {
-          const opt = item as Option;
-          return (
-            <HeroUIAutocompleteItem
-              key={opt.value}
-              description={opt.description}
-            >
-              {opt.label}
-            </HeroUIAutocompleteItem>
-          );
-        }}
+        {list.items.length > 0 ? (
+          list.items.map((item) => {
+            const opt = item as Option;
+            return (
+              <HeroUIAutocompleteItem
+                startContent={
+                  opt.image ? (
+                    <Avatar
+                      src={opt.image}
+                      className="w-10 h-[35px] !aspect-square"
+                    />
+                  ) : undefined
+                }
+                key={opt.value}
+                description={opt.description}
+              >
+                {opt.label}
+              </HeroUIAutocompleteItem>
+            );
+          })
+        ) : (
+          <HeroUIAutocompleteItem key="local-fallback" isDisabled>
+            Nenhuma opção disponível
+          </HeroUIAutocompleteItem>
+        )}
       </AutocompleteSection>
       <AutocompleteSection
         classNames={{
@@ -165,17 +201,22 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
             />
             Carregando...
           </HeroUIAutocompleteItem>
-        ) : asyncList && asyncList.length === 0 ? (
-          <HeroUIAutocompleteItem key="no-options">
-            No options available
+        ) : !Array.isArray(asyncList) ? (
+          <HeroUIAutocompleteItem key="no-options" isDisabled>
+            Nenhuma opção disponível
           </HeroUIAutocompleteItem>
         ) : (
-          asyncList?.map((item) => {
+          (Array.isArray(asyncList) ? asyncList : [])?.map((item) => {
             const opt = item as Option;
             return (
               <HeroUIAutocompleteItem
                 startContent={
-                  opt.image ? undefined : <Avatar src={opt.image} />
+                  opt.image ? (
+                    <Avatar
+                      src={opt.image}
+                      className="w-10 h-[35px] !aspect-square"
+                    />
+                  ) : undefined
                 }
                 key={opt.value}
                 description={opt.description}
@@ -183,11 +224,7 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
                 {opt.label || "Unnamed Option"}
               </HeroUIAutocompleteItem>
             );
-          }) ?? (
-            <HeroUIAutocompleteItem key="fallback">
-              Nenhuma opção disponível
-            </HeroUIAutocompleteItem>
-          )
+          })
         )}
       </AutocompleteSection>
     </HeroUIAutocomplete>
