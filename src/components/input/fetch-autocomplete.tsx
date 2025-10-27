@@ -18,6 +18,7 @@ import { Avatar } from "../avatar";
 export type FetchAutocompleteProps = {
   localLabel: string;
   asyncLabel: string;
+  onAsyncSelect?: (option: Option | null) => void;
   src?: string;
   options?: Options;
   children?: HeroUIAutocompleteProps["children"];
@@ -28,6 +29,7 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
   options,
   localLabel,
   asyncLabel,
+  onAsyncSelect,
   className,
   required,
   onSelectionChange,
@@ -55,7 +57,7 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
     },
   });
 
-  const { data, isFetching } = useQuery({
+  const { data: asyncList, isFetching: isAsyncListLoading } = useQuery({
     queryKey: ["async-options", name],
     queryFn: async () => {
       return await api
@@ -89,7 +91,13 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
     id: props.id,
     name,
     value: props.selectedKey,
-    onChange: onSelectionChange,
+    onChange: (key) => {
+      const asyncOption = asyncList?.find((item) => item.value === key);
+      if (asyncOption) {
+        onAsyncSelect?.(asyncOption);
+      }
+      return onSelectionChange;
+    },
     ignoreForm: !name,
     error: props.errorMessage,
   });
@@ -146,7 +154,7 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
         }}
         title={asyncLabel || "Opções carregadas"}
       >
-        {isFetching ? (
+        {isAsyncListLoading ? (
           <HeroUIAutocompleteItem key="loading" isReadOnly>
             <Spinner
               size="sm"
@@ -157,16 +165,18 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
             />
             Carregando...
           </HeroUIAutocompleteItem>
-        ) : data && data.length === 0 ? (
+        ) : asyncList && asyncList.length === 0 ? (
           <HeroUIAutocompleteItem key="no-options">
             No options available
           </HeroUIAutocompleteItem>
         ) : (
-          data?.map((item) => {
+          asyncList?.map((item) => {
             const opt = item as Option;
             return (
               <HeroUIAutocompleteItem
-                startContent={opt.image ? undefined : <Avatar src={opt.image} />}
+                startContent={
+                  opt.image ? undefined : <Avatar src={opt.image} />
+                }
                 key={opt.value}
                 description={opt.description}
               >
