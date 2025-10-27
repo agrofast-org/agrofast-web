@@ -49,7 +49,7 @@ export default function Index() {
               }
               placeholder="Pesquise por conversas"
               options={chats? chats.map((chat) => {
-                const receiver = chat?.users?.find((u) => u.id !== user?.id);
+                const receiver = chat?.users?.find((u) => u.id !== user?.id) || user;
                 return {
                   value: chat.uuid,
                   image: receiver?.profile_picture,
@@ -62,7 +62,7 @@ export default function Index() {
             />
           </div>
           {chats?.map((chat) => {
-            const receiver = chat?.users?.find((u) => u.id !== user?.id);
+            const receiver = chat?.users?.find((u) => u.id !== user?.id) || user;
             return (
               <div
                 key={chat.uuid}
@@ -74,7 +74,7 @@ export default function Index() {
                 <Avatar src={receiver?.profile_picture} />
                 <div className="relative flex-1">
                   <h2 className="font-bold">
-                    {receiver?.name || "Unknown User"}
+                    {receiver?.name || "Unknown User"} {receiver?.id === user?.id && "(Você)"}
                   </h2>
                   <p className="bottom-0 absolute max-w-xs text-default-600 text-xs truncate">
                     {chat.last_message && <span className="font-medium">{chat.last_message?.user_id === user?.id ? "Você: " : <>{receiver?.name.split(" ")[0]}: </>}</span>}

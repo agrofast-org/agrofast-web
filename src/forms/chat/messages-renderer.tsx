@@ -1,11 +1,12 @@
 import { Message } from "@/components/message";
 import { Section } from "@/components/section";
+import { useUser } from "@/contexts/auth-provider";
 import { Chat, Message as MessageType, StackedMessage } from "@/types/chat";
 import { User } from "@/types/user";
 import { useMemo } from "react";
 
 export interface MessagesRendererProps {
-  user: User;
+  users?: User[];
   chat: Chat;
   messagesStash: StackedMessage[];
   sentMessagesStack: MessageType[];
@@ -15,7 +16,7 @@ export interface MessagesRendererProps {
 }
 
 export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
-  user,
+  users,
   chat,
   messagesStash,
   sentMessagesStack,
@@ -23,6 +24,7 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
   errorSending,
   sendMessage,
 }) => {
+  const { user } = useUser();
   const getStackedMessage = (index: number) => {
     return (messagesStash[index] as MessageType) || undefined;
   };
@@ -43,6 +45,7 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
       {finalMessages.map((message, index, arr) => (
         <Message
           key={message.uuid}
+          chatUsers={users || []}
           messageBefore={arr[index - 1]}
           message={message}
           messageAfter={arr[index + 1]}
@@ -54,6 +57,7 @@ export const MessagesRenderer: React.FC<MessagesRendererProps> = ({
       {[...(messagesStash ?? [])].reverse().map((_, index, arr) => (
         <Message
           key={`stash-${index}`}
+          chatUsers={users || []}
           bubbleClassName="opacity-75 !pb-2"
           messageBefore={getStackedMessage(index - 1)}
           message={getStackedMessage(index)}
