@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setTransportLoaded(true);
         return data;
       }),
-    enabled: canLoadTransport && user?.profile_type === "requester",
+    enabled: canLoadTransport && user?.profile_type === "requester" && cookies[AUTHENTICATED_KEY] === true,
   });
   const { data: carriers, refetch: refetchCarriers } = useQuery<Carrier[]>({
     queryKey: ["carriers"],
@@ -97,7 +97,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setTransportLoaded(true);
         return data;
       }),
-    enabled: canLoadTransport && user?.profile_type === "transporter",
+    enabled: canLoadTransport && user?.profile_type === "transporter" && cookies[AUTHENTICATED_KEY] === true,
   });
 
   const refetchTransportData = useCallback(() => {
