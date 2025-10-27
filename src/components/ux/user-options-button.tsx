@@ -1,4 +1,11 @@
-import { ChatLine, Logout2, Routing2, Settings, Wheel } from "@solar-icons/react";
+import {
+  ChatLine,
+  Logout2,
+  Map,
+  Routing2,
+  Settings,
+  Wheel,
+} from "@solar-icons/react";
 import IconOption from "../ui/icon-option";
 import { useTheme } from "next-themes";
 import ThemeUserFeedback from "./theme-user-feedback";
@@ -68,6 +75,9 @@ const UserOptionsButton: React.FC = () => {
         </IconOption>
         {user?.profile_type === "requester" && (
           <>
+            <IconOption icon={<Map />} href="/web">
+              Mapa
+            </IconOption>
             <IconOption icon={<Wheel />} href="/web/machinery">
               Maquinarios
             </IconOption>
@@ -77,9 +87,14 @@ const UserOptionsButton: React.FC = () => {
           </>
         )}
         {user?.profile_type === "transporter" && (
-          <IconOption icon={<Wheel />} href="/web/carrier">
-            Veículos de transporte
-          </IconOption>
+          <>
+            <IconOption icon={<Map />} href="/web">
+              Serviços
+            </IconOption>
+            <IconOption icon={<Wheel />} href="/web/carrier">
+              Veículos de transporte
+            </IconOption>
+          </>
         )}
         <IconOption
           onClick={logout}
@@ -88,6 +103,7 @@ const UserOptionsButton: React.FC = () => {
           confirmActionInfo={{
             actionConfirmTitle: t("UI.redirects.logout"),
             onConfirmModalChanged: setIsModalOpen,
+            actionConfirmButtonColor: "danger",
           }}
         >
           {t("UI.redirects.logout")}

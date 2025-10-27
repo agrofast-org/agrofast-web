@@ -49,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <NavbarBrand className="flex flex-row flex-1 justify-start items-center gap-4">
         <NavbarBrand>
-          <Link href="/">
+          <Link href="/web">
             <TerraMov.Logo className="w-36 h-9" />
           </Link>
         </NavbarBrand>
@@ -62,7 +62,8 @@ export const Header: React.FC<HeaderProps> = ({
                 href="/web"
                 className="font-bold text-gray-700 hover:text-gray-900 dark:hover:text-gray-300 dark:text-gray-200 hover:underline"
               >
-                {t("UI.redirects.application") as string}
+                {user?.profile_type === "requester" && "Mapa"}
+                {user?.profile_type === "transporter" && "Serviços"}
               </Link>
             </NavbarItem>
             {user?.profile_type === "requester" && (

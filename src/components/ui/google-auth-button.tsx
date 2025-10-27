@@ -61,7 +61,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
       }}
       onError={showGoogleOAuthError}
       auto_select
-      cancel_on_tap_outside
+      // cancel_on_tap_outside
       containerProps={{
         onFocus: () => setFocused(true),
         onBlur: () => setFocused(false),

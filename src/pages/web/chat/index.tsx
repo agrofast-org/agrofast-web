@@ -1,6 +1,6 @@
 import { Avatar } from "@/components/avatar";
 import Body from "@/components/body";
-import { Input } from "@/components/input/input";
+import { FetchAutocomplete } from "@/components/input/fetch-autocomplete";
 import { useUser } from "@/contexts/auth-provider";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { api } from "@/service/api";
@@ -28,7 +28,11 @@ export default function Index() {
       <Body className="flex flex-col items-center !pb-0 h-[calc(100vh-calc(65px+73px))]">
         <div className="relative flex flex-col px-0 border-divider border-x w-full max-w-xl h-full overflow-y-auto">
           <div className="px-4 py-2 border-divider border-b">
-            <Input
+            <FetchAutocomplete
+              name="chat-search"
+              localLabel="Seus chats"
+              asyncLabel="Usuarios"
+              className="w-full"
               startContent={
                 <Magnifer
                   weight="LineDuotone"
@@ -36,6 +40,17 @@ export default function Index() {
                 />
               }
               placeholder="Pesquise por conversas"
+              options={chats? chats.map((chat) => {
+                const receiver = chat?.users?.find((u) => u.id !== user?.id);
+                return {
+                  value: chat.uuid,
+                  image: receiver?.profile_picture,
+                  label: receiver?.name || "Unknown User",
+                  description: chat.last_message
+                    ? `${receiver?.name.split(" ")[0]}: ${chat.last_message.message}`
+                    : "No messages yet.",
+                };
+              }) : []}
             />
           </div>
           {chats?.map((chat) => {
