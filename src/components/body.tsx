@@ -4,6 +4,7 @@ import Loading from "@/components/loading";
 import { Footer } from "./footer";
 
 interface BodyProps {
+  style?: React.CSSProperties;
   className?: string;
   children?: React.ReactNode;
   hideHeader?: boolean;
@@ -12,6 +13,7 @@ interface BodyProps {
 }
 
 const Body: React.FC<BodyProps> = ({
+  style,
   className,
   children,
   hideHeader,
@@ -28,6 +30,7 @@ const Body: React.FC<BodyProps> = ({
           !hideFooter && "pb-16 sm:pb-4",
           className
         )}
+        style={style}
       >
         {children}
       </main>

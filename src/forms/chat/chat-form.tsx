@@ -20,9 +20,14 @@ export const ChatForm: React.FC = () => {
   const { user } = useAuth();
 
   const [message, setMessage] = useState<string>("");
-  const [answerMessage, setAnswerMessage] = useState<MessageType | undefined>(
-    undefined
-  );
+  const [answerMessage, setAnswerMessageState] = useState<
+    MessageType | undefined
+  >(undefined);
+
+  const setAnswerMessage = (message: MessageType | undefined) => {
+    setAnswerMessageState(message);
+    document.querySelector<HTMLInputElement>("#message-form input[name='message']")?.focus();
+  };
 
   const [messagesStack, setMessagesStack] = useState<StackedMessage[]>([]);
   const [sentMessagesStack, setSentMessagesStack] = useState<MessageType[]>([]);
@@ -117,6 +122,7 @@ export const ChatForm: React.FC = () => {
       </Button>
       <Section className="bottom-0 z-10 sticky flex-row gap-2 bg-default-100 mx-auto p-2 px-2 !pt-0 max-w-[912px] container">
         <Form
+          id="message-form"
           className="gap-0 w-full"
           onSubmit={(e) => {
             e.preventDefault();

@@ -1,0 +1,36 @@
+import Body from "@/components/body";
+import { useTranslations } from "next-intl";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
+import Head from "next/head";
+import { GetStaticPaths } from "next";
+import { Params } from "next/dist/server/request/params";
+
+export default function Find() {
+  // const { query } = useRouter();
+  const pt = useTranslations("Pages.SignUp");
+
+  return (
+    <>
+      <Head>
+        <title>{pt("meta.title")}</title>
+        <meta name="description" content={pt("meta.description")} />
+      </Head>
+      <Body className="flex flex-row justify-center">
+        <section className="flex flex-row items-start gap-4 mx-auto container">
+          {/* <FormBody>
+            <CarrierForm
+              uuid={Array.isArray(query.uuid) ? query.uuid[0] : query.uuid}
+            />
+          </FormBody> */}
+        </section>
+      </Body>
+    </>
+  );
+}
+
+export const getStaticPaths: GetStaticPaths<Params> = async () => ({
+  paths: [],
+  fallback: "blocking",
+});
+
+export const getStaticProps = getStaticPropsWithMessages;

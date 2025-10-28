@@ -47,7 +47,8 @@ export const OfferForm: React.FC<OfferFormProps> = ({
               return;
             }
             if ("uuid" in data && data.uuid) {
-              router.push(`/web/offer/${data.uuid}`);
+              router.push("/web/offer");
+              // router.push(`/web/offer/${data.uuid}`);
               return;
             }
           })
