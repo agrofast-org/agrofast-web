@@ -15,9 +15,12 @@ const localOrigin = getCurrentOrigin();
 const hostname =
   typeof window !== "undefined" ? window.location.hostname : "localhost";
 
-export const apiBaseUrl = isIpAddress(hostname)
-  ? `${localOrigin.replace(/:3030$/, "")}`
-  : process.env.NEXT_PUBLIC_API_BASE_URL;
+// export const apiBaseUrl = isIpAddress(hostname)
+//   ? `${localOrigin.replace(/:3030$/, "")}`
+//   : process.env.NEXT_PUBLIC_API_BASE_URL;
+
+
+export const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const api = axios.create({
   baseURL: `${apiBaseUrl}/api`,
@@ -46,7 +49,10 @@ const interceptors: {
   RequestError: (error) => Promise.reject(error),
   ResponseSuccess: (res) => res,
   ResponseError: (error) => {
-    const { status, data } = error.response;
+    const { status, data } = error.response || {};
+    if (!status) {
+      return Promise.reject(error);
+    }
     switch (status) {
       case 201:
       case 204:

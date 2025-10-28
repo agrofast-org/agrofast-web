@@ -22,8 +22,13 @@
   }
 }
 
-html, body {
+html,
+body {
   @apply bg-default-100 dark:bg-default-50 min-h-svh transition-background scroll-smooth;
+}
+
+main {
+  -webkit-overflow-scrolling: touch;
 }
 
 .interpolate {
@@ -50,7 +55,7 @@ html, body {
 .marker {
   filter: drop-shadow(0 1px 0.1rem #9b9b9b);
 }
- 
+
 .marker div svg {
   width: 100%;
   height: 100%;

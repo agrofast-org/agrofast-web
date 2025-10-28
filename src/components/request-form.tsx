@@ -53,8 +53,8 @@ export function RequestForm<
             }
           })
           .catch((error) => {
-            setFormError(error.response?.data?.message);
-            setFormErrors(error.response?.data?.errors);
+            setFormError(error?.response?.data?.message);
+            setFormErrors(error?.response?.data?.errors);
             onError?.(error);
           })
           .finally(() => {

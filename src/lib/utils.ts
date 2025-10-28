@@ -28,7 +28,7 @@ export const getBaseUrl = (): string => {
   if (cachedBaseUrl) return cachedBaseUrl;
 
   if (!isDevelopment()) {
-    return process.env.NEXT_PUBLIC_WEB_BASE_URL ?? "https://agrofast.tech"
+    return process.env.NEXT_PUBLIC_WEB_BASE_URL ?? "https://agrofast.tech";
   }
 
   const hostname =
@@ -212,7 +212,7 @@ export const formatDuration = (duration?: number | string): string => {
   result += `${seconds} s`;
 
   return result.trim();
-}
+};
 
 export const formatCurrency = (value?: number | string): string => {
   if (value === undefined || value === null) return "-";
@@ -224,4 +224,16 @@ export const formatCurrency = (value?: number | string): string => {
     style: "currency",
     currency: "BRL",
   }).format(value);
+};
+
+export const isTextInput = (el: Element | null) => {
+  if (!el) return false;
+  const tag = (el as HTMLElement).tagName?.toLowerCase();
+  if (tag === "input" || tag === "textarea") return true;
+  if (
+    (el as HTMLElement).hasAttribute &&
+    (el as HTMLElement).hasAttribute("contenteditable")
+  )
+    return true;
+  return false;
 };

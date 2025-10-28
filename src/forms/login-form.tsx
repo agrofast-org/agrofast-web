@@ -26,7 +26,9 @@ const LoginForm: React.FC = () => {
     <RequestForm
       className="!flex !flex-col flex-1 gap-4"
       initialData={router.query}
-      onSubmit={login}
+      onSubmit={(data) => {
+        return login(data);
+      }}
       onSuccess={({ data }) => {
         setToken(data.token);
         setUser();
@@ -41,25 +43,22 @@ const LoginForm: React.FC = () => {
     >
       <div className="flex flex-col flex-1 md:flex-auto gap-4 w-full">
         <Input
-          id="email"
           name="email"
+          type="email"
           label={t("UI.labels.email")}
           placeholder={t("UI.placeholders.write_email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          type="email"
           isRequired
         />
         <Input
-          isRequired
-          taggableVisibility
-          className="text-gray-700 dark:text-gray-200"
-          label={t("UI.labels.password")}
-          labelPlacement="outside"
           name="password"
-          placeholder={t("UI.placeholders.write_password")}
           type="password"
-          variant="bordered"
+          label={t("UI.labels.password")}
+          placeholder={t("UI.placeholders.write_password")}
+          className="text-gray-700 dark:text-gray-200"
+          taggableVisibility
+          isRequired
         />
         <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-2 px-1 py-2 w-full">
           <Checkbox defaultSelected name="remember" value="true" size="sm">
