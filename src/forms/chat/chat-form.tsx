@@ -5,7 +5,7 @@ import { Chat, Message as MessageType, StackedMessage } from "@/types/chat";
 import { Section } from "@/components/section";
 import { useAuth } from "@/contexts/auth-provider";
 import { Avatar } from "@/components/avatar";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Button, cn, Form } from "@heroui/react";
 import { ArrowDown, ArrowLeft, CloseCircle, Plain2 } from "@solar-icons/react";
 import { MessageInput } from "@/components/ux/chat/message-input";
@@ -15,7 +15,7 @@ import Link from "@/components/link";
 
 export const ChatForm: React.FC = () => {
   const router = useRouter();
-  const chatWrapperRef = useRef<HTMLDivElement>(null);
+  // const chatWrapperRef = useRef<HTMLDivElement>(null);
 
   const { user } = useAuth();
 
@@ -92,24 +92,10 @@ export const ChatForm: React.FC = () => {
     sendMessages(messagesStack);
   };
 
-  const [isNotAtBottom, setIsNotAtBottom] = useState<boolean>(false);
+  const [isNotAtBottom] = useState<boolean>(false);
 
   return (
-    <div
-      ref={chatWrapperRef}
-      onScroll={() => {
-        if (chatWrapperRef.current) {
-          const { scrollTop, scrollHeight, clientHeight } =
-            chatWrapperRef.current;
-          const threshold = 5;
-          const isAtBottom =
-            Math.abs(scrollHeight - (scrollTop + clientHeight)) <= threshold ||
-            scrollTop <= threshold;
-          setIsNotAtBottom(!isAtBottom);
-        }
-      }}
-      className="relative flex flex-col-reverse px-02 border-divider border-x w-full max-w-xl h-full overflow-y-auto"
-    >
+    <>
       <Button
         className={cn(
           "bottom-14 left-1/2 z-20 fixed scale-75 -translate-x-1/2 transform",
@@ -152,7 +138,7 @@ export const ChatForm: React.FC = () => {
               </Button>
             </div>
           )}
-          <div className="flex gap-2 w-full">
+          <div className="flex items-end gap-2 w-full">
             <MessageInput message={message} setMessage={setMessage} />
             <Button
               color="primary"
@@ -187,6 +173,6 @@ export const ChatForm: React.FC = () => {
         <Avatar src={receiver?.profile_picture} />
         {receiver?.name}
       </Section>
-    </div>
+    </>
   );
 };

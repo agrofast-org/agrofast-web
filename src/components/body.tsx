@@ -21,7 +21,7 @@ const Body: React.FC<BodyProps> = ({
   hideHeader,
   shouldHideHeaderOnScroll,
   hideFooter,
-  shrinkOnMobileKeyboardUp = true,
+  shrinkOnMobileKeyboardUp = false,
 }) => {
   const [viewportHeight, setViewportHeight] = useState<number>(0);
   const baseHeight = useRef<number>(0);
@@ -134,6 +134,12 @@ const Body: React.FC<BodyProps> = ({
       document.removeEventListener("focusout", onFocusOut);
       window.removeEventListener("orientationchange", onOrientation);
     };
+  }, [shrinkOnMobileKeyboardUp]);
+
+  useEffect(() => {
+    if (!shrinkOnMobileKeyboardUp) {
+      setViewportHeight(typeof window !== "undefined" ? window.innerHeight : 0);
+    }
   }, [shrinkOnMobileKeyboardUp]);
 
   return (
