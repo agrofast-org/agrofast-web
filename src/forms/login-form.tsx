@@ -26,9 +26,7 @@ const LoginForm: React.FC = () => {
     <RequestForm
       className="!flex !flex-col flex-1 gap-4"
       initialData={router.query}
-      onSubmit={(data) => {
-        return login(data);
-      }}
+      onSubmit={login}
       onSuccess={({ data }) => {
         setToken(data.token);
         setUser();

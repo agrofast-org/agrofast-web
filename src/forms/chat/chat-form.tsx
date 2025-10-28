@@ -26,7 +26,9 @@ export const ChatForm: React.FC = () => {
 
   const setAnswerMessage = (message: MessageType | undefined) => {
     setAnswerMessageState(message);
-    document.querySelector<HTMLInputElement>("#message-form input[name='message']")?.focus();
+    document
+      .querySelector<HTMLInputElement>("#message-form input[name='message']")
+      ?.focus();
   };
 
   const [messagesStack, setMessagesStack] = useState<StackedMessage[]>([]);
@@ -99,11 +101,10 @@ export const ChatForm: React.FC = () => {
         if (chatWrapperRef.current) {
           const { scrollTop, scrollHeight, clientHeight } =
             chatWrapperRef.current;
-          const threshold = 5; // tolerance for fractional pixels / rounding
+          const threshold = 5;
           const isAtBottom =
             Math.abs(scrollHeight - (scrollTop + clientHeight)) <= threshold ||
             scrollTop <= threshold;
-          // if at bottom -> not "not at bottom"
           setIsNotAtBottom(!isAtBottom);
         }
       }}
