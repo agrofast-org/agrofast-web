@@ -5,7 +5,7 @@ import Head from "next/head";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import { AddCircle } from "@solar-icons/react";
-import MachineryList from "@/lists/machinery-list";
+import { DocumentList } from "@/lists/document-list";
 
 export default function Index() {
   const t = useTranslations();
@@ -26,13 +26,13 @@ export default function Index() {
             <Button
               as={Link}
               className="bg-default-200 text-default-700"
-              href="/web/machinery/new"
+              href="/web/document/new"
             >
               {t("UI.titles.add", { item: t("UI.labels.machinery") })}{" "}
               <AddCircle weight="LineDuotone" />
             </Button>
           </div>
-          <MachineryList />
+          <DocumentList />
         </section>
       </Body>
     </>

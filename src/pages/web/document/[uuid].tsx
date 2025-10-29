@@ -5,8 +5,8 @@ import Head from "next/head";
 import { GetStaticPaths } from "next";
 import { Params } from "next/dist/server/request/params";
 import FormBody from "@/components/form/form-body";
-import MachineryForm from "@/forms/transport/machinery-form";
 import { useRouter } from "next/router";
+import { DocumentForm } from "@/forms/document-form";
 
 export default function Find() {
   const { query } = useRouter();
@@ -21,7 +21,7 @@ export default function Find() {
       <Body className="flex flex-row justify-center">
         <section className="flex flex-row items-start gap-4 mx-auto container">
           <FormBody>
-            <MachineryForm
+            <DocumentForm
               uuid={Array.isArray(query.uuid) ? query.uuid[0] : query.uuid}
             />
           </FormBody>

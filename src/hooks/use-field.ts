@@ -7,6 +7,7 @@ export interface UseFieldProps<T, S = (value: T) => void> {
   id?: string;
   name?: string;
   value?: T;
+  format?: (value: T) => T;
   onChange?: S | ((newValue: T) => void);
   onBlur?: () => void;
   ignoreForm?: boolean;
@@ -17,6 +18,7 @@ export const useField = <T = string, S = (value: T) => void>({
   id,
   name,
   value,
+  format,
   onChange,
   onBlur,
   ignoreForm = false,
@@ -38,10 +40,14 @@ export const useField = <T = string, S = (value: T) => void>({
         (onChange as (newValue: T) => void)(newValue);
       }
       if (name && form && !ignoreForm) {
+        if (format) {
+          form.setValue(name, format(newValue));
+          return;
+        }
         form.setValue(name, newValue);
       }
     },
-    [name, ignoreForm, form, onChange]
+    [name, ignoreForm, form, onChange, format]
   );
 
   const handleBlur = useCallback(() => {

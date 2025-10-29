@@ -10,12 +10,14 @@ import { useField } from "@/hooks/use-field";
 
 export interface InputProps extends HeroUIInputProps {
   taggableVisibility?: boolean;
+  format?: (value: string) => string;
 }
 
 export const Input: React.FC<InputProps> = ({
   className,
   taggableVisibility,
   isDisabled,
+  format,
   ...props
 }) => {
   const ref = useRef<HTMLInputElement>(null);
@@ -27,6 +29,7 @@ export const Input: React.FC<InputProps> = ({
     onChange: (newValue) => {
       props.onValueChange?.(newValue);
     },
+    format,
     ignoreForm: !props.name,
     error: props.errorMessage,
   });

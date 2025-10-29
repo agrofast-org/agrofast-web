@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Avatar } from "../avatar";
 
-const UserOptionsButton: React.FC = () => {
+export const UserOptionsButton: React.FC = () => {
   const t = useTranslations();
   const { theme, setTheme } = useTheme();
   const { user, logout } = useAuth();
@@ -120,5 +120,3 @@ export const LazyUserOptionsMenu: React.FC = () => {
     </Button>
   );
 };
-
-export default UserOptionsButton;
