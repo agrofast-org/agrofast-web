@@ -32,7 +32,19 @@ main {
 }
 
 * {
-  @apply [&::-webkit-scrollbar]:size-[0.3rem] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:p-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-400/35 [&::-webkit-scrollbar-thumb:hover]:bg-neutral-500/50 [&::-webkit-scrollbar-thumb:active]:bg-neutral-500;
+  @apply [&::-webkit-scrollbar]:w-[0.4rem]
+    [&::-webkit-scrollbar]:h-[0.4rem]
+    [&::-webkit-scrollbar-track]:p-[0.1rem]   
+    [&::-webkit-scrollbar-track]:bg-transparent
+    [&::-webkit-scrollbar-track]:rounded-full
+    [&::-webkit-scrollbar-thumb]:rounded-full
+    [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
+    [&::-webkit-scrollbar-thumb]:from-neutral-400/40
+    [&::-webkit-scrollbar-thumb]:to-neutral-500/40
+    [&::-webkit-scrollbar-thumb:hover]:from-neutral-500/60
+    [&::-webkit-scrollbar-thumb:hover]:to-neutral-600/60
+    [&::-webkit-scrollbar-thumb:active]:from-neutral-600
+    [&::-webkit-scrollbar-thumb:active]:to-neutral-700;
 }
 
 .interpolate {

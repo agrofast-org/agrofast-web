@@ -143,7 +143,7 @@ const List: React.FC<{
         );
       }
       return (
-        <TableCell className="text-default-600">
+        <TableCell className="text-default-600 !truncate">
           {columnFormatters[key]
             ? columnFormatters[key](getKeyValue(item, key))
             : getKeyValue(item, key)}
@@ -172,7 +172,8 @@ const List: React.FC<{
       }}
     >
       {children}
-      <Table aria-label="Componente de listagem" sortDescriptor={list.sortDescriptor} onSortChange={list.sort}>
+      <Table aria-label="Componente de listagem" className="mb-1" classNames={{
+      }} sortDescriptor={list.sortDescriptor} onSortChange={list.sort}>
         <TableHeader>
           {Object.entries(columns).map(([key, label]) => (
             <TableColumn key={key} allowsSorting={key !== "operations"}>

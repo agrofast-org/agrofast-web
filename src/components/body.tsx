@@ -23,7 +23,11 @@ const Body: React.FC<BodyProps> = ({
   hideFooter,
   shrinkOnMobileKeyboardUp = false,
 }) => {
-  const [viewportHeight, setViewportHeight] = useState<number>(0);
+  const [
+    // viewportHeight
+    ,
+    setViewportHeight,
+  ] = useState<number>(0);
   const baseHeight = useRef<number>(0);
   const lastVisualHeight = useRef<number>(0);
   const activeInput = useRef<boolean>(false);
@@ -142,6 +146,8 @@ const Body: React.FC<BodyProps> = ({
     }
   }, [shrinkOnMobileKeyboardUp]);
 
+  // const unavailableSize = 0 + (hideHeader ? 0:64) + (hideFooter ? 0:64);
+
   return (
     <>
       <Loading />
@@ -154,10 +160,10 @@ const Body: React.FC<BodyProps> = ({
         )}
         style={{
           ...style,
-          height:
-            shrinkOnMobileKeyboardUp && viewportHeight
-              ? `${viewportHeight}px`
-              : "100dvh",
+          // height:
+          //   shrinkOnMobileKeyboardUp && viewportHeight
+          //     ? `${viewportHeight}px`
+          //     : `calc(100dvh - ${unavailableSize}px)`,
         }}
       >
         {children}

@@ -127,11 +127,9 @@ export const RequestCard: React.FC<RequestCardProps> = ({
           <ItemWithLabel label="Valor Estimado">
             {formatCurrency(request.estimated_cost)}
           </ItemWithLabel>
-          {request.desired_date && (
-            <ItemWithLabel label="Data desejada">
-              {new Date(request.desired_date).toLocaleDateString()}
-            </ItemWithLabel>
-          )}
+          <ItemWithLabel label="Data desejada">
+            {request.desired_date ? new Date(request.desired_date).toLocaleDateString() : "Sem data desejada"}
+          </ItemWithLabel>
         </div>
         {offerButton && (
           <div className="flex items-end">

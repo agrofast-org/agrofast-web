@@ -8,7 +8,11 @@ import RequestStateChip from "@/components/ux/request-state-chip";
 import { useAlert } from "@/contexts/alert-provider";
 import { cancelRequest } from "@/http/request/cancel-request";
 import { formatCurrency, formatDistance, formatDuration } from "@/lib/utils";
-import { MagniferZoomIn, NotificationUnreadLines, TrashBinTrash } from "@solar-icons/react";
+import {
+  MagniferZoomIn,
+  NotificationUnreadLines,
+  TrashBinTrash,
+} from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
@@ -22,6 +26,11 @@ const RequestList: React.FC = () => {
       <IdentifierColumn label="Id" name="uuid" />
       <ListColumn label="Origem" name="origin_place_name" />
       <ListColumn label="Destino" name="destination_place_name" />
+      <ListColumn
+        label="Data desejada"
+        name="desired_date"
+        formatter={(date) => (date ? new Date(date).toLocaleDateString() : "Sem data desejada")}
+      />
       <ListColumn
         label="Distancia"
         name="distance"

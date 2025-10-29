@@ -15,6 +15,7 @@ export interface Request {
   estimated_cost: string;
   final_cost?: string;
   payment_id?: number;
+  payment?: Payment;
   desired_date?: string;
   state:
     | "pending"
@@ -48,4 +49,25 @@ export interface Offer {
     | "completed";
   created_at: string;
   updated_at: string;
+}
+
+export interface Payment {
+  id: number;
+  uuid: string;
+  payment_id: number;
+  status: string;
+  status_detail: string;
+  transaction_amount: 1;
+  external_reference?: string;
+  date_created: string;
+  date_approved?: string;
+  date_last_updated: string;
+  date_of_expiration: string;
+  qr_code: string;
+  qr_code_base64: string;
+  ticket_url: string;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+  inactivated_at?: string;
 }
