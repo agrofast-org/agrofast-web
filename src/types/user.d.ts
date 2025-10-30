@@ -22,6 +22,7 @@ export interface User {
   profile_type?: ProfileType;
   profile_picture?: string;
   documents?: Document[];
+  pix_key?: string;
   user_mercado_pago?: object[];
 }
 

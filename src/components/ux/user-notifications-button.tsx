@@ -19,9 +19,14 @@ export const UserNotificationButton: React.FC = () => {
           <>Por favor, cadastre pelo menos um <Link href="/web/document">documento</Link> para continuar utilizando o sistema.</>,
         ]
       : []),
+    // ...(!user?.user_mercado_pago && user.profile_type === "transporter"
+    //   ? [
+    //       <>Faça a autenticação da sua <Link href="/web/auth/mercado-pago">conta Mercado Pago</Link> para que possamos realizar o pagamento pelos seus serviços.</>,
+    //     ]
+    //   : []),
     ...(!user?.user_mercado_pago && user.profile_type === "transporter"
       ? [
-          <>Faça a autenticação da sua <Link href="/web/auth/mercado-pago">conta Mercado Pago</Link> para que possamos realizar o pagamento pelos seus serviços.</>,
+          <>Por favor, cadastre pelo menos uma <Link href="/web/pa">forma de recebimento</Link> para que possamos realizar o pagamento pelos seus serviços.</>,
         ]
       : []),
   ];
