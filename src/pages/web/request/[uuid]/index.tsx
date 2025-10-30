@@ -41,6 +41,7 @@ export default function Find() {
         api.get(`/request/${query.uuid}/update`).then(({ data }) => data),
       enabled: false,
       retry: false,
+      refetchInterval: 5000,
     });
 
   return (

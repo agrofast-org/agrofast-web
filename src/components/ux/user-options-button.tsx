@@ -4,6 +4,7 @@ import {
   Map,
   Routing2,
   Settings,
+  UserId,
   Wheel,
 } from "@solar-icons/react";
 import IconOption from "../ui/icon-option";
@@ -69,6 +70,9 @@ export const UserOptionsButton: React.FC = () => {
           icon={<ThemeUserFeedback />}
         >
           {t("UI.redirects.change_theme")}
+        </IconOption>
+        <IconOption icon={<UserId />} href="/web/document">
+          Documentos
         </IconOption>
         <IconOption icon={<ChatLine />} href="/web/chat">
           Chat
