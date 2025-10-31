@@ -76,6 +76,7 @@ export const OfferForm: React.FC<OfferFormProps> = ({
           label="Valor da Oferta"
           placeholder={request?.estimated_cost}
           minValue={Number(request?.estimated_cost) || 0}
+          description="Seus ganhos serão de aproximadamente 90% do valor da oferta."
           step={0.01}
           isRequired
         />
@@ -101,6 +102,7 @@ export const OfferForm: React.FC<OfferFormProps> = ({
             actionConfirmTitle: "Importante",
             actionConfirmText: [
               "Ao enviar esta oferta, você concorda com os termos de uso e políticas da plataforma.",
+              "Lembre-se que ofertas baixas demais podem não ser vantajosas para você, já que será cobrado uma taxa de serviço sobre o valor final.",
               "Se sua oferta tiver o valor mínimo, ela será automaticamente aceita pelo sistema.",
               "Caso sua oferta seja aceita, as outras ofertas serão automaticamente canceladas.",
             ],
