@@ -22,6 +22,7 @@ const Body: React.FC<BodyProps> = ({
   shouldHideHeaderOnScroll,
   hideFooter,
   shrinkOnMobileKeyboardUp = false,
+  
 }) => {
   const [
     // viewportHeight

@@ -1,38 +1,29 @@
 import Body from "@/components/body";
-import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
-import Head from "next/head";
+import { CashOutList } from "@/lists/cash-out-list";
 import { Button } from "@heroui/react";
-import Link from "next/link";
-import { AddCircle } from "@solar-icons/react";
-import { DocumentList } from "@/lists/document-list";
+import Head from "next/head";
 
 export default function Index() {
-  const t = useTranslations();
-  const pt = useTranslations("Pages.SignUp");
-
   return (
     <>
       <Head>
-        <title>{pt("meta.title")}</title>
-        <meta name="description" content={pt("meta.description")} />
+        <title>Solicitações de saque</title>
+        <meta name="description" content="" />
       </Head>
       <Body className="flex flex-row justify-center">
         <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
           <div className="flex flex-row justify-between items-center w-full">
             <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
-              {t("Advertizement.titles.primary")}
+              Solicitações de saque
             </h1>
             <Button
-              as={Link}
               className="bg-default-200 text-default-700"
-              href="/web/document/new"
             >
-              {t("UI.titles.add", { item: t("UI.labels.machinery") })}{" "}
-              <AddCircle weight="LineDuotone" />
+              Nova solicitação
             </Button>
           </div>
-          <DocumentList />
+          <CashOutList />
         </section>
       </Body>
     </>

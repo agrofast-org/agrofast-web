@@ -7,11 +7,12 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import Link from "@/components/link";
 import { useAuth } from "@/contexts/auth-provider";
-import UserOptionsButton from "./ux/user-options-button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import CompactLanguageSelector from "./ux/compact-language-selector";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useApp } from "@/contexts/app-context";
+import { UserOptionsButton } from "./ux/user-options-button";
+import { UserNotificationButton } from "./ux/user-notifications-button";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -107,6 +108,11 @@ export const Header: React.FC<HeaderProps> = ({
         <NavbarItem>
           <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
         </NavbarItem>
+        {mounted && user && (
+          <NavbarItem className="flex justify-center items-center">
+            <UserNotificationButton />
+          </NavbarItem>
+        )}
         {mounted && user && (
           <NavbarItem className="flex justify-center items-center">
             <UserOptionsButton />

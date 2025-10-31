@@ -5,7 +5,7 @@ import Head from "next/head";
 import { AddCircle } from "@solar-icons/react";
 import { Button } from "@heroui/react";
 import Link from "next/link";
-import CarrierList from "@/lists/carrier-list";
+import { CarrierList } from "@/lists/carrier-list";
 
 export default function Index() {
   const t = useTranslations();

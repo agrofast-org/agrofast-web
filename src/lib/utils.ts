@@ -178,6 +178,16 @@ export const formatDocument = (document: string, type?: string) => {
   return document;
 };
 
+export const formatDocumentInput = (document: string = ""): string => {
+  const cleanedDocument = document.replace(/\D/g, "");
+
+  if (cleanedDocument.length <= 11) {
+    return maskFormat(cleanedDocument, "###.###.###-##");
+  } else {
+    return maskFormat(cleanedDocument, "##.###.###/####-##");
+  }
+};
+
 export const formatDistance = (distance?: number | string): string => {
   if (distance === undefined || distance === null) return "-";
   if (typeof distance === "string") {

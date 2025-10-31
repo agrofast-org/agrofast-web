@@ -1,8 +1,14 @@
 export interface Document {
+  id: number;
   uuid: string;
-  type: string;
+  user_id: number;
+  document_type: string;
+  emission_date: string; // ISO 8601 format
   number: string;
-  expiration_date: string;
+  active: boolean;
+  created_at: string; // ISO 8601 format
+  updated_at: string; // ISO 8601 format
+  inactivated_at?: string; // ISO 8601 format or null
 }
 
 export type ProfileType = "requester" | "transporter";
@@ -16,6 +22,8 @@ export interface User {
   profile_type?: ProfileType;
   profile_picture?: string;
   documents?: Document[];
+  pix_key?: string;
+  user_mercado_pago?: object[];
 }
 
 export interface Machinery {

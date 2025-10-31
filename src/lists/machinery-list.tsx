@@ -8,7 +8,7 @@ import { Pen } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
-const MachineryList: React.FC = () => {
+export const MachineryList: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
 
@@ -51,5 +51,3 @@ const MachineryList: React.FC = () => {
     </List>
   );
 };
-
-export default MachineryList;

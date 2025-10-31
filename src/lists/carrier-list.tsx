@@ -8,7 +8,7 @@ import { Pen } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
-const CarrierList: React.FC = () => {
+export const CarrierList: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
 
@@ -55,5 +55,3 @@ const CarrierList: React.FC = () => {
     </List>
   );
 };
-
-export default CarrierList;

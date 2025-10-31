@@ -12,6 +12,7 @@ import {
   Tooltip,
   Button,
   TooltipPlacement,
+  cn,
 } from "@heroui/react";
 
 import { useAsyncList } from "@react-stately/data";
@@ -88,9 +89,7 @@ const List: React.FC<{
   const list = useAsyncList<any>({
     async load({ signal }) {
       if (getUrl) {
-        const data = await api
-          .get(getUrl, { signal })
-          .then((res) => res.data);
+        const data = await api.get(getUrl, { signal }).then((res) => res.data);
         setIsLoading(false);
         return { items: data };
       }
@@ -172,11 +171,22 @@ const List: React.FC<{
       }}
     >
       {children}
-      <Table aria-label="Componente de listagem" className="mb-1" classNames={{
-      }} sortDescriptor={list.sortDescriptor} onSortChange={list.sort}>
+      <Table
+        aria-label="Componente de listagem"
+        className="mb-1"
+        classNames={{}}
+        sortDescriptor={list.sortDescriptor}
+        onSortChange={list.sort}
+      >
         <TableHeader>
           {Object.entries(columns).map(([key, label]) => (
-            <TableColumn key={key} allowsSorting={key !== "operations"}>
+            <TableColumn
+              key={key}
+              allowsSorting={key !== "operations"}
+              className={cn({
+                "w-[1%] min-w-min": key === "operations",
+              })}
+            >
               {label}
             </TableColumn>
           ))}
@@ -184,8 +194,8 @@ const List: React.FC<{
         <TableBody
           isLoading={isLoading}
           items={list.items}
-          loadingContent={<Spinner label="Loading..." />}
-          emptyContent="No rows to display."
+          loadingContent={<Spinner label="Carregando..." />}
+          emptyContent="Nenhum item encontrado."
         >
           {(item) => (
             <TableRow key={item.id || item.name}>

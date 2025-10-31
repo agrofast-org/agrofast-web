@@ -2,23 +2,10 @@ import Body from "@/components/body";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
-import List, {
-  IdentifierColumn,
-  ListAction,
-  ListColumn,
-  ListOperations,
-} from "@/components/list";
-import { TrashBinTrash } from "@solar-icons/react";
-import RequestStateChip from "@/components/ux/request-state-chip";
-import { formatCurrency } from "@/lib/utils";
-import { Offer, Request } from "@/types/transport";
-import { useAlert } from "@/contexts/alert-provider";
-import { Carrier } from "@/types/user";
-import { api } from "@/service/api";
+import { OfferList } from "@/lists/offer-list";
 
-export default function OfferList() {
+export default function OfferListPage() {
   const pt = useTranslations("Pages.SignUp");
-  const { addAlert } = useAlert();
 
   return (
     <>
@@ -33,57 +20,8 @@ export default function OfferList() {
               Ofertas do Chamado
             </h1>
           </div>
-          <List getUrl="/offer">
-            <IdentifierColumn label="Id" name="uuid" />
-            <ListColumn name="request" formatter={(request: Request) => `${request.origin_place_name} -> ${request.destination_place_name}`} label="Origem -> Destino" />
-            <ListColumn name="carrier" formatter={(carrier: Carrier) => carrier.name} label="Transportador" />
-            <ListColumn
-              label="Valor proposto"
-              name="price"
-              formatter={formatCurrency}
-            />
-            <ListColumn
-              label="Status"
-              name="state"
-              formatter={(state) => <RequestStateChip state={state} />}
-            />
-            <ListColumn name="created_at" label="Feita em" date />
-            <ListOperations label="Operações">
-              <ListAction
-                name="delete-offer"
-                label="Excluir Oferta"
-                icon={<TrashBinTrash size={22} className="text-danger" />}
-                tooltipProps={{ color: "danger" }}
-                onAction={(id, offer: Offer) => {
-                  addAlert("delete-offer", {
-                    type: "warning",
-                    title: "Excluir Oferta",
-                    message: [
-                      "Voce tem certeza que deseja excluir esta oferta?",
-                      ...(offer && offer.state === "approved"
-                        ? [
-                            "Esta oferta foi aprovada e excluir pode impactar o andamento do chamado.",
-                            "Avisamos que uma punição pode ser aplicada ao transportador responsável por esta oferta.",
-                          ]
-                        : []),
-                    ],
-                    actions: {
-                      confirm: {
-                        label: "Excluir",
-                        buttonProps: { color: "default" },
-                        callback: (onClose) => {
-                          api.delete(`/offer/${id}`).then(() => {
-                            onClose();
-                          })
-                        }
-                      }
-                    }
-                  });
-                }}
-              />
-            </ListOperations>
-          </List>
         </section>
+        <OfferList />
       </Body>
     </>
   );

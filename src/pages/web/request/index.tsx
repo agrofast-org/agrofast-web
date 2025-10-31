@@ -2,7 +2,7 @@ import Body from "@/components/body";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
-import RequestList from "@/lists/request-list";
+import { RequestList } from "@/lists/request-list";
 
 export default function Index() {
   const t = useTranslations();

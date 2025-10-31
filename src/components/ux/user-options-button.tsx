@@ -4,6 +4,8 @@ import {
   Map,
   Routing2,
   Settings,
+  UserId,
+  Wallet,
   Wheel,
 } from "@solar-icons/react";
 import IconOption from "../ui/icon-option";
@@ -24,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Avatar } from "../avatar";
 
-const UserOptionsButton: React.FC = () => {
+export const UserOptionsButton: React.FC = () => {
   const t = useTranslations();
   const { theme, setTheme } = useTheme();
   const { user, logout } = useAuth();
@@ -70,8 +72,8 @@ const UserOptionsButton: React.FC = () => {
         >
           {t("UI.redirects.change_theme")}
         </IconOption>
-        <IconOption icon={<ChatLine />} href="/web/chat">
-          Chat
+        <IconOption icon={<UserId />} href="/web/document">
+          Documentos
         </IconOption>
         {user?.profile_type === "requester" && (
           <>
@@ -86,13 +88,22 @@ const UserOptionsButton: React.FC = () => {
             </IconOption>
           </>
         )}
+        <IconOption icon={<ChatLine />} href="/web/chat">
+          Chat
+        </IconOption>
         {user?.profile_type === "transporter" && (
           <>
+            <IconOption icon={<Wheel />} href="/web/carrier">
+              Veículos de transporte
+            </IconOption>
+            <IconOption icon={<Routing2 />} href="/web/offer">
+              Ofertas
+            </IconOption>
             <IconOption icon={<Map />} href="/web">
               Serviços
             </IconOption>
-            <IconOption icon={<Wheel />} href="/web/carrier">
-              Veículos de transporte
+            <IconOption icon={<Wallet />} href="/web/cash-out">
+              Saques
             </IconOption>
           </>
         )}
@@ -120,5 +131,3 @@ export const LazyUserOptionsMenu: React.FC = () => {
     </Button>
   );
 };
-
-export default UserOptionsButton;

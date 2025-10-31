@@ -56,9 +56,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     AUTHENTICATED_KEY,
   ]);
   const [token, setAuthTokenState] = useState<string | undefined>(undefined);
-  const [localStoredUser, setLocalStoredUser, removeLocalStoredUser] = useLocalStorage<
-    User | undefined
-  >("user", undefined);
+  const [localStoredUser, setLocalStoredUser, removeLocalStoredUser] =
+    useLocalStorage<User | undefined>("user", undefined);
   const [hasPassword, setHasPassword] = useState<boolean>(true);
   const {
     data: user,

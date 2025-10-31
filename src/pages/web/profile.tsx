@@ -142,6 +142,12 @@ export default function Profile() {
                   disabled
                 /> */}
                 <Input
+                  name="pix_key"
+                  label="Chave PIX"
+                  placeholder="Chave PIX"
+                  type="text"
+                />
+                <Input
                   name="email"
                   label={t("UI.labels.email")}
                   placeholder={t("UI.placeholders.write_email")}
