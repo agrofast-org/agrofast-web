@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/auth-provider";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { api } from "@/service/api";
 import { Chat, ChatWithLastMessage } from "@/types/chat";
+import { Spinner } from "@heroui/react";
 import { Magnifer } from "@solar-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import Head from "next/head";
@@ -14,7 +15,7 @@ export default function Index() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const { data: chats } = useQuery<ChatWithLastMessage[]>({
+  const { data: chats, isFetching } = useQuery<ChatWithLastMessage[]>({
     queryKey: ["user-chats"],
     queryFn: async () => api.get("/chat").then(({ data }) => data),
   });
@@ -25,7 +26,7 @@ export default function Index() {
         <title>TerraMov - Chat</title>
         <meta name="description" content="Chat page" />
       </Head>
-      <Body className="flex flex-col items-center !pb-0 h-[calc(100vh-calc(65px+73px))]">
+      <Body className="flex flex-col items-center !pb-0 h-[calc(100vh-calc(65px))]">
         <div className="relative flex flex-col px-0 border-divider border-x w-full max-w-xl h-full overflow-y-auto">
           <div className="px-4 py-2 border-divider border-b max-h-14">
             <FetchAutocomplete
@@ -35,11 +36,13 @@ export default function Index() {
               src="/user/search"
               className="w-full"
               onAsyncSelect={(key) => {
-                api.post<Chat>("/chat/with", {
-                  user_uuid: key?.value,
-                }).then(({data}) => {
-                  router.push(`/web/chat/${data.uuid}`);
-                });
+                api
+                  .post<Chat>("/chat/with", {
+                    user_uuid: key?.value,
+                  })
+                  .then(({ data }) => {
+                    router.push(`/web/chat/${data.uuid}`);
+                  });
               }}
               startContent={
                 <Magnifer
@@ -48,21 +51,39 @@ export default function Index() {
                 />
               }
               placeholder="Pesquise por conversas"
-              options={chats? chats.map((chat) => {
-                const receiver = chat?.users?.find((u) => u.id !== user?.id) || user;
-                return {
-                  value: chat.uuid,
-                  image: receiver?.profile_picture,
-                  label: receiver?.name || "Unknown User",
-                  description: chat.last_message
-                    ? `${receiver?.name.split(" ")[0]}: ${chat.last_message.message}`
-                    : "No messages yet.",
-                };
-              }) : []}
+              options={
+                chats
+                  ? chats.map((chat) => {
+                      const receiver =
+                        chat?.users?.find((u) => u.id !== user?.id) || user;
+                      return {
+                        value: chat.uuid,
+                        image: receiver?.profile_picture,
+                        label: receiver?.name || "Unknown User",
+                        description: chat.last_message
+                          ? `${receiver?.name.split(" ")[0]}: ${
+                              chat.last_message.message
+                            }`
+                          : "No messages yet.",
+                      };
+                    })
+                  : []
+              }
             />
           </div>
+          {isFetching && (
+            <div className="flex flex-col items-center justify-center h-full text-default-500">
+              <Spinner label="Carregando chats..." />
+            </div>
+          )}
+          {!isFetching && chats?.length === 0 && (
+            <div className="flex flex-col items-center justify-center h-full text-default-500">
+              <p className="text-sm">Nenhuma conversa encontrada.</p>
+            </div>
+          )}
           {chats?.map((chat) => {
-            const receiver = chat?.users?.find((u) => u.id !== user?.id) || user;
+            const receiver =
+              chat?.users?.find((u) => u.id !== user?.id) || user;
             return (
               <div
                 key={chat.uuid}
@@ -74,10 +95,19 @@ export default function Index() {
                 <Avatar src={receiver?.profile_picture} />
                 <div className="relative flex-1">
                   <h2 className="font-bold">
-                    {receiver?.name || "Unknown User"} {receiver?.id === user?.id && "(Você)"}
+                    {receiver?.name || "Unknown User"}{" "}
+                    {receiver?.id === user?.id && "(Você)"}
                   </h2>
                   <p className="bottom-0 absolute max-w-xs text-default-600 text-xs truncate">
-                    {chat.last_message && <span className="font-medium">{chat.last_message?.user_id === user?.id ? "Você: " : <>{receiver?.name.split(" ")[0]}: </>}</span>}
+                    {chat.last_message && (
+                      <span className="font-medium">
+                        {chat.last_message?.user_id === user?.id ? (
+                          "Você: "
+                        ) : (
+                          <>{receiver?.name.split(" ")[0]}: </>
+                        )}
+                      </span>
+                    )}
                     {chat.last_message
                       ? `"${chat.last_message.message}"`
                       : "No messages yet."}
