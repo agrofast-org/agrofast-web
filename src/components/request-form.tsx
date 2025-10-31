@@ -4,6 +4,7 @@ import { cn, Spinner } from "@heroui/react";
 import { AxiosError, AxiosResponse } from "axios";
 import { FormErrors } from "@/types/form";
 import { useLoadingDisclosure } from "@/hooks/use-loading-disclosure";
+import { useToast } from "@/service/toast";
 
 export type RequestFormProps<
   TSuccess extends AxiosResponse = AxiosResponse,
@@ -31,6 +32,7 @@ export function RequestForm<
   loadingDisclosure,
   ...props
 }: RequestFormProps<TSuccess, TError>) {
+  const toast = useToast();
   const [formLoading, setFormLoading] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState<FormErrors | undefined>(
     undefined
@@ -56,6 +58,14 @@ export function RequestForm<
             setFormError(error?.response?.data?.message);
             setFormErrors(error?.response?.data?.errors);
             onError?.(error);
+            if (!onError) {
+              toast.error({
+                title: "Error",
+                description:
+                  error?.response?.data?.message ||
+                  "Ocorreu um erro inesperado. Por favor, tente novamente.",
+              })
+            }
           })
           .finally(() => {
             setFormLoading(false);
