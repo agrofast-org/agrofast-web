@@ -145,7 +145,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
         placement="center"
       >
         <div className="flex flex-col gap-3">
-          <p className="text-gray-600 dark:text-gray-300 text-small">
+          <p className="text-gray-600 text-small dark:text-gray-300">
             Arquivos anexados anteriormente:
           </p>
 
@@ -163,7 +163,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
 
           <Button
             as="label"
-            className="inline-flex justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
+            className="inline-flex relative justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
             isDisabled={disabled || isUploading}
             isLoading={isUploading}
           >
@@ -176,7 +176,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
               multiple={multiple}
               disabled={disabled || isUploading}
               required={required}
-              className="hidden"
+              className="absolute inset-0 opacity-100 w-full h-full cursor-pointer"
               onChange={handleUpload}
             />
           </Button>

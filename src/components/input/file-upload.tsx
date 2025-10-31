@@ -138,8 +138,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
       <Button
         as="label"
-        htmlFor={fieldName}
-        className="inline-flex justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
+        className="inline-flex relative justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
         isDisabled={disabled || isUploading}
       >
         {isUploading ? <Spinner size="sm" /> : <Upload weight="LineDuotone" />}
@@ -153,7 +152,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           name={fieldName}
           type="file"
           accept={accept?.join(",")}
-          className="hidden"
+          className="absolute inset-0 opacity-100 w-full h-full cursor-pointer"
           multiple={multiple}
           disabled={disabled || isUploading}
           required={required}
