@@ -1,13 +1,14 @@
 import Body from "@/components/body";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
-import { Button, Link } from "@heroui/react";
+import { CashOutList } from "@/lists/cash-out-list";
+import { Button } from "@heroui/react";
 import Head from "next/head";
 
 export default function Index() {
   return (
     <>
       <Head>
-        <title></title>
+        <title>Solicitações de saque</title>
         <meta name="description" content="" />
       </Head>
       <Body className="flex flex-row justify-center">
@@ -17,9 +18,7 @@ export default function Index() {
               Solicitações de saque
             </h1>
             <Button
-              as={Link}
               className="bg-default-200 text-default-700"
-              href="/web/carrier/new"
             >
               Nova solicitação
             </Button>

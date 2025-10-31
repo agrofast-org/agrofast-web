@@ -8,12 +8,12 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/http/request/get-request";
 import { RequestCard } from "@/components/ux/transport/request-card";
-import { Offer, Request } from "@/types/transport";
-import { getRequestOffers } from "@/http/request/get-request-offers";
+import { Request } from "@/types/transport";
 import { Divider, Image, Link, Snippet, Spacer } from "@heroui/react";
 import { Section } from "@/components/section";
 import { Button } from "@/components/button";
 import { api } from "@/service/api";
+import { RequestOffersList } from "@/lists/request-offers-list";
 
 export default function Find() {
   const { query } = useRouter();
@@ -24,14 +24,6 @@ export default function Find() {
     queryFn: async () =>
       getRequest(query.uuid as string).then(({ data }) => data),
     enabled: !!query.uuid,
-  });
-
-  const { data: offers, isFetched: offersFetched } = useQuery<Offer[]>({
-    queryKey: ["request", query.uuid, "offers"],
-    queryFn: async () =>
-      getRequestOffers(query.uuid as string).then(({ data }) => data),
-    enabled: !!query.uuid,
-    retry: false,
   });
 
   const { refetch: refetchVerifyPayment, isFetching: isVerifyingPayment } =
@@ -59,7 +51,11 @@ export default function Find() {
             {request.payment && (
               <>
                 <Section className="mx-auto p-4 pt-0 max-w-[912px] container">
-                  <h1>{request.payment.status !== "approved" ? "Realize o pagamento" : "Pagamento realizado"}</h1>
+                  <h1>
+                    {request.payment.status !== "approved"
+                      ? "Realize o pagamento"
+                      : "Pagamento realizado"}
+                  </h1>
                 </Section>
                 {request.payment.status !== "approved" && (
                   <Section className="sm:flex-row sm:items-start mx-auto p-4 pt-0 pb-0 max-w-[912px] container">
@@ -118,15 +114,7 @@ export default function Find() {
           <Divider className="max-w-[912px]" />
         </Section>
         <Section className="mx-auto p-4 max-w-[912px] container">
-          {offers && offersFetched ? (
-            <>
-              {offers.map(() => (
-                <>Nn sei oq</>
-              ))}
-            </>
-          ) : (
-            <>Ainda não foram feitas ofertas para este chamado.</>
-          )}
+          <RequestOffersList />
         </Section>
       </Body>
     </>

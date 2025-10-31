@@ -16,7 +16,11 @@ export const UserNotificationButton: React.FC = () => {
   const notifications = [
     ...(!user?.documents?.length
       ? [
-          <>Por favor, cadastre pelo menos um <Link href="/web/document">documento</Link> para continuar utilizando o sistema.</>,
+          <>
+            Por favor, cadastre pelo menos um{" "}
+            <Link href="/web/document">documento</Link> para continuar
+            utilizando o sistema.
+          </>,
         ]
       : []),
     // ...(!user?.user_mercado_pago && user.profile_type === "transporter"
@@ -26,14 +30,22 @@ export const UserNotificationButton: React.FC = () => {
     //   : []),
     ...(!user?.user_mercado_pago && user.profile_type === "transporter"
       ? [
-          <>Por favor, cadastre pelo menos uma <Link href="/web/pa">forma de recebimento</Link> para que possamos realizar o pagamento pelos seus serviços.</>,
+          <>
+            Por favor, cadastre pelo menos uma{" "}
+            <Link href="/web/pa">forma de recebimento</Link> para que possamos
+            realizar o pagamento pelos seus serviços.
+          </>,
         ]
       : []),
   ];
 
   return (
     <>
-      <Badge color="default" content={notifications.length}>
+      <Badge
+        color="default"
+        content={notifications.length}
+        isInvisible={notifications.length === 0}
+      >
         <Button
           radius="md"
           className="bg-default-100 hover:bg-default-200 shadow-sm text-default-700 duration-100"
@@ -49,12 +61,16 @@ export const UserNotificationButton: React.FC = () => {
         onClose={disclosure.onClose}
       >
         <ModalHeader>Notificações</ModalHeader>
-        <ModalBody className="min-h-24 pr-2">
-          <div className="max-h-52 overflow-y-auto pr-2">
-            <NotificationsRenderer
-              messages={notifications}
-            ></NotificationsRenderer>
-          </div>
+        <ModalBody className="pr-2 min-h-24">
+          {notifications.length !== 0 ? (
+            <div className="pr-2 max-h-52 overflow-y-auto">
+              <NotificationsRenderer messages={notifications} />
+            </div>
+          ) : (
+            <p className="mt-8 size-full text-center">
+              Você não tem nenhuma notificação.
+            </p>
+          )}
         </ModalBody>
         <ModalFooter>
           <Button variant="flat" onPress={disclosure.onClose}>

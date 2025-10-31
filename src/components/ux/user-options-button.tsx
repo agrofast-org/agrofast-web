@@ -5,6 +5,7 @@ import {
   Routing2,
   Settings,
   UserId,
+  Wallet,
   Wheel,
 } from "@solar-icons/react";
 import IconOption from "../ui/icon-option";
@@ -74,9 +75,6 @@ export const UserOptionsButton: React.FC = () => {
         <IconOption icon={<UserId />} href="/web/document">
           Documentos
         </IconOption>
-        <IconOption icon={<ChatLine />} href="/web/chat">
-          Chat
-        </IconOption>
         {user?.profile_type === "requester" && (
           <>
             <IconOption icon={<Map />} href="/web">
@@ -90,13 +88,22 @@ export const UserOptionsButton: React.FC = () => {
             </IconOption>
           </>
         )}
+        <IconOption icon={<ChatLine />} href="/web/chat">
+          Chat
+        </IconOption>
         {user?.profile_type === "transporter" && (
           <>
+            <IconOption icon={<Wheel />} href="/web/carrier">
+              Veículos de transporte
+            </IconOption>
+            <IconOption icon={<Routing2 />} href="/web/offer">
+              Ofertas
+            </IconOption>
             <IconOption icon={<Map />} href="/web">
               Serviços
             </IconOption>
-            <IconOption icon={<Wheel />} href="/web/carrier">
-              Veículos de transporte
+            <IconOption icon={<Wallet />} href="/web/cash-out">
+              Saques
             </IconOption>
           </>
         )}

@@ -6,7 +6,7 @@ interface RequestStateChipProps extends ChipProps {
   state: Request["state"];
 }
 
-const RequestStateChip: React.FC<RequestStateChipProps> = ({
+export const RequestStateChip: React.FC<RequestStateChipProps> = ({
   state,
   ...props
 }) => {
@@ -41,5 +41,3 @@ const RequestStateChip: React.FC<RequestStateChipProps> = ({
     </Chip>
   );
 };
-
-export default RequestStateChip;

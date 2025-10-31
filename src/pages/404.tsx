@@ -13,7 +13,7 @@ export default function Page404() {
         <title>{pt("meta.title")}</title>
         <meta name="description" content={pt("meta.description")} />
       </Head>
-      <Body className="" hideHeader>
+      <Body hideHeader>
         <div className="flex flex-1 justify-center md:items-center pt-8 md:pt-0 max-h-svh overflow-hidden overflow-y-auto">
           <NotFound />
         </div>

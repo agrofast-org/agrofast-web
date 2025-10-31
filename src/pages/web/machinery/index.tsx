@@ -5,7 +5,7 @@ import Head from "next/head";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import { AddCircle } from "@solar-icons/react";
-import MachineryList from "@/lists/machinery-list";
+import { MachineryList } from "@/lists/machinery-list";
 
 export default function Index() {
   const t = useTranslations();
