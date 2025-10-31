@@ -5,7 +5,7 @@ import { Chat, Message as MessageType, StackedMessage } from "@/types/chat";
 import { Section } from "@/components/section";
 import { useAuth } from "@/contexts/auth-provider";
 import { Avatar } from "@/components/avatar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button, cn, Form } from "@heroui/react";
 import { ArrowDown, ArrowLeft, CloseCircle, Plain2 } from "@solar-icons/react";
 import { MessageInput } from "@/components/ux/chat/message-input";
@@ -15,20 +15,25 @@ import Link from "@/components/link";
 
 export const ChatForm: React.FC = () => {
   const router = useRouter();
-  // const chatWrapperRef = useRef<HTMLDivElement>(null);
+  const messageTextArea = useRef<HTMLTextAreaElement>(null);
 
   const { user } = useAuth();
 
   const [message, setMessage] = useState<string>("");
-  const [answerMessage, setAnswerMessageState] = useState<
+  const [answerMessageRef, setAnswerMessageState] = useState<
+    MessageType | undefined
+  >(undefined);
+
+  const [answerMessageHolder, setAnswerMessageHolder] = useState<
     MessageType | undefined
   >(undefined);
 
   const setAnswerMessage = (message: MessageType | undefined) => {
     setAnswerMessageState(message);
-    document
-      .querySelector<HTMLInputElement>("#message-form input[name='message']")
-      ?.focus();
+    if (message) {
+      setAnswerMessageHolder(message);
+    }
+    messageTextArea.current?.focus();
   };
 
   const [messagesStack, setMessagesStack] = useState<StackedMessage[]>([]);
@@ -68,7 +73,7 @@ export const ChatForm: React.FC = () => {
     sendMessages([...messagesStack, message]);
   }, 2500);
 
-  const receiver = chat?.users?.find((u) => u.id !== user?.id) || user;
+  const receiver = chat?.users?.find((u) => u.id !== user?.id);
 
   const sendMessage = (retry: boolean = false) => {
     if (isSending) return;
@@ -81,10 +86,10 @@ export const ChatForm: React.FC = () => {
       setMessage("");
       setMessagesStack((prev) => [
         ...prev,
-        { message: text, answer_to: answerMessage?.uuid },
+        { message: text, answer_to: answerMessageRef?.uuid },
       ]);
       setAnswerMessage(undefined);
-      debouncedMessage({ message: text, answer_to: answerMessage?.uuid });
+      debouncedMessage({ message: text, answer_to: answerMessageRef?.uuid });
       return;
     }
 
@@ -107,29 +112,55 @@ export const ChatForm: React.FC = () => {
       >
         <ArrowDown weight="LineDuotone" />
       </Button>
-      <Section className="bottom-0 z-10 sticky flex-row gap-2 bg-default-100 mx-auto p-2 px-2 !pt-0 max-w-[912px] container">
+      <Section className="top-0 z-10 sticky flex-row justify-start gap-2 bg-default-100 mx-auto p-2 px-4 border-divider border-b w-full max-w-[912px] min-h-[58px] container">
+        <Link
+          href="/web/chat"
+          className="flex items-center gap-2 text-default-900"
+        >
+          <ArrowLeft className="scale-80" />
+        </Link>
+        <Avatar src={receiver?.profile_picture} />
+        {receiver?.name}
+      </Section>
+      <MessagesRenderer
+        users={chat?.users || []}
+        chat={chat!}
+        messagesStash={messagesStack}
+        sentMessagesStack={sentMessagesStack}
+        errorSending={errorSending}
+        sendMessage={() => sendMessage(true)}
+        answerMessage={setAnswerMessage}
+      />
+      <Section
+        className={cn(
+          "bottom-0 z-10 sticky flex-row gap-2 bg-default-100/20 backdrop-blur-sm mx-auto p-2 px-2 !pt-1 max-w-[912px] container"
+        )}
+      >
         <Form
           id="message-form"
-          className="gap-0 w-full"
+          className={cn(
+            "gap-0 w-full interpolate justify-end flex flex-col overflow-hidden h-12 duration-200",
+            answerMessageRef ? "h-auto" : ""
+          )}
           onSubmit={(e) => {
             e.preventDefault();
             sendMessage();
           }}
         >
-          {answerMessage && (
-            <div className="relative mb-1 w-full">
-              <div className="bg-default-200 p-2 pr-10 border-4 border-default-300 rounded-xl max-h-16 overflow-y-auto">
+          {answerMessageHolder && (
+            <div className="relative flex gap-3 mb-2 w-full">
+              <div className="flex-1 bg-default-100 p-2 pr-10 border-2 border-default-200 hover:border-default-400 rounded-xl max-h-16 overflow-y-auto transition-colors motion-reduce:transition-none duration-100">
                 <p className="text-tiny">
                   <strong>
-                    {answerMessage?.user_id === user?.id
+                    {answerMessageHolder?.user_id === user?.id
                       ? "Você"
                       : receiver?.name.split(" ")[0]}
                   </strong>
-                  : {answerMessage.message}
+                  : {answerMessageHolder.message}
                 </p>
               </div>
               <Button
-                className="top-0 right-0 absolute bg-transparent m-1 text-default-600"
+                className="bg-default-200 m-0.5 mr-1 text-default-600"
                 onPress={() => setAnswerMessage(undefined)}
                 size="sm"
                 isIconOnly
@@ -139,7 +170,11 @@ export const ChatForm: React.FC = () => {
             </div>
           )}
           <div className="flex items-end gap-2 w-full">
-            <MessageInput message={message} setMessage={setMessage} />
+            <MessageInput
+              ref={messageTextArea}
+              message={message}
+              setMessage={setMessage}
+            />
             <Button
               color="primary"
               className="text-white"
@@ -153,25 +188,6 @@ export const ChatForm: React.FC = () => {
             </Button>
           </div>
         </Form>
-      </Section>
-      <MessagesRenderer
-        users={chat?.users || []}
-        chat={chat!}
-        messagesStash={messagesStack}
-        sentMessagesStack={sentMessagesStack}
-        errorSending={errorSending}
-        sendMessage={() => sendMessage(true)}
-        answerMessage={setAnswerMessage}
-      />
-      <Section className="top-0 z-10 sticky flex-row justify-start gap-2 bg-default-100 mx-auto p-2 px-4 border-divider border-b w-full max-w-[912px] min-h-[58px] container">
-        <Link
-          href="/web/chat"
-          className="flex items-center gap-2 text-default-900"
-        >
-          <ArrowLeft className="scale-80" />
-        </Link>
-        <Avatar src={receiver?.profile_picture} />
-        {receiver?.name}
       </Section>
     </>
   );

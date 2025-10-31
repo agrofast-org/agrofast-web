@@ -107,12 +107,11 @@ export const FetchAutocomplete: React.FC<FetchAutocompleteProps> = ({
       const asyncOption = (Array.isArray(asyncList) ? asyncList : [])?.find(
         (item) => item.value === key?.toString()
       );
-      console.log('Async option selected', asyncList);
       if (asyncOption) {
         onAsyncSelect?.(asyncOption);
       }
       onSelectionChange?.(key);
-      return onSelectionChange?.(key);
+      return onSelectionChange;
     },
     ignoreForm: !name,
     error: props.errorMessage,

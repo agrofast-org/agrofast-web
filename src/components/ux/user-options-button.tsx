@@ -43,88 +43,90 @@ export const UserOptionsButton: React.FC = () => {
   }
 
   return (
-    <Popover radius="sm" placement="bottom-end" offset={8}>
-      <PopoverTrigger>
-        <Button
-          radius="md"
-          className="data-[aria-expanded=true]:blur-md"
-          isIconOnly
+    <>
+      <Popover radius="sm" placement="bottom-end" offset={8}>
+        <PopoverTrigger>
+          <Button
+            radius="md"
+            className="data-[aria-expanded=true]:blur-md"
+            isIconOnly
+          >
+            <Avatar src={user?.profile_picture} />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className={cn(
+            "flex flex-col gap-0 p-1 w-full min-w-44 h-min text-gray-700 dark:text-gray-200 transition-all",
+            isModalOpen && "opacity-25 duration-100 pointer-events-none"
+          )}
         >
-          <Avatar src={user?.profile_picture} />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        className={cn(
-          "flex flex-col gap-0 p-1 w-full min-w-44 h-min text-gray-700 dark:text-gray-200 transition-all",
-          isModalOpen && "opacity-25 duration-100 pointer-events-none"
-        )}
-      >
-        <Skeleton className="rounded-lg w-full" isLoaded={!!user}>
-          <p className="p-1 w-full text-start">{user?.name}</p>
-        </Skeleton>
-        <Divider className={!user ? "hidden" : ""} />
-        <IconOption href="/web/profile" icon={<Settings />}>
-          {t("UI.redirects.profile")}
-        </IconOption>
-        <IconOption
-          onClick={toggleTheme}
-          className="md:hidden flex"
-          icon={<ThemeUserFeedback />}
-        >
-          {t("UI.redirects.change_theme")}
-        </IconOption>
-        <IconOption icon={<UserId />} href="/web/document">
-          Documentos
-        </IconOption>
-        {user?.profile_type === "requester" && (
-          <>
-            <IconOption icon={<Map />} href="/web">
-              Mapa
-            </IconOption>
-            <IconOption icon={<Wheel />} href="/web/machinery">
-              Maquinarios
-            </IconOption>
-            <IconOption icon={<Routing2 />} href="/web/request">
-              Chamados
-            </IconOption>
-          </>
-        )}
-        <IconOption icon={<ChatLine />} href="/web/chat">
-          Chat
-        </IconOption>
-        {user?.profile_type === "transporter" && (
-          <>
-            <IconOption icon={<Wheel />} href="/web/carrier">
-              Veículos de transporte
-            </IconOption>
-            <IconOption icon={<Routing2 />} href="/web/offer">
-              Ofertas
-            </IconOption>
-            <IconOption icon={<Map />} href="/web">
-              Serviços
-            </IconOption>
-            <IconOption icon={<Wallet />} href="/web/cash-out">
-              Saques
-            </IconOption>
-          </>
-        )}
-        <IconOption icon={<Help />} href="/web/chat/support">
-          Contato com suporte
-        </IconOption>
-        <IconOption
-          onClick={logout}
-          icon={<Logout2 />}
-          confirmAction
-          confirmActionInfo={{
-            actionConfirmTitle: t("UI.redirects.logout"),
-            onConfirmModalChanged: setIsModalOpen,
-            actionConfirmButtonColor: "danger",
-          }}
-        >
-          {t("UI.redirects.logout")}
-        </IconOption>
-      </PopoverContent>
-    </Popover>
+          <Skeleton className="rounded-lg w-full" isLoaded={!!user}>
+            <p className="p-1 w-full text-start">{user?.name}</p>
+          </Skeleton>
+          <Divider className={!user ? "hidden" : ""} />
+          <IconOption href="/web/profile" icon={<Settings />}>
+            {t("UI.redirects.profile")}
+          </IconOption>
+          <IconOption
+            onClick={toggleTheme}
+            className="md:hidden flex"
+            icon={<ThemeUserFeedback />}
+          >
+            {t("UI.redirects.change_theme")}
+          </IconOption>
+          <IconOption icon={<UserId />} href="/web/document">
+            Documentos
+          </IconOption>
+          {user?.profile_type === "requester" && (
+            <>
+              <IconOption icon={<Map />} href="/web">
+                Mapa
+              </IconOption>
+              <IconOption icon={<Wheel />} href="/web/machinery">
+                Maquinarios
+              </IconOption>
+              <IconOption icon={<Routing2 />} href="/web/request">
+                Chamados
+              </IconOption>
+            </>
+          )}
+          <IconOption icon={<ChatLine />} href="/web/chat">
+            Chat
+          </IconOption>
+          {user?.profile_type === "transporter" && (
+            <>
+              <IconOption icon={<Wheel />} href="/web/carrier">
+                Veículos de transporte
+              </IconOption>
+              <IconOption icon={<Routing2 />} href="/web/offer">
+                Ofertas
+              </IconOption>
+              <IconOption icon={<Map />} href="/web">
+                Serviços
+              </IconOption>
+              <IconOption icon={<Wallet />} href="/web/cash-out">
+                Saques
+              </IconOption>
+            </>
+          )}
+          <IconOption icon={<Help />} href="/web/chat/support">
+            Suporte
+          </IconOption>
+          <IconOption
+            onClick={logout}
+            icon={<Logout2 />}
+            confirmAction
+            confirmActionInfo={{
+              actionConfirmTitle: t("UI.redirects.logout"),
+              onConfirmModalChanged: setIsModalOpen,
+              actionConfirmButtonColor: "danger",
+            }}
+          >
+            {t("UI.redirects.logout")}
+          </IconOption>
+        </PopoverContent>
+      </Popover>
+    </>
   );
 };
 

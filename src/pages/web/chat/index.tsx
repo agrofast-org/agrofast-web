@@ -6,7 +6,7 @@ import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { api } from "@/service/api";
 import { Chat, ChatWithLastMessage } from "@/types/chat";
 import { Spinner } from "@heroui/react";
-import { Magnifer } from "@solar-icons/react";
+import { Magnifer, VerifiedCheck } from "@solar-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -15,9 +15,10 @@ export default function Index() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const { data: chats, isFetching } = useQuery<ChatWithLastMessage[]>({
+  const { data: chats, isLoading } = useQuery<ChatWithLastMessage[]>({
     queryKey: ["user-chats"],
     queryFn: async () => api.get("/chat").then(({ data }) => data),
+    refetchInterval: 5000,
   });
 
   return (
@@ -35,6 +36,11 @@ export default function Index() {
               asyncLabel="Usuarios"
               src="/user/search"
               className="w-full"
+              onSelectionChange={(key) => {
+                console.log(key);
+
+                router.push(`/web/chat/${key?.valueOf()}`);
+              }}
               onAsyncSelect={(key) => {
                 api
                   .post<Chat>("/chat/with", {
@@ -58,7 +64,7 @@ export default function Index() {
                         chat?.users?.find((u) => u.id !== user?.id) || user;
                       return {
                         value: chat.uuid,
-                        image: receiver?.profile_picture,
+                        image: receiver?.profile_picture ?? "no_picture",
                         label: receiver?.name || "Unknown User",
                         description: chat.last_message
                           ? `${receiver?.name.split(" ")[0]}: ${
@@ -71,63 +77,71 @@ export default function Index() {
               }
             />
           </div>
-          {isFetching && (
+          {isLoading && (
             <div className="flex flex-col items-center justify-center h-full text-default-500">
               <Spinner label="Carregando chats..." />
             </div>
           )}
-          {!isFetching && chats?.length === 0 && (
+          {!isLoading && chats?.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-default-500">
               <p className="text-sm">Nenhuma conversa encontrada.</p>
             </div>
           )}
-          {chats?.map((chat) => {
-            const receiver =
-              chat?.users?.find((u) => u.id !== user?.id) || user;
-            return (
-              <div
-                key={chat.uuid}
-                onClick={() => {
-                  router.push(`/web/chat/${chat.uuid}`);
-                }}
-                className="flex gap-4 hover:bg-default-200/40 px-4 py-2 border-divider border-b transition-colors cursor-pointer"
-              >
-                <Avatar src={receiver?.profile_picture} />
-                <div className="relative flex-1">
-                  <h2 className="font-bold">
-                    {receiver?.name || "Unknown User"}{" "}
-                    {receiver?.id === user?.id && "(Você)"}
-                  </h2>
-                  <p className="bottom-0 absolute max-w-xs text-default-600 text-xs truncate">
-                    {chat.last_message && (
-                      <span className="font-medium">
-                        {chat.last_message?.user_id === user?.id ? (
-                          "Você: "
-                        ) : (
-                          <>{receiver?.name.split(" ")[0]}: </>
-                        )}
-                      </span>
-                    )}
-                    {chat.last_message
-                      ? `"${chat.last_message.message}"`
-                      : "No messages yet."}
-                  </p>
-                  <span className="top-0 right-0 absolute opacity-70 text-[10px] select-none">
-                    {chat?.last_message?.created_at &&
-                      new Date(
-                        chat?.last_message.created_at
-                      ).toLocaleTimeString("pt-BR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                  </span>
+          {!isLoading &&
+            chats?.map((chat) => {
+              const receiver =
+                chat?.users?.find((u) => u.id !== user?.id) || user;
+              return (
+                <div
+                  key={chat.uuid}
+                  onClick={() => {
+                    router.push(`/web/chat/${chat.uuid}`);
+                  }}
+                  className="flex gap-4 hover:bg-default-200/40 px-4 py-2 border-divider border-b transition-colors cursor-pointer"
+                >
+                  <Avatar src={receiver?.profile_picture} />
+                  <div className="relative flex-1">
+                    <h2 className="font-bold flex items-center gap-1">
+                      {receiver?.name || "Unknown User"}{" "}
+                      {receiver?.id === user?.id && "(Você)"}
+                      {receiver?.email === "contact.agrofast@gmail.com" && (
+                        <VerifiedCheck
+                          weight="Bold"
+                          size={16}
+                          className="text-success-600"
+                        />
+                      )}
+                    </h2>
+                    <p className="bottom-0 absolute max-w-xs text-default-600 text-xs truncate">
+                      {chat.last_message && (
+                        <span className="font-medium">
+                          {chat.last_message?.user_id === user?.id ? (
+                            "Você: "
+                          ) : (
+                            <>{receiver?.name.split(" ")[0]}: </>
+                          )}
+                        </span>
+                      )}
+                      {chat.last_message
+                        ? `"${chat.last_message.message}"`
+                        : "No messages yet."}
+                    </p>
+                    <span className="top-0 right-0 absolute opacity-70 text-[10px] select-none">
+                      {chat?.last_message?.created_at &&
+                        new Date(
+                          chat?.last_message.created_at
+                        ).toLocaleTimeString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </Body>
     </>

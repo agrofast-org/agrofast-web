@@ -15,8 +15,7 @@ export default function PrivateChat() {
       <Body
         hideHeader
         hideFooter
-        className="flex flex-col-reverse absolute left-1/2 -translate-x-1/2 justify-center items-center !pb-0 border-divider border-x w-full max-w-xl overflow-y-auto transition-all duration-200 h-dvh"
-        shrinkOnMobileKeyboardUp={true}
+        className="flex flex-col absolute left-1/2 -translate-x-1/2 justify-center items-center !pb-0 border-divider border-x w-full max-w-xl overflow-y-auto h-dvh"
       >
         <ChatForm />
       </Body>

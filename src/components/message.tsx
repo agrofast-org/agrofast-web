@@ -51,7 +51,7 @@ export const Message: React.FC<MessageProps> = ({
       className={cn(
         "group target:-z-0 flex justify-end target:bg-default-300/25 rounded-sm target:ring-2 target:ring-default-300/25 w-full",
         owner ? "" : "flex-row-reverse",
-        messageAfter?.user_id === message.user_id || !isLast
+        messageAfter?.user_id === message.user_id || isLast
           ? "mb-0.5"
           : "mb-2",
         className

@@ -25,7 +25,7 @@ import { DefinePassword } from "@/components/ui/setup-password";
 interface AuthContextProps {
   token: string | undefined;
   setToken: (token: string | undefined) => void;
-  user: User | undefined;
+  user: User | null;
   setUser: () => void;
   hasPassword: boolean;
   machinery: Machinery[] | undefined;
@@ -49,6 +49,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
+  const loggedOutRef = React.useRef<boolean>(false);
   const { setIsPageLoading } = useOverlay();
 
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -63,23 +64,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     data: user,
     isFetched: userFetched,
     refetch: refetchUser,
-  } = useQuery({
+  } = useQuery<User | null>({
     queryKey: ["me"],
-    queryFn: () =>
-      getMe()
-        .then(({ data }) => {
-          setLocalStoredUser(data.user);
-          if (data.authenticated) {
-            setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
-          }
-          setHasPassword(data.has_password);
-          return data.user;
-        })
-        .catch(() => {
-          return undefined;
-        }),
+    queryFn: async (): Promise<User | null> => {
+      if (loggedOutRef.current) {
+        loggedOutRef.current = false;
+        return null;
+      }
+      try {
+        const { data } = await getMe();
+        setLocalStoredUser(data.user);
+        if (data.authenticated) {
+          setCookie(AUTHENTICATED_KEY, data.authenticated, cookieOptions);
+        }
+        setHasPassword(data.has_password);
+        return data.user ?? null;
+      } catch {
+        return null;
+      }
+    },
     enabled: !!token,
-    initialData: localStoredUser,
+    initialData: localStoredUser ?? null,
   });
 
   const canLoadTransport = !!token && userFetched;
@@ -134,8 +139,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const logout = useCallback(() => {
+    loggedOutRef.current = true;
     removeLocalStoredUser();
     setToken(undefined);
+    setAuthTokenState(undefined);
     googleLogout();
     refetchUser();
     router.push("/web/login");

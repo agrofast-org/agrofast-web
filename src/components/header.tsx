@@ -13,6 +13,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useApp } from "@/contexts/app-context";
 import { UserOptionsButton } from "./ux/user-options-button";
 import { UserNotificationButton } from "./ux/user-notifications-button";
+import { OpenSupportOption } from "./ui/open-support-ticket";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -105,6 +106,11 @@ export const Header: React.FC<HeaderProps> = ({
         justify="end"
       >
         <CompactLanguageSelector className="" />
+        {mounted && user && (
+          <NavbarItem className="flex justify-center items-center">
+            <OpenSupportOption />
+          </NavbarItem>
+        )}
         <NavbarItem>
           <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
         </NavbarItem>
