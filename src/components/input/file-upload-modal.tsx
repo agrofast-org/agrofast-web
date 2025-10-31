@@ -163,7 +163,6 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
 
           <Button
             as="label"
-            htmlFor={name ? `${name}-input` : 'file-upload-attachment-button'}
             className="inline-flex justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
             isDisabled={disabled || isUploading}
             isLoading={isUploading}

@@ -1,5 +1,6 @@
 import {
   ChatLine,
+  Help,
   Logout2,
   Map,
   Routing2,
@@ -107,6 +108,9 @@ export const UserOptionsButton: React.FC = () => {
             </IconOption>
           </>
         )}
+        <IconOption icon={<Help />} href="/web/chat/support">
+          Contato com suporte
+        </IconOption>
         <IconOption
           onClick={logout}
           icon={<Logout2 />}
