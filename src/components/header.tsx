@@ -106,14 +106,14 @@ export const Header: React.FC<HeaderProps> = ({
         justify="end"
       >
         <CompactLanguageSelector className="" />
+        <NavbarItem>
+          <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
+        </NavbarItem>
         {mounted && user && (
           <NavbarItem className="flex justify-center items-center">
             <OpenSupportOption />
           </NavbarItem>
         )}
-        <NavbarItem>
-          <ThemeSwitcher className={cn(user ? "md:flex hidden" : "flex")} />
-        </NavbarItem>
         {mounted && user && (
           <NavbarItem className="flex justify-center items-center">
             <UserNotificationButton />

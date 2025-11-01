@@ -16,6 +16,7 @@ import { getRecentAttachments } from "@/http/uploads/recent-attachments";
 import { uploadAttachment } from "@/http/uploads/upload-attachment";
 import { Attachment } from "@/types/attachment";
 import { useForm } from "../form/form";
+import { useToast } from "@/service/toast";
 
 export interface FileUploadModalProps {
   name: string;
@@ -40,6 +41,8 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   onUpload,
 }) => {
   const form = useForm();
+
+  const toast = useToast();
 
   const disclosure = useDisclosure();
   const [selectedFiles, setSelectedFiles] = useState<Attachment["uuid"][]>([]);
@@ -77,6 +80,12 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
         );
       });
       if (onUpload) onUpload(storedFiles);
+    } catch {
+      // Handle error (e.g., show notification)
+      toast.error({
+        title: "Erro ao enviar arquivo",
+        description: "Um erro ocorreu ao tentar enviar o arquivo. Tente novamente.",
+      });
     } finally {
       setIsUploading(false);
       e.target.value = "";
@@ -163,6 +172,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
 
           <Button
             as="label"
+            htmlFor="file-upload-input"
             className="inline-flex relative justify-center items-center gap-2 bg-default-200 px-4 py-2 rounded-medium w-full text-default-600 cursor-pointer"
             isDisabled={disabled || isUploading}
             isLoading={isUploading}
@@ -170,14 +180,15 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             {!isUploading && <Upload weight="LineDuotone" />}
             Enviar arquivo{multiple ? "s" : ""}
             <input
-              id={`${name}-input`}
+              id="file-upload-input"
               type="file"
               accept={accept}
               multiple={multiple}
               disabled={disabled || isUploading}
               required={required}
-              className="absolute inset-0 opacity-100 w-full h-full cursor-pointer"
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
               onChange={handleUpload}
+              tabIndex={-1}
             />
           </Button>
         </div>
