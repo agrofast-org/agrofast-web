@@ -1,5 +1,2 @@
-[phases.setup]
-cmds = [
-  # "echo \"@hugeicons-pro:registry=https://npm.hugeicons.com\" > .npmrc",
-  # "echo \"//npm.hugeicons.com/:_authToken=${LIB_HUGEICONS}\" >> .npmrc",
-]
+[phases.install]
+onlyIncludeFiles = ["package.json","package-lock.json","yarn.lock","pnpm-lock.yaml"]
