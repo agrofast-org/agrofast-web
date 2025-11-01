@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import Link from "@/components/link";
 import { useAuth } from "@/contexts/auth-provider";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
+import { Image, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import CompactLanguageSelector from "./ux/compact-language-selector";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useApp } from "@/contexts/app-context";
@@ -52,7 +52,8 @@ export const Header: React.FC<HeaderProps> = ({
       <NavbarBrand className="flex flex-row flex-1 justify-start items-center gap-4">
         <NavbarBrand>
           <Link href="/web">
-            <TerraMov.Logo className="w-36 h-9" />
+            <TerraMov.Logo className="w-36 h-9 sm:flex hidden" />
+            <Image src="/favicon.ico" alt="App icon" className="w-10 h-10 sm:hidden flex" />
           </Link>
         </NavbarBrand>
       </NavbarBrand>
