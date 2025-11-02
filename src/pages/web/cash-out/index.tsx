@@ -1,7 +1,7 @@
 import Body from "@/components/body";
+import { MakeCashOutRequestButton } from "@/components/ux/transport/make-cash-out-request-button";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import { CashOutList } from "@/lists/cash-out-list";
-import { Button } from "@heroui/react";
 import Head from "next/head";
 
 export default function Index() {
@@ -17,11 +17,7 @@ export default function Index() {
             <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
               Solicitações de saque
             </h1>
-            <Button
-              className="bg-default-200 text-default-700"
-            >
-              Nova solicitação
-            </Button>
+            <MakeCashOutRequestButton />
           </div>
           <CashOutList />
         </section>
