@@ -70,16 +70,20 @@ export const OfferForm: React.FC<OfferFormProps> = ({
           {formatCurrency(request?.estimated_cost)}
         </ItemWithLabel>
         <input type="hidden" name="request_uuid" value={uuid} />
-        <NumberInput
-          name="price"
-          startContent="R$"
-          label="Valor da Oferta"
-          placeholder={request?.estimated_cost}
-          minValue={Number(request?.estimated_cost) || 0}
-          description="Seus ganhos serão de aproximadamente 90% do valor da oferta."
-          step={0.01}
-          isRequired
-        />
+        <div>
+          <NumberInput
+            name="price"
+            startContent="R$"
+            label="Valor da Oferta"
+            placeholder={request?.estimated_cost}
+            minValue={Number(request?.estimated_cost) || 0}
+            step={0.01}
+            isRequired
+          />
+          <div className="text-tiny text-foreground-400 mt-1 !top-6 start-0">
+            Seus ganhos serão de aproximadamente 90% do valor da oferta.
+          </div>
+        </div>
         <CarrierAutocomplete isRequired />
         <Textarea
           name="message"

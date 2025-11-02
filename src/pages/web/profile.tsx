@@ -1,5 +1,4 @@
 import Body from "@/components/body";
-import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { getStaticPropsWithMessages } from "@/lib/get-static-props";
 import Head from "next/head";
@@ -12,12 +11,14 @@ import { useToast } from "@/service/toast";
 import { uploadPicture } from "@/http/user/upload-picture";
 import { Input } from "@/components/input/input";
 import { Button } from "@/components/button";
-import { Form } from "@/components/form/form";
-import { FormValues } from "@/types/form";
 import Link from "next/link";
 import { updateUser } from "@/http/user/update-user";
 import { useApp } from "@/contexts/app-context";
 import { LinkIcon } from "@heroui/react";
+import { ChangePassword } from "@/components/ui/change-password";
+import { RequestForm } from "@/components/request-form";
+import { numberInputMask } from "@/lib/utils";
+import PhoneNumberHelper from "@/components/ux/phone-number-helper";
 
 export default function Profile() {
   const t = useTranslations();
@@ -27,28 +28,6 @@ export default function Profile() {
   const { user, setUser } = useAuth();
   const { setIsLoading } = useOverlay();
   const { mounted } = useApp();
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const handleSubmit = (data: FormValues) => {
-    setIsLoading(true);
-    updateUser(data)
-      .then(() => {
-        setUser();
-        toast.success({
-          description: t("Messages.success.updated_successfully"),
-        });
-      })
-      .catch(({ response: { data: errors } }) => {
-        setErrors(errors.errors);
-        toast.error({
-          description: t("Messages.errors.default"),
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
 
   const handleSubmitPicture = async (file: FormData) => {
     setIsLoading(true);
@@ -72,13 +51,23 @@ export default function Profile() {
       </Head>
       <Body className="flex flex-row justify-center">
         <div className="flex flex-col flex-1 container">
-          <div className="flex flex-row justify-center gap-4 px-4 py-6 pb-4 w-full min-h-max">
-            <Form
+          <div className="flex flex-col justify-center gap-4 px-4 py-6 pb-4 w-full min-h-max">
+            <RequestForm
               className="flex flex-col flex-1 items-center gap-4"
               validationBehavior="native"
               initialData={user}
-              validationErrors={errors}
-              onSubmit={handleSubmit}
+              onSubmit={updateUser}
+              onSuccess={() => {
+                setUser();
+                toast.success({
+                  description: t("Messages.success.updated_successfully"),
+                });
+              }}
+              onError={() => {
+                toast.error({
+                  description: t("Messages.errors.default"),
+                });
+              }}
             >
               <div className="flex flex-col gap-4 w-full max-w-96">
                 <p className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
@@ -133,27 +122,20 @@ export default function Profile() {
                     <LinkIcon />
                   </Link>
                 )}
-                {/* <Input
+                <Input
                   name="number"
                   label={t("UI.labels.number")}
                   placeholder={t("UI.placeholders.write_number")}
                   format={numberInputMask}
                   endContent={<PhoneNumberHelper />}
-                  disabled
-                /> */}
+                  isReadOnly
+                  isDisabled
+                />
                 <Input
                   name="pix_key"
                   label="Chave PIX"
                   placeholder="Chave PIX"
                   type="text"
-                />
-                <Input
-                  name="email"
-                  label={t("UI.labels.email")}
-                  placeholder={t("UI.placeholders.write_email")}
-                  className="text-gray-700 dark:text-gray-200"
-                  type="email"
-                  disabled
                 />
                 <Button
                   className="justify-self-end"
@@ -168,10 +150,28 @@ export default function Profile() {
                     actionCancelButton: t("Form.update_user.cancel"),
                   }}
                 >
-                  {t("UI.buttons.continue")}
+                  Salvar alterações
                 </Button>
+                <Input
+                  name="email"
+                  label={t("UI.labels.email")}
+                  placeholder={t("UI.placeholders.write_email")}
+                  className="text-gray-700 dark:text-gray-200"
+                  type="email"
+                  isDisabled
+                  isReadOnly
+                />
               </div>
-            </Form>
+            </RequestForm>
+            <div className="flex flex-col flex-1 items-center gap-4">
+              <div className="flex flex-col gap-4 w-full max-w-96">
+                <p className="self-start pr-8 pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
+                  Area sensível
+                </p>
+                <ChangePassword />
+                {/* <DisableAccount /> */}
+              </div>
+            </div>
           </div>
         </div>
       </Body>

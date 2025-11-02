@@ -1,13 +1,22 @@
 import { Input } from "@/components/input/input";
-import { Button, Form, Spacer } from "@heroui/react";
+import { Button, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import Link from "@/components/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { RequestForm } from "@/components/request-form";
+import { api } from "@/service/api";
+import { LoginResponse } from "@/http/user/login";
+import { useAuth } from "@/contexts/auth-provider";
+import { useToast } from "@/service/toast";
 
 const ResetPasswordForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
+
+  const { setUser, setToken } = useAuth();
+
+  const toast = useToast();
 
   const [email, setEmail] = useState<string>(
     Array.isArray(router.query.email)
@@ -15,16 +24,24 @@ const ResetPasswordForm: React.FC = () => {
       : router.query.email || ""
   );
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <>
-      <Form
+      <RequestForm
         className="flex flex-col flex-1 gap-4"
         validationBehavior="native"
-        onSubmit={handleSubmit}
+        onSubmit={(data) =>
+          api.post<LoginResponse>("/auth/reset-password", data)
+        }
+        onSuccess={({ data }) => {
+          setToken(data.token);
+          setUser();
+          toast.success({
+            title: "Código enviado!",
+            description:
+              "Enviamos um código de redefinição de senha para seu email.",
+          });
+          router.push("/web/auth-code");
+        }}
       >
         <div className="flex flex-col flex-1 md:flex-auto w-full">
           <Input
@@ -65,7 +82,7 @@ const ResetPasswordForm: React.FC = () => {
             </Link>
           </div>
         </div>
-      </Form>
+      </RequestForm>
     </>
   );
 };

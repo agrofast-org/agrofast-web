@@ -130,7 +130,7 @@ const MachineryForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           name="pictures"
           label={t("UI.labels.machinery_pictures")}
           placeholder={t("UI.placeholders.write_machinery_pictures")}
-          accept="image/*,application/pdf"
+          accept={"application/pdf,image/jpeg,image/jpg,image/png"}
           multiple
         />
         <Textarea

@@ -55,6 +55,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       onBlur={field.onBlur}
       errorMessage={field.error}
       disabled={disabled}
+      isRequired={props.required}
     />
   );
 };

@@ -15,10 +15,15 @@ import { Layout } from "@/components/layout";
 import { Section } from "@/components/section";
 import { Main } from "@/components/main";
 import { GoogleAuthButton } from "@/components/ui/google-auth-button";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
   const t = useTranslations();
+
+  useEffect(() => {
+    router.replace("/web");
+  }, [router]);
 
   return (
     <>

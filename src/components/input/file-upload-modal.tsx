@@ -126,7 +126,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   return (
     <div className="relative flex flex-col pt-6">
       <span className="top-0 z-20 absolute flex justify-between w-full text-foreground text-small">
-        <p>{label ?? placeholder ?? "Upload de arquivo"}</p>
+        <p>{label ?? placeholder ?? "Upload de arquivo"} {required && <span className="text-red-500">*</span>}</p>
       </span>
 
       <Button

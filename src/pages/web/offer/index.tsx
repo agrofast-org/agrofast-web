@@ -20,8 +20,8 @@ export default function OfferListPage() {
               Ofertas do Chamado
             </h1>
           </div>
+          <OfferList />
         </section>
-        <OfferList />
       </Body>
     </>
   );

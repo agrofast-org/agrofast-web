@@ -44,6 +44,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           name="name"
           label={t("UI.labels.carrier_name")}
           placeholder={t("UI.placeholders.write_carrier_name")}
+          required
         />
         <Input
           name="plate"
@@ -84,7 +85,7 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           name="licensing_uf"
           label={t("UI.labels.carrier_licensing_uf")}
           placeholder={t("UI.placeholders.write_select_licensing_uf")}
-          required
+          isRequired
         >
           {[
             "AC",
@@ -119,7 +120,6 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           ))}
         </Select>
       </FormGroup>
-
       <FormGroup label={t("UI.groups.type_and_body")}>
         <Input
           name="vehicle_type"
@@ -134,7 +134,6 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           required
         />
       </FormGroup>
-
       <FormGroup label={t("UI.groups.dimensions_and_capacities")}>
         <NumberInput
           name="plank_length"
@@ -194,28 +193,24 @@ const CarrierForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
       <FormGroup label={t("UI.groups.records_and_documents")}>
         <Input
           name="rntrc"
-          label={t("UI.labels.carrier_rntrc")}
+          label="Reg. Nacional do Transportador Rodoviários"
           placeholder={t("UI.placeholders.write_carrier_rntrc")}
           required
         />
-        <Input
-          name="owner_document"
-          label={t("UI.labels.carrier_owner_document")}
-          placeholder={t("UI.placeholders.write_carrier_owner_document")}
-          required
-        />
         <FileUploadModal
+          required
           name="documents"
           label={t("UI.labels.documents")}
           placeholder={t("UI.placeholders.attach_carrier_documents")}
-          accept={"application/pdf,image/jpeg,image/png"}
+          accept={"application/pdf,image/jpeg,image/jpg,image/png"}
           multiple
         />
         <FileUploadModal
+          required
           name="pictures"
           label={t("UI.labels.carrier_pictures")}
           placeholder={t("UI.placeholders.attach_carrier_pictures")}
-          accept={"image/jpeg,image/png,image/webp"}
+          accept={"image/jpeg,image/jpg,image/png,image/webp"}
           multiple
         />
       </FormGroup>

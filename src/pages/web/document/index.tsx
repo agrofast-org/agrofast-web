@@ -8,7 +8,6 @@ import { AddCircle } from "@solar-icons/react";
 import { DocumentList } from "@/lists/document-list";
 
 export default function Index() {
-  const t = useTranslations();
   const pt = useTranslations("Pages.SignUp");
 
   return (
@@ -21,14 +20,14 @@ export default function Index() {
         <section className="flex flex-col items-start gap-4 mx-auto p-4 container">
           <div className="flex flex-row justify-between items-center w-full">
             <h1 className="font-semibold text-gray-700 dark:text-gray-200 text-2xl">
-              {t("Advertizement.titles.primary")}
+              Documentos
             </h1>
             <Button
               as={Link}
               className="bg-default-200 text-default-700"
               href="/web/document/new"
             >
-              {t("UI.titles.add", { item: t("UI.labels.machinery") })}{" "}
+              Cadastrar Documento
               <AddCircle weight="LineDuotone" />
             </Button>
           </div>

@@ -77,6 +77,7 @@ export const Input: React.FC<InputProps> = ({
       type={isPassVisible ? "text" : props.type}
       disabled={isDisabled}
       isDisabled={isDisabled}
+      isRequired={props.required}
     />
   );
 };

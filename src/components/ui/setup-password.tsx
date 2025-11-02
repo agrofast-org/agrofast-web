@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/auth-provider";
 import { Input } from "../input/input";
 import { Spacer } from "@heroui/react";
 import { RequestForm } from "../request-form";
-import { setPassword } from "@/http/user/set-password";
+import { createPassword } from "@/http/user/create-password";
 
 export const DefinePassword: React.FC = () => {
   const { user, setUser, hasPassword } = useAuth();
@@ -23,7 +23,7 @@ export const DefinePassword: React.FC = () => {
         <RequestForm
           id="define-password"
           className="w-full"
-          onSubmit={setPassword}
+          onSubmit={createPassword}
           onSuccess={() => {
             setUser();
           }}

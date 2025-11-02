@@ -58,6 +58,7 @@ export const Select: React.FC<SelectProps> = ({
       selectedKeys={field.value}
       onSelectionChange={field.onChange}
       errorMessage={field.error}
+      isRequired={props.required}
     >
       {options
         ? options.map((option) => (

@@ -38,12 +38,14 @@ export const DocumentForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
 
       <FormGroup label="Detalhes do documento">
         <Input
+          required
           name="number"
           label="Numero"
           placeholder="Numero do documento..."
           format={formatDocumentInput}
         />
         <Select
+          isRequired
           name="type"
           label="Tipo"
           placeholder="Selecione o tipo de documento..."
@@ -53,12 +55,12 @@ export const DocumentForm: React.FC<{ uuid?: string }> = ({ uuid }) => {
           ]}
         />
         <DatePicker
+          isRequired
           name="emission_date"
           label="Data de emissão"
           maxValue={today(getLocalTimeZone())}
         />
       </FormGroup>
-
       <FormFooter>
         <Button
           className="flex-1 md:flex-none justify-self-end px-16"

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Form, FormProps } from "./form/form";
 import { cn, Spinner } from "@heroui/react";
 import { AxiosError, AxiosResponse } from "axios";
-import { FormErrors } from "@/types/form";
+import { FormErrors, FormValues } from "@/types/form";
 import { useLoadingDisclosure } from "@/hooks/use-loading-disclosure";
 import { useToast } from "@/service/toast";
 
@@ -13,7 +13,7 @@ export type RequestFormProps<
   children?: React.ReactNode;
   className?: string;
   isLoading?: boolean;
-  onSubmit?: (data?: FormData) => Promise<TSuccess | void>;
+  onSubmit?: (data?: FormData | FormValues) => Promise<TSuccess | void>;
   onSuccess?: (data: TSuccess) => void;
   onError?: (error: TError) => void;
   loadingDisclosure?: ReturnType<typeof useLoadingDisclosure>;
