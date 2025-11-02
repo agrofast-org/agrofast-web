@@ -8,7 +8,6 @@ import { GoogleIcon } from "../icon/google-icon";
 import { useRouter } from "next/router";
 import {
   AuthResponse,
-  googleAuth,
   googleAuthV2,
 } from "@/http/user/google-auth";
 import { AUTHENTICATED_KEY } from "@/middleware";
@@ -73,28 +72,9 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 
   useGoogleOneTapLogin({
     onSuccess: (credentials) => {
-      googleLoginCallback(googleAuth(credentials));
+      googleLoginCallback(googleAuthV2(credentials));
     },
     onError: showGoogleOAuthError,
-    disabled: !!token,
-  });
-
-  useGoogleOneTapLogin({
-    onSuccess: (credentials) => {
-      googleAuth(credentials).then(({ data }) => {
-        setToken(data.token);
-        setUser();
-        if (data.auth === "authenticate") {
-          router.push("/web/auth-code");
-        }
-        if (data.auth === "authenticated") {
-          setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-          router.push("/web");
-        }
-      });
-    },
-    onError: showGoogleOAuthError,
-    cancel_on_tap_outside: false,
     disabled: !!token,
   });
 
