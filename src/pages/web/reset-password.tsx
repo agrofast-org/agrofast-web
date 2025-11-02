@@ -22,7 +22,7 @@ export default function ForgotPass() {
             <TerraMov.Logo className="w-40 h-10" />
           </div>
           <p className="pb-2 font-semibold text-gray-700 dark:text-gray-200 text-2xl text-left">
-            {t("UI.titles.inform_your_number")}
+            Recuperar conta
           </p>
           <ResetPasswordForm />
         </FormWrapper>
