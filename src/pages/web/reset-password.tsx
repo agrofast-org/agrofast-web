@@ -7,7 +7,6 @@ import ResetPasswordForm from "@/forms/reset-password-form";
 import FormWrapper from "@/components/form/form-wrapper";
 
 export default function ForgotPass() {
-  const t = useTranslations();
   const pt = useTranslations("Pages.ForgotPass");
 
   return (
