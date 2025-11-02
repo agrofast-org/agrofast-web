@@ -8,6 +8,7 @@ import { GoogleIcon } from "../icon/google-icon";
 import { useRouter } from "next/router";
 import {
   AuthResponse,
+  googleAuth,
   googleAuthV2,
 } from "@/http/user/google-auth";
 import { AUTHENTICATED_KEY } from "@/middleware";
@@ -18,17 +19,20 @@ import { useCallback } from "react";
 import { useApp } from "@/contexts/app-context";
 import { useAlert } from "@/contexts/alert-provider";
 import { AxiosResponse } from "axios";
+import { UseLoadingDisclosure } from "@/hooks/use-loading-disclosure";
 
 export interface GoogleAuthButtonProps {
   children?: React.ReactNode;
   showIcon?: boolean;
   hidden?: boolean;
+  loadingDisclosure?: UseLoadingDisclosure;
 }
 
 export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
   children,
   showIcon = true,
   hidden = false,
+  loadingDisclosure,
 }) => {
   const router = useRouter();
   const { mounted } = useApp();
@@ -49,30 +53,36 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 
   const googleLoginCallback = useCallback(
     (callback: Promise<AxiosResponse<AuthResponse>>) => {
-      callback.then(({ data }) => {
-        setToken(data.token);
-        setUser();
-        if (data.auth === "authenticate") {
-          router.push("/web/auth-code");
-        }
-        if (data.auth === "authenticated") {
-          setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
-          router.push("/web");
-        }
-      });
+      callback
+        .then(({ data }) => {
+          setToken(data.token);
+          setUser();
+          if (data.auth === "authenticate") {
+            router.push("/web/auth-code");
+          }
+          if (data.auth === "authenticated") {
+            setCookie(AUTHENTICATED_KEY, "true", cookieOptions);
+            router.push("/web");
+          }
+        })
+        .catch(() => {
+          loadingDisclosure?.complete();
+        });
     },
-    [setToken, setUser, router, setCookie]
+    [setToken, setUser, router, setCookie, loadingDisclosure]
   );
 
   const googleLogin = useGoogleLogin({
     onSuccess: (credentials) => {
+      loadingDisclosure?.loading();
       googleLoginCallback(googleAuthV2(credentials));
     },
   });
 
   useGoogleOneTapLogin({
     onSuccess: (credentials) => {
-      googleLoginCallback(googleAuthV2(credentials));
+      loadingDisclosure?.loading();
+      googleLoginCallback(googleAuth(credentials));
     },
     onError: showGoogleOAuthError,
     disabled: !!token,

@@ -12,11 +12,14 @@ import { Button } from "@/components/button";
 import { cookieOptions } from "@/service/cookie";
 import { RequestForm } from "@/components/request-form";
 import { GoogleAuthButton } from "@/components/ui/google-auth-button";
+import { useLoadingDisclosure } from "@/hooks/use-loading-disclosure";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const t = useTranslations();
   const { setUser, setToken } = useAuth();
+
+  const loadingDisclosure = useLoadingDisclosure();
 
   const [, setCookie] = useCookies([AUTHENTICATED_KEY]);
 
@@ -26,8 +29,10 @@ const LoginForm: React.FC = () => {
     <RequestForm
       className="!flex !flex-col flex-1 gap-4"
       initialData={router.query}
+      isLoading={loadingDisclosure.isLoading}
       onSubmit={login}
       onSuccess={({ data }) => {
+        loadingDisclosure.loading();
         setToken(data.token);
         setUser();
         if (data.auth === "authenticate") {
@@ -38,6 +43,7 @@ const LoginForm: React.FC = () => {
           router.push("/web");
         }
       }}
+      onError={() => loadingDisclosure.complete()}
     >
       <div className="flex flex-col flex-1 md:flex-auto gap-4 w-full">
         <Input
@@ -74,7 +80,7 @@ const LoginForm: React.FC = () => {
         <Button className="w-full" color="primary" type="submit">
           {t("UI.buttons.enter")}
         </Button>
-        <GoogleAuthButton>Entrar com Google</GoogleAuthButton>
+        <GoogleAuthButton loadingDisclosure={loadingDisclosure}>Entrar com Google</GoogleAuthButton>
         <p className="text-small text-center">
           <Link
             href={{

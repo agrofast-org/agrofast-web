@@ -3,6 +3,7 @@ import { User } from "@/types/user";
 import {
   CredentialResponse,
   UseGoogleLoginOptionsImplicitFlow,
+  useGoogleOneTapLogin,
 } from "@react-oauth/google";
 
 export type AuthResponse = {
@@ -14,6 +15,10 @@ export type AuthResponse = {
 export const googleAuth = (credentials: CredentialResponse) => {
   return api.post<AuthResponse>("/auth/google-auth", credentials);
 };
+
+export type UseGoogleOneTapLoginOptions = Parameters<
+  typeof useGoogleOneTapLogin
+>[0];
 
 export const googleAuthV2 = (
   credentials: Parameters<

@@ -17,12 +17,15 @@ import { useRouter } from "next/router";
 import { JSX, useState } from "react";
 import { RequestForm } from "@/components/request-form";
 import { GoogleAuthButton } from "@/components/ui/google-auth-button";
+import { useLoadingDisclosure } from "@/hooks/use-loading-disclosure";
 
 const SignInForm: React.FC = () => {
   const t = useTranslations();
   const router = useRouter();
   const { setUser, setToken } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const loadingDisclosure = useLoadingDisclosure();
 
   const [email, setEmail] = useState<string>("");
 
@@ -64,10 +67,12 @@ const SignInForm: React.FC = () => {
         initialData={router.query}
         onSubmit={signUp}
         onSuccess={({ data }) => {
+          loadingDisclosure.loading();
           setUser();
           setToken(data.token);
           router.push(`/web/auth-code`);
         }}
+        onError={() => loadingDisclosure.complete()}
       >
         <Input
           name="name"
@@ -150,7 +155,9 @@ const SignInForm: React.FC = () => {
         <Button className="w-full" color="primary" type="submit">
           {t("UI.buttons.continue")}
         </Button>
-        <GoogleAuthButton>Entrar com Google</GoogleAuthButton>
+        <GoogleAuthButton loadingDisclosure={loadingDisclosure}>
+          Entrar com Google
+        </GoogleAuthButton>
       </RequestForm>
       <p className="pb-4 text-small text-center">
         <Link
