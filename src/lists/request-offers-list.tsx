@@ -37,7 +37,7 @@ export const RequestOffersList: React.FC = () => {
           label="Aceitar Oferta"
           icon={<CheckCircle size={22} />}
           onAction={(id, offer: Offer) => {
-            if (offer && offer.state === "pending") {
+            if (offer && offer.state === "waiting_for_offer") {
               acceptOffer(id).then(() => {
                 addAlert("accept-offer", {
                   type: "success",
@@ -45,12 +45,6 @@ export const RequestOffersList: React.FC = () => {
                   message: "A oferta foi aceita com sucesso.",
                 });
                 router.reload();
-              });
-              addAlert("accept-offer", {
-                type: "info",
-                title: "Aceitar Oferta",
-                message:
-                  "Funcionalidade de aceitar oferta ainda não implementada.",
               });
               return;
             }
