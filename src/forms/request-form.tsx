@@ -40,13 +40,14 @@ export const RequestForm: React.FC = () => {
           <div className="flex md:flex-row flex-col md:border border-default-200 rounded-2xl w-full overflow-hidden">
             <CrudRequestForm
               loadingDisclosure={loadingDisclosure}
-              onSubmit={() => {
+              onSubmit={(data) => {
                 const fromPlaceId = getPlaceId(placeFrom ?? undefined);
                 const toPlaceId = getPlaceId(placeTo ?? undefined);
                 return postRequest({
                   origin_place_id: fromPlaceId,
                   destination_place_id: toPlaceId,
                   machine_uuid: machineUuid,
+                  desired_date: data.desired_date || null,
                 });
               }}
               onSuccess={({ data }) => {
