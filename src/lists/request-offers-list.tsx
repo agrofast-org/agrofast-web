@@ -38,13 +38,28 @@ export const RequestOffersList: React.FC = () => {
           icon={<CheckCircle size={22} />}
           onAction={(id, offer: Offer) => {
             if (offer && offer.state === "waiting_for_offer") {
-              acceptOffer(id).then(() => {
-                addAlert("accept-offer", {
-                  type: "success",
-                  title: "Oferta aceita",
-                  message: "A oferta foi aceita com sucesso.",
-                });
-                router.reload();
+              addAlert("accept-offer", {
+                type: "warning",
+                title: "Confirmar aceitação da oferta",
+                message:
+                  "Voce tem certeza que deseja aceitar esta oferta?",
+                actions: {
+                  confirm: {
+                    label: "Sim, aceitar oferta",
+                    buttonProps: { color: "default" },
+                    callback: (onClose) => {
+                      acceptOffer(id).then(() => {
+                        addAlert("accept-offer", {
+                          type: "success",
+                          title: "Oferta aceita",
+                          message: "A oferta foi aceita com sucesso.",
+                        });
+                        router.reload();
+                        onClose();
+                      });
+                    },
+                  },
+                },
               });
               return;
             }
