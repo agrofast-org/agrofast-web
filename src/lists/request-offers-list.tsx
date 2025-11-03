@@ -66,9 +66,7 @@ export const RequestOffersList: React.FC = () => {
             addAlert("accept-offer", {
               type: "info",
               title: "Erro ao aceitar oferta",
-              message: `Não é possível aceitar uma oferta ${
-                offer?.state === "in_progress" ? "em progresso" : "aprovada"
-              }.`,
+              message: 'Só é possível aceitar ofertas com status "Aguardando oferta".',
             });
           }}
         />
