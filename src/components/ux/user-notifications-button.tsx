@@ -32,7 +32,7 @@ export const UserNotificationButton: React.FC = () => {
       ? [
           <>
             Por favor, cadastre pelo menos uma{" "}
-            <Link href="/web/pa">forma de recebimento</Link> para que possamos
+            <Link href="/web/profile">forma de recebimento</Link> para que possamos
             realizar o pagamento pelos seus serviços.
           </>,
         ]
