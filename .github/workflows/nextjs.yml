@@ -16,9 +16,37 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    name: Unit Tests (Vitest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Run unit tests
+        run: npm test
+
   build:
     name: Install and Build Next.js
     runs-on: ubuntu-latest
+    needs: test
     env:
       NEXT_PUBLIC_API_BASE_URL: https://api.agrofast.tech
     steps:

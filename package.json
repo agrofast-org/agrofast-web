@@ -6,7 +6,10 @@
     "dev": "next dev -H 0.0.0.0 -p 3030 --turbopack",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 3030",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@heroui/react": "2.7.6",
@@ -32,13 +35,18 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",
+    "happy-dom": "^15.11.7",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.1.9"
   }
 }
