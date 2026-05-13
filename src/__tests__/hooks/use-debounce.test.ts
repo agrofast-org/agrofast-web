@@ -67,7 +67,7 @@ describe("useDebounce()", () => {
   it("indica debouncing como true enquanto aguarda", () => {
     const fn = vi.fn();
     const { result } = renderHook(() => useDebounce(fn, 300));
-    const [debounce, , debouncing] = result.current;
+    const [debounce, , ] = result.current;
 
     act(() => {
       debounce();
