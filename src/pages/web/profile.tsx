@@ -31,7 +31,7 @@ export default function Profile() {
 
   const handleSubmitPicture = async (file: FormData) => {
     setIsLoading(true);
-    uploadPicture(file)
+    return uploadPicture(file)
       .then(() => {
         setUser();
         toast.success({
