@@ -1,19 +1,19 @@
 import { cn, Image as HeroUIImage, useDisclosure } from "@heroui/react";
 // import Img from "./image";
 import imageDefault from "@public/img/image-default.png";
-import Cropper, { Area } from "react-easy-crop";
 import { useCallback, useEffect, useState } from "react";
+import Cropper, { Area } from "react-easy-crop";
 
-import { useForm } from "../form/form";
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
 } from "@/components/modal";
 import { Upload } from "@solar-icons/react";
 import { Button } from "../button";
+import { useForm } from "../form/form";
 
 export type PictureInputMessages =
   | "modalTitle"
@@ -71,7 +71,7 @@ export const PictureInput: React.FC<PictureInputProps> = ({
         }
       }
     },
-    [name, form, value]
+    [name, form, value],
   );
 
   const onCropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
@@ -101,24 +101,28 @@ export const PictureInput: React.FC<PictureInputProps> = ({
           0,
           0,
           imageCrop.width,
-          imageCrop.height
+          imageCrop.height,
         );
 
-        canvas.toBlob(async (blob) => {
-          if (!blob) return;
-          const formData = new FormData();
-          formData.append("image", blob, "profile_picture.png");
-          onSubmit?.(formData)
-            ?.then(() => {
-              onSuccess?.(disclosure);
-            })
-            .catch(() => {
-              onError?.();
-            })
-            .finally(() => {
-              onFinally?.(disclosure);
-            });
-        }, "image/png");
+        canvas.toBlob(
+          async (blob) => {
+            if (!blob) return;
+            const formData = new FormData();
+            formData.append("image", blob, "profile_picture.jpg");
+            onSubmit?.(formData)
+              ?.then(() => {
+                onSuccess?.(disclosure);
+              })
+              .catch(() => {
+                onError?.();
+              })
+              .finally(() => {
+                onFinally?.(disclosure);
+              });
+          },
+          "image/jpeg",
+          0.85,
+        );
       };
     }
   };
@@ -138,7 +142,7 @@ export const PictureInput: React.FC<PictureInputProps> = ({
       setError(
         Array.isArray(form.errors[name])
           ? form.errors[name].join(", ")
-          : form.errors[name]
+          : form.errors[name],
       );
     }
   }, [form?.errors, name]);
@@ -186,7 +190,7 @@ export const PictureInput: React.FC<PictureInputProps> = ({
                         htmlFor="upload-picture"
                         className={cn(
                           "inline-flex relative justify-center items-center gap-4 px-4 rounded-medium w-full min-w-20 h-10 text-sm duration-75 cursor-pointer",
-                          "select-none overflow-hidden tap-highlight-transparent active:scale-[0.97] outline-none focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 transition-transform-colors-opacity bg-default text-default-foreground hover:opacity-hover"
+                          "select-none overflow-hidden tap-highlight-transparent active:scale-[0.97] outline-none focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 transition-transform-colors-opacity bg-default text-default-foreground hover:opacity-hover",
                         )}
                       >
                         {image ? "Escolher outra foto" : "Escolher uma foto"}
@@ -248,7 +252,7 @@ export const PictureInput: React.FC<PictureInputProps> = ({
               }}
               radius="none"
               className={cn(
-                "bg-gray-100 dark:bg-gray-500/75 min-w-8 min-h-8 object-cover aspect-square cursor-pointer"
+                "bg-gray-100 dark:bg-gray-500/75 min-w-8 min-h-8 object-cover aspect-square cursor-pointer",
               )}
               width={192}
               height={192}

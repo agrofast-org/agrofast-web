@@ -1,24 +1,23 @@
 import Body from "@/components/body";
-import { useTranslations } from "next-intl";
-import { getStaticPropsWithMessages } from "@/lib/get-static-props";
-import Head from "next/head";
-import { useOverlay } from "@/contexts/overlay-provider";
 import { useAuth } from "@/contexts/auth-provider";
+import { useOverlay } from "@/contexts/overlay-provider";
+import { getStaticPropsWithMessages } from "@/lib/get-static-props";
+import { useTranslations } from "next-intl";
+import Head from "next/head";
 
-import userPicture from "@public/img/user-default.png";
-import { PictureInput } from "@/components/input/picture-input";
-import { useToast } from "@/service/toast";
-import { uploadPicture } from "@/http/user/upload-picture";
-import { Input } from "@/components/input/input";
 import { Button } from "@/components/button";
-import Link from "next/link";
-import { updateUser } from "@/http/user/update-user";
-import { useApp } from "@/contexts/app-context";
-import { LinkIcon } from "@heroui/react";
-import { ChangePassword } from "@/components/ui/change-password";
+import { Input } from "@/components/input/input";
+import { PictureInput } from "@/components/input/picture-input";
 import { RequestForm } from "@/components/request-form";
-import { numberInputMask } from "@/lib/utils";
+import { ChangePassword } from "@/components/ui/change-password";
 import PhoneNumberHelper from "@/components/ux/phone-number-helper";
+import { useApp } from "@/contexts/app-context";
+import { updateUser } from "@/http/user/update-user";
+import { uploadPicture } from "@/http/user/upload-picture";
+import { numberInputMask } from "@/lib/utils";
+import { useToast } from "@/service/toast";
+import { LinkIcon } from "@heroui/react";
+import Link from "next/link";
 
 export default function Profile() {
   const t = useTranslations();
@@ -76,7 +75,7 @@ export default function Profile() {
                 <PictureInput
                   name="profile_picture"
                   label="Foto de perfil"
-                  fallbackSrc={userPicture.src}
+                  fallbackSrc="/img/user-default.png"
                   onSubmit={handleSubmitPicture}
                   onSuccess={({ onClose }) => {
                     onClose();
@@ -84,7 +83,7 @@ export default function Profile() {
                   onError={() => {
                     toast.error({
                       description: t(
-                        "Messages.errors.failed_to_upload_profile_picture"
+                        "Messages.errors.failed_to_upload_profile_picture",
                       ),
                     });
                   }}
