@@ -37,7 +37,7 @@ export const RequestOffersList: React.FC = () => {
           label="Aceitar Oferta"
           icon={<CheckCircle size={22} />}
           onAction={(id, offer: Offer) => {
-            if (offer && offer.state === "waiting_for_offer") {
+            if (offer && offer.state === "pending") {
               addAlert("accept-offer", {
                 type: "warning",
                 title: "Confirmar aceitação da oferta",
