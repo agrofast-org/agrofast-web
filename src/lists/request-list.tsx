@@ -15,6 +15,7 @@ import {
   MagniferZoomIn,
   NotificationUnreadLines,
   PointOnMap,
+  Star,
   TrashBinTrash,
 } from "@solar-icons/react";
 import { useTranslations } from "next-intl";
@@ -64,6 +65,23 @@ export const RequestList: React.FC = () => {
         formatter={(rate?: number) => <RateRender rate={rate} />}
       />
       <ListOperations label="Operações">
+        <ListAction
+          name="rate-service"
+          label="Avaliar Serviço"
+          icon={<Star size={22} />}
+          onAction={(uuid, request: Request) => {
+            if (request?.state !== "completed") {
+              addAlert("rate-service", {
+                type: "info",
+                title: "Avaliar Serviço",
+                message:
+                  "Só é possível avaliar um serviço que esteja completo ou ainda não foi avaliado.",
+              });
+              return;
+            }
+            router.push(`/web/request/${uuid}/rate`);
+          }}
+        />
         <ListAction
           name="edit"
           label={t("UI.buttons.view")}

@@ -3,6 +3,7 @@ import {
   Help,
   Logout2,
   Map,
+  QuestionCircle,
   Routing2,
   Settings,
   UserId,
@@ -111,6 +112,9 @@ export const UserOptionsButton: React.FC = () => {
           )}
           <IconOption icon={<Help />} href="/web/chat/support">
             Suporte
+          </IconOption>
+          <IconOption icon={<QuestionCircle />} href="/fac">
+            Duvidas Frequentes
           </IconOption>
           <IconOption
             onClick={logout}
