@@ -113,7 +113,7 @@ export const UserOptionsButton: React.FC = () => {
           <IconOption icon={<Help />} href="/web/chat/support">
             Suporte
           </IconOption>
-          <IconOption icon={<QuestionCircle />} href="/fac">
+          <IconOption icon={<QuestionCircle />} href="/faq">
             Duvidas Frequentes
           </IconOption>
           <IconOption
